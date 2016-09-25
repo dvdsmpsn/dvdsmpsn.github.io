@@ -29,7 +29,7 @@ author:
 <h3>Using <a href="http://www.google.com/webfonts/specimen/Rokkitt">Rokkitt font</a></h3>
 <p>Browse to <b>Confluence Administration | Look and Feel | Custom HTML</b></p>
 <p>In <b>At end of the HEAD</b> paste:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 &lt;!-- Fonts for headings --&gt;<br />
 &lt;link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700'<br />
       rel='stylesheet' type='text/css'&gt;<br />
@@ -44,7 +44,7 @@ author:
 	font-weight : bold;<br />
 }<br />
 &lt;/style&gt;<br />
-[/code]</p>
+</code></pre></p>
 <p>Please note that adding inline styles is <a href="http://line25.com/articles/10-html-tag-crimes-you-really-shouldnt-commit">not big or clever</a>, but it is quick and easy for the purpose of this blogpost.</p>
 <p>This results in a layout similar to the screenshot below:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/wiki-web-fonts.png"><img src="{{ site.baseurl }}/assets/wiki-web-fonts.png" alt="" title="Rokkitt headings in Confluence" width="100%" /></a></p>
@@ -52,7 +52,7 @@ author:
 <p>Was that too corporate? Then lets have some handwriting...</p>
 <p>Browse to <b>Confluence Administration | Look and Feel | Custom HTML</b></p>
 <p>In <b>At end of the HEAD</b> paste:</p>
-<p>[code lang="html"]<br />
+<p><pre><code><br />
 &lt;!-- Fonts for headings --&gt;<br />
 &lt;link href='http://fonts.googleapis.com/css?family=Leckerli+One:400'<br />
       rel='stylesheet' type='text/css'&gt;<br />
@@ -66,7 +66,7 @@ author:
 	font-family: 'Leckerli One', cursive;<br />
 }<br />
 &lt;/style&gt;<br />
-[/code]</p>
+</code></pre></p>
 <p>Now, you'll get something like this:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/wiki-web-fonts2.png"><img src="{{ site.baseurl }}/assets/wiki-web-fonts2.png" alt="" title="Leckerli One headings in Confluence" width="100%" /></a></p>
 <p>I'm not sure that this is a good look, but never mind.</p>
@@ -92,7 +92,7 @@ author:
 #com-atlassian-confluence h6 {<br />
 	font-family: 'Leckerli One', cursive;<br />
 }<br />
-[/code]</p>
+</code></pre></p>
 <p>This will only affect the space in which you add the CSS and will override the global styles.  </p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/wiki-web-fonts3.png"><img src="{{ site.baseurl }}/assets/wiki-web-fonts3.png" alt="" title="Space only web font" width="100%" /></a></p>
 <p>I'm not sure whether the <a href="http://themes.googleusercontent.com/static/fonts/leckerlione/v2/S2Y_iLrItTu8kIJTkS7DrKRDOzjiPcYnFooOUGCOsRk.woff">URL</a> for the font will remain constant in the long term though, so you <em>may</em> have to repeat this process.</p>
