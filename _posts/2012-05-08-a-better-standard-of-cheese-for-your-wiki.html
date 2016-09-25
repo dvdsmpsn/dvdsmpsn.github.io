@@ -28,7 +28,7 @@ author:
 <p>The <a href="http://confluence.atlassian.com/display/DOC/Cheese+Macro">Cheese Macro</a> in Confluence is great, but it's a bit generic. It obviously wasn't written with quality or localisation in mind.  I find that it's a bit too limited in scope for my needs.<br />
 <!--more--><br />
 To resolve this problem, I've created <strong>British Cheese</strong>, a user macro that celebrates the quality milk-based food products of the British Isles.</p>
-<p>[code]<br />
+<pre><code>
 ## Macro title: British Cheese<br />
 ## Macro has a body: N<br />
 ## Body processing: n/a<br />
@@ -40,6 +40,6 @@ To resolve this problem, I've created <strong>British Cheese</strong>, a user ma
 <p>## @param Type:title=Variety|type=enum|enumValues=Caerphilly,Cheddar,Cheshire,Cornish Yarg,Derby,Double Gloucester,Lancashire,Red Leicester,Shropshire Blue,Stilton,Wensleydale,White Stilton|default=Shropshire Blue|desc=Choose your favourite British cheese</p>
 <p>#set ($url = $paramType.replaceAll(&quot; &quot;,&quot;&quot;).toLowerCase())</p>
 <p>I love &lt;a href=&quot;http://www.britishcheese.com/${url}&quot;&gt;$paramType&lt;/a&gt;!<br />
-[/code]</p>
+</code></pre>
 <p>If you like this user macro but don't agree that Britain produces the finest cheese on the planet, why not create your own localised version of it.  Maybe call it something like {käse} or {fromage}.</p>
 <p><small>Photo credit: <a href="http://www.flickr.com/photos/26235325@N05/5176468736/">Stilton</a></small></p>

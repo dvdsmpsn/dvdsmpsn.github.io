@@ -51,29 +51,30 @@ author:
 <p>One day, something changed.  Overnight bitlybot started crawling my website for all the links it had created over the year.  Unfortunately for every link it crawl, it also created another link appending more parameters to the query string. </p>
 <p>Which it then crawled. Creating another link with more appended query parameters.  Ouch.</p>
 <p>e.g.<br />
-[code]<br />
+<pre><code>
 http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet<br />
 http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet<br />
 http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet<br />
-[/code]</p>
+</code></pre>
 <p>And so on.</p>
 <h2>What did I do?</h2>
 <p>Initially I ranted on Twitter.  </p>
 <p>Then I removed the "tweet this" link to prevent further bit.ly URLs from being created.  This wouldn't stop things for while, but would at least prevent the problem from getting any worse.</p>
 <p>Then I edited robots.txt:<br />
-[code language="bash"]<br />
-# Tell &quot;bitlybot&quot; not to come here at all<br />
-User-agent: bitlybot<br />
-Disallow: /<br />
-[/code]</p>
+<pre><code>
+# Tell &quot;bitlybot&quot; not to come here at all
+User-agent: bitlybot
+Disallow: /
+</code></pre>
+
 <p>This did not work - bitlybot only checks robots.txt once a day, so this would not improve matters instantly.</p>
 <p>Then I redirected the traffic to bit.ly:<br />
-[code language="php"]<br />
+<pre><code> language="php"]<br />
 if ($_SERVER['HTTP_USER_AGENT'] == 'bitlybot')<br />
 {<br />
 	header('Location: http://bit.ly/', true, 301);<br />
 }<br />
-[/code]</p>
+</code></pre>
 <p>That slowed it a bit.  Admittedly, I was still blaming them at this point.</p>
 <p>Then <a href="http://twitter.com/dvdsmpsn/status/12973263701">I reached out to @bitly</a>.</p>
 <p>They were very responsive. I sent them a detailed email with a section of access logs and they fixed it.  Quickly.</p>

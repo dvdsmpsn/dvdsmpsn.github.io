@@ -23,12 +23,12 @@ author:
 <p>We're using <a href="http://vagrantpress.org/">VagrantPress</a> to get a quickly WordPress instance up and running.</p>
 <h2>Procedure</h2>
 <h3>Download and start VagrantPress</h3>
-<p>[code]<br />
+<pre><code>
 wget -O vagrantpress-master.zip https://github.com/chad-thompson/vagrantpress/archive/master.zip<br />
 unzip vagrantpress-master.zip<br />
 cd vagrantpress-master<br />
 vagrant up<br />
-[/code]</p>
+</code></pre>
 <p>This will likely take up to 10 minutes on the 1st go, but will be much faster subsequently.</p>
 <p>On completion:</p>
 <ul>
@@ -39,20 +39,20 @@ vagrant up<br />
 <h3>Update /etc/hosts on the guest machine</h3>
 <p>If you have a hard coded IP address for an external dev system that you'll be connecting to, now is a good time to add it in.</p>
 <p>Edit the hosts file on your guest machine:</p>
-<p>[code]<br />
+<pre><code>
 vagrant ssh<br />
 vi /etc/hosts<br />
-[/code]</p>
+</code></pre>
 <p>Add a line pointing to the correct IP address:</p>
-<p>[code]<br />
+<pre><code>
 192.168.0.103 external-dependency.dev external-dependency<br />
-[/code]</p>
+</code></pre>
 <h3>Clone the repo for your plugin</h3>
 <p>WordPress plugins are installed at <strong>/wp-content/plugins</strong> below the root WordPress site. Clone the repo in the <strong>plugins</strong> directory:</p>
-<p>[code]<br />
+<pre><code>
 cd wordpress/wp-content/plugins<br />
 git clone ssh://git@stash.davidsimpson.me:7999/wp001/wordpress-example-plugin.git<br />
-[/code]</p>
+</code></pre>
 <p>Now you can start working on that plugin ;)</p>
 <p>I've found VagrantPress to be a very useful and extremely simple way of quickly building a standardised local WordpPress development environment.</p>
 <h2>Further reading</h2>

@@ -23,7 +23,7 @@ author:
 ---
 <p>Check the <code>&lt;useHttps>true&lt;/useHttps></code> configuration item. It appears to be a bit of a secret that could handle some more exposure. It starts Atlassian SDK running over HTTPS/SSL on port 443 without the need for a proxy server. Nice.</p>
 <p>You can add it here:</p>
-<p>[code]<br />
+<pre><code>
 &lt;plugin&gt;<br />
     &lt;groupId&gt;com.atlassian.maven.plugins&lt;/groupId&gt;<br />
     &lt;artifactId&gt;maven-confluence-plugin&lt;/artifactId&gt;<br />
@@ -35,11 +35,11 @@ author:
         &lt;useHttps&gt;true&lt;/useHttps&gt;<br />
      &lt;/configuration&gt;<br />
 &lt;/plugin&gt;<br />
-[/code]</p>
+</code></pre>
 <p>You'll need to start the server like so:</p>
-<p>[code]sudo atlas-run[/code]</p>
+<pre><code>sudo atlas-run</code></pre>
 <p>Otherwise, you'll likely get the following error trying to bind to port 443 as a non-root user:</p>
-<p>[code]<br />
+<pre><code>
 [INFO] [talledLocalContainer] SEVERE: Failed to initialize end point associated with ProtocolHandler [&quot;http-bio-443&quot;]<br />
 [INFO] [talledLocalContainer] java.net.BindException: Permission denied &lt;null&gt;:443<br />
 [INFO] [talledLocalContainer] 	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:406)<br />
@@ -73,15 +73,15 @@ author:
 [INFO] [talledLocalContainer] 	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)<br />
 [INFO] [talledLocalContainer] 	... 17 more<br />
 [INFO] [talledLocalContainer]<br />
-[/code]</p>
+</code></pre>
 <h2>Does this work well?</h2>
 <p>Yes and no. It's super easy to get going provided you remember about root permissions, but there are drawbacks.</p>
 <p>You have to <code>sudo</code> on redeploys, and well, pretty much everything you do.</p>
 <p>This seems like overkill though:<br />
-[code]sudo atlas-package[/code]</p>
+<pre><code>sudo atlas-package</code></pre>
 <p><code>atlas-install-plugin</code> or <code>sudo atlas-install-plugin</code> doesn't work as it tries to install to port <code>1990</code> for Confluence, <code>2990</code> for JIRA and so forth.</p>
 <p>I ended up uploading the plugin via the UPM each time it was redeployed. That's just rubbish.</p>
 <p>This however, should work nicely:<br />
-[code]sudo atlas-install-plugin --http-port 443[/code]</p>
+<pre><code>sudo atlas-install-plugin --http-port 443</code></pre>
 <h2>Will I continue to use this?</h2>
 <p>I'm not sure at the moment, unless its just for a very quick test or for JIRA development. <a href="https://davidsimpson.me/2014/07/18/nginx-secure-front-jira-confluence-atlassian-sdk/">Proxying with nginx</a> is so easy. It's <em>setup and forget</em> easy, at least for Confluence.</p>

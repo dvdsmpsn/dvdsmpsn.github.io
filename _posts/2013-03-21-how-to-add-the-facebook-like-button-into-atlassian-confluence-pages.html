@@ -25,7 +25,7 @@ author:
 <p>Adapting the HTML5 version of the generated code from <a href="http://developers.facebook.com/docs/reference/plugins/like/">this reference</a>...</p>
 <p>In Confluence browse to <strong>Confluence Admin | Look & Feel | Custom HTML</strong></p>
 <p>In <strong>At the end of HEAD</strong>, paste:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 &lt;script&gt;<br />
 AJS.toInit(function(){<br />
     var fbLike = '&lt;div class=&quot;fb-like&quot; data-href=&quot;' + window.location.href + '&quot; data-send=&quot;false&quot; data-width=&quot;450&quot; data-show-faces=&quot;true&quot;&gt;&lt;/div&gt;';<br />
@@ -34,7 +34,7 @@ AJS.toInit(function(){<br />
     AJS.$('body').prepend(fbScript);<br />
 });<br />
 &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>You should now be able to "Like" and also post to Facebook:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2013/03/conflu-fb.png"><img src="{{ site.baseurl }}/assets/conflu-fb.png" alt="" title="conflu-fb" class="alignnone size-full wp-image-1700" /></a></p>
 <p>This approach automatically embeds the "Like" button at the end of all Confluence pages and blogposts.</p>

@@ -23,7 +23,7 @@ author:
 ---
 <p>When setting up a new IBM Connections system, I always forget how to add admin permissions to a user for the various applications that make up IBM Connections. It's not the sort of command that you remember mainly because there are more fun things to think about.</p>
 <p>Anyway, this is it, in all its glory:</p>
-<p>[code]<br />
+<pre><code>
 cd /opt/IBM/WebSphere/AppServerDemo/profiles/Dmgr01/bin<br />
 ./wsadmin.sh -lang jython -user wasadmin -password passw0rd<br />
 AdminApp.edit('Activities',            '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
@@ -40,7 +40,7 @@ AdminApp.edit('Search',                '[ -MapRolesToUsers [[ search-admin      
 AdminApp.edit('WidgetContainer',       '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
 AdminApp.edit('Wikis',                 '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
 AdminConfig.save()<br />
-[/code]</p>
+</code></pre>
 <p>In this case, you'll notice that the username is <b>david</b> and he is listed in the Domino LDAP as <b>CN=David Simpson,O=AppFusions</b>.  You'll need to change this appropriately.</p>
 <p>Adapted from: <a href="http://www.justnudge.com/2012/09/adding-admin-roles-to-ibm-connections-4/">Adding users to admin roles in IBM Connections 4</a> by Michael Ransley, Just Nudge.</p>
 <p><!--</p>

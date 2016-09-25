@@ -36,15 +36,15 @@ author:
 <li>Page Popularity</li>
 </ul>
 <p>&lt;</p>
-<p>pre lang="text"><br />
+<p>pretext"><br />
 h1. This Week's Wiki User Activity Charts</p>
 <p>h2. Overall</p>
 <p>{topusers:spaces=@all|timespan=1w|period=weekly|events=create,update,view|display=icon,title,count}</p>
 <p>h2. Breakdown<br />
-[code]<br />
+<pre><code>
 || Page Creation || Page Updates || Page Views || Page Popularity ||<br />
 | {topusers:spaces=@all|timespan=1w|period=weekly|events=create|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=update|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} | {popular:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} |<br />
-[/code]<br />
+</code></pre><br />
 <!--more--></p>
 <h2>Results</h2>
 <p>Here's a screenshot of the resulting page - complete with made up names.</p>

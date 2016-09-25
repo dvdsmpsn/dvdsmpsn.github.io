@@ -44,15 +44,15 @@ author:
 <p>I'm using the {pagetree} macro, but I'm not overly fond of it.  Ideally, I'd like it to expand siblings and children of the current page by default.  But again, I'm not interested in rolling my own navigational system.  Rather I'll make do and mend what's available.  It does an adequate job, but looks a bit ugly.</p>
 <h3>Edit Site Layouts | Page Layout</h3>
 <p>Find this content div:</p>
-<p>[code language="html"]<br />
+<pre><code>
 &lt;div id=&quot;content&quot; class=&quot;page $!mode&quot;&gt;<br />
 	...<br />
 	...<br />
 	...<br />
 &lt;/div&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Replace it with a table</p>
-<p>[code language="html"]<br />
+<pre><code>
 &lt;table id=&quot;myContent&quot;&gt;<br />
 	&lt;tr&gt;<br />
 		&lt;td class=&quot;myNavigation&quot;&gt;$helper.renderConfluenceMacro(&quot;{pagetree:root=$space.homePage.title|startDepth=1}&quot;)&lt;/td&gt;</p>
@@ -63,11 +63,11 @@ author:
 		&lt;/td&gt;<br />
 	&lt;/tr&gt;<br />
 &lt;/table&gt;<br />
-[/code]</p>
+</code></pre>
 <p>I'm not proud of adding a table for layout, but it much less bad than the markup I've seen produced by some third party theme building plugins. </p>
 <h3>Global Stylesheet</h3>
 <p>Add a custom/override to the default stylesheet:<br />
-[code language="css"]<br />
+<pre><code>
 body {<br />
 	width: 90%;<br />
 	min-width: 750px;<br />
@@ -160,7 +160,7 @@ h1, h2 ,h3, h4 {<br />
 #footer {<br />
 	display: none;<br />
 }<br />
-[/code]</p>
+</code></pre>
 <h3>Additional and replacement images</h3>
 <p>I've replaced the following images used by {pagetree}.  </p>
 <ul>

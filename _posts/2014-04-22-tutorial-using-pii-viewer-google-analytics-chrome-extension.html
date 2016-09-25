@@ -33,7 +33,7 @@ author:
 <p>The test scenario we're using gives a pseudo-randomly generated User ID to each web page visitor. The "User ID" feature in Google Analytics is currently (April 2014) being rolled out, so in the meantime, we're using a Custom Dimension to store our own "Custom User ID".</p>
 <p>On my local filesystem, I have created a set of sample personas in <b>sample.csv</b> which contains "User ID" values along with some personal information. This CSV file contains a header row to describe the columns.</p>
 <p><b>sample.csv</b>:<br />
-[code]<br />
+<pre><code>
 user_id,display_name,email,company,country<br />
 abc-123-rst,Albert Cox,acox@realcube.info,Real Cube,Colombia<br />
 abc-123-uvw,Justine Bishop,jbishop@youspan.name,You Span,Panama<br />
@@ -62,13 +62,13 @@ ghi-456-xyz,Evelyn Simpson,esimpson@rhyzio.edu,Rhyzio,Canada<br />
 ghi-789-rst,Joe Green,jgreen@jaloo.gov,JA Loo,Kiribati<br />
 ghi-789-uvw,Patricia Hayes,phayes@lazzy.gov,Lazzy,Chad<br />
 ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom<br />
-[/code]</p>
+</code></pre>
 <p>Please note that this data is sample data and <em>not</em> real customer data.</p>
 <p>In PII Viewer for Google Analytics, we upload the CSV file into the extension.</p>
 <p>Now, the extension is installed locally and it saves the data to the local machine in Chrome's <b>chrome.storage.local</b> API. The point I'm making here is that the PII data is not uploaded anywhere outside of your local machine. This means that your PII data is safe. It also means that legally, you are complying with section 7 of the Google Analytics terms of service.</p>
 <p>Next we select a "Select Google Analytics User Identifier column" from the list of columns. In the sample dataset, select <b>user_id</b>.</p>
 <p>When setting up the tracking code, this user_id was used in the JavaScript. Something like this:</p>
-<p>[code]<br />
+<pre><code>
 &amp;lt;script&amp;gt;<br />
   ...<br />
   ...<br />
@@ -76,12 +76,12 @@ ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom<br />
   ga('set', 'dimension1', customUserId);                   // Set a `customUserId` dimension at page level<br />
   ga('send', 'pageview');<br />
 &amp;lt;/script&amp;gt;<br />
-[/code]</p>
+</code></pre>
 <p>Having configured the extension with the data and the mapping, you can jump straight into Google Analytics and see the extension in action.</p>
 <p>The extension adds a small toolbar to the bottom of the Google Analytics interface. You can hide it so that it's out of the way. The extension looks at dimension data displayed in Google Analytics and if a mapping between the user_id in the locally stored CSV file and the dimension displayed in Google Analytics is found, the PII from the local CSV file is injected into the Google Analytics interface.</p>
 <p>In our example, we have a <b>Custom User ID</b> dimension added, so we can add this as a secondary dimension to one of the reports.</p>
 <p>Our CSV had columns:<br />
-[code]user_id,display_name,email,company,country[/code]</p>
+<pre><code>user_id,display_name,email,company,country</code></pre>
 <p>We used <b>user_id</b> for the mapping, so the other columns are  available for selection in a dropdown in the toolbar. Selecting any of these will display the mapping within the dimension columns in Google Analytics like so:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2014/04/pii-viewer.png"><img src="{{ site.baseurl }}/assets/pii-viewer.png" alt="pii-viewer" width="2492" height="1428" class="alignnone size-full wp-image-2619" /></a></p>
 <p>As the extension maps against any dimensions in the reports, it could lead to some false positives, so I've also added a toggle in the toolbar to switch the mapping off.</p>

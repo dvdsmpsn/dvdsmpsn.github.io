@@ -99,7 +99,7 @@ This tutorial's level of difficulty is at 'beginner' level, so you can follow it
 <h2 id="AddingConfluenceKeyboardShortcuts-Step2.Edittheatlassian-plugin.xmlfile">Step 2. Edit the atlassian-plugin.xml file</h2>
 <p>In this step, you must now register the plugin module in your plugin descriptor, <strong>atlassian-plugin.xml</strong>. In other words, add the following code to your <strong>atlassian-plugin.xml</strong> file between the <strong><atlassian-plugin&gt;</strong> tags, but below the <strong>
 <plugin-info&gt;</strong> tag group.</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;keyboard-shortcut key=&quot;goto.four.oh.four&quot; i18n-name-key=&quot;keyboard.shortcut.four.oh.four&quot; name=&quot;Page not found&quot;&gt;<br />
   &lt;order&gt;200&lt;/order&gt;<br />
   &lt;description key=&quot;keyboard.shortcut.four.oh.four.desc&quot;&gt;Page not found&lt;/description&gt;<br />
@@ -107,14 +107,14 @@ This tutorial's level of difficulty is at 'beginner' level, so you can follow it
   &lt;operation type=&quot;goTo&quot;&gt;/four-oh-four&lt;/operation&gt;<br />
   &lt;context&gt;global&lt;/context&gt;<br />
 &lt;/keyboard-shortcut&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Let's break down that XML code. In this example we are creating a keyboard shortcut which when triggered navigates to, for example, <a rel="nofollow" href="http://localhost:1990/confluence/four-oh-four" target="_blank">http://localhost:1990/confluence/four-oh-four</a> in the development system – a page which does not exist. Admittedly, this is likely to be of limited practical use – unless you are a lover of 404 pages – but it demonstrates the potential of keyboard shortcuts.</p>
 <p>To do this, we've done a number of things.</p>
 <h3 id="AddingConfluenceKeyboardShortcuts-TheKeyboardShortcutmodule">The Keyboard Shortcut module</h3>
 <p>In the code above, this line involves 3 attributes:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;keyboard-shortcut key=&quot;goto.four.oh.four&quot; i18n-name-key=&quot;keyboard.shortcut.four.oh.four&quot; name=&quot;Page not found&quot;&gt;<br />
-[/code]</p>
+</code></pre>
 <ul>
 <li>The first, <strong>key="goto.four.oh.four"</strong> sets an internal name for the new item.</li>
 <li>The second, <strong>i18n-name-key="keyboard.shortcut.four.oh.four" </strong> is the internationalisation key for the item – this is displayed in the admin section as the name of the module in the plugin.</li>
@@ -122,10 +122,10 @@ This tutorial's level of difficulty is at 'beginner' level, so you can follow it
 </ul>
 <h3 id="AddingConfluenceKeyboardShortcuts-Controllingwherethekeyboardshortcutisdisplayed">Controlling where the keyboard shortcut is displayed</h3>
 <p>Examine these line of code:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;order&gt;200&lt;/order&gt;<br />
 &lt;description key=&quot;keyboard.shortcut.four.oh.four.desc&quot;&gt;Page not found&lt;/description&gt;<br />
-[/code]<br />
+</code></pre><br />
 In Confluence, if you go to the <strong>Browse</strong> menu and select<strong> Keyboard Shortcuts</strong> you will see a dialog box with lists of keyboard shortcuts:</p>
 <p><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A37%3A36.png?version=1&amp;modificationDate=1345754277917&amp;effects=border-simple,shadow-kn" alt="" width="650" /></p>
 <p>Each item has a a value for <strong>order</strong> between 10 and 100. A smaller value means the label for your keyboard shortcut appears higher in the list. A value of 200 means that the item will almost certainly be placed at the bottom of the list.</p>
@@ -141,18 +141,18 @@ In Confluence, if you go to the <strong>Browse</strong> menu and select<strong>
 <p>The context tag also accepts the page or content values for other situations.</p>
 <h3 id="AddingConfluenceKeyboardShortcuts-Addingnewresourcefilesandinternationalisation">Adding new resource files and internationalisation</h3>
 <p>We will want to specify a text label to display in our Confluence keyboard shortcuts. You could just hard-code this information into your <strong>atlassian-plugin.xml</strong> file, but by adding it in a new resource file, we can make our plugin compatible with internationalisation. To do so, simply add a new file in the resources directory of your plugin (called <strong>confluence-tutorial-keyboard-shortcuts.properties</strong>) and enter a couple of lines of code into it:</p>
-<p>[code]<br />
+<pre><code>
 keyboard.shortcut.four.oh.four = Page Not Found<br />
 keyboard.shortcut.four.oh.four.desc = Display 404 page:<br />
-[/code]<br />
+</code></pre><br />
 The first line – <strong>keyboard.shortcut.four.oh.four</strong> – describes the module name in <strong>Confluence Admin | Plugins:</strong></p>
 <p><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A39%3A8.png?version=1&amp;modificationDate=1345754349751&amp;effects=border-simple,shadow-kn" alt="" width="650" /></p>
 <p><strong>Note:</strong> Displaying friendly names rather than module keys can be useful when there are many modules in a Confluence plugin.</p>
 <p>The second line – <strong>keyboard.shortcut.four.oh.four.desc</strong> –  is the label for the keyboard shortcut in the Keyboard Shortcut dialog displayed earlier.</p>
 <p>Additionally, we will need to reference this resource file (<strong>confluence-tutorial-keyboard-shortcuts.properties</strong>) in our <strong>atlassian-plugin.xml</strong> file. To do this, add this line of code above the <strong><keyboard-shortcut&gt;</strong> code block:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;resource type=&quot;i18n&quot; name=&quot;i18n&quot; location=&quot;confluence-tutorial-keyboard-shortcuts&quot;  /&gt;<br />
-[/code]</p>
+</code></pre>
 <p>This will access your <strong>confluence-tutorial-keyboard-shortcuts.properties</strong> file and retrieve the text for our button label.</p>
 <p>If you would like to know more about internationalisation, see our <a rel="nofollow" href="http://confluence.atlassian.com/display/DISC/i18n+in+Confluence+Plugin+Development" target="_blank">Confluence documentation on the topic</a>.</p>
 <h2 id="AddingConfluenceKeyboardShortcuts-Step3.Build,installandruntheplugin">Step 3. Build, install and run the plugin</h2>
@@ -160,9 +160,9 @@ The first line – <strong>keyboard.shortcut.four.oh.four</strong> – describ
 <p>The <strong>atlas-run</strong> command will compile the plugin project and then launch a local instance of Confluence.</p>
 <h3 id="AddingConfluenceKeyboardShortcuts-Run">Run</h3>
 <p>Once Confluence has loaded, access the local instance with this URL:<br />
-[code]<br />
+<pre><code>
 http://localhost:1990/confluence/<br />
-[/code]</p>
+</code></pre>
 <ol>
 <li>Log in with username "admin" and password "admin.</li>
 <li>Type "4" then "0" then "4" – your browser should now display the following <img src="{{ site.baseurl }}/assets/smile.png" alt="(smile)" /><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A39%3A42.png?version=1&amp;modificationDate=1345754383238" alt="" width="650" /></li>
@@ -174,19 +174,19 @@ http://localhost:1990/confluence/<br />
 <p>You guessed it, there's a little bug – <a rel="nofollow" href="https://jira.atlassian.com/browse/CONF-24450" target="_blank">CONF-24450</a> –  in keyboard shortcuts.  Don't worry though, we can quickly work around this issue...</p>
 <h2 id="AddingConfluenceKeyboardShortcuts-Step4.Addtheworkaround">Step 4. Add the workaround</h2>
 <p>Create a new JavaScript web resource file at <strong>src/main/resources/CONF-24450-workaround.js</strong> and add the code:</p>
-<p>[code lang="js"]<br />
+<pre><code>
 AJS.toInit(function($) {<br />
     AJS.I18n.get(&quot;com.appfusions.confluence.plugins.confluence-tutorial-keyboard-shortcuts&quot;);<br />
 });<br />
-[/code]</p>
+</code></pre>
 <p>Additionally, you will need to reference this web resource file in our <strong>atlassian-plugin.xml</strong> file. To do this, add this line of code above the <strong><keyboard-shortcut&gt;</strong> code block:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;web-resource key=&quot;keyboard.shortcut.CONF-24450-workaround&quot; name=&quot;Keyboard Shortcuts&quot; i18n-name-key=&quot;keyboard.shortcut.CONF-24450-workaround&quot;&gt;<br />
   &lt;resource name=&quot;CONF-24450-workaround.js&quot; type=&quot;download&quot; location=&quot;js/CONF-24450-workaround.js&quot;/&gt;<br />
   &lt;context&gt;main&lt;/context&gt;<br />
   &lt;context&gt;admin&lt;/context&gt;<br />
 &lt;/web-resource&gt;<br />
-[/code]<br />
+</code></pre><br />
 The <strong>AJS.I18n.get(...)</strong> line adds the keys in the internationalisation file into the <strong>AJS.I18n.keys</strong> object in JavaScript.</p>
 <p><strong>Note of interest:</strong> This also makes for a cunning alternative to the <a rel="nofollow" href="https://developer.atlassian.com/display/CONFDEV/Web+Resource+Transformer+Module">Web Resource Transformer Module</a> for adding internationalisation in JavaScript. A further tutorial plugin for this is available in Bitbucket here: <a rel="nofollow" href="https://bitbucket.org/dvdsmpsn/confluence-tutorial-awesome-plugin" target="_blank">confluence-tutorial-awesome-plugin</a>.</p>
 <h2 id="AddingConfluenceKeyboardShortcuts-Step5.Redeploytheplugin">Step 5. Redeploy the plugin</h2>
@@ -198,7 +198,7 @@ The <strong>AJS.I18n.get(...)</strong> line adds the keys in the internationali
 <p>Add a new keyboard shortcut that triggers the <strong>Browse Menu</strong> to be toggled open or closed when you type <strong>CTRL+B</strong>:</p>
 <p><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A43%3A4.png?version=1&amp;modificationDate=1345754584996&amp;effects=border-simple,shadow-kn" alt="" width="340" /></p>
 <p>In your <strong>atlassian-plugin.xml</strong> add a new <strong>keyboard-shortcut</strong> code block as follows:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;keyboard-shortcut key=&quot;moveToAndClick.toggle.browse&quot; i18n-name-key=&quot;keyboard.shortcut.toggle.browse&quot; name=&quot;Toggle Browse Menu&quot;&gt;<br />
   &lt;order&gt;200&lt;/order&gt;<br />
   &lt;description key=&quot;keyboard.shortcut.toggle.browse.desc&quot;&gt;Toggle Browse Menu&lt;/description&gt;<br />
@@ -206,7 +206,7 @@ The <strong>AJS.I18n.get(...)</strong> line adds the keys in the internationali
   &lt;operation type=&quot;moveToAndClick&quot;&gt;#browse-menu-link&lt;/operation&gt;<br />
   &lt;context&gt;global&lt;/context&gt;<br />
 &lt;/keyboard-shortcut&gt;<br />
-[/code]<br />
+</code></pre><br />
 This is very similar except for two key points:</p>
 <ol>
 <li>The shortcut now triggers when two keys are pressed simultaneously</li>

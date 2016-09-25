@@ -27,16 +27,16 @@ This is a quick introduction to installing R on OS X Mountain Lion. </p>
 <p>You can download a package for OS X, or go with <a href="http://mxcl.github.com/homebrew/">Homebrew</a> &ndash; my route. For the Mountain Lion, you'll need to install XQuartz and a Fortran compiler first.</p>
 <p>Install XQuartz. <a href="https://xquartz.macosforge.org/">Download it from here.</a></p>
 <p>Install Fortran & R:<br />
-[code]<br />
+<pre><code>
 # updated 30 Sept 2013<br />
 brew update<br />
 brew tap homebrew/science<br />
 brew install gfortran r<br />
-[/code]</p>
+</code></pre>
 <p>Homebrew should be done compiling and installing within 10 minutes.</p>
 <h2>Did it work?</h2>
 <p>To test the installation, run <strong>r</strong> in terminal, you should get something like this:<br />
-[code]<br />
+<pre><code>
 dvdsmpsn-mac:~ david$ r</p>
 <p>R version 3.0.1 (2013-05-16) -- &quot;Good Sport&quot;<br />
 Copyright (C) 2013 The R Foundation for Statistical Computing<br />
@@ -52,9 +52,9 @@ Type 'contributors()' for more information and<br />
 'help.start()' for an HTML browser interface to help.<br />
 Type 'q()' to quit R.</p>
 <p>&gt;<br />
-[/code]</p>
+</code></pre>
 <p>You can then start some baby steps such as basic addition and creating functions<br />
-[code]<br />
+<pre><code>
 &gt; x &lt;- 4+5<br />
 &gt; x<br />
 [1] 9<br />
@@ -65,11 +65,11 @@ Type 'q()' to quit R.</p>
 + }<br />
 &gt; addup(4,5)<br />
 [1] 9<br />
-[/code]</p>
+</code></pre>
 <p>When you're done, quit the R console:<br />
-[code]<br />
+<pre><code>
 &gt; q()<br />
-[/code]</p>
+</code></pre>
 <h2>More about R</h2>
 <p>Now you're installed, get learning...</p>
 <ul>

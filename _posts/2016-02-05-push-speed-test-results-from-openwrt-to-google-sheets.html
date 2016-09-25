@@ -30,11 +30,11 @@ author:
 <!--more--></p>
 <p>OpenWRT uses <code>opkg</code> rather than <code>apt-get</code>, so that is used throughout as a replacement.</p>
 <p>Install <code>pip</code> -- a packaging manager for Python and the <code>speedtest-cli</code> package from the <code>pip</code> repositories.</p>
-<p>[code]opkg install python-pip<br />
+<pre><code>opkg install python-pip<br />
 pip install speedtest-cli<br />
-[/code]</p>
+</code></pre>
 <p>Test out the installed package:</p>
-<p>[code]root@OpenWrt:~# speedtest-cli<br />
+<pre><code>root@OpenWrt:~# speedtest-cli<br />
 Retrieving speedtest.net configuration...<br />
 Retrieving speedtest.net server list...<br />
 Testing from Virgin Media (x.x.x.x)...<br />
@@ -44,30 +44,30 @@ Testing download speed........................................<br />
 Download: 156.39 Mbit/s<br />
 Testing upload speed..................................................<br />
 Upload: 9.84 Mbit/s<br />
-[/code]</p>
+</code></pre>
 <p>So far so good.</p>
 <p>Next, we need to run the following script. I've saved it at <code>/root/bin/speedtest-ifttt.sh</code></p>
 <p><script src="https://gist.github.com/dvdsmpsn/2021b5c68b09d2002f4e.js"></script></p>
 <p>Update <code>log=/tmp/$user/speedtest-csv.log</code> to <code>log=/$user/tmp/speedtest-csv.log</code></p>
 <p>Add the key to line 82</p>
-<p>[code]secret_key=&quot;SECRET_KEY&quot;<br />
-[/code]</p>
+<pre><code>secret_key=&quot;SECRET_KEY&quot;<br />
+</code></pre>
 <p>OOTB, OpenWRT doesn't have bash or curl, so install that too:</p>
-<p>[code]opkg install bash curl<br />
-[/code]</p>
+<pre><code>opkg install bash curl<br />
+</code></pre>
 <p>Make a directory to save the temperary file:</p>
-<p>[code]mkdir ~/tmp<br />
-[/code]</p>
+<pre><code>mkdir ~/tmp<br />
+</code></pre>
 <p>Add execute permission:</p>
-<p>[code]chmox +x /root/bin/speedtest-ifttt.sh<br />
-[/code]</p>
+<pre><code>chmox +x /root/bin/speedtest-ifttt.sh<br />
+</code></pre>
 <p>Now, run the file once &amp; see if it creates a Google Sheet and saves details to the sheet</p>
-<p>[code]/root/bin/speedtest-ifttt.sh<br />
-[/code]</p>
+<pre><code>/root/bin/speedtest-ifttt.sh<br />
+</code></pre>
 <p>If all is good, add this to the <code>cron</code> job and sit back:</p>
-<p>[code]crontab -e<br />
+<pre><code>crontab -e<br />
 15,45 * * * * /root/bin/speedtest-ifttt.sh<br />
-[/code]</p>
+</code></pre>
 <p>Right now, I'm measuring the speed every 30 minutes at 15, 45 mins past the hour. This can be changed to be run more frequently, as required.</p>
 <p>At this point, I created a chart in the Sheet so that I could view the data being collected.</p>
 <p>Here are the results so far:</p>

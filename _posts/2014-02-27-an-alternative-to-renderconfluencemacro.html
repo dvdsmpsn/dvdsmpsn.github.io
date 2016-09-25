@@ -29,15 +29,15 @@ author:
 ---
 <p>In the "good old days" of Confluence plugin development, when <del>plugins</del> add-ons were still called plugins, people used to throw wiki markup into themes and plugins with wild abandon. </p>
 <p>Just like this:</p>
-<p>[code]<br />
+<pre><code>
 $helper.renderConfluenceMacro(&quot;{info}*This* _is_ the cheese macro: {cheese}{info}&quot;)<br />
-[/code]</p>
+</code></pre>
 <p>With the arrival of the XML storage format and the new XHTML Macros in Confluence 4, this kind of thing no longer worked. Newer macros couldn't be expressed in wiki markup, so this handy method of rendering wiki-markup became redundant.</p>
 <h2>Modernise</h2>
 <p>Some old hands are still nostalgic, but times change. Actually, that old <strong>renderConfluenceMacro(…)</strong> method was kind of cool. I'd still like to be able to use it or an equivalent from time to time. So why not roll your own an updated equivalent? </p>
 <p>To modernise, you need to take a look at the storage format and see how Confluence renders storage into the view format (HTML). </p>
 <p>Then you can add the helper class:</p>
-<p>[code]</p>
+<pre><code></p>
 <p>package com.appfusions.confluence.addon.theme.helper;</p>
 <p>import com.atlassian.confluence.content.render.xhtml.ConversionContext;<br />
 import com.atlassian.confluence.content.render.xhtml.DefaultConversionContext;<br />
@@ -79,15 +79,15 @@ import com.atlassian.confluence.xhtml.api.XhtmlContent;</p>
         this.xhtmlContent = xhtmlContent;<br />
     }<br />
 }<br />
-[/code]</p>
+</code></pre>
 <p>You'll need a <a href="https://developer.atlassian.com/display/CONFDEV/Velocity+Context+Module">velocity context module</a> to add an object to the velocity context.</p>
 <p>Add this to <strong>atlassian-plugin.xml</strong>:</p>
-<p>[code]<br />
+<pre><code>
 &lt;velocity-context-item key=&quot;myHelper&quot; name=&quot;My Velocity Helper&quot; class=&quot;com.appfusions.confluence.addon.theme.helper.MyVelocityHelper&quot; context-key=&quot;myHelper&quot; /&gt;;<br />
-[/code]</p>
+</code></pre>
 <p>Once that's done, you can start using a more modern equivalent to  <b>renderConfluenceMacro(…)</b>:<br />
-[code]<br />
+<pre><code>
 $myHelper.convertStorageToView('&lt;ac:structured-macro ac:name=&quot;info&quot;&gt;&lt;ac:rich-text-body&gt;&lt;p&gt;&lt;strong&gt;This&lt;/strong&gt; &lt;em&gt;is&lt;/em&gt; the cheese macro: &lt;ac:structured-macro ac:name=&quot;cheese&quot; /&gt;&lt;/p&gt;&lt;/ac:rich-text-body&gt;&lt;/ac:structured-macro&gt;');<br />
-[/code]</p>
+</code></pre>
 <p>And relax.</p>
 <p><b>Update:</b> I added the <code>@HtmlSafe</code> annotation to the <code>convertStorageToView</code> so that the HTML is not escaped.</p>

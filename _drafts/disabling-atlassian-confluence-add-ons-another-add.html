@@ -24,7 +24,7 @@ author:
   last_name: Simpson
 ---
 <p>A simple code snippet for when you need to disable a pile of Confluence add-ons from within your own custom plugin.</p>
-<p>[code]<br />
+<pre><code>
 String[] ADDONS_TO_DISABLE = {<br />
 	&quot;com.atlassian.confluence.plugins.confluence-mentions-plugin&quot;<br />
 	// Add more plugins keys here as required<br />
@@ -41,4 +41,4 @@ String[] ADDONS_TO_DISABLE = {<br />
         log.info(&quot; ++ Plugin already disabled: &quot; + pluginKey);<br />
     }<br />
 }<br />
-[/code]</p>
+</code></pre>

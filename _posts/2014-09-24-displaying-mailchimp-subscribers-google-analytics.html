@@ -47,7 +47,7 @@ author:
 <p>In Mailchimp ensure that your campaign has Google Analytics link tracking enabled:</p>
 <div class="post-thumb"><a href="http://davidsimpson.me/wp-content/uploads/2014/09/mc-tracking.jpg"><img class="alignnone size-full wp-image-2985" alt="mc-tracking" src="{{ site.baseurl }}/assets/mc-tracking.jpg" /></a></div>
 <p>Click throughs from Mailchimp emails give a URL similar to this (with request parameters formatted for easy reading):</p>
-<p>[code]</p>
+<pre><code></p>
 <p>  http://read-able.com/<br />
     ?utm_source=Google+Analytics+Integration+example<br />
     &amp;utm_campaign=b4ed972584-GA_Integration_Example_19_16_2014<br />
@@ -55,7 +55,7 @@ author:
     &amp;utm_term=0_0dc0efa209-b4ed972584-181498085<br />
     &amp;mc_cid=b4ed972584<br />
     &amp;mc_eid=ced7155edd</p>
-<p>[/code]</p>
+<p></code></pre>
 <p>Lets break this down. The <code>utm_</code> prefixed parameters are well established Google Analytics tracking parameters. And the others?</p>
 <ul>
 <li><code>mc_cid</code> - this is the Mailchimp campaign ID</li>
@@ -65,7 +65,7 @@ author:
 <h2>Add Google Analytics tracking code on your website</h2>
 <p>We can capture the list member's unique ID from Mailchimp, then send it to Google Analytics when they open the page.</p>
 <p>How? By adding the following code onto the landing page of your email marketing campaign.</p>
-<p>[code]<br />
+<pre><code>
 &lt;script&gt;<br />
 	// a helper function<br />
 	location.getParameter = function(item){<br />
@@ -90,7 +90,7 @@ author:
 <p>	ga('require', 'displayfeatures');<br />
 	ga('send', 'pageview');</p>
 <p>&lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>In all honesty, you may as well deploy this code site wide to ensure your Google Analytics JavaScript is consistent.</p>
 <h3>What does it all mean?</h3>
 <p>Let’s break this down line by line…</p>

@@ -22,7 +22,7 @@ author:
   last_name: Simpson
 ---
 <p>My standard IBM Connections installation has the following logging settings:</p>
-<p>[code]<br />
+<pre><code>
      *=info:<br />
      com.ibm.social.pim.resource.*=all:<br />
      com.ibm.lconn.homepage.services.widget.*=all:<br />
@@ -34,15 +34,15 @@ author:
      com.ibm.lotus.connections.core.notify.*=all:<br />
      com.ibm.lconn.scheduler.*=all:<br />
      org.apache.shindig.*=all<br />
-[/code]</p>
+</code></pre>
 <p>In WebSphere, this is displayed on a single line:<br />
-[code]<br />
+<pre><code>
 *=info: com.ibm.social.pim.resource.*=all: com.ibm.lconn.homepage.services.widget.*=all: com.ibm.lconn.news.*=all: com.ibm.lconn.events.*=all: com.ibm.lotus.search.engine.*=all: com.ibm.lotus.search.index.*=all: com.ibm.lconn.mailin.*=all: com.ibm.lotus.connections.core.notify.*=all: com.ibm.lconn.scheduler.*=all: org.apache.shindig.*=all<br />
-[/code]<br />
+</code></pre><br />
 <!--more--><br />
 For debugging gadgets and activity stream, we need to up the ante with more logging.</p>
 <p>A suggestion. Add the following lines:</p>
-<p>[code]<br />
+<pre><code>
 org.apache.shindig.*=all:<br />
 org.apache.shindig.auth.*=all:<br />
 org.apache.shindig.auth.AuthenticationServletFilter=all:<br />
@@ -135,5 +135,5 @@ org.apache.shindig.protocol.conversion.*=all:<br />
 org.apache.shindig.protocol.conversion.BeanXStreamConverter=all:<br />
 org.apache.shindig.protocol.conversion.xstream.*=all:<br />
 org.apache.shindig.protocol.conversion.xstream.InterfaceClassMapper=all:<br />
-[/code]</p>
+</code></pre>
 <p>This should liven up the logs somewhat. </p>

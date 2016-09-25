@@ -18,21 +18,21 @@ author:
   last_name: Simpson
 ---
 <p>Create a template folder layout:</p>
-<p>[code]<br />
+<pre><code>
 mkdir zen-theme-dev<br />
 mkdir zen-theme-dev/confluence-sa<br />
 echo &quot;atlas-run-standalone --product confluence&quot; &gt; zen-theme-dev/confluence-sa/run.sh<br />
 mkdir zen-theme-dev/zen-mythemename<br />
-[/code]</p>
+</code></pre>
 <p>This gives a sub directory to develop your theme in and another for your Confluence testing. It also adds a simple startup script for a stand alone version of Confluence using the Atlassian SDK.</p>
 <p>In <strong>zen-theme-dev/zen-mythemename</strong> create the standard zen theme directory structure and initialise git.</p>
 <p>Add a pre commit hook in <b>zen-theme-dev/zen-mythemename/.git/hooks/pre-commit</b>:</p>
-<p>[code]<br />
+<pre><code>
 #!/bin/sh<br />
 sh ./deploy.sh<br />
-[/code]</p>
+</code></pre>
 <p>Add a deploy script at <b>zen-theme-dev/zen-mythemename/deploy.sh</b>:<br />
-[code]<br />
+<pre><code>
 # This file is run as a pre-commit hook ...<br />
 #<br />
 #   $ more .git/hooks/pre-commit<br />
@@ -49,11 +49,11 @@ zip -qr ../$THEME.zip brand.properties icons images fonts css scripts<br />
 echo &quot;Deploying...&quot;<br />
 cp -r ./* ../confluence-sa/amps-standalone/target/confluence/home/zen/brands/$THEME/.<br />
 echo &quot;Done.&quot;<br />
-[/code]</p>
+</code></pre>
 <p>Start up Confluence for development:<br />
-[code]<br />
+<pre><code>
 cd zen-theme-dev/confluence-sa<br />
 sh ./run.sh<br />
-[/code]</p>
+</code></pre>
 <p>Make sure you have the Zen theme plugin installed on your development Confluence.</p>
 <p>Now develop your Zen theme. On every commit, your change will be pushed to the development server.</p>

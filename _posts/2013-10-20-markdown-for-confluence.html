@@ -29,7 +29,7 @@ author:
 <p>Surely not? Such a macro would perhaps appease the wiki markup faithful to some extent.</p>
 <p>It was a Friday night and I was at home with my kids asleep upstairs. As this was <em>clearly such an excellent idea</em>, I set about righting this wrong immediately. So Markdown for Confluence was written. Amazingly, the macro was up and running within half an hour as the excellent <a href="https://github.com/sirthias/pegdown">pegdown library</a> meant that I had to write almost no code whatsoever. I probably spent more time adding a logo and the macro placeholder image.</p>
 <p>The crux of the add-on was just this method:</p>
-<p>[code]<br />
+<pre><code>
 @Override<br />
 public String execute(Map&lt;String, String&gt; parameters,<br />
                       String body,<br />
@@ -39,7 +39,7 @@ public String execute(Map&lt;String, String&gt; parameters,<br />
     PegDownProcessor processor = new PegDownProcessor();<br />
     return &quot;&lt;div class=&quot;markdown-macro&quot;&gt;&quot; + processor.markdownToHtml(markdown) + &quot;&lt;/div&gt;&quot;;<br />
 }<br />
-[/code]</p>
+</code></pre>
 <p>MVP completed, I moved on to those new-fangled Blueprints I'd heard so much about. Yay, the add-on now had the Blueprint feature, which is kinda neat. All pages created with the markdown Blueprint were labeled as such and conveniently listed in the left hand menu of every space.</p>
 <h2>Timing</h2>
 <p>So the code was pushed to Bitbucket and built ready for release. But wait, Atlassian released <a href="https://marketplace.atlassian.com/plugins/com.atlassian.plugins.confluence.markdown.confluence-markdown-macro">their own</a> markdown macro the very day I wrote mine. Timing eh? </p>

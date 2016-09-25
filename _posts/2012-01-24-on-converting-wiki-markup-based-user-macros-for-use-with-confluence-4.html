@@ -25,7 +25,7 @@ author:
 <p>To convert your macro...</p>
 <ol>
 <li>Create a new page and use the "<b>Insert Wiki Markup</b>" function to add your wiki markup:
-<p>[code]<br />
+<pre><code>
 {section}<br />
   {column}<br />
     $body<br />
@@ -37,11 +37,11 @@ author:
     {panel}<br />
   {column}<br />
 {section}<br />
-[/code]
+</code></pre>
 </li>
 <li>Save the page</li>
 <li>From the <b>Tools</b> menu, select <b>View Storage Format</b>. This will give you:<br />
-[code lang="xml"]<br />
+<pre><code>
 &lt;ac:macro ac:name=&quot;section&quot;&gt;<br />
     &lt;ac:rich-text-body&gt;<br />
         &lt;ac:macro ac:name=&quot;column&quot;&gt;<br />
@@ -64,7 +64,7 @@ author:
         &lt;/ac:macro&gt;<br />
     &lt;/ac:rich-text-body&gt;<br />
 &lt;/ac:macro&gt;<br />
-[/code]
+</code></pre>
 </li>
 <li>Paste this into your user macro rather than the old-fangled wiki markup.</li>
 <li>Repeat this procedure for all user macros you wish to convert.</li>

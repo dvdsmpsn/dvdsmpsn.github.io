@@ -27,11 +27,11 @@ author:
 <p>Here's a short guide to using mPDF with CodeIgniter.  I'm currently using CodeIgniter 2.1.3, but this should work with previous versions back to v1.6.</p>
 <h2>Download and extract mPDF</h2>
 <p>Download <a href="http://www.mpdf1.com/mpdf/index.php">mPDF</a> and extract it to<br />
-[code]/application/third_party/mpdf[/code] so that you have a file structure like so:</p>
+<pre><code>/application/third_party/mpdf</code></pre> so that you have a file structure like so:</p>
 <p><img src="{{ site.baseurl }}/assets/mpdf.png" alt="" title="mpdf" class="alignnone size-full wp-image-1776" /></p>
 <h2>Create the CodeIgniter library for mPDF</h2>
 <p>This is a simple wrapper for mPDF. Create <code>/application/library/pdf.php</code>:</p>
-<p>[code]<br />
+<pre><code>
 &lt;?php if (!defined('BASEPATH')) exit('No direct script access allowed');</p>
 <p>class pdf {</p>
 <p>	function pdf()<br />
@@ -49,10 +49,10 @@ author:
 <p>		return new mPDF($param);<br />
 	}<br />
 }<br />
-[/code]</p>
+</code></pre>
 <h2>Call the library in your code</h2>
 <p>Add some code in your controller e.g.</p>
-<p>[code]<br />
+<pre><code>
 ...<br />
 // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/<br />
 $pdfFilePath = FCPATH.&quot;/downloads/reports/$filename.pdf&quot;;<br />
@@ -69,11 +69,11 @@ $data['page_title'] = 'Hello world'; // pass data to the view</p>
 }</p>
 <p>redirect(&quot;/downloads/reports/$filename.pdf&quot;);<br />
 ...<br />
-[/code]</p>
-<p>That's it. Very quick and simple.  The mPDF files are untouched in a self contained directory, but called by the custom [code]/application/library/pdf.php[/code] script.</p>
+</code></pre>
+<p>That's it. Very quick and simple.  The mPDF files are untouched in a self contained directory, but called by the custom <pre><code>/application/library/pdf.php</code></pre> script.</p>
 <p>FWIW: Here's <a href="/wp-content/uploads/2013/05/report.pdf">an example file created using mPDF</a>.</p>
 <p><strong>Update:</strong><br />
-A major benefit of this approach over some of the others I've seen is that this wrapper does not copy any code from the mPDF library onto your file structure elsewhere. If you wish to upgrade the mPDF library, just replace the files below [code]/application/third_party/mpdf[/code]<br />
+A major benefit of this approach over some of the others I've seen is that this wrapper does not copy any code from the mPDF library onto your file structure elsewhere. If you wish to upgrade the mPDF library, just replace the files below <pre><code>/application/third_party/mpdf</code></pre><br />
 The wrapper should take care of the rest with minimal changes.</p>
 <h2>Further reading</h2>
 <p>If you need any help with mPDF rather than just fitting it into CodeIgniter, these are the best places to visit:</p>

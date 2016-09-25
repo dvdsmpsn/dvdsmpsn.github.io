@@ -23,7 +23,7 @@ author:
 ---
 <p>Yet again I'm trying to work out why my new build plan on Bamboo isn't working. All the configuration details are good, but Bamboo can't access the repo. Apparently it doesn't exist. What?</p>
 <p>Here's part of the stack trace displayed in Bamboo:</p>
-<p>[code]<br />
+<pre><code>
 Caused by: com.atlassian.bamboo.repository.RepositoryException: Runtime exception.<br />
 	at com.atlassian.bamboo.plugins.git.GitRepository.collectChangesSinceLastBuild(GitRepository.java:285)<br />
 	at com.atlassian.bamboo.plugins.git.GitRepository.collectChangesSinceLastBuild(GitRepository.java:186)<br />
@@ -44,7 +44,7 @@ Caused by: com.atlassian.bamboo.plugins.git.GitCommandException: command /opt/gi
 [Warning: Permanently added '[127.0.0.1]:66102' (RSA) to the list of known hosts., fatal: remote error: Repository does not exist, The requested repository does not exist, or you do not have permission to, access it., fatal: Could not read from remote repository., , Please make sure you have the correct access rights, and the repository exists.]<br />
 	at com.atlassian.bamboo.plugins.git.GitCommandProcessor.runCommand(GitCommandProcessor.java:496)<br />
 	at com.atlassian.bamboo.plugins.git.GitCommandProcessor.getRemoteRefs(GitCommandProcessor.java:416)<br />
-[/code]</p>
+</code></pre>
 <p>Oh, wait a minute, "you do not have permission to, access it", crap. It's that again.</p>
 <p>OK, that's easy to fix. We're using a dedicated Bamboo user to access the repo. I bet I haven't added permissions for that user in my Stash project.</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2014/01/stash-bamboo-annotated.png"><img src="{{ site.baseurl }}/assets/stash-bamboo-annotated.png" alt="stash-bamboo-annotated" width="1325" height="650" class="alignnone size-full wp-image-2265" /></a></p>
@@ -53,7 +53,7 @@ Caused by: com.atlassian.bamboo.plugins.git.GitCommandException: command /opt/gi
 <h2>Update</h2>
 <p>So, on to release plans... Having got the CI build working nicely, I need to also remember little aspects of releasing.</p>
 <p>Remember to update the Maven environment variables with some git details, otherwise you get my next mystery error:</p>
-<p>[code]<br />
+<pre><code>
 [INFO] ------------------------------------------------------------------------<br />
 [ERROR] BUILD FAILURE<br />
 [INFO] ------------------------------------------------------------------------<br />
@@ -70,7 +70,7 @@ Omit --global to set the identity only in this repository.</p>
 <p>fatal: empty ident name (for &lt;atlassian@example.com&gt;) not allowed</p>
 <p>[INFO] ------------------------------------------------------------------------<br />
 [INFO] For more information, run Maven with the -e switch<br />
-[/code]</p>
+</code></pre>
 <p>Browse to your release job, Maven task...</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2014/01/env-variables.png"><img src="{{ site.baseurl }}/assets/env-variables.png" alt="env-variables" width="1580" height="1311" class="alignnone size-full wp-image-2274" /></a></p>
 <p>Add something similar to this in <b>Environment variables</b>:</p>

@@ -34,13 +34,13 @@ brew install atlassian/tap/atlassian-plugin-sdk<br />
 <p><a href="http://boxen.github.com/">Boxen</a> is a great way to quickly build a standard environment for your Mac machines. You can hit the ground running by creating your own copy of <a href="https://github.com/boxen/our-boxen">Our Boxen</a>, then personalise at will. There are an <a href="https://github.com/search?q=%40boxen+puppet-">absolute pile of Puppet modules</a> for most obvious software installs, so no need to reinvent the wheel there. For more bespoke stuff, you can <a href="https://github.com/search?q=%40dvdsmpsn+puppet-" title="well, quickly with the help of @sdh100shaun and his ruby/puppet knowledge">like me</a>, quickly build your own with the help of <a href="https://github.com/boxen/puppet-template">puppet-template</a>.</p>
 <h2>But what about automating Atlassian Plugin SDK installation?</h2>
 <p>Well, that's easy too. Boxen bundles Homebrew, so all you need to do is edit your <b><a href="https://github.com/boxen/our-boxen/blob/master/manifests/site.pp">manifests/site.pp</a></b> or <b>modules/people/manifests/your-github-username.pp</b> file and add this:</p>
-<p>[code]<br />
+<pre><code>
   homebrew::tap { 'atlassian/tap': }</p>
 <p>  package { &quot;atlassian/tap/atlassian-plugin-sdk&quot;:<br />
     ensure =&gt; present,<br />
     require =&gt; Homebrew::Tap['atlassian/tap'],<br />
   }<br />
-[/code]</p>
+</code></pre>
 <p>Then commit, push and run your <b>boxen</b>. You'll have the SDK installed at <b>/opt/boxen/homebrew/Cellar/atlassian-plugin-sdk/</b></p>
 <p>Then you'll be ready to go. Simple. </p>
 <h2>Further reading</h2>

@@ -24,7 +24,7 @@ author:
   last_name: Simpson
 ---
 <p>I've tried to add styles to the Confluence editor. It wouldn't take them. Perhaps one of Atlassian's values is "Don't f@@k the editor".</p>
-<p>[code]<br />
+<pre><code>
 &lt;web-resource name=&quot;editor-scripts&quot; key=&quot;editor-scripts&quot;&gt;<br />
   &lt;resource name=&quot;editor-templates.js&quot; type=&quot;download&quot;<br />
     location=&quot;assets/js/editor-templates.js&quot; /&gt;<br />
@@ -39,10 +39,10 @@ author:
   &lt;context&gt;editor&lt;/context&gt;<br />
   &lt;!-- // TODO: Check whether I need all the dependencies here --&gt;<br />
 &lt;/web-resource&gt;<br />
-[/code]<br />
+</code></pre><br />
 My <code>confluence-editor.css</code> styles just wouldn't be accepted. Javascript injection worked just fine though. Perhaps I could use JS to inject my styles?</p>
 <p>Yup. Adding this to my <code>editor-templates.js</code> file worked a treat:</p>
-<p>[code]<br />
+<pre><code>
 var editorCss = AJS.params.staticResourceUrlPrefix<br />
   + '/download/resources/me.davidsimpson.confluence.addon.awesome-addon'<br />
   + ':editor-styles/css/confluence-editor.css';</p>
@@ -52,5 +52,5 @@ var editorCss = AJS.params.staticResourceUrlPrefix<br />
 <p>$('#wysiwygTextarea_ifr').contents().find('head').append(<br />
   '&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;' + editorCss + '&quot; media=&quot;all&quot;&gt;'<br />
 );<br />
-[/code]</p>
+</code></pre>
 <p>Note the cache busting timestamp for local development.</p>

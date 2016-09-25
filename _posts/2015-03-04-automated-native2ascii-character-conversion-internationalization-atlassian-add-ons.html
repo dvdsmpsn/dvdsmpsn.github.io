@@ -30,14 +30,14 @@ author:
 <p>Normally, I write my internationalisation (i18n) files in UTF-8 format. This means that they are human readable. </p>
 <p>Java i18n files however must be ISO-8859-1. If you don't process them using something like <code>native2ascii</code>, accented and multibyte characters will return gobbledegook at best.</p>
 <p>You can manually convert a single file manually using this command:<br />
-[code]<br />
+<pre><code>
 native2ascii -encoding utf-8 ./src/main/resources/i18n.properties ./target/classes/i18n.properties<br />
-[/code]</p>
+</code></pre>
 <p>That's tedious, so why not automate the process during the build? </p>
 <h2>Using <code>native2ascii-maven-plugin</code></h2>
 <p>Luckily, there's a maven plugin called <strong>native2ascii-maven-plugin</strong>. Its old, but does the job.</p>
 <p>For Atlassian SDK p2 add-ons, use something like this:</p>
-<p>[code]<br />
+<pre><code>
 &lt;build&gt;<br />
     &lt;plugins&gt;<br />
         &lt;plugin&gt;<br />
@@ -72,7 +72,7 @@ native2ascii -encoding utf-8 ./src/main/resources/i18n.properties ./target/class
 		...<br />
     &lt;/plugins&gt;<br />
 &lt;/build&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Your source files will be in sweet UTF-8 format and your target files will be mangled into ISO-8859-1 as Java requires.</p>
 <p>How do you do this? Please add a comment below with details.</p>
 <p><a id="hey-gommo"></a><br />

@@ -35,7 +35,7 @@ author:
 <p>Here's my quick "how to" get up and running.<br />
 Get the <code>jrebel.jar</code> and save it somewhere - like <code>/opt/jrebel/jrebel.jar</code></p>
 <p>Add the <code>jvmArgs</code> in the plugin to point at said file (and turn off fast dev)…</p>
-<p>[code]<br />
+<pre><code>
 &lt;plugin&gt;<br />
      &lt;groupId&gt;com.atlassian.maven.plugins&lt;/groupId&gt;<br />
      &lt;artifactId&gt;maven-jira-plugin&lt;/artifactId&gt;<br />
@@ -49,9 +49,9 @@ Get the <code>jrebel.jar</code> and save it somewhere - like <code>/opt/jrebel/j
           &lt;jvmArgs&gt;-javaagent:/opt/jrebel/jrebel.jar&lt;/jvmArgs&gt;<br />
      &lt;/configuration&gt;<br />
 &lt;/plugin&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Add the <code>jrebel-maven-plugin</code> under <b>build > plugins</b> (see <a href="http://zeroturnaround.com/blog/jrebel-featurecast-how-to-configure-jrebel-for-multi-module-maven-projects/">details of what does what here</a>).</p>
-<p>[code]<br />
+<pre><code>
 &lt;plugin&gt;<br />
     &lt;groupId&gt;org.zeroturnaround&lt;/groupId&gt;<br />
     &lt;artifactId&gt;jrebel-maven-plugin&lt;/artifactId&gt;<br />
@@ -71,7 +71,7 @@ Get the <code>jrebel.jar</code> and save it somewhere - like <code>/opt/jrebel/j
         &lt;/execution&gt;<br />
     &lt;/executions&gt;<br />
 &lt;/plugin&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Run <code>atlas-run</code> or <code>atlas-debug</code> on the command line, checking for any errors.</p>
 <p>In Intelli-J, enable automatic compiling on code change by checking Make project build automatically:</p>
 <p><a href="https://davidsimpson.me/wp-content/uploads/2015/01/make.png"><img src="{{ site.baseurl }}/assets/make.png" alt="make" width="2023" height="1168" class="alignnone size-full wp-image-3128" /></a></p>

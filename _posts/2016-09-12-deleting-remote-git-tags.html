@@ -26,27 +26,27 @@ author:
   last_name: Simpson
 ---
 <p>A reminder for when you really want to destroy a whole bunch of stuff...</p>
-<p>Find out what tags you have locally:<br />
-[code]<br />
-david$ git tag<br />
-v1.0.0<br />
-v1.0.1<br />
-v1.1.0<br />
-v1.1.1<br />
-v1.1.2<br />
-v1.2.0<br />
-[/code]</p>
-<p>Delete them all:<br />
-[code]<br />
-david$ git tag -dv1.0.0 v1.0.1 v1.1.0 v1.1.1 v1.1.2 v1.2.0<br />
-[/code]</p>
-<p>Push all those deletes to the remote system:<br />
-[code]<br />
-david$ git push origin :refs/tags/v1.0.0<br />
-david$ git push origin :refs/tags/v1.0.1<br />
-david$ git push origin :refs/tags/v1.1.0<br />
-david$ git push origin :refs/tags/v1.1.1<br />
-david$ git push origin :refs/tags/v1.1.2<br />
-david$ git push origin :refs/tags/v1.2.0<br />
-[/code]</p>
+<p>Find out what tags you have locally:
+<pre><code>
+david$ git tag
+v1.0.0
+v1.0.1
+v1.1.0
+v1.1.1
+v1.1.2
+v1.2.0
+</code></pre>
+<p>Delete them all:
+<pre><code>
+david$ git tag -dv1.0.0 v1.0.1 v1.1.0 v1.1.1 v1.1.2 v1.2.0
+</code></pre>
+<p>Push all those deletes to the remote system:
+<pre><code>
+david$ git push origin :refs/tags/v1.0.0
+david$ git push origin :refs/tags/v1.0.1
+david$ git push origin :refs/tags/v1.1.0
+david$ git push origin :refs/tags/v1.1.1
+david$ git push origin :refs/tags/v1.1.2
+david$ git push origin :refs/tags/v1.2.0
+</code></pre>
 <p>That's it. Destruction complete.</p>

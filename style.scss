@@ -294,6 +294,12 @@ pre {
 	border: 1px solid #ccc;
 	padding:10px;
 	background: #fafafa;
+	overflow: auto;
+	font-size: 15px;
+}
+
+code, pre {
+	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
 
 @import "highlights";

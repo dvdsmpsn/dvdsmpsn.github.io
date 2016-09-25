@@ -39,7 +39,7 @@ author:
 <!--more--></p>
 <h3>In the future</h3>
 <p>The next release should support Confluence 3.3  and also complete tracking of all pages in a space  &mdash; not just those with a URL starting /display/spaceKey/  &mdash; based on <a href="/2010/04/09/meta-tags-are-your-friend-part-2-space-specific-tracking-in-confluence-with-google-analytics/">this hack</a> :</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 // Add a page-level custom variable to record the space-key<br />
 if (typeof jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;) == 'string')<br />
 {<br />
@@ -52,7 +52,7 @@ if (typeof jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;) =
 <p>    3 // Sets the scope to page-level<br />
   );<br />
 }<br />
-[/code]</p>
+</code></pre>
 <p>&mdash; If you want to use this hack now, try out <a href="http://www.google.com/analytics/reporting/edit_custom_report?share=gKOvaSkBAAA.5cmZVfTgv7FSDQaf3SApcJ_A8fPPw5P0SVumf1XIBw6dZ9IfubVqvpdV97TN5wj9PYWeLHgMbDxm22PtwyLU0Q.tBCFvr4UE3alVuAccnjeMA">this custom Google Analytics report</a> which will allow you to take advantage of it now.</p>
 <p>I'd also like to add full space specific tracking for attachments too.</p>
 <h3>A quick demo</h3>

@@ -32,14 +32,14 @@ author:
 </ul>
 <p>Install all of the above.</p>
 <p>The Atlassian SDK acts as a wrapper for maven functionality. It uses a copy of maven 2.1.0 located at:<br />
-[code language="bash"]/path/to/atlassian-plugin-sdk-3.x/apache-maven/bin/mvn[/code]</p>
+<pre><code>/path/to/atlassian-plugin-sdk-3.x/apache-maven/bin/mvn</code></pre>
 <p>This path appears to be hard coded into a lot of the <b>atlas-</b> prefixed commands, so we have to get a bit hacky and move the original mvn file elsewhere and swap in a new <b>mvn</b> wrapper command.</p>
-<p>[code language="bash"]<br />
+<pre><code>
 cd /path/to/atlassian-plugin-sdk-3.x/apache-maven/bin/<br />
 mv mvn mvn.DIST<br />
-[/code]</p>
+</code></pre>
 <p>The new <b>mvn</b> file should look something like this:<br />
-[code language="bash"]<br />
+<pre><code>
 #!/bin/bash</p>
 <p># See: http://blank.jasonwhaley.com/2009/02/growl-maven-integration.html</p>
 <p>mvn.DIST $* | awk '<br />
@@ -51,12 +51,12 @@ if($0 ~ &quot;.*CTRL-C.*&quot;)            system( &quot;echo &quot;localhost is
 }<br />
 END {<br />
 }'<br />
-[/code]</p>
+</code></pre>
 <p>Note that we've got some hard coded image paths here.  Store them wherever suits best and update the mvn script.</p>
 <p>Add execute permissions<br />
-[code language="bash"]<br />
+<pre><code>
 chmod +x mvn<br />
-[/code]</p>
+</code></pre>
 <p>That's about it really.</p>
 <p>Next time you successfully build from maven, you should get this:</p>
 <p><img src="{{ site.baseurl }}/assets/build-success.png" alt="" title="build-success" width="341" class="alignnone size-full wp-image-1263" /></p>

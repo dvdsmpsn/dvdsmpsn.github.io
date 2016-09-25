@@ -30,14 +30,14 @@ Can anyone tell me how to create top/bottom of page links in Confluence 5.5? I a
 </p></blockquote>
 <p>If you are happy with adding these via JavaScript, you can simply add the following in:<br />
 <b>Confluence Admin | Look and Feel | Custom HTML | At the END of the HEAD</b>:</p>
-<p>[code]<br />
+<pre><code>
 &lt;script&gt;<br />
 AJS.toInit(function ($) {<br />
   $('#main').prepend('&lt;a class=&quot;aui-lozenge aui-lozenge-subtle&quot; href=&quot;#theme-footer&quot;&gt;Jump to Bottom&lt;/a&gt;')<br />
     .append('&lt;a class=&quot;aui-lozenge aui-lozenge-subtle&quot; href=&quot;#main&quot;&gt;Jump to Top&lt;/a&gt;');<br />
 });<br />
 &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>This will produce little clickable 'lozenges' at the top and bottom of every page:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2014/05/confluence-jump-to.png"><img src="{{ site.baseurl }}/assets/confluence-jump-to.png" alt="confluence-jump-to" width="1437" height="1296" class="alignnone size-full wp-image-2701" /></a></p>
 <p>Clicking on the lozenge at the top sends you to the bottom. Clicking on the lozenge at the bottom sends you to the top.</p>

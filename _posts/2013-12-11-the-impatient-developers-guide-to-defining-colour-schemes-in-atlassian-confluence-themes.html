@@ -26,21 +26,21 @@ author:
 <p> 1. Browse to http://localhost:1990/confluence/admin/lookandfeel.action<br />
  2. Click on the <b>Edit</b> button<br />
  3. Paste this into your browser console:</p>
-<p>[code]<br />
+<pre><code>
     AJS.$('.colour-input').each(function(){<br />
       AJS.log( '&lt;colour key=&quot;' + AJS.$(this).attr('id') + '&quot; value=&quot;' + AJS.$(this).val() + '&quot; /&gt;' );<br />
     });<br />
-[/code]</p>
+</code></pre>
 <p>You'll get something like this:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2013/12/confluence-colour-scheme1.png"><img src="{{ site.baseurl }}/assets/confluence-colour-scheme1.png" alt="" title="confluence-colour-scheme" class="alignnone size-full wp-image-2180" /></a></p>
 <p>Take the result and paste into an empty colour-scheme in your <b>atlassian-plugin.xml</b>:</p>
-<p>[code]<br />
+<pre><code>
 &lt;colour-scheme key=&quot;colour-scheme&quot; name=&quot;Custom Colour Scheme&quot; class=&quot;com.atlassian.confluence.themes.BaseColourScheme&quot;&gt;<br />
   &lt;!-- paste here --&gt;<br />
 &lt;/colour-scheme&gt;<br />
-[/code]</p>
+</code></pre>
 <p>You should get something like this:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;colour-scheme key=&quot;colour-scheme&quot; name=&quot;Custom Colour Scheme&quot; class=&quot;com.atlassian.confluence.themes.BaseColourScheme&quot;&gt;<br />
   &lt;colour key=&quot;property.style.topbarcolour&quot; value=&quot;#205081&quot; /&gt;<br />
   &lt;colour key=&quot;property.style.breadcrumbstextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
@@ -62,5 +62,5 @@ author:
   &lt;colour key=&quot;property.style.navselectedbgcolour&quot; value=&quot;#205081&quot; /&gt;<br />
   &lt;colour key=&quot;property.style.navselectedtextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
 &lt;/colour-scheme&gt;<br />
-[/code]</p>
+</code></pre>
 <p>That's it. Nice and quick. Now you can go back to concentrating on the <a href="http://css-tricks.com/the-css-box-model/">box model</a>.</p>

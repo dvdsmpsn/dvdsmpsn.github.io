@@ -28,9 +28,9 @@ author:
 <p>Google however doesn't always think in this way. For example, <strong>gdata-core-1.0.jar</strong> was released in 2009 then followed by the next release <strong>gdata-core-1.0-jar</strong> in 2011. Some would say that this is a little confusing. It has had me confused. Initially, I thought that their documentation was pure lies. None of the methods documented were available in the software I was using.  After a while, I found out about the 2011 vintage of the code. As you can imagine, I was very excited by this curious discovery, using some very choice words to describe Google's engineers. </p>
 <p>The good news was that the code and the documentation now actually matched. </p>
 <p>Code examples work well with the 2011 vintage, but the 2009 vintage throws errors such as</p>
-<p>[code]<br />
+<pre><code>
 java.lang.NoSuchFieldError: V2_1<br />
 	at com.google.gdata.client.analytics.AnalyticsService$Versions.&lt;clinit&gt;(AnalyticsService.java:69)<br />
 	at com.google.gdata.client.analytics.AnalyticsService.&lt;clinit&gt;(AnalyticsService.java:88)<br />
-[/code]</p>
+</code></pre>
 <p>Another tip: Don't let the 2009 vintage of gdata-code-1.0.jar get anywhere near your build server. Take it from me, it's a bad idea.</p>

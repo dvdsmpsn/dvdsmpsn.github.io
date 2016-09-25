@@ -38,7 +38,7 @@ author:
 <p><!--more--></p>
 <h2>Edit nested-tables.xsl and add a custom meta tag to the header</h2>
 <p>We've seriously hacked at nested-tables.xsl over the years, so our version of the file is likely to be different to most.  The main aim here is to find the html &gt; head  section and add a custom meta tag:</p>
-<p>[code]<br />
+<pre><code>
 &lt;!-- Dump all roles into a single meta tag as a comma separated value --&gt;<br />
 &lt;meta name=&quot;luminis.role&quot;&gt;<br />
    	&lt;xsl:attribute name=&quot;content&quot;&gt;<br />
@@ -47,11 +47,11 @@ author:
    		&lt;/xsl:for-each&gt;<br />
    	&lt;/xsl:attribute&gt;<br />
 &lt;/meta&gt;<br />
-[/code]</p>
+</code></pre>
 <h2>Read the custom meta tag and set a custom variable in Google Analytics</h2>
 <p>Our implementation of Google Analytics is a little complex, but this example I've based on the standard Google Analytics example code.   </p>
 <p>Using Javascript (infused with jQuery in our case), we can read the custom meta tag and set a custom variable. </p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 &lt;script type=&quot;text/javascript&quot;&gt;<br />
 var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
 document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
@@ -75,7 +75,7 @@ document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-an
 		catch (err) {}<br />
 	}</p>
 <p>&lt;/script&gt;<br />
-[/code]	</p>
+</code></pre>	</p>
 <p>According to the <a href="http://code.google.com/apis/analytics/docs/tracking/gaTrackingCustomVariables.html#sessionLevel">documentation</a>, it's important to set the custom variable before tracking the page view.	</p>
 <h2>Create custom segments to view traffic for specific Luminis roles</h2>
 <p>Sign in to Google Analytics and view your normal website reports.<br />

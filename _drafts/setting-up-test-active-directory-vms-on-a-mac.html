@@ -22,33 +22,33 @@ author:
 <p>Previously, I've discussed <a title="Using a Vagrant built OpenLDAP server to test Enteprise Directory and Org Chart for Confluence" href="http://blog.appfusions.com/?p=1987" rel="bookmark">Using a Vagrant built OpenLDAP server to test Enteprise Directory and Org Chart for Confluence</a>. Now is the turn of Active Directory. This is somewhat more labourious because all steps are manually done, but you get a valid working VM at the end of the process.</p>
 <h2>Prerequisites</h2>
 <p>wget:<br />
-[code]<br />
+<pre><code>
 brew update<br />
 brew install wget<br />
-[/code]</p>
+</code></pre>
 <p>qemu-img:<br />
-[code]<br />
+<pre><code>
 brew install qemu<br />
-[/code]</p>
+</code></pre>
 <p>VMware Fusion -- buy it ;)</p>
 <h2>Procedure</h2>
 <p>You can download a 180 day evaluation of Windows Server 2008 R2 Enterprise Edition from Microsoft's <a href="http://www.microsoft.com/en-us/download/details.aspx?id=2227" target="_blank">Download Center</a>.<br />
 <strong>Download and unarchive the source image</strong></p>
 <p>In terminal:</p>
-<p>[code]<br />
+<pre><code>
 mkdir -p ~/tmp/vhd<br />
 cd ~/tmp/vhd<br />
 wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part01.exe<br />
 wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part02.rar<br />
 wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part03.rar<br />
 unrar x WS2008R2Fullx64Ent.part01.exe<br />
-[/code]</p>
+</code></pre>
 <p>Convert the original VHD image for VMware</p>
-<p>[code]cd ~/tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual\ Hard\ Disks[/code]</p>
+<pre><code>cd ~/tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual\ Hard\ Disks</code></pre>
 <p>This stalled after 20 minutes:<br />
-[code]qemu-img convert -p -f vpc -O vmdk WS2008R2Fullx64Ent.vhd WS2008R2Fullx64Ent.vmdk[/code]</p>
+<pre><code>qemu-img convert -p -f vpc -O vmdk WS2008R2Fullx64Ent.vhd WS2008R2Fullx64Ent.vmdk</code></pre>
 <p>This worked and was much faster...<br />
-[code]emu-img convert -O vmdk WS2008R2Fullx64Ent.vhd ~/tmp/WS2008R2Fullx64Ent.vmdk[/code]</p>
+<pre><code>emu-img convert -O vmdk WS2008R2Fullx64Ent.vhd ~/tmp/WS2008R2Fullx64Ent.vmdk</code></pre>
 <p>The conversion takes approx 5 mins. Take a backup of the resulting file</p>
 <p>Open VMware Fusion<br />
 <code>File | New…</code></p>
@@ -120,7 +120,7 @@ unrar x WS2008R2Fullx64Ent.part01.exe<br />
 <p><img src="{{ site.baseurl }}/assets/Screen-Shot-2013-04-30-at-21.45.42.png" alt="" name="f818f8df-6d24-4cb8-a69c-2a350c88aa56" /></p>
 <p><img src="{{ site.baseurl }}/assets/Screen-Shot-2013-04-30-at-21.45.59.png" alt="" name="eb111439-7b66-4bd1-b560-7cdb1245acd0" /></p>
 <p>From an external machine, check that you can connect to the AD:</p>
-<p>[code]<br />
+<pre><code>
 ldapsearch -h 192.168.0.101 -p 389 -D &quot;CN=Sametime User,CN=Users,DC=appfusions,DC=local&quot; -w password -b CN=Users,DC=appfusions,DC=local &quot;cn=David*&quot;</p>
 <p># extended LDIF<br />
 #<br />
@@ -170,12 +170,12 @@ search: 2<br />
 result: 0 Success</p>
 <p># numResponses: 2<br />
 # numEntries: 1<br />
-[/code]</p>
+</code></pre>
 <p><strong>Update the hosts file on remote machines</strong></p>
 <p>Next if you want to refer to this machine as say <code>dc.appfusions.com</code> or even <code>ad.vm.appfusions.com</code> from another VM, remember to update the hosts file on that VM with:</p>
-<p>[code]<br />
+<pre><code>
 192.168.0.101 dc.appfusions.com ad.vm.appfusions.com<br />
-[/code]</p>
+</code></pre>
 <p>See:</p>
 <ul>
 <li><a href="http://freeipa.org/page/Setting_up_Active_Directory_domain_for_testing_purposes" target="_blank">http://freeipa.org/page/Setting_up_Active_Directory_domain_for_testing_purposes</a></li>

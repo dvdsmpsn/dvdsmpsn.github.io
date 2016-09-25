@@ -23,7 +23,7 @@ author:
   last_name: Simpson
 ---
 <p>Here's a simple unsorted array of JSON objects:</p>
-<p>[code]<br />
+<pre><code>
 var someArray = [<br />
   {<br />
     &quot;id&quot;: 2,<br />
@@ -38,9 +38,9 @@ var someArray = [<br />
     &quot;name&quot;: &quot;beta&quot;<br />
   }<br />
 ];<br />
-[/code]</p>
+</code></pre>
 <p>And a generic sorting function:</p>
-<p>[code]<br />
+<pre><code>
 /**<br />
  * Generic array sorting<br />
  *<br />
@@ -52,13 +52,13 @@ var sortByProperty = function (property) {<br />
         return ((x[property] === y[property]) ? 0 : ((x[property] &gt; y[property]) ? 1 : -1));<br />
     };<br />
 };<br />
-[/code]</p>
+</code></pre>
 <p>Calling this...<br />
-[code]<br />
+<pre><code>
 someArray.sort(sortByProperty('id'));<br />
-[/code]</p>
+</code></pre>
 <p>...produces an array sorted by the <b>id</b> property:<br />
-[code]</p>
+<pre><code></p>
 <p>[<br />
   {<br />
     &quot;id&quot;: 1,<br />
@@ -73,13 +73,13 @@ someArray.sort(sortByProperty('id'));<br />
     &quot;name&quot;: &quot;alpha&quot;<br />
   }<br />
 ]<br />
-[/code]</p>
+</code></pre>
 <p>Calling this...<br />
-[code]<br />
+<pre><code>
 someArray.sort(sortByProperty('name'));<br />
-[/code]</p>
+</code></pre>
 <p>...produces an array sorted by the <b>name</b> property:<br />
-[code]<br />
+<pre><code>
 [<br />
   {<br />
     &quot;id&quot;: 3,<br />
@@ -94,5 +94,5 @@ someArray.sort(sortByProperty('name'));<br />
     &quot;name&quot;: &quot;gamma&quot;<br />
   }<br />
 ]<br />
-[/code]</p>
+</code></pre>
 <p>Simple.</p>

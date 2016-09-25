@@ -27,20 +27,20 @@ author:
 <!--more--><br />
 If you just want to reverse the order for good, browse to <b>Confluence Admin | Look & Feel | Custom HTML</b></p>
 <p>Add this to <b>At the end of the HEAD</b>:</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 &lt;script&gt;<br />
   AJS.toInit(function(){<br />
     $comments = AJS.$('#page-comments');<br />
     $comments.children().each(function(i,li){$comments.prepend(li)});<br />
   });<br />
 &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Job done.</p>
 <h2>For extra points</h2>
 <p>If you want to be able to reverse the order, then it's slightly more effort.</p>
 <p>Browse to <b>Confluence Admin | Look & Feel | Custom HTML</b></p>
 <p>Add this to <b>At the end of the HEAD</b>:<br />
-[code lang="javascript"]<br />
+<pre><code>
 &lt;script&gt;<br />
   function reverseCommentOrder(){<br />
     $comments = AJS.$('#page-comments');<br />
@@ -58,5 +58,5 @@ If you just want to reverse the order for good, browse to <b>Confluence Admin | 
     });<br />
   });<br />
 &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>That's all. Have fun.</p>

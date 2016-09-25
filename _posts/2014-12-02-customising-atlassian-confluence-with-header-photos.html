@@ -27,18 +27,18 @@ author:
 <p>Confluence is a great platform for documentation, but what if you want to add extra some flare to your pages? Would a custom header photo be a good idea? Maybe so.</p>
 <p>This post gives a simple method to do just that for pages that use the Default Theme.  </p>
 <p>In <b>Confluence Admin | Configuration | User Macros</b> create a new user macro:</p>
-<p>[code]<br />
+<pre><code>
 ## Macro: header-photo<br />
 ## Author: David Simpson<br />
 ##<br />
 ## @param Photo:title=Header Photo|type=enum|enumValues=akabilk,captain_oblivion,rikpiks,renateflynn,grotan|default=red|desc=Choose a photo from one of these Flickr users<br />
 ##<br />
 &lt;script&gt;AJS.toInit(function($){ $('body').addClass('header-photo photo-${paramPhoto}'); }); &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>This gives you a user macro with some options to swap the background image between these images:<br />
 [gallery ids="3086,3082,3084,3085,3083"]</p>
 <p>In <b>Confluence Admin | Look and Feel | Stylesheet</b> add the following:</p>
-<p>[code]<br />
+<pre><code>
 /**<br />
  *  Uses the {header-photo} user macro to trigger the styles:<br />
  */ </p>
@@ -100,7 +100,7 @@ author:
 .header-photo.photo-grotan #main-header {<br />
 	background-image: url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-grotan-14035217861.jpg);<br />
 }<br />
-[/code]</p>
+</code></pre>
 <p>This is a simple bit of CSS that adds a different background to the page header based on the body class added in the user macro. I've purposefully chosen only dark backgrounds so that I can use a single text colour. Yes, that was quite lazy. You can embellish with more styles as required.</p>
 <p>Here's the macro configuration screen:</p>
 <p><a href="https://davidsimpson.me/wp-content/uploads/2014/12/edit-header-photo-macro.png"><img src="{{ site.baseurl }}/assets/edit-header-photo-macro.png" alt="edit-header-photo-macro" width="1596" height="1004" class="alignnone size-full wp-image-3097" /></a></p>

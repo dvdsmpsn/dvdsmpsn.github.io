@@ -23,18 +23,18 @@ author:
 <p>So you've got a development instance of Confluence running using the Atlassian SDK & <b>atlas-run</b>, but now want to access the database with some kind of GUI. How?</p>
 <p>Easy. First shutdown the Confluence instance &ndash; <b>CTRL+C</b> should do the trick.</p>
 <p>From the base directory of your <del>plugin</del> add-on:<br />
-[code]<br />
+<pre><code>
 magical-addon$ ls<br />
 pom.xml				src				target<br />
 magical-addon$ java -cp ./target/confluence/webapp/WEB-INF/lib/hsqldb-2.3.0.jar org.hsqldb.util.DatabaseManager -user sa -url jdbc:hsqldb:./target/confluence/home/database/confluencedb<br />
-[/code]</p>
+</code></pre>
 <p>This will bring up the HSQL Database Manager from which you can use SQL to delve deeper:</p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2013/12/hsql-database-manager.png"><img src="{{ site.baseurl }}/assets/hsql-database-manager.png" alt="" title="HSQL Database Manager" class="alignnone size-full wp-image-2198" /></a></p>
 <h2>On JIRA</h2>
 <p>For JIRA (6.1), the command is</p>
-<p>[code]<br />
+<pre><code>
 java -cp ./target/jira/webapp/WEB-INF/lib/hsqldb-1.8.0.5.jar  org.hsqldb.util.DatabaseManager -user sa -url jdbc:hsqldb:./target/jira/home/database<br />
-[/code]</p>
+</code></pre>
 <p>Note that versions of the HSQL jar will change, and that the name and location of the <b>confluencedb.script</b> and <b>database.script</b> file</p>
 <h2>Further reading</h2>
 <ul>

@@ -54,11 +54,11 @@ author:
 http://www.youtube.com/watch?v=ty9DyJ8Bi1Y</p>
 <h3>Run the population wizard</h3>
 <p>On the IBM Connections server:<br />
-[code]<br />
+<pre><code>
 sudo bash<br />
 cd /opt/installs/Wizards<br />
 ./populationWizard.sh<br />
-[/code]</p>
+</code></pre>
 <p>This will bring up a graphical wizard for you to step through that looks similar to this:  </p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2013/11/cnx-wiz.png"><img src="{{ site.baseurl }}/assets/cnx-wiz.png" alt="" title="cnx-wiz" class="alignnone size-full wp-image-2155" /></a></p>
 <p>Click through the wizard, it should remember all the settings except passwords from the last time is was run. </p>
@@ -66,17 +66,17 @@ cd /opt/installs/Wizards<br />
 <h2> Aside: Running the population wizard in a sudo session and displaying it on your Mac </h2>
 <h3> Remote Linux server </h3>
 <p>Add to <b>/etc/ssh/sshd_config</b>:<br />
-[code]<br />
+<pre><code>
 XForwarding yes<br />
-[/code]</p>
+</code></pre>
 <h3> Local Mac machine </h3>
 <p>Edit or create <b>~/.ssh/config</b> and add X11Forwarding:</p>
-<p>[code]<br />
+<pre><code>
 Host connections.example.com<br />
 ForwardX11 yes<br />
-[/code]</p>
+</code></pre>
 <p>Then connect to the remote Linux server via ssh & run the X11 program:</p>
-<p>[code]<br />
+<pre><code>
 ssh -X david@connections.example.com<br />
 sudo su -<br />
 su - david -c 'xauth list' | \<br />
@@ -87,7 +87,7 @@ su - david -c 'xauth list' | \<br />
      xargs -n 3 xauth add</p>
 <p>cd /opt/install/Wizards<br />
 ./populationWizard.sh<br />
-[/code]</p>
+</code></pre>
 <p>This will result in X11 forwarding from your remote Linux server to your Mac: </p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2013/11/cnx-x11-forwarding.jpg"><img src="{{ site.baseurl }}/assets/cnx-x11-forwarding.jpg" alt="" title="cnx-x11-forwarding" class="alignnone size-full wp-image-2154" /></a></p>
 <h3>Further reading</h3>

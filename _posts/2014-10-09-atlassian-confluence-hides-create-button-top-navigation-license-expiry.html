@@ -38,7 +38,7 @@ author:
 <p>Here's a video demo:</p>
 <div class="embed-container"><iframe src="https://www.youtube.com/embed/xZzybwL66yE" frameborder="0" allowfullscreen></iframe></div>
 <p>This is really annoying as it can lead to wasted time, so here's some boilerplate JavaScript to add to all Confluence plugins:</p>
-<p>[code]<br />
+<pre><code>
 AJS.toInit(function ($) {<br />
   setTimeout(function () {<br />
     // Development mode<br />
@@ -51,5 +51,5 @@ AJS.toInit(function ($) {<br />
     }<br />
   }, 1000);<br />
 });<br />
-[/code]</p>
+</code></pre>
 <p>This code waits a second and then checks to see if the Confluence instance is in "dev mode", then looks for the search field. If the search field is missing, it assumes the license has expired and alerts you with an annoying popup/JavaScript alert.</p>

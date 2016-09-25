@@ -82,7 +82,7 @@ author:
 <p>This will create a basic plugin with some Java code and tests. In the <a rel="nofollow" href="https://bitbucket.org/appfusions/confluence-tutorial-soy-templates" target="_blank">sample code</a>, all Java code including tests have been removed as they are not needed for the plugin.</p>
 <h2 id="WritingSoyTemplatesinYourPlugin-Step2.CreateaSoytemplate">Step 2. Create a Soy template</h2>
 <p>Create a new Soy template at <strong>src/main/resources/template.soy</strong>:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 {namespace Confluence.Templates.SoyTutorial}<br />
 /**<br />
  * Renders a table of selected AJS.params<br />
@@ -125,11 +125,11 @@ author:
         &lt;tbody&gt;<br />
     &lt;/table&gt;<br />
 {/template}<br />
-[/code]</p>
+</code></pre>
 <p>Each Soy file needs a namespace declaration at the top of the file. It must be declared before any templates are declared.</p>
 <p>In this case, we have created a new <strong>Confluence.Templates.SoyTutorial</strong> namespace for our templates and added a template which displays an <a href="https://developer.atlassian.com/display/AUI">AUI</a>-style table containing a number of attributes that a Confluence page is likely to possess.</p>
 <p>For templates that need parameters, these <strong>must</strong> be declared in JavaDoc style immediately before the template:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 /**<br />
  * Renders a table of selected AJS.params<br />
  * @param pageId<br />
@@ -138,18 +138,18 @@ author:
  * @param spaceKey<br />
  * @param spaceName<br />
  */<br />
-[/code]</p>
+</code></pre>
 <p>Parameters use this syntax within the template:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 {$pageId}<br />
-[/code]</p>
+</code></pre>
 <p>For internationalisation, use <code>getText()</code> – a JavaScript internationalisation transformer will take care of the i18n:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 &lt;b&gt;{getText('confluence.tutorial.soy.templates.intro')}&lt;/b&gt;<br />
-[/code]</p>
+</code></pre>
 <h2 id="WritingSoyTemplatesinYourPlugin-Step3.CalltheSoytemplateinaseparateJavaScriptfile">Step 3. Call the Soy template in a separate JavaScript file</h2>
 <p>Create a new JavaScript resource at <strong>src/main/resources/init.js</strong>:</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 AJS.toInit(function () {<br />
     var $pageMetadata = AJS.$('#content.page.view .page-metadata:first');</p>
 <p>    if ($pageMetadata.length &gt; 0) {<br />
@@ -164,7 +164,7 @@ AJS.toInit(function () {<br />
         $pageMetadata.after(template);<br />
     }<br />
 });<br />
-[/code]</p>
+</code></pre>
 <p>Here we are doing four things:</p>
 <ol>
 <li>Getting the first <strong>.page-metadata</strong> element if it exists.</li>
@@ -179,7 +179,7 @@ You will notice the <a href="https://developer.atlassian.com/display/AUI">AUI</
 <h2 id="WritingSoyTemplatesinYourPlugin-Step4.Edittheatlassian-plugin.xmlfile">Step 4. Edit the atlassian-plugin.xml file</h2>
 <p>You must now register the plugin module in your plugin descriptor, <code>atlassian-plugin.xml.</code></p>
 <p>Add the following code to your <code>atlassian-plugin.xml</code> file between the <code>&lt;atlassian-plugin&gt;</code> tags, but below the <code>&lt;plugin-info&gt;</code> tag group.</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;web-resource key=&quot;view-metadata&quot; name=&quot;View metadata from AJS.params&quot;&gt;</p>
 <p>	&lt;!-- transform calls to AJS.getText() inside JS files --&gt;<br />
 	&lt;transformation extension=&quot;js&quot;&gt;<br />
@@ -196,7 +196,7 @@ You will notice the <a href="https://developer.atlassian.com/display/AUI">AUI</
 	&lt;resource name=&quot;template-soy.js&quot; type=&quot;download&quot; location=&quot;template.soy&quot;/&gt;<br />
 	&lt;context&gt;page&lt;/context&gt;<br />
 &lt;/web-resource&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Let's break down that XML code, by looking at the web resource module, transformers and resources in the code.</p>
 <h3 id="WritingSoyTemplatesinYourPlugin-Thewebresourcemodule">The web resource module</h3>
 <p>In the code example, the web-resource module (line) has 2 attributes:</p>
@@ -204,16 +204,16 @@ You will notice the <a href="https://developer.atlassian.com/display/AUI">AUI</
 <li><strong>key="view-metadata"</strong> sets an internal name for the new item.</li>
 <li><strong>name="View metadata from AJS.params"</strong> defines the default name of the item.</li>
 </ul>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;web-resource key=&quot;view-metadata&quot; name=&quot;View metadata from AJS.params&quot;&gt;<br />
-[/code]</p>
+</code></pre>
 <h3 id="WritingSoyTemplatesinYourPlugin-Thetransformers">The transformers</h3>
 <p>In the code example, there are two transformation code blocks:</p>
 <ul>
 <li>The first transformation module performs the internationalisation work.</li>
 <li>The second transformation module transforms the .soy template into precompiled efficient JavaScript which can then be called by the JavaScript in <strong>init.js</strong></li>
 </ul>
-<p>[code lang="xml"]<br />
+<pre><code>
 	&lt;!-- transform calls to AJS.getText() inside JS files --&gt;<br />
 	&lt;transformation extension=&quot;js&quot;&gt;<br />
 		&lt;transformer key=&quot;jsI18n&quot;/&gt;<br />
@@ -224,30 +224,30 @@ You will notice the <a href="https://developer.atlassian.com/display/AUI">AUI</
 			&lt;functions&gt;com.atlassian.confluence.plugins.soy:soy-core-functions&lt;/functions&gt;<br />
 		&lt;/transformer&gt;<br />
 	&lt;/transformation&gt;<br />
-[/code]</p>
+</code></pre>
 <h3 id="WritingSoyTemplatesinYourPlugin-Resources">Resources</h3>
 <p>Lastly, there are Javascript resources for the web resources and the context in which they should be displayed. In this case, the Javascript is only added for Confluence pages, thus the 'page' context.</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 	&lt;!-- JavaScript resources --&gt;<br />
 	&lt;resource name=&quot;init.js&quot; type=&quot;download&quot; location=&quot;init.js&quot;/&gt;<br />
 	&lt;resource name=&quot;template-soy.js&quot; type=&quot;download&quot; location=&quot;template.soy&quot;/&gt;<br />
 	&lt;context&gt;page&lt;/context&gt;<br />
-[/code]</p>
+</code></pre>
 <h2 id="WritingSoyTemplatesinYourPlugin-Step5.Addnewresourcefilesandinternationalisation">Step 5. Add new resource files and internationalisation</h2>
 <p>To add new resource files and internationalisation, add a new file in the resources directory of your plugin, called <code>confluence-tutorial-soy-templates.properties</code>, and include these lines of code:</p>
-<p>[code]<br />
+<pre><code>
 confluence.tutorial.soy.templates.intro = Some metadata extracted from the AJS.params JavaScript object:<br />
 confluence.tutorial.soy.templates.name  = Name<br />
 confluence.tutorial.soy.templates.value = Value<br />
-[/code]</p>
+</code></pre>
 <p>The above keys are used in the Soy template. For example:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;b&gt;{getText('confluence.tutorial.soy.templates.intro')}&lt;/b&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Additionally, add a reference the resource file in the <code>atlassian-plugin.xml</code> file – add this line of code above the <code>&lt;web-resource&gt;</code> code block:</p>
-<p>[code lang="xml"]<br />
+<pre><code>
 &lt;resource type=&quot;i18n&quot; name=&quot;i18n&quot; location=&quot;confluence-tutorial-soy-templates&quot; /&gt;<br />
-[/code]</p>
+</code></pre>
 <p>This accesses your <code>confluence-tutorial-soy-templates.properties</code> file and retrieves the text for our button label.</p>
 <p>If you would like to know more about internationalisation, see the <a rel="nofollow" href="http://confluence.atlassian.com/display/DISC/i18n+in+Confluence+Plugin+Development" target="_blank">Confluence documentation on the topic</a>.</p>
 <h2 id="WritingSoyTemplatesinYourPlugin-Step6.Build,installandruntheplugin">Step 6. Build, install and run the plugin</h2>

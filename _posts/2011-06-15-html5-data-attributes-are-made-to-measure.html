@@ -29,16 +29,16 @@ author:
 <p>HTML5 introduced custom data attributes. Simply put, any attribute that starts with "data-" is treated as a storage area for private data that the end user will not see. This is a perfect place to store secret data that you wish to collect with your favorite web analytics platform.  For example, Google Analytics gives you the ability to track events (or indeed create virtual pageviews). </p>
 <p>Combine both of these and you have a very useful reporting mechanism. </p>
 <p>Take this simple HTML markup:</p>
-<p>[code lang="html"]<br />
+<pre><code>
 &lt;div class=&quot;measure&quot;<br />
   data-analytics-action=&quot;Example action for Google Analytics&quot;  <br />
   data-analytics-category=&quot;Example category for Google Analytics&quot;  <br />
   data-analytics-label=&quot;Example label for Google Analytics&quot;&gt;<br />
     Keep calm and carry on.<br />
 &lt;/div&gt;<br />
-[/code]</p>
+</code></pre>
 <p>...and this simple drop of jQuery:</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 jQuery('.measure').each(function(){<br />
   _gaq.push(['_trackEvent', <br />
     jQuery(this).attr('data-analytics-action'),<br />
@@ -46,7 +46,7 @@ jQuery('.measure').each(function(){<br />
     jQuery(this).attr('data-analytics-label')<br />
   ]);<br />
 });<br />
-[/code]</p>
+</code></pre>
 <p>When used in combination, it provides:</p>
 <ul>
 <li>Something warm and fluffy for the end user</li>

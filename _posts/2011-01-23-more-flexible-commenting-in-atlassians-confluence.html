@@ -32,25 +32,25 @@ author:
 <p>Either way works, but different people have different needs.  Choose whichever is appropriate.</p>
 <p>This article requires a couple of user macros</p>
 <p><strong>Hide Comments</strong><br />
-[code]<br />
+<pre><code>
 ## User Macro hide-comments<br />
 ## Usage: {hide-comments}<br />
 &lt;style type=&quot;text/css&quot;&gt;#com-atlassian-confluence #comments-section { display:none; } &lt;/style&gt;<br />
-[/code]</p>
+</code></pre>
 <p><strong>Show Comments</strong></p>
-<p>[code]<br />
+<pre><code>
 ## User Macro : show-comments<br />
 ## Usage: {show-comments}<br />
 &lt;style type=&quot;text/css&quot;&gt;#com-atlassian-confluence #comments-section { display:block; }&lt;/style&gt;<br />
-[/code]</p>
+</code></pre>
 <h2>Enabling comments  in a space and then selectively "disabling comments"</h2>
 <p>Simply add <code>{hide-comments}</code> to a page et voila - no commenting functionality is displayed</p>
 <h2>"Disabling comments" in a space by default and then selectively "enabling comments"</h2>
 <p>Edit the custom space stylesheet. Add this:<br />
-[code]<br />
+<pre><code>
 /* hide comments by default */<br />
 #com-atlassian-confluence #comments-section { display:none; }<br />
-[/code]</p>
+</code></pre>
 <p>On each page that you want to allow comments, add <code>{show-comments}</code>.  This overrides the CSS for <code>div#comments-section</code> allowing the commenting functionality to be displayed.</p>
 <h3>For extra points</h3>
 <p>If you're using the Documentation theme, you can include a common footer to drive comments to a  single page within the space, e.g.</p>

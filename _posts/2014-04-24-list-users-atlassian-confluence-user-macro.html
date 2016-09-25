@@ -26,7 +26,7 @@ author:
 ---
 <p>I recently had the need to <em>quickly</em> create a CSV list of all the users in an Atlassian Confluence instance. </p>
 <p>I quickly wrote a user macro to achieve this, and now I'm sharing it here:</p>
-<p>[code]<br />
+<pre><code>
 ## List Users - Confluence User Macro<br />
 ##<br />
 ##   Produces a CSV of all members of the `confluence-users` group in Confluence<br />
@@ -60,6 +60,6 @@ ${user.key},${user.name},${user.fullName},${user.email}<br />
 		&lt;/pre&gt;<br />
 	&lt;/div&gt;<br />
 &lt;/div&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Read the warning in the user macro. It will display all the users. If you have 10 or 100 users, then it will be quick enough, so that's OK. If you have 110,000 users and use this, you're an idiot and your admin permissions should be removed. </p>
 <p>Also, this is personally identifiable information, so look after it. Be cautious folks.</p>

@@ -35,7 +35,7 @@ author:
 <p>It's pretty easy.  As a Confluence administrator, go to <strong>Confluence Admin | User Macros</strong> and click on <strong>Create a User Macro</strong>.</p>
 <p>Macro name: <strong>list-attachments</strong></p>
 <p>Template:<br />
-[code]<br />
+<pre><code>
 ## MACRO: list-attachments<br />
 ## Updated: 2014-05-12<br />
 ## View page attachments in a simple list<br />
@@ -56,7 +56,7 @@ author:
 	    #end<br />
 	&lt;/ul&gt;<br />
 #end<br />
-[/code]</p>
+</code></pre>
 <p>Accept the defaults for the other fields, then click on <strong>Save</strong></p>
 <p>To call the macro in the page type: <strong>{list-attachments}</strong></p>
 <p>The result:<br />
@@ -64,6 +64,6 @@ author:
 <p>Now you're left with a simple list of links &mdash; much purer than a big fat table of metadata.</p>
 <h3>For extra points (Updated 2011-03-15)</h3>
 <p>If you've got a might great slab of files attached to the Confluence page,  why not wrap this usermacro in the <a href="https://plugins.atlassian.com/plugin/details/31712">azList macro</a>:</p>
-<p>[code]{azlist}{list-attachments}{azlist}[/code]</p>
+<pre><code>{azlist}{list-attachments}{azlist}</code></pre>
 <p>The result:<br />
 <img src="{{ site.baseurl }}/assets/list-attachments-extra-points.png" alt="" title="list-attachments-extra-points" /></p>

@@ -53,7 +53,7 @@ author:
 <p>Congratulations, you now have a <strong>Custom Dimension</strong> named <strong>Custom User ID</strong> which is available for use within the Google Analytics interface. Next, you'll need to populate this custom dimension with some data.</p>
 <h3>Add tracking code to populate the custom dimension</h3>
 <p>On your test website, add the following Universal Analytics tracking code:</p>
-<p>[code]&lt;script&gt;</p>
+<pre><code>&lt;script&gt;</p>
 <p>  // IMPORTANT: This is just example data for demonstration purposes to send *something* to GA. Populate your `customUserId` some other way. DO NOT COPY THIS.<br />
   var prefix = ['abc', 'def', 'ghi'],<br />
       middle = ['123', '456', '789'],<br />
@@ -76,7 +76,7 @@ author:
   ga('set', 'dimension1', customUserId);                   // Set a `customUserId` dimension at page level<br />
   ga('send', 'pageview');</p>
 <p>&lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>Note that we're storing our <b>customUserId</b> in the custom dimension <b>dimension1</b>. This is assigned back to the <b>Custom User ID</b> configured in Google Analytics. For test purposes, and to ensure that <b>dimension1</b> is always assigned, we're setting its value on every page view.</p>
 <p>As we've specified a <strong>Visitor</strong> scope for this custom dimension, all visits from a single user will take the last recorded value set as the value for the "Custom User ID" dimension.</p>
 <p>If all goes well, you should now see the Custom User ID as a dimension in Google Analytics:</p>
@@ -84,7 +84,7 @@ author:
 <h3>Next Steps</h3>
 <p>Having created this tracking code, we have also created a set of sample personas in <b>sample.csv</b> which contains the 27 possible "User ID" values along with some personal information. As I'm sharing this publicly, I'd like to reiterate that these are just made up personas. They are not real people.</p>
 <p><b>sample.csv</b>:</p>
-<p>[code]user_id,display_name,email,company,country<br />
+<pre><code>user_id,display_name,email,company,country<br />
 abc-123-rst,Albert Cox,acox@realcube.info,Real Cube,Colombia<br />
 abc-123-uvw,Justine Bishop,jbishop@youspan.name,You Span,Panama<br />
 abc-123-xyz,Paula Smith,psmith@skinte.name,Skinte,Romania<br />
@@ -112,6 +112,6 @@ ghi-456-xyz,Evelyn Simpson,esimpson@rhyzio.edu,Rhyzio,Canada<br />
 ghi-789-rst,Joe Green,jgreen@jaloo.gov,JA Loo,Kiribati<br />
 ghi-789-uvw,Patricia Hayes,phayes@lazzy.gov,Lazzy,Chad<br />
 ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom<br />
-[/code]</p>
+</code></pre>
 <p>The tracking code and the related persona data allows us to demonstrate how <a rel="nofollow" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a> would work in a real world scenario. <a href="/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/">More on that in a future post.</a></p>
 <p><strong>Aside:</strong> Users of Google Tag Manager can push data to custom dimensions by following this guide: <a href="https://support.google.com/analytics/answer/6164990?hl=en">Custom dimensions with Google Tag Manager</a></p>

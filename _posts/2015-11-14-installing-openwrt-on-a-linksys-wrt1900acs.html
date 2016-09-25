@@ -53,14 +53,14 @@ author:
 <h2>Reboot nightly</h2>
 <p>Sometimes it's best to just restart regularly. Here's how:</p>
 <p>Start &amp; enable cron as it's not enabled by default.</p>
-<p>[code]<br />
+<pre><code>
 /etc/init.d/cron start<br />
 /etc/init.d/cron enable<br />
-[/code]</p>
+</code></pre>
 <p>Add this line to the crontab to reboot every day at 3am:<br />
-[code]<br />
+<pre><code>
 0 3 * * * * reboot<br />
-[/code]</p>
+</code></pre>
 <h2>Save your eyes, enable the Bootstrap theme</h2>
 <p>One last thing, go into <strong>System | System | Language and Styles</strong> and enable the Bootstrap theme. It means that your admin UI is no longer an eyesore.</p>
 <p>It turns this:</p>

@@ -22,7 +22,7 @@ author:
 <p>There are plenty of Puppet modules for almost all people, but I have a few extras requirements that I couldn't find. I decided to create my own but had no previous experience of Puppet.</p>
 <p>To create your own Puppet modules, grab the <a href="https://github.com/boxen/puppet-template">Puppet Template</a> and start modifying it. </p>
 <p>For example:<br />
-[code]<br />
+<pre><code>
 # Start somewhere reasonable<br />
 cd ~/src/boxen/</p>
 <p># Use underscores for spaces<br />
@@ -40,7 +40,7 @@ git tag -d  1.0.0</p>
 <p># add remote<br />
 git remote add origin https://github.com/dvdsmpsn/puppet-$CLASSNAME<br />
 script/cibuild<br />
-[/code]</p>
+</code></pre>
 <ul>
 <li>Edit <strong>manifests/init.pp</strong> and rename the template class</li>
 <li>Rename:
@@ -52,24 +52,24 @@ script/cibuild<br />
 <li>Modify or add CI tests as required</li>
 <li>Rerun <strong>script/cibuild</strong></li>
 <li>Hook your Github repository up to <a href="http://docs.travis-ci.com/user/getting-started/">Travis</a></li>
-<li>Add the build status image to the README.md in the root directory e.g.<br />[code][![Build Status](https://travis-ci.org/dvdsmpsn/puppet-acorn.png)](https://travis-ci.org/dvdsmpsn/puppet-acorn)[/code]
+<li>Add the build status image to the README.md in the root directory e.g.<br /><pre><code>[![Build Status](https://travis-ci.org/dvdsmpsn/puppet-acorn.png)](https://travis-ci.org/dvdsmpsn/puppet-acorn)</code></pre>
 </li>
 </ul>
 <p>When all is good, tag the module and add to your Boxen.</p>
 <p>Edit <strong>our-boxen/Puppetfile</strong>. Add:</p>
-<p>[code]<br />
+<pre><code>
 ## From repositories at https://github.org/dvdsmpsn/puppet-*<br />
 github &quot;acorn&quot;,                      &quot;1.0.2&quot;, :repo =&gt; &quot;dvdsmpsn/puppet-acorn&quot;<br />
 github &quot;day_o&quot;,                      &quot;1.0.0&quot;, :repo =&gt; &quot;dvdsmpsn/puppet-day_o&quot;<br />
 github &quot;get_iplayer_automator&quot;,      &quot;1.0.0&quot;, :repo =&gt; &quot;dvdsmpsn/puppet-get_iplayer_automator&quot;<br />
-[/code]</p>
+</code></pre>
 <p>Edit <strong>our-boxen/manifests/site.pp</strong> (for a sitewide installation). Add: </p>
-<p>[code]</p>
+<pre><code></p>
 <p>  # dvdsmpsn/puppet-*<br />
   include acorn<br />
   include day_o<br />
   include get_iplayer_automator<br />
-[/code]</p>
+</code></pre>
 <p>Rerun <strong>boxen</strong> to install your new  puppet modules.</p>
 <p>If all went well, consider </p>
 <p>Here are a few Puppet modules for Boxen I've rolled myself:</p>

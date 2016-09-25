@@ -28,24 +28,24 @@ author:
 <p>Sometimes I want to run a simple web server in the current directory. </p>
 <p>There are many ways to do this. Here's here's one using <a href="https://www.npmjs.com/package/serve"> npm / serve </a>.</p>
 <h2>Installation</h2>
-<p>[code]<br />
+<pre><code>
 npm install serve -g<br />
 . ~/.profile<br />
-[/code]</p>
+</code></pre>
 <h2>Running</h2>
-<p>[code]<br />
+<pre><code>
 cd /path/to/directory<br />
 serve<br />
-[/code]</p>
+</code></pre>
 <p>You get this message:<br />
-[code]<br />
+<pre><code>
 serving /path/to/directory on port 3000<br />
-[/code]</p>
+</code></pre>
 <p>You can now access the directory in a browser:</p>
 <p><a href="https://davidsimpson.me/wp-content/uploads/2015/05/serve.png"><img src="{{ site.baseurl }}/assets/serve.png" alt="serve" width="1151" height="613" class="alignnone size-full wp-image-3187" /></a></p>
 <h3>Options</h3>
 <p>There are more options available:</p>
-<p>[code]<br />
+<pre><code>
 serve -h</p>
 <p>  Usage: serve [options] [dir]</p>
 <p>  Options:</p>
@@ -65,4 +65,4 @@ serve -h</p>
     -C, --cors                allows cross origin access serving<br />
         --compress            gzip or deflate the response<br />
         --exec &lt;cmd&gt;          execute command on each request<br />
-[/code]</p>
+</code></pre>

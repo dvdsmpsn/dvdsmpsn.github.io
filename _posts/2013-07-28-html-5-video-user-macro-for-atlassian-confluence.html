@@ -37,7 +37,7 @@ author:
 When I embed an mp4 movie of 1280x800 quality i have todo the settings 1280x800 in order to be able to see the play button. When i set 720x400 i see the movie is not scaled and i also don't see my play button. Is there a work-around for this or a payed tool to make this work. I don't want to stream movies from youtube or vimeo. I want to add it local to the confluence page.
 </p></blockquote>
 <p>So I created a user macro that solves the problem on most browsers.  The user macro uses the HTML5 &lt;video&gt; tag with a fallback to the flash based flow player for older browsers.</p>
-<p>[code]<br />
+<pre><code>
 ## Macro title: HTML5 Video<br />
 ## Macro has a body: N<br />
 ##<br />
@@ -84,7 +84,7 @@ When I embed an mp4 movie of 1280x800 quality i have todo the settings 1280x800 
 &lt;/script&gt;</p>
 <p>## Big props to: http://sandbox.thewikies.com/vfe-generator/<br />
 ## In response to: https://answers.atlassian.com/questions/171822/embedding-mp4-movie-screen-size<br />
-[/code]</p>
+</code></pre>
 <p>Updated code here:<a href="https://gist.github.com/dvdsmpsn/5764152">html5-video-user-macro.vm</a></p>
 <p>Here's a video of it in action:<br />
 http://www.youtube.com/watch?v=33iA8akPny8</p>

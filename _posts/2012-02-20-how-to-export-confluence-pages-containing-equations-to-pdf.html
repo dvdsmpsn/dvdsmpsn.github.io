@@ -25,7 +25,7 @@ author:
 <p>The lecturer requested a new macro with the same or similar syntax to the ASCIIMath macro (science academics are often LaTeX geeks), but which successfully exports to PDF.   The obvious choice here would be to extend the current  ASCIIMath macro with the relevant functionality.  In theory, this would fix the lecturer's problem without her having to update any content. Unfortunately, I didn't have the time to do this.  </p>
 <p>Instead, I quickly hacked together a user macro which fits the requirements.  Here it is:</p>
 <h2>"Equation" User Macro</h2>
-<p>[code]<br />
+<pre><code>
 ## Macro Name: equation<br />
 ## Macro Title: Equation<br />
 ## Categories: Confluence Content, Formatting<br />
@@ -62,37 +62,37 @@ author:
 ## IMPORTANT: After testing, replace &quot;http://www.forkosh.com/mathtex.cgi&quot; belowwith the location of your local installation<br />
 ##<br />
 &lt;img src=&quot;http://www.forkosh.com/mathtex.cgi?gammacorrection{1.25}%20$body&quot;&gt;<br />
-[/code]</p>
+</code></pre>
 <p>The user macro above relies on <a href="http://www.forkosh.com/mathtex.zip">mathTeX</a> and which of course relies on <a href="http://www.latex-project.org/">LaTeX</a>.  I very much recommend that you install both of these locally. Do not piggy back off of <a href="http://www.forkosh.com/">John Forkosh Associates, Inc.</a> installation.</p>
 <h2>Examples</h2>
 <p>The examples below use wiki markup (remember that?) to add the equation to the page.  For Confluence 4.x users, you can either use insert wiki markup and paste each example into your page <i>as is</i> or remove the <b>{equation}</b> prefix & suffix.</p>
 <h3>Example 1</h3>
 <p><b>Usage</b>:<br />
-[code]<br />
+<pre><code>
 {equation}x^2{equation}<br />
-[/code]</p>
+</code></pre>
 <p><b>Output:</b></p>
 <p><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example1.gif" alt="" title="mathtex-example1" width="15" height="15" class="alignnone size-full wp-image-1427" /></p>
 <h3>Example 2</h3>
 <p><b>Usage</b>:<br />
-[code]<br />
+<pre><code>
 {equation}f(x)=intlimits_{-infty}^x~e^{-t^2}dt{equation}<br />
-[/code]</p>
+</code></pre>
 <p><b>Output:</b><br />
 <img src="&#123;&#123; site.baseurl }}/assets/mathtex-example2.gif" alt="" title="mathtex-example2" width="131" height="55" class="alignnone size-full wp-image-1426" /></p>
 <h3>Example 3</h3>
 <p><b>Usage</b>:<br />
-[code]<br />
+<pre><code>
 {equation}frac&#123;&#123;d}}&#123;&#123;left.{d}{x}right.}}{f&#123;&#123;left({x}right)}}}=lim_&#123;&#123;&#123;h}to{0}}}frac&#123;&#123;&#123;f&#123;&#123;left({x}+{h}right)}}}-{f&#123;&#123;left({x}right)}}}}}&#123;&#123;h}}{equation}<br />
-[/code]</p>
+</code></pre>
 <p><b>Output:</b></p> 
 <p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/mathtex-example3.gif"><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example3.gif" alt="" title="mathtex-example3" width="225" height="36" class="alignnone size-full wp-image-1376" /></a></p>
 <h3>Example 4</h3>
 <p>A somewhat more complex example, taken from <a href="http://www.forkosh.com/mathtex.html">this page</a>.  This time, we get a diagram rather than just an equation.</p>
 <p><b>Usage</b>:<br />
-[code]<br />
+<pre><code>
 {equation}pngdefinecolor{blueblack}{RGB}{0,0,135}color{blueblack}begin{picture}(4,1.75)thicklinesput(2,0.01){arc{3}{3.53588}{5.8888}}put(.375,.575){line(1,0){3.25}}put(1.22,1.375){makebox(0,0){footnotesize$ds$}}put(.6,.5){makebox(0,0){footnotesize$x=0$}}put(3.36,.5){makebox(0,0){footnotesize$x=ell$}}dottedline{.05}(1.0,.575)(1.0,1.10)put(1.0,.5){makebox(0,0){footnotesize$x$}}dottedline{.05}(1.5,.575)(1.5,1.40)put(1.5,.5){makebox(0,0){footnotesize$x+dx$}}put(1.22,.65){makebox(0,0){footnotesize$dx$}}dottedline{.04}(0.6,1.12)(1.25,1.12)put(1.0,1.14){vector(-1,-1){.45}}put(.58,0.83){makebox(0,0){footnotesize$T$}}put(.77,1.05){makebox(0,0){scriptsize$theta(x)$}}put(1.18,1.16){makebox(0,0){scriptsize$theta(x)$}}dottedline{.04}(1.5,1.41)(2.1,1.41)put(1.5,1.44){vector(4,1){.67}}put(2.22,1.59){makebox(0,0){footnotesize$T$}}put(1.95,1.45){makebox(0,0){scriptsize$theta(x+dx)$}}end{picture}{equation}<br />
-[/code]</p>
+</code></pre>
 <p><b>Output:</b></p>
 <p><a href="http://davidsimpson.me/wp-content/uploads/2012/02/mathtex-example4.png"><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example4.png" alt="" title="mathtex-example4" width="390" height="140" class="alignnone size-full wp-image-1428" /></a></p>
 <h2>Recap</h2>

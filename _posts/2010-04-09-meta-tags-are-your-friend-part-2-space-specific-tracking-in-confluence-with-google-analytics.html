@@ -55,11 +55,11 @@ author:
 <h2>The Javascript only method</h2>
 <p>In this method, we track a custom variable in GA where possible, so that we can attach a page view to the corresponding Confluence space.</p>
 <p>Atlassian handily provide the following (example) meta tag on every page that has an associated space:</p>
-<p>[code lang="html"]&lt;meta id=&quot;confluence-space-key&quot; name=&quot;confluence-space-key&quot; content=&quot;~cczdas&quot;&gt;[/code]</p>
+<pre><code>&lt;meta id=&quot;confluence-space-key&quot; name=&quot;confluence-space-key&quot; content=&quot;~cczdas&quot;&gt;</code></pre>
 <p>We can check for that meta tag and pass it into a custom variable in Google Analytics.</p>
 <p>In Confluence, go to <b>Dashboard | Administration | Look and Feel | Custom HTML</b></p>
 <p>Click on the “Edit” button and add this javascript snippet (with your tracker code) to the “At end of the BODY” section:</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 &lt;script type=&quot;text/javascript&quot;&gt;<br />
 var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
 document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
@@ -83,7 +83,7 @@ document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-an
 		catch (err) {}<br />
 	}</p>
 <p>&lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <p>This means for each page, we've added a custom variable which can later be check against.  We can now therefore easily check which page belongs to which space.</p>
 <p>In Google Analytics, the custom variables report looks like this:</p>
 <p><a href="http://localhost/davidsimpson.me/wp-content/uploads/2010/04/confluence-ga-custom-variable-report.png"><img src="{{ site.baseurl }}/assets/confluence-ga-custom-variable-report-440x316.png" alt="confluence-ga-custom-variable-report" title="confluence-ga-custom-variable-report" width="440" height="316" class="size-medium wp-image-725" /></a></p>
@@ -113,7 +113,7 @@ document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-an
 <p>We do this by adding a custom meta tag named "analytics.url.fix" from which we read the "fixed" URL using a little Javascript.	</p>
 <h3>Edits</h3>
 <p><b>page.vmd</b> in your theme:<br />
-[code]<br />
+<pre><code>
 ## Add Google Analytics support for page edits, attachment views etc.<br />
 ## Called by $!sitemeshPage.getProperty(&quot;page.googleAnalyticsUrlFix&quot;) in main.vmd<br />
 &lt;content tag=&quot;googleAnalyticsUrlFix&quot;&gt;<br />
@@ -123,16 +123,16 @@ document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-an
 		&lt;meta name=&quot;analytics.url.fix&quot; desc=&quot;$req.contextPath/display/$page.spaceKey/$page.title/$mode&quot; /&gt;<br />
 	#end<br />
 &lt;/content&gt;<br />
-[/code]</p>
+</code></pre>
 <p><b>main.vmd</b> in your theme:<br />
 Add after the title node in /html/head/title</p>
-<p>[code]<br />
+<pre><code>
 ## Call the googleAnalyticsUrlFix content tag in page.vmd, fail silently:<br />
 $!sitemeshPage.getProperty(&quot;page.googleAnalyticsUrlFix&quot;)<br />
-[/code]</p>
+</code></pre>
 <p>In Confluence, go to <b>Dashboard | Administration | Look and Feel | Custom HTML</b></p>
 <p>Click on the “Edit” button and add this javascript snippet (with your tracker code) to the “At end of the BODY” section:</p>
-<p>[code lang="javascript"]<br />
+<pre><code>
 &lt;script type=&quot;text/javascript&quot;&gt;<br />
 var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
 document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
@@ -158,7 +158,7 @@ document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-an
 		catch (err) {}<br />
 	}<br />
 &lt;/script&gt;<br />
-[/code]</p>
+</code></pre>
 <h3>Pros</h3>
 <ul>
 <li>You don't have to do anything on the Google Analytics side at all</li>
