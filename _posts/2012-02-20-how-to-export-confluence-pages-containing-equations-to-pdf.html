@@ -18,7 +18,7 @@ author:
   first_name: David
   last_name: Simpson
 ---
-<p><a href="http://www.hetemeel.com/einsteinform.php"><img src="{{ site.baseurl }}/assets/einstein-blackboard.jpg" alt="Dynamic Einstein picture" title="Dynamic Einstein picture" class="alignnone size-full wp-image-1458" /></a></p>
+<p><a href="http://www.hetemeel.com/einsteinform.php"><img src="&#123;&#123; site.baseurl }}/assets/einstein-blackboard.jpg" alt="Dynamic Einstein picture" title="Dynamic Einstein picture" class="alignnone size-full wp-image-1458" /></a></p>
 <p>Recently I was helping a chemistry lecturer with some of her course notes.  She authors her course notes in Confluence, then uses the "Export to PDF" functionality to create versions of her notes for distribution to the course participants.  This workflow was suiting her nicely until she tried to export her pages.</p>
 <p>The course involves mathematics, so she was using the <a href="https://plugins.atlassian.com/plugin/details/147">ASCIIMath macro</a> -- the newly released <a href="https://plugins.atlassian.com/plugin/details/1076827">Confluence LaTeX</a> plugin would likely be preferable for Confluence 4.x.  This macro uses client side JavaScript to render the correct formula to the page. </p>
 <p>The ASCIIMath and Confluence LaTeX plugins both do a good job of client side rendering, but this is no good for printing to PDF. On export to PDF, ASCIIMath simply prints the raw LaTeX syntax.  For our purposes, this was not acceptable.</p>
@@ -72,21 +72,21 @@ author:
 {equation}x^2{equation}<br />
 [/code]</p>
 <p><b>Output:</b></p>
-<p><img src="{{ site.baseurl }}/assets/mathtex-example1.gif" alt="" title="mathtex-example1" width="15" height="15" class="alignnone size-full wp-image-1427" /></p>
+<p><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example1.gif" alt="" title="mathtex-example1" width="15" height="15" class="alignnone size-full wp-image-1427" /></p>
 <h3>Example 2</h3>
 <p><b>Usage</b>:<br />
 [code]<br />
 {equation}f(x)=intlimits_{-infty}^x~e^{-t^2}dt{equation}<br />
 [/code]</p>
 <p><b>Output:</b><br />
-<img src="{{ site.baseurl }}/assets/mathtex-example2.gif" alt="" title="mathtex-example2" width="131" height="55" class="alignnone size-full wp-image-1426" /></p>
+<img src="&#123;&#123; site.baseurl }}/assets/mathtex-example2.gif" alt="" title="mathtex-example2" width="131" height="55" class="alignnone size-full wp-image-1426" /></p>
 <h3>Example 3</h3>
 <p><b>Usage</b>:<br />
 [code]<br />
-{equation}frac{{d}}&#123;&#123;left.{d}{x}right.}}{f&#123;&#123;left({x}right)}}}=lim_&#123;&#123;&#123;h}to{0}}}frac&#123;&#123;&#123;f{{left({x}+{h}right)}}}-{f{{left({x}right)}}}}}&#123;&#123;h}}{equation}<br />
+{equation}frac&#123;&#123;d}}&#123;&#123;left.{d}{x}right.}}{f&#123;&#123;left({x}right)}}}=lim_&#123;&#123;&#123;h}to{0}}}frac&#123;&#123;&#123;f&#123;&#123;left({x}+{h}right)}}}-{f&#123;&#123;left({x}right)}}}}}&#123;&#123;h}}{equation}<br />
 [/code]</p>
-<p><b>Output:</b></p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/mathtex-example3.gif"><img src="{{ site.baseurl }}/assets/mathtex-example3.gif" alt="" title="mathtex-example3" width="225" height="36" class="alignnone size-full wp-image-1376" /></a></p>
+<p><b>Output:</b></p> 
+<p><a href="http://davidsimpson.me/wp-content/uploads/2011/12/mathtex-example3.gif"><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example3.gif" alt="" title="mathtex-example3" width="225" height="36" class="alignnone size-full wp-image-1376" /></a></p>
 <h3>Example 4</h3>
 <p>A somewhat more complex example, taken from <a href="http://www.forkosh.com/mathtex.html">this page</a>.  This time, we get a diagram rather than just an equation.</p>
 <p><b>Usage</b>:<br />
@@ -94,7 +94,7 @@ author:
 {equation}pngdefinecolor{blueblack}{RGB}{0,0,135}color{blueblack}begin{picture}(4,1.75)thicklinesput(2,0.01){arc{3}{3.53588}{5.8888}}put(.375,.575){line(1,0){3.25}}put(1.22,1.375){makebox(0,0){footnotesize$ds$}}put(.6,.5){makebox(0,0){footnotesize$x=0$}}put(3.36,.5){makebox(0,0){footnotesize$x=ell$}}dottedline{.05}(1.0,.575)(1.0,1.10)put(1.0,.5){makebox(0,0){footnotesize$x$}}dottedline{.05}(1.5,.575)(1.5,1.40)put(1.5,.5){makebox(0,0){footnotesize$x+dx$}}put(1.22,.65){makebox(0,0){footnotesize$dx$}}dottedline{.04}(0.6,1.12)(1.25,1.12)put(1.0,1.14){vector(-1,-1){.45}}put(.58,0.83){makebox(0,0){footnotesize$T$}}put(.77,1.05){makebox(0,0){scriptsize$theta(x)$}}put(1.18,1.16){makebox(0,0){scriptsize$theta(x)$}}dottedline{.04}(1.5,1.41)(2.1,1.41)put(1.5,1.44){vector(4,1){.67}}put(2.22,1.59){makebox(0,0){footnotesize$T$}}put(1.95,1.45){makebox(0,0){scriptsize$theta(x+dx)$}}end{picture}{equation}<br />
 [/code]</p>
 <p><b>Output:</b></p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2012/02/mathtex-example4.png"><img src="{{ site.baseurl }}/assets/mathtex-example4.png" alt="" title="mathtex-example4" width="390" height="140" class="alignnone size-full wp-image-1428" /></a></p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2012/02/mathtex-example4.png"><img src="&#123;&#123; site.baseurl }}/assets/mathtex-example4.png" alt="" title="mathtex-example4" width="390" height="140" class="alignnone size-full wp-image-1428" /></a></p>
 <h2>Recap</h2>
 <p>This user macro is useful for any technical author with Confluence pages containing equations who needs to export pages to PDF.  It will also help users who utilise the <a href="http://k15t.com/display/en/Scroll-Wiki">Scroll Wiki Exporter</a> range of products to publish their content.  This user macro is dependent on an external installation of mathTeX which in turn requires LaTeX.</p>
 <h2>Aside</h2>
