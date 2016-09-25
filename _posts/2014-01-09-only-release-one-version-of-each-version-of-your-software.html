@@ -1,0 +1,36 @@
+---
+layout: post
+title: Only release one version of each version of your software
+date: 2014-01-09 13:54:48.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+tags:
+- google analytics
+meta:
+  tmac_last_id: '618797326061060096'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Versioning is there for a reason - for example it prevents silly mistakes. I'm aware some people even agree that version numbers should increment in some way. If you've already released version 1.0 of your code, its a good idea for the next version to be something like 1.0.1 or 1.1 or 2.0. </p>
+<p>The key point here is that the <strong>next version</strong> number is <strong>different to the previous version</strong> and, if possible, <strong>a higher number than the last one</strong>.  </p>
+<p>I'm not claiming any higher insight or best practice here, I'm just hoping that it makes reasonable sense. Besides, others have <a href="http://semver.org/">already written about this</a>.</p>
+<p>If your software is packaged as a Java jar, you could also publish this to a public maven repository. That would be a helpful bonus. I could reference your repository in my configuration and pull the dependency as required. </p>
+<h2>Do no evil</h2>
+<p>Google however doesn't always think in this way. For example, <strong>gdata-core-1.0.jar</strong> was released in 2009 then followed by the next release <strong>gdata-core-1.0-jar</strong> in 2011. Some would say that this is a little confusing. It has had me confused. Initially, I thought that their documentation was pure lies. None of the methods documented were available in the software I was using.  After a while, I found out about the 2011 vintage of the code. As you can imagine, I was very excited by this curious discovery, using some very choice words to describe Google's engineers. </p>
+<p>The good news was that the code and the documentation now actually matched. </p>
+<p>Code examples work well with the 2011 vintage, but the 2009 vintage throws errors such as</p>
+<p>[code]<br />
+java.lang.NoSuchFieldError: V2_1<br />
+	at com.google.gdata.client.analytics.AnalyticsService$Versions.&lt;clinit&gt;(AnalyticsService.java:69)<br />
+	at com.google.gdata.client.analytics.AnalyticsService.&lt;clinit&gt;(AnalyticsService.java:88)<br />
+[/code]</p>
+<p>Another tip: Don't let the 2009 vintage of gdata-code-1.0.jar get anywhere near your build server. Take it from me, it's a bad idea.</p>

@@ -1,0 +1,92 @@
+---
+layout: post
+title: Google Analytics and the Intranet Portal
+date: 2010-09-07 12:09:07.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797389646659584'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>From: http://comms.nottingham.ac.uk/webtechnologies/portal/google-analytics-and-the-intranet-portal/</p>
+<p>We like to measure. With Google Analytics, we can easily measure many interactions between a user and a website. This is all well and good if your website produces nice clean URLs. For complex sites such as the <a href="http://my.nottingham.ac.uk/">Intranet Portal</a>, it becomes much, much harder to interpret the results.</p>
+<p>This post describes the steps taken to decipher site usage. If you’re not into JavaScript, look away now.</p>
+<h2>Problem</h2>
+<p>How to create meaningful web analytics output from a platform that has URLs in a particularly nasty format.</p>
+<p><strong>Default tab</strong> after login – this URL is just about manageable:</p>
+<p><code>http://my.nottingham.ac.uk/cp/render.userLayoutRootNode.uP</code></p>
+<p><strong>Another tab</strong> – this URL is fairly meaningless to most people:</p>
+<p><code>http://my.nottingham.ac.uk/cp/tag.d07522b255307145.render.userLayoutRootNode.uP?uP_root=root&amp;uP_sparam=activeTab&amp;activeTab=u43l1s22&amp;uP_tparam=frm&amp;frm=frame</code></p>
+<p>We want to know what the user’s interactions with our Luminis portal are, but we need to rewrite the URLs into something vaguely intelligible.</p>
+<h2>Solution</h2>
+<p>Instead of using Google Analytics (GA) just to register page impressions, we use javascript to attach click/submit actions onto just about every interaction that a user can make with the Luminis portal.</p>
+<p>We rewrite the URLs to something meaningful, e.g.</p>
+<p>[code]<br />
+/tabs/Course<br />
+/tabs/Default<br />
+/tabs/Library<br />
+/tabs/My School<br />
+/channel/Email/actionButton/Email<br />
+/channel/Library Online Catalogue/actionButton/undefined<br />
+/channel/WebCT/actionButton/Launch WebCT<br />
+[/code]</p>
+<p>We’re using <a href="http://jquery.com/">jQuery</a> fairly extensively with <a href="http://my.nottingham.ac.uk/">our Luminis (3.3) implementation</a>, so it seems fair to use jQuery as a base to interact with GA.</p>
+<h2>Detail</h2>
+<p>I’m assuming a basic knowledge of jQuery and GA, but most of this is fairly straightforward anyway. I don’t rate my jQuery code as particularly elegant, but it does at least work.</p>
+<p>Our Luminis implementation has some reasonably advanced customisations based on the <a href="http://www.lumdev.net/node/727">nested-tables.xsl customization layer hack</a>. We’ve removed a lot of the nested tables and the tabbed navigation uses unordered lists.</p>
+<p>Our <a href="http://my.nottingham.ac.uk/js/jquery/uncompressed/qGoogleAnalytics.js">Google Analytics plugin for jQuery</a> is <a href="http://my.nottingham.ac.uk/js/jquery/loadBehaviours.js">loaded</a> to evaluate the following:</p>
+<ul>
+<li><strong>clickEvents</strong> – translates a click event to a user readable “URL” to pass to GA</li>
+<li><strong>submitEvents</strong> manually added to the javascript – translates a submit event to a user readable “URL” to pass to GA</li>
+<li><strong>evalClickEvents</strong> manually added to the javascript, on click, a function is evaluated to chose what parameters to pass back to GA Register a click on a tab: [code]&quot;#menu li a&quot;: &quot;'/tabs/'+ $(this).text()&quot;[/code]<br />
+Register an expansion of an accordion within a channel:<br />
+[code]&quot;.accordionCluster li h3&quot;: &quot;getNewsItemTitle( $(this) )&quot;[/code]<br />
+the function getNewsItemTitle() is evaluted and results passed back to GA<br />
+Register a click on a link within a channel:<br />
+[code]&quot;.channelContent a&quot;: &quot;getChannelAnchor( $(this) )&quot;[/code]<br />
+N.B. evalClickEvents is required if you are sending $(this) through to a function as $(this) will not be defined, until the click event occur</li>
+<li><strong>evalSubmitEvents</strong> all form submit events within a channel are captured using the following : [code]'.channelContent form':    &quot;getChannelFormInfo( $(this) )&quot;[/code]<br />
+The title of the channel and the text on the submit button are passed back to GA</li>
+</ul>
+<h2>Google Analytics administration</h2>
+<p>Remove (almost) all page impressions with the following filters</p>
+<p>In GA, go to Settings | Edit<br />
+and add some filters</p>
+<p><strong>Login Page</strong> (Search &amp; Replace)<br />
+<b>/media/uk/ac/nottingham/compass/layout/public/</b> rewrite to <b>/loginPage</b></p>
+<p><img src="{{ site.baseurl }}/assets/ga-edit-filter-1.png" alt="" title="ga-edit-filter-1" class="alignnone size-full wp-image-1849" /></p>
+<p><strong>Default tab</strong> (URL translation)<br />
+<b>^/cp/render.userLayoutRootNode.uP$</b> rewrite to <b>/tabs/Default</b></p>
+<p><img src="{{ site.baseurl }}/assets/ga-edit-filter-2.png.png" alt="" title="ga-edit-filter-2.png" class="alignnone size-full wp-image-1848" /></p>
+<p><strong>Remove ^/cp/[.*] pages</strong> (Exclude)<br />
+Filter Field: Reuqest URI<br />
+Filter Pattern: <b>^/cp/[.*]</b></p>
+<p><img src="{{ site.baseurl }}/assets/ga-edit-filter-3.png" alt="" title="ga-edit-filter-3" class="alignnone size-full wp-image-1847" /></p>
+<p><strong>Remove /cp</strong> (Exclude)<br />
+Filter Field: Request URI<br />
+Filter Pattern: <b>/cp</b></p>
+<p><img src="{{ site.baseurl }}/assets/ga-edit-filter-4.png" alt="" title="ga-edit-filter-4" class="alignnone size-full wp-image-1846" /></p>
+<p>The finished “Profile Settings” page looks like this:</p>
+<p><img src="{{ site.baseurl }}/assets/ga-profile-settings.png" alt="" title="ga-profile-settings" class="alignnone size-full wp-image-1845" /></p>
+<h2>Results</h2>
+<p>I’ll give these in a future post, but in an example week, we’ve registered 1.5 million ‘page impressions’ with around 36,000 daily logins.</p>
+<p>An example of what tabs are used can be seen in the screen shot below:</p>
+<p><img src="{{ site.baseurl }}/assets/tabs-1.png" alt="" title="tabs-1" class="alignnone size-full wp-image-1844" /></p>
+<p>I now need to take some time and interpret the results.</p>
+<h2>Related information</h2>
+<ul>
+<li>The <a href="http://my.nottingham.ac.uk/js/jquery/uncompressed/qGoogleAnalytics.js">full source is available here</a> is also given below for reference.</li>
+<li>This post was originally <a href="http://workspace.nottingham.ac.uk/display/portal/Google+Analytics+on+Luminis">published internally</a>.</li>
+<li><a href="http://davidsimpson.me/2009/02/27/google-analytics-and-sungardhe-luminis/">Google Analytics and SungardHE Luminis</a> presentation at the European Luminis User Group</li>
+<li><a href="http://davidsimpson.me/2010/04/08/meta-tags-are-your-friend-part-tracking-roles-in-sungard-luminis-with-google-analytics/">Meta tags are your friend part 1: Tracking roles in Sungard Luminis with Google Analytics</a></li>
+</ul>

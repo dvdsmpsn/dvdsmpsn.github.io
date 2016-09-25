@@ -1,0 +1,97 @@
+---
+layout: post
+title: Using wsadmin to quickly restart IBM Connections (or WebSphere) applications
+date: 2015-06-01 08:03:58.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- Social Business
+tags:
+- ibm connections
+- ibmconnections
+- wsadmin
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _yoast_wpseo_focuskw: wsadmin
+  _yoast_wpseo_title: Using wsadmin to quickly restart IBM Connections applications
+  _wpas_skip_11278197: '1'
+  _yoast_wpseo_linkdex: '70'
+  tmac_last_id: '618797282973089792'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Restarting WebSphere applications using the <code>wsadmin</code> tool <em>feels</em> much faster than through the WebSphere Integrated Solutions Console.</p>
+<p>If you've already invoked <code>wsadmin</code> to update a configuration then this is especially true. No navigating through menus to find the right item, just a "simple" command line and the application quickly restarts. </p>
+<p>Here's how...</p>
+<p>Invoke <code>wsadmin</code>:</p>
+<p>[code]<br />
+cd /opt/IBM/WebSphere/AppServer/profiles/Dmgr01/bin<br />
+./wsadmin.sh -lang jython -user icadmin -password PASSWORD_HERE<br />
+[/code]</p>
+<p>If you can't remember the name of your applications, list the applications installed.</p>
+<p>[code]<br />
+AdminApp.list()<br />
+[/code]</p>
+<p>This returns a somewhat unattractive string:</p>
+<p>[code]<br />
+'Activities\nBlogs\nCommon\nCommunities\nConnectionsProxy\nDefaultApplication\nDogear\nEditLiveForConnections\nExtensions\nFileNetEngine\nFiles\nForums\nHelp\nHomepage\nMetrics\nMobile\nMobile Administration\nModeration\nNews\nProfiles\nPushNotification\nSearch\nWebSphereOauth20SP\nWidgetContainer\nWikis\nnavigator\noEmbed'<br />
+[/code]</p>
+<p>It's better formatted:</p>
+<p>[code]<br />
+Activities<br />
+Blogs<br />
+Common<br />
+Communities<br />
+ConnectionsProxy<br />
+DefaultApplication<br />
+Dogear<br />
+EditLiveForConnections<br />
+Extensions<br />
+FileNetEngine<br />
+Files<br />
+Forums<br />
+Help<br />
+Homepage<br />
+Metrics<br />
+Mobile<br />
+Mobile Administration<br />
+Moderation<br />
+News<br />
+Profiles<br />
+PushNotification<br />
+Search<br />
+WebSphereOauth20SP<br />
+WidgetContainer<br />
+Wikis<br />
+navigator<br />
+oEmbed<br />
+[/code]</p>
+<blockquote><p>
+<i class="fa fa-hand-o-right"></i> <strong>Aside</strong><br />
+If you've recently changed any configurations, you may want to update the IBM Connections configuration and synchronise nodes at this point:</p>
+<p>[code]<br />
+execfile(&quot;connectionsConfig.py&quot;)<br />
+LCConfigService.checkOutConfig(&quot;/tmp&quot;,&quot;connectionsCell01&quot;)<br />
+LCConfigService.updateConfig(&quot;versionStamp&quot;,&quot;&quot;)<br />
+LCConfigService.checkInConfig(&quot;/tmp&quot;,&quot;connectionsCell01&quot;)<br />
+synchAllNodes()<br />
+[/code]
+</p></blockquote>
+<p>Choose one of the applications, for example <strong>Communities</strong>, then stop and start the application:</p>
+<p>[code]<br />
+appManager=AdminControl.queryNames(&quot;cell=connectionsCell01,node=connectionsNode01,type=ApplicationManager,process=IC_server1,*&quot;)<br />
+AdminControl.invoke(appManager, &quot;stopApplication&quot;, &quot;Communities&quot;)<br />
+AdminControl.invoke(appManager, &quot;startApplication&quot;, &quot;Communities&quot;)<br />
+[/code]</p>
+<p>This is pretty quick. Often no more than 30 seconds.</p>

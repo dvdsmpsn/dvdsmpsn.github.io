@@ -1,0 +1,108 @@
+---
+layout: post
+title: How To Track Events in Flash Movies using WebTrends
+date: 2009-03-09 18:07:26.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+tags:
+- actionscript
+- analytics
+- google analytics
+- javascript
+- webtrends
+meta:
+  aktt_notify_twitter: 'no'
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299701596'
+  _edit_last: '1'
+  tmac_last_id: '618797415764627457'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><!-- How To Track Events in Flash Movies using WebTrends --></p>
+<p>If your website contains Flash movies that link offsite or to microsites, you may wish to register the offsite link using WebTrends.  This article provides an introduction.  It assumes a little knowledge of ActionScript, Javascript as well as WebTrends.</p>
+<p>This example uses a intermediary javascript function that sits between the Flash movies and the WebTrends code.</p>
+<h3>Benefits</h3>
+<ul>
+<li>It's much easier to debug if the WebTrends javascript is not called within the compiled Flash movie</li>
+<li>The WebTrends tracking can be changed later without recompiling the Flash movie or even speaking to your Flash developer</li>
+</ul>
+<p><!--more--></p>
+<h3>Drawbacks</h3>
+<ul>
+<li>Javascript must be enabled to trigger the link to the target web page</li>
+<li>Both Flash <i>and</i> Javascript will be required to navigate your website</li>
+</ul>
+<p><b>This is bad from an accessibility point of view</b>, but I won't discuss that here.</p>
+<h2>ActionScript for Flash buttons</h2>
+<p>Edit your Flash movies so that the button that links to your external website or microsite has an ActionScript event handler which will trigger a call to Javascript.</p>
+<h3>Older ActionScript versions</h3>
+<p>[source]on (release)<br />
+{<br />
+	getURL(&quot;javascript:myFlashEvent('Open Days','http://www.nottingham.ac.uk/opendays');&quot;);<br />
+}[/source]</p>
+<h3>ActionScript 3+</h3>
+<p>The <code>getURL</code> function was removed in ActionScript 3, so a slightly more complex example is required<br />
+[source]if (ExternalInterface.available)<br />
+{<br />
+	try<br />
+	{<br />
+		ExternalInterface.call(<br />
+			'myFlashEvent',                        // function name<br />
+			'Open Days',                           // function parameter 1<br />
+			'http://www.nottingham.ac.uk/opendays' // function parameter 2<br />
+		);<br />
+	}<br />
+	catch (error:Error)<br />
+	{<br />
+		// Error handling here<br />
+	}<br />
+	catch (error:SecurityError)<br />
+	{<br />
+		// Error handling here<br />
+	}<br />
+}[/source]</p>
+<p>The ActionScript calls the Javascript intermediary function <code>myFlashEvent</code>, which in turn registers the event with WebTrends and then loads the new web page.</p>
+<h2>Javascript</h2>
+<p>[source language="javascript"]function myFlashEvent(eventDescription, eventValue){</p>
+<p>	// Register Event with WebTrends<br />
+	dcsMultiTrack(<br />
+		'DCS.dcsuri', eventValue,                  // name/value pair for URL<br />
+		'WT.ti', 'FlashEvent:' + eventDescription  // name/value pair for page title<br />
+	);</p>
+<p>	// Go to URL<br />
+	document.location.href = eventValue;<br />
+}[/source]</p>
+<p>This function will track the event as a visit to a URI using the <code>DCS.dcsuri</code> parameter.  The page title for the URI will be set to e.g. 'FlashEvent:My Page Title' using the <code>WT.ti</code> parameter.</p>
+<h2>Results</h2>
+<p>The click event is showing up nicely in WebTrends as <code>FlashEvent:Open Days</code>, see the screenshot below</p>
+<p><img class="hang-1-column" src="{{ site.baseurl }}/assets/webtrends-flash-event.png" alt="Screenshot of WebTrends Console" /></p>
+<h2>Example code</h2>
+<p>A working example of this code can be found <a href="http://www.nottingham.ac.uk/analytics-events/analytics-events/">here</a>.  </p>
+<p>Sorry, I don't have access to the .fla file, so that is not included.</p>
+<h2>Adapting the Javascript for Google Analytics</h2>
+<p>The <code>myFlashEvent</code> function can easily be adapted to work with Google Analytics instead:</p>
+<p>[source language="javascript"]function myFlashEvent(eventDescription, eventValue){</p>
+<p>	// Register event<br />
+	pageTracker._trackEvent(<br />
+		'Flash', 'Link',<br />
+		eventDescription, eventValue<br />
+	);</p>
+<p>	// Go to URL<br />
+	document.location.href = eventValue;<br />
+}[/source]</p>
+<h2>Reference</h2>
+<ul>
+<li><a href="http://www.arena.no/dokumentasjon/wt85/dcsMultiTrack.pdf">Tracking Complex Web Page Interactions Using dcsMultiTrack (WebTrends)</a></li>
+<li><a href="http://blog.webtrends.com/2009/03/09/tracking-visitors-in-a-rich-media-world-part-i-tracking/">Tracking Visitors in a Rich Media World, Part I: Tracking</a></li>
+<li><a href="http://code.google.com/apis/analytics/docs/eventTrackerGuide.html">Event Tracking Guide (Google Analytics)</a></li>
+<li><strong>Update:</strong> Here's a really elegant solution to adding <a href="http://www.embeddedstream.com/2009/02/27/webtrends-tracking-from-flash/">Webtrends tracking to Flash</a> movies</li>
+<li><strong>Update:</strong> <a href="http://www.insideria.com/2009/02/using-google-analytics-within.html">Google Analytics within Flex/Flash Applications</a</a></li>
+</ul>

@@ -1,0 +1,44 @@
+---
+layout: post
+title: Wiping OAuth2 tokens from IBM Connections
+date: 2014-02-10 12:59:35.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Social Business
+- web
+tags:
+- ibm connections
+- note to self
+- oauth
+- oauth2
+- opensocial
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  tmac_last_id: '618797319161393152'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Sometimes when developing OpenSocial gadgets for IBM Connections, you just need to <a href="http://infolib.lotus.com/resources/connections/4.0/doc/en_us/ic4_p2.html#configuringgadgetsinhomepage__PurgingAllTokens">purge the OAuth tokens</a>. </p>
+<p>For example when you've rebuilt the system which hosts the OAuth2 provider, you'll need everyone to do the OAuth <a title="Aside: Love Train" href="http://www.youtube.com/watch?v=N0GtuI22A6M">dance</a> again.</p>
+<p>It's easy, but I normally forget the command. Here's how:</p>
+<p>[code]<br />
+# Start the WebSphere admin client<br />
+cd /opt/IBM/WebSphere/AppServer/profiles/Dmgr01/bin<br />
+./wsadmin.sh -lang jython -user wasadmin -password passw0rd</p>
+<p># Access the News Admin script<br />
+execfile(&quot;newsAdmin.py&quot;)</p>
+<p># Purge all OAuth2 tokens - sledgehammer approach<br />
+NewsOAuth2ConsumerService.purgeAllTokens()<br />
+[/code]</p>
+<p>While you're here, you may as well also <a href="http://www-10.lotus.com/ldd/lcwiki.nsf/xpDocViewer.xsp?lookupName=IBM+Connections+4.5+Documentation#action=openDocument&res_title=Clearing_the_widget_cache_ic45&content=pdcontent">clear the widget cache</a>:</p>
+<p>[code]<br />
+NewsWidgetCatalogService.clearWidgetCaches()<br />
+[/code]</p>
+<p>This removes any cached copies of OpenSocial gadgets or iWidgets from the Widget Container cache. It can also be useful during development.</p>

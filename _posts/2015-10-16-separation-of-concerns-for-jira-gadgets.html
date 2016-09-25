@@ -1,0 +1,90 @@
+---
+layout: post
+title: Separation of concerns for JIRA gadgets
+date: 2015-10-16 19:43:48.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- atlassian
+- atlassian plugin sdk
+- JIRA
+- opensocial
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>This blog post started out as an answer to a <a href="http://stackoverflow.com/a/27178827/1958200">Stack Overflow question</a>.</p>
+<p>For my gadgets, I separate out all the XML, HTML, JavaScript and CSS from the <code>atlassian-plugin.xml</code>.</p>
+<p>The setup is initially more complex, but once you've got this correct, the separation of concerns is much nicer than mangling everything into the <code>atlassian-plugin.xml</code> file.</p>
+<p>The relative paths on the other hand do indeed look crazy.</p>
+<p>My file system looks like this:</p>
+<p>[code]<br />
+- resources/<br />
+    - gadgets/<br />
+        - css/<br />
+            - example.css<br />
+        - html/<br />
+            - example.html<br />
+        - js/<br />
+            - example.js<br />
+        - examaple-gadget.xml<br />
+    - atlassian-plugin.xml<br />
+[/code]</p>
+<p>In <code>/resources/atlassian-plugin.xml</code>:</p>
+<p>[code]<br />
+&lt;!-- add our web resources --&gt;<br />
+&lt;web-resource key=&quot;${project.artifactId}-resources&quot; name=&quot;${project.artifactId} Web Resources&quot;&gt;<br />
+  &lt;dependency&gt;com.atlassian.auiplugin:ajs&lt;/dependency&gt;<br />
+  &lt;resource type=&quot;download&quot; name=&quot;example-gadgets/&quot; location=&quot;/gadgets&quot;/&gt;<br />
+  &lt;context&gt;immersive-for-connections&lt;/context&gt;<br />
+&lt;/web-resource&gt;</p>
+<p>&lt;gadget name=&quot;Example JIRA Gadget&quot; i18n-name-key=&quot;example-jira-gadget.name&quot;<br />
+        key=&quot;example-jira-gadget&quot; location=&quot;gadgets/example-gadget.xml&quot;&gt;<br />
+  &lt;!--<br />
+    hosted at:<br />
+    /rest/gadgets/1.0/g/${project.groupId}.${project.artifactId}:example-gadgets/gadgets/example-gadget.xml<br />
+  --&gt;<br />
+  &lt;description key=&quot;jira-query-gadget.description&quot;&gt;The JIRA Query Gadget Plugin&lt;/description&gt;<br />
+&lt;/gadget&gt;<br />
+[/code]</p>
+<p>In <code>/resources/gadgets/example-gadget.xml</code> (replace $<code>{project.artifactId}</code> &amp; <code>${project.groupId}</code> with the correct value):</p>
+<p>[code]<br />
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+&lt;Module&gt;<br />
+  ...<br />
+  &lt;Content type=&quot;html&quot; view=&quot;example.view&quot; preferred_width=&quot;100%&quot;<br />
+    href=&quot;../../../../../../download/resources/${project.groupId}.${project.artifactId}:${project.artifactId}-resources/gadgets/html/example.html&quot;/&gt;<br />
+&lt;/Module&gt;<br />
+[/code]</p>
+<p>In <code>/resources/gadgets/html/example.html</code> (replace $<code>{project.artifactId}</code> &amp; <code>${project.groupId}</code> with the correct value):</p>
+<p>[code]<br />
+&lt;!DOCTYPE html&gt;<br />
+&lt;html&gt;<br />
+  &lt;head&gt;<br />
+    ...<br />
+    &lt;link href=&quot;../../../../../../download/resources/${project.groupId}.${project.artifactId}:${project.artifactId}-resources/gadgets/css/example.css&quot;<br />
+      type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;<br />
+    &lt;script src=&quot;../../../../../../download/resources/${project.groupId}.${project.artifactId}:${project.artifactId}-resources/gadgets/js/example.js&quot;&gt;<br />
+    &lt;/script&gt;<br />
+  &lt;/head&gt;<br />
+  &lt;body&gt;<br />
+    ...<br />
+  &lt;/body&gt;<br />
+&lt;/html&gt;<br />
+[/code]</p>
+<p>From this somewhat excessing starting point, you'll have content, behaviour and styles completely separated. If that floats your boat, then you'll be happy.</p>

@@ -1,0 +1,55 @@
+---
+layout: post
+title: Atlassian Confluence hides create button and top navigation on license expiry
+date: 2014-10-09 16:59:24.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _encloseme: '1'
+  _pingme: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '3036'
+  _wpas_done_all: '1'
+  tmac_last_id: '618797290216648705'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>This was driving me crazy. I developed an add-on for Confluence, but sometimes the top navigation bar was missing items.</p>
+<p>I was concerned that my add-on was really misbehaving and interfering in some way with the core product. There was no need to worry as <a href="http://twitter.com/dzhu">Danielle</a> figured it out.</p>
+<p>On license expiry, rather than informing you that the license has expired, it simply disables features in the main header such as:</p>
+<ul>
+<li>Spaces</li>
+<li>People</li>
+<li>Create button</li>
+<li>The search box</li>
+</ul>
+<p>If you run a product under the Atlassian SDK, you get a single day license. If you leave it overnight and come back, bits of the product (such as the Create button) get disabled. Restarting the product resets the license, so the disabled parts start working again.  This doesn't seem to be documented anywhere as far as I can tell.<br />
+<!--more--></p>
+<p>Here's a video demo:</p>
+<div class="embed-container"><iframe src="https://www.youtube.com/embed/xZzybwL66yE" frameborder="0" allowfullscreen></iframe></div>
+<p>This is really annoying as it can lead to wasted time, so here's some boilerplate JavaScript to add to all Confluence plugins:</p>
+<p>[code]<br />
+AJS.toInit(function ($) {<br />
+  setTimeout(function () {<br />
+    // Development mode<br />
+    if (AJS.params.isDevMode &amp;&amp; $('#quick-search-query').length === 0) {<br />
+      alert(<br />
+        '      ~~~ RESTART CONFLUENCE ~~~         \n' +<br />
+        '   ~~~ THE LICENSE HAS EXPIRED ~~~       \n' +<br />
+        '~~~   Bits of the UI have disappeared ~~~'<br />
+      );<br />
+    }<br />
+  }, 1000);<br />
+});<br />
+[/code]</p>
+<p>This code waits a second and then checks to see if the Confluence instance is in "dev mode", then looks for the search field. If the search field is missing, it assumes the license has expired and alerts you with an annoying popup/JavaScript alert.</p>

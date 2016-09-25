@@ -1,0 +1,62 @@
+---
+layout: post
+title: More flexible commenting in Atlassian's Confluence
+date: 2011-01-23 02:10:19.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags: []
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299687008'
+  _topsy_long_url: http://davidsimpson.me/2011/01/23/more-flexible-commenting-in-atlassians-confluence/
+  topsy_short_url: http://bit.ly/fDqBts
+  _edit_last: '1'
+  tmac_last_id: '618797387222421504'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Confluence users often ask me how the <a href="http://confluence.atlassian.com/display/DOC/Permissions+Overview">Confluence permissions model</a> works.  A reoccurring theme is the ability (or lack thereof) to selectively show or hide comments in a space on an ad-hoc basis.</p>
+<p>The current feature set of Confluence allows you to either enable or disable comments on a per space basis.  For some users this can seem overly simplistic.  Though we don't really want to change the way that Confluence works under the hood, perhaps we can give the appearance of a more granular commenting permissions model.  In this way, CSS can be used to show or hide the comments block.</p>
+<p>There are 2 ways of approaching this problem.<!--more--></p>
+<ol>
+<li>Enabling comments  in a space and then selectively "disabling comments"</li>
+<li>"Disabling comments" in a space by default and then selectively "enabling comments"</li>
+</ol>
+<p>Either way works, but different people have different needs.  Choose whichever is appropriate.</p>
+<p>This article requires a couple of user macros</p>
+<p><strong>Hide Comments</strong><br />
+[code]<br />
+## User Macro hide-comments<br />
+## Usage: {hide-comments}<br />
+&lt;style type=&quot;text/css&quot;&gt;#com-atlassian-confluence #comments-section { display:none; } &lt;/style&gt;<br />
+[/code]</p>
+<p><strong>Show Comments</strong></p>
+<p>[code]<br />
+## User Macro : show-comments<br />
+## Usage: {show-comments}<br />
+&lt;style type=&quot;text/css&quot;&gt;#com-atlassian-confluence #comments-section { display:block; }&lt;/style&gt;<br />
+[/code]</p>
+<h2>Enabling comments  in a space and then selectively "disabling comments"</h2>
+<p>Simply add <code>{hide-comments}</code> to a page et voila - no commenting functionality is displayed</p>
+<h2>"Disabling comments" in a space by default and then selectively "enabling comments"</h2>
+<p>Edit the custom space stylesheet. Add this:<br />
+[code]<br />
+/* hide comments by default */<br />
+#com-atlassian-confluence #comments-section { display:none; }<br />
+[/code]</p>
+<p>On each page that you want to allow comments, add <code>{show-comments}</code>.  This overrides the CSS for <code>div#comments-section</code> allowing the commenting functionality to be displayed.</p>
+<h3>For extra points</h3>
+<p>If you're using the Documentation theme, you can include a common footer to drive comments to a  single page within the space, e.g.</p>
+<p>Add the following to the footer</p>
+<pre>[Add a comment|Comments]</pre>
+<p>Create a <strong>Comments</strong> page where your comments will all be amassed</p>
+<p>On the comments page, add the user macro</p>
+<pre>{show-comments}</pre>
+<p>That's it. With a sprinkling of CSS and some very simple user macros, we can effectively turn commenting on and off at will in a more granular manner.</p>

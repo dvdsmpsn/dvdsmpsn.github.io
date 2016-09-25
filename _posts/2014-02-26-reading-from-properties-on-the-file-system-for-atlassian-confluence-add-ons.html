@@ -1,0 +1,49 @@
+---
+layout: post
+title: Reading from properties on the file system for Atlassian Confluence add-ons
+date: 2014-02-26 10:50:31.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- web
+tags:
+- add-on
+- atlassian
+- confluence
+- java
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797315462053890'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><strong> Jobin Kuruvilla</strong> wrote a neat little blogpost "<a href="http://www.j-tricks.com/1/post/2012/08/reading-from-property-file-in-v2-plugins.html">Reading from property file in v2 plugins</a>" for JIRA plugins. This got me thinking that while people have <a href="https://answers.atlassian.com/questions/23331/read-global-property-file-in-custom-plugins">asked</a>, no one had written up how to do the same for Atlassian Confluence.</p>
+<p>It's relatively straightforward, but while Jobin shows you how to read the properties file from <strong>WEB-INF/classes/</strong> as well as the home directory, I'd recommend storing only storing properties files within the home directory, purely for ease of upgrade.</p>
+<p>Anyway, here's the code:</p>
+<p>[code]<br />
+import com.atlassian.config.util.BootstrapUtils;<br />
+import java.io.*;<br />
+import java.util.*;</p>
+<p>...<br />
+...</p>
+<p>// get the Confluence home directory<br />
+String applicationHome = BootstrapUtils.getBootstrapManager().getApplicationHome();<br />
+File file = new File(applicationHome, &quot;some-file.properties&quot;);<br />
+FileInputStream fileInputStream = new FileInputStream(file);</p>
+<p>Properties p = new Properties();<br />
+p.load(fileInputStream);</p>
+<p>// read individual key<br />
+p.getProperty(&quot;test.key&quot;)<br />
+[/code]</p>
+<p>To test this out, you'll need to add your <b>some-file.properties</b> to the Confluence home directory. In your development environment, that's likely to be here: </p>
+<p>[code]<br />
+plugin_root/target/confluence/home<br />
+[/code]</p>
+<p>If you're concerned about caching this (and you should be), call this code from an add-on initialisation method. To reload or update the properties, disable and re-enable the add-on. Or build a UI to trigger an update.</p>

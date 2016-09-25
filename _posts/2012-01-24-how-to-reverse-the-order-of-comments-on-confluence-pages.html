@@ -1,0 +1,62 @@
+---
+layout: post
+title: How to reverse the order of comments on Confluence pages
+date: 2012-01-24 14:15:56.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- atlassian
+- confluence
+- javascript
+- jQuery
+meta:
+  tmac_last_id: '618797364006883328'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>From a recent comment on <a href="https://answers.atlassian.com/">Atlassian Answers</a>, Norman Hills asked "<a href="https://answers.atlassian.com/questions/28999/is-it-possible-to-reverse-the-order-in-which-comments-appear">Is it possible to reverse the order in which comments appear?</a>"</p>
+<p>This is straightforward if done client-side, so I've written it up here.<br />
+<!--more--><br />
+If you just want to reverse the order for good, browse to <b>Confluence Admin | Look & Feel | Custom HTML</b></p>
+<p>Add this to <b>At the end of the HEAD</b>:</p>
+<p>[code lang="javascript"]<br />
+&lt;script&gt;<br />
+  AJS.toInit(function(){<br />
+    $comments = AJS.$('#page-comments');<br />
+    $comments.children().each(function(i,li){$comments.prepend(li)});<br />
+  });<br />
+&lt;/script&gt;<br />
+[/code]</p>
+<p>Job done.</p>
+<h2>For extra points</h2>
+<p>If you want to be able to reverse the order, then it's slightly more effort.</p>
+<p>Browse to <b>Confluence Admin | Look & Feel | Custom HTML</b></p>
+<p>Add this to <b>At the end of the HEAD</b>:<br />
+[code lang="javascript"]<br />
+&lt;script&gt;<br />
+  function reverseCommentOrder(){<br />
+    $comments = AJS.$('#page-comments');<br />
+    $comments.children().each(function(i,li){$comments.prepend(li)});<br />
+  }</p>
+<p>  AJS.toInit(function(){<br />
+    // reverse the comment order<br />
+    reverseCommentOrder();</p>
+<p>    // add a link to reverse the order<br />
+    AJS.$('#comments-section-title').append('&lt;a id=&quot;page-comments-reverse&quot; href=&quot;#&quot;&gt;(Reverse Order)&lt;/a&gt;');<br />
+    AJS.$('#page-comments-reverse').css({ 'color':'#999','font-size':'0.65em'})<br />
+                                   .click(function(e){<br />
+      reverseCommentOrder();<br />
+      e.preventDefault();<br />
+    });<br />
+  });<br />
+&lt;/script&gt;<br />
+[/code]</p>
+<p>That's all. Have fun.</p>

@@ -1,0 +1,48 @@
+---
+layout: post
+title: A simple Webtrends event tracking tip
+date: 2011-11-04 14:50:31.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- analytics
+- webtrends
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797373486034944'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>
+In Webtrends,  events that happens after the page loads can be tracked using <b><a href="https://tagbuilder.webtrends.com/Help/EventTracking/DcsMultiTrack.aspx">dcsMultiTrack</a></b>.</p>
+<p>This takes the following form:<br />
+[source]dcsMultiTrack( key1, value1, key2, value2, key3, value3, ... );[/source]</p>
+<p>But what if you don't know how many key/value pairs you'll be sending into <b>dcsMultiTrack</b>? How do you call it then? </p>
+<p>Take advantage of the JavaScript <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/function/apply">apply</a> function.  Create an array of key/value pairs and then apply that array to the <b>dcsMultiTrack</b> function:</p>
+<p>[source]<br />
+var webtrendsArgs = [<br />
+	'DCSext.w_event_type', 'Video Started',<br />
+	'DCSext.w_video_id', 'xxxx-yyyy-zzzz-1234',<br />
+	'DCSext.w_video_name', 'Kitten Video'<br />
+	];</p>
+<p>dcsMultiTrack.apply(this, webtrendsArgs);<br />
+[/source]</p>
+<p>This is equivalent to:</p>
+<p>[source]<br />
+dcsMultiTrack(<br />
+	'DCSext.w_event_type', 'Video Started',<br />
+	'DCSext.w_video_id', 'xxxx-yyyy-zzzz-1234',<br />
+	'DCSext.w_video_name', 'Kitten Video'<br />
+);<br />
+[/source]</p>
+<p>If needed, you can add the key/value pairs to <b>webtrendsArgs</b> array incrementally and when complete, apply this to <b>dcsMultiTrack</b> at the end.</p>
+<p><cite>Source: <a href="http://stackoverflow.com/questions/6078103/webtrends-analytics-implementation-using-variables-in-an-async-tracking-call-p">StackOverflow</a></cite></p>

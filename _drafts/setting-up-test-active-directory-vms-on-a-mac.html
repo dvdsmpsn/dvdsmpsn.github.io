@@ -1,0 +1,184 @@
+---
+layout: post
+title: Setting up test Active Directory VMs on a Mac
+date: 
+type: post
+published: false
+status: draft
+categories: []
+tags: []
+meta:
+  _publicize_twitter_user: "@dvdsmpsn"
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '3176'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Previously, I've discussed <a title="Using a Vagrant built OpenLDAP server to test Enteprise Directory and Org Chart for Confluence" href="http://blog.appfusions.com/?p=1987" rel="bookmark">Using a Vagrant built OpenLDAP server to test Enteprise Directory and Org Chart for Confluence</a>. Now is the turn of Active Directory. This is somewhat more labourious because all steps are manually done, but you get a valid working VM at the end of the process.</p>
+<h2>Prerequisites</h2>
+<p>wget:<br />
+[code]<br />
+brew update<br />
+brew install wget<br />
+[/code]</p>
+<p>qemu-img:<br />
+[code]<br />
+brew install qemu<br />
+[/code]</p>
+<p>VMware Fusion -- buy it ;)</p>
+<h2>Procedure</h2>
+<p>You can download a 180 day evaluation of Windows Server 2008 R2 Enterprise Edition from Microsoft's <a href="http://www.microsoft.com/en-us/download/details.aspx?id=2227" target="_blank">Download Center</a>.<br />
+<strong>Download and unarchive the source image</strong></p>
+<p>In terminal:</p>
+<p>[code]<br />
+mkdir -p ~/tmp/vhd<br />
+cd ~/tmp/vhd<br />
+wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part01.exe<br />
+wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part02.rar<br />
+wget http://download.microsoft.com/download/5/4/C/54C15FA1-B3AA-4A8B-B26C-47C3BA7A20E0/WS2008R2Fullx64Ent.part03.rar<br />
+unrar x WS2008R2Fullx64Ent.part01.exe<br />
+[/code]</p>
+<p>Convert the original VHD image for VMware</p>
+<p>[code]cd ~/tmp/vhd/WS2008R2Fullx64Ent/WS2008R2Fullx64Ent/Virtual\ Hard\ Disks[/code]</p>
+<p>This stalled after 20 minutes:<br />
+[code]qemu-img convert -p -f vpc -O vmdk WS2008R2Fullx64Ent.vhd WS2008R2Fullx64Ent.vmdk[/code]</p>
+<p>This worked and was much faster...<br />
+[code]emu-img convert -O vmdk WS2008R2Fullx64Ent.vhd ~/tmp/WS2008R2Fullx64Ent.vmdk[/code]</p>
+<p>The conversion takes approx 5 mins. Take a backup of the resulting file</p>
+<p>Open VMware Fusion<br />
+<code>File | New…</code></p>
+<p>Click on "Continue without disc" &amp; "Continue":</p>
+<p><img src="{{ site.baseurl }}/assets/baa1a32b-6b14-401b-bd34-2ba0fa2d79c9.jpg" alt="" name="baa1a32b-6b14-401b-bd34-2ba0fa2d79c9" /></p>
+<p>Select "Use an existing virtual disk:" and choose <code>~/tmp/WS2008R2Fullx64Ent.vmdk</code> then "Continue"</p>
+<p><img src="{{ site.baseurl }}/assets/433d890d-9437-490c-8f52-9e4757eb9e0d.jpg" alt="" name="433d890d-9437-490c-8f52-9e4757eb9e0d" /></p>
+<p>Windows setup starts…</p>
+<p>You need to change the Administrator password e.g. to <strong>Admin4test</strong> on setup completion.</p>
+<p><img src="{{ site.baseurl }}/assets/a3087a75-73a5-48a4-8f37-aa5f94bc8740.jpg" alt="" name="a3087a75-73a5-48a4-8f37-aa5f94bc8740" /></p>
+<p>Shutdown the VM and set the network config to <strong>Bridged Networking | Autodetect</strong>:</p>
+<p><img src="{{ site.baseurl }}/assets/Screen-Shot-2013-04-30-at-21.32.58.png" alt="" name="ac74a70f-6bb1-4c00-a51f-6f75dd41e6da" /></p>
+<p>Restart the VM and continue with steps 5-7 from "<a href="http://stef.thewalter.net/2012/08/how-to-create-active-directory-domain.html" target="_blank">How to create an Active Directory domain to test against</a>" by Stef Walter:</p>
+<blockquote>
+<h3>Set the IP address</h3>
+<ul>
+<li>An Active Directory server acts as an LDAP and DNS server, and needs a static IP address.</li>
+<li>Click <em>Start</em>  &gt;  <em>Network, </em>and then click the <em>Change adapter settings</em> link in the window that comes up. Another window should appear.</li>
+<li>Right click on the <em>Local Area Connection</em> item and choose<em>Properties</em> in the menu.</li>
+<li>Click on the <em>Internet Protocol Version 4 (TCP/IPv4)</em> item and then click the <em>Properties</em> button. A dialog for setting the addresses comes up.</li>
+<li>
+		Choose <em>Use the following IP address. </em>Then set the relevant fields. The settings here are based on the virtual network you created above, if you used a different netblock then modify as appropriate:<br />
+		<em>IP Address</em>: <tt>192.168.0.101</tt><br />
+		<em>Subnet mask</em>: <tt>255.255.255.0</tt><br />
+		<em>Default gateway</em>: <tt>192.168.0.1</tt>
+	</li>
+<li>Click OK or Close in the various dialogs to complete things.</li>
+</ul>
+<h3>Set the machine name</h3>
+<ul>
+<li>An Active Directory server should have a well known DNS name, you don't need to set it in DNS, but just name the server appropriately and then Active Directory will do the rest.</li>
+<li>Click <em>Start</em> &gt; <em>Computer</em>, and a window should come up.</li>
+<li>In the left pane of the window, there's an item called <em>Computer.</em>Right click on it and choose <em>Properties</em> from the menu. Another window should show up.</li>
+<li>Click <em>Change Settings</em>, and a dialog will come up.</li>
+<li>In the <em>Computer Name</em> tab click the <em>Change...</em> button, which displays another dialog.</li>
+<li>Set <tt><span style="font-family: 'Andale Mono';">DC</span></tt> as the <em>Computer name</em> or another name of your choice. Don't worry about the <em>Member of Domain or Workgroup</em> stuff yet.</li>
+<li>Click OK and/or Close to complete the changes. You'll be prompted to restart, so go ahead and do that.</li>
+</ul>
+<h3> Setting up Active Directory</h3>
+<ul>
+<li>Click <em>Start &gt;</em> <em>Run</em> and type <tt>DCPROMO</tt> in the dialog that comes up.</li>
+<li>A progress window will come up which explains about installing some components. This takes a while.</li>
+<li>A wizard will eventually show up. Click through the introduction and warnings.</li>
+<li>Choose <em>Create a new domain in a new forest</em>.</li>
+<li>On the next page enter the domain -- we're using <span style="font-family: 'Andale Mono';">appfusions.local</span></li>
+<li>Choose the <em>Forest functional level</em>. You can choose whichever one you like. Choosing <em>2008 R2</em> is a decent choice. You can test against various Active Directory servers with different levels to simulate different domains you might encounter in the wild.</li>
+<li>Make sure <em>DNS Server</em> is chosen on the next page.</li>
+<li>Once you complete that, a dialog will come up warning you about how the DNS delegation cannot be created. We'll do that manually below, so this is nothing to worry about. Choose <em>Yes</em>.</li>
+<li>Leave the default paths for database and log files.</li>
+<li>Choose a domain <em>Administrator</em> password. Logically this is different from the local server <em>Administrator</em> account you set the password for above. But you can use the same password to keep things simple. we're using <span style="font-family: 'Andale Mono';">Admin4test</span></li>
+<li>Review the selections if you're interested, and then click <em>Next</em> to complete things.</li>
+<li>Wait for a while for installation and configuration, <em>Finish. </em></li>
+<li>You'll need to <em>Restart Now</em>.</li>
+<li>The reboot after installing Active Directory will take a while as it does a bunch of stuff on the first boot.</li>
+</ul>
+</blockquote>
+<p><strong>Adding some users</strong></p>
+<ul>
+<li>Click Start &gt; Type "Server Manager"</li>
+<li>In Server Manager, expand the tree Roles | Active Directory Domain Services | Active Directory Users and Computers [appfusions.local] | appfusions.local</li>
+<li>Add some users</li>
+<li>
+<ul>
+<li>Uncheck <em>User must change password at next login</em></li>
+<li>Check <em>Password never expires</em></li>
+</ul>
+</li>
+</ul>
+<p><img src="{{ site.baseurl }}/assets/Screen-Shot-2013-04-30-at-21.45.42.png" alt="" name="f818f8df-6d24-4cb8-a69c-2a350c88aa56" /></p>
+<p><img src="{{ site.baseurl }}/assets/Screen-Shot-2013-04-30-at-21.45.59.png" alt="" name="eb111439-7b66-4bd1-b560-7cdb1245acd0" /></p>
+<p>From an external machine, check that you can connect to the AD:</p>
+<p>[code]<br />
+ldapsearch -h 192.168.0.101 -p 389 -D &quot;CN=Sametime User,CN=Users,DC=appfusions,DC=local&quot; -w password -b CN=Users,DC=appfusions,DC=local &quot;cn=David*&quot;</p>
+<p># extended LDIF<br />
+#<br />
+# LDAPv3<br />
+# base &lt;CN=Users,DC=appfusions,DC=local&gt; with scope subtree<br />
+# filter: cn=DAVID*<br />
+# requesting: ALL<br />
+#</p>
+<p># David Simpson, Users, appfusions.local<br />
+dn: CN=David Simpson,CN=Users,DC=appfusions,DC=local<br />
+objectClass: top<br />
+objectClass: person<br />
+objectClass: organizationalPerson<br />
+objectClass: user<br />
+cn: David Simpson<br />
+sn: Simpson<br />
+givenName: David<br />
+distinguishedName: CN=David Simpson,CN=Users,DC=appfusions,DC=local<br />
+instanceType: 4<br />
+whenCreated: 20130430202315.0Z<br />
+whenChanged: 20130430202349.0Z<br />
+displayName: David Simpson<br />
+uSNCreated: 12725<br />
+uSNChanged: 12731<br />
+name: David Simpson<br />
+objectGUID:: jrlW2NfWXUqwpo/Ks6G6KQ==<br />
+userAccountControl: 66048<br />
+badPwdCount: 0<br />
+codePage: 0<br />
+countryCode: 0<br />
+badPasswordTime: 0<br />
+lastLogoff: 0<br />
+lastLogon: 0<br />
+pwdLastSet: 130118269951934678<br />
+primaryGroupID: 513<br />
+objectSid:: AQUAAAAAAAUVAAAATgHMeSBL+ixYUEeEUAQAAA==<br />
+accountExpires: 9223372036854775807<br />
+logonCount: 0<br />
+sAMAccountName: david<br />
+sAMAccountType: 805306368<br />
+userPrincipalName: david @ appfusions.local<br />
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=appfusions,DC=local<br />
+dSCorePropagationData: 16010101000000.0Z<br />
+mail: david @ appfusions.com</p>
+<p># search result<br />
+search: 2<br />
+result: 0 Success</p>
+<p># numResponses: 2<br />
+# numEntries: 1<br />
+[/code]</p>
+<p><strong>Update the hosts file on remote machines</strong></p>
+<p>Next if you want to refer to this machine as say <code>dc.appfusions.com</code> or even <code>ad.vm.appfusions.com</code> from another VM, remember to update the hosts file on that VM with:</p>
+<p>[code]<br />
+192.168.0.101 dc.appfusions.com ad.vm.appfusions.com<br />
+[/code]</p>
+<p>See:</p>
+<ul>
+<li><a href="http://freeipa.org/page/Setting_up_Active_Directory_domain_for_testing_purposes" target="_blank">http://freeipa.org/page/Setting_up_Active_Directory_domain_for_testing_purposes</a></li>
+<li><a href="http://www.microsoft.com/en-us/download/details.aspx?id=2227" target="_blank">http://www.microsoft.com/en-us/download/details.aspx?id=2227</a></li>
+<li><a href="http://stef.thewalter.net/2012/08/how-to-create-active-directory-domain.html" target="_blank">http://stef.thewalter.net/2012/08/how-to-create-active-directory-domain.html</a></li>
+</ul>

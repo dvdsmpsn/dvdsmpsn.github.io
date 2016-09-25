@@ -1,0 +1,77 @@
+---
+layout: post
+title: Switching Java versions easily on a Mac
+date: 2015-08-12 12:06:04.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _thumbnail_id: '3252'
+  mdlwp-height: ''
+  mdlwp-bg-color: ''
+  mdlwp-title-color: ''
+  _wpas_skip_11278197: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>I do a lot of development using Java 7 and recently needed to start using Java 8.</p>
+<p>The quickest way I know to update to the latest Java uses homebrew:</p>
+<p>[code]<br />
+brew tap caskroom/cask<br />
+brew install brew-cask<br />
+brew cask install java<br />
+[/code]</p>
+<p>I now need an easy way to switch back and forth between Java 7 &amp; 8.</p>
+<p>Adding this to your <code>~/.bash_profile</code> or <code>~/.profile</code> does the trick:</p>
+<p>[code]<br />
+function setjdk() {<br />
+  if [ $# -ne 0 ]; then<br />
+   removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'<br />
+   if [ -n &quot;${JAVA_HOME+x}&quot; ]; then<br />
+    removeFromPath $JAVA_HOME<br />
+   fi<br />
+   export JAVA_HOME=`/usr/libexec/java_home -v $@`<br />
+   export PATH=$JAVA_HOME/bin:$PATH<br />
+  fi<br />
+ }<br />
+ function removeFromPath() {<br />
+  export PATH=$(echo $PATH | sed -E -e &quot;s;:$1;;&quot; -e &quot;s;$1:?;;&quot;)<br />
+ }</p>
+<p># set your default version<br />
+setjdk 1.7<br />
+[/code]</p>
+<p>&ndash; <a href="http://nemecec.blogspot.co.uk/2012/04/os-x-switching-java-versions-easily.html">Source.</a></p>
+<p>This script cunningly uses <code>/usr/libexec/java_home -v x.y</code> to do the hard lifting.</p>
+<p>I can now easily swap between Java versions as seen below:</p>
+<p>[code]<br />
+david$ setjdk 1.6<br />
+david$ java -version<br />
+java version &quot;1.6.0_65&quot;<br />
+Java(TM) SE Runtime Environment (build 1.6.0_65-b14-462-11M4609)<br />
+Java HotSpot(TM) 64-Bit Server VM (build 20.65-b04-462, mixed mode)</p>
+<p>david$ setjdk 1.7<br />
+david$ java -version<br />
+java version &quot;1.7.0_71&quot;<br />
+Java(TM) SE Runtime Environment (build 1.7.0_71-b14)<br />
+Java HotSpot(TM) 64-Bit Server VM (build 24.71-b01, mixed mode)</p>
+<p>david$ setjdk 1.8<br />
+david$ java -version<br />
+java version &quot;1.8.0_51&quot;<br />
+Java(TM) SE Runtime Environment (build 1.8.0_51-b16)<br />
+Java HotSpot(TM) 64-Bit Server VM (build 25.51-b03, mixed mode)<br />
+[/code]</p>
+<p>This is a nice simple way to swap versions and is at least good enough for now.</p>
+<p><strong>Aside:</strong> I also tried out <a href="http://www.jenv.be/">jenv</a> which promises much, but wouldn't accept my versions of Java when I tried it out.</p>

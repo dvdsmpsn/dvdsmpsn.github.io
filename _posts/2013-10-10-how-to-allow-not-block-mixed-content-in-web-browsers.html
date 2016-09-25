@@ -1,0 +1,49 @@
+---
+layout: post
+title: How to allow (rather than block) mixed content in web browsers
+date: 2013-10-10 12:28:24.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797338635558913'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _pingme: '1'
+  _encloseme: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Yes, there is the small matter of security, but sometimes theres a need to open an <strong>https://</strong> website that has iframe content using <strong>http://</strong>. In good modern browsers , when you try this, you'll get an error in the console similar to:</p>
+<p>[code]<br />
+Blocked loading mixed active content &quot;http://davidsimpson.me/&quot;<br />
+[/code]</p>
+<p>This is normally a very good thing especially from a security post of view. But there are always edge cases. This blogpost is a workaround for the edge cases.</p>
+<h2>Workarounds</h2>
+<h3>Firefox</h3>
+<p>In Firefox, you can install the <a href="http://quickjavaplugin.blogspot.co.uk/2013/09/quickjava-20.html">Quick Java</a> add-on which gives a toolbar allowing you to quickly toggle a variety of setting e.g. JavaScript, Java, Flash, Images etc.</p>
+<p>Enable the toolbar using <b>View | Toolbars | Add-on Bar</b>:</p>
+<p><img src="{{ site.baseurl }}/assets/view-addon-bar.png" alt="" title="view-addon-bar" class="alignnone size-full " /></p>
+<p>This gives a toolbar with buttons labeled: A, JS, J, F, SL, C, I, A, CS</p>
+<p>Click on the 1st button labelled "A" the background colour will go from green to red:</p>
+<p><img src="{{ site.baseurl }}/assets/mixed-content.png" alt="" title="mixed-content" class="alignnone size-full wp-image-2015" /></p>
+<p>Once that's done, you'll be able to open <code>http://</code> iframes on an <code>https://</code> page.</p>
+<h3>Chrome</h3>
+<p>In Chrome, I favour a much simpler approach. Shutdown Chrome then launch it from the command line with the additional flag of <code>--allow-running-insecure-content</code>:</p>
+<p>[code]<br />
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --allow-running-insecure-content &amp;<br />
+[/code]</p>
+<p>More details here: <a href="https://support.google.com/chrome/answer/1342714?hl=en-GB">"This page has insecure content."</a></p>
+<h2>Further reading</h2>
+<ul>
+<li><a href="https://davidsimpson.me/labs/--allow-running-insecure-content/">Test page for mixed content/ Google Chrome <code>--allow-running-insecure-content support</code></a></li>
+<li><a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/">Mixed Content Blocking Enabled in Firefox 23!</a></li>
+<li><a href="https://support.mozilla.org/en-US/kb/how-does-content-isnt-secure-affect-my-safety">How does content that isn't secure affect my safety?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Security/MixedContent/fix_website_with_mixed_content">How to fix a website with blocked mixed content</a></li>
+</ul>

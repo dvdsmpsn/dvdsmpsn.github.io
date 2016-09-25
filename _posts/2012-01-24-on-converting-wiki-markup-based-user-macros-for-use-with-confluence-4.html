@@ -1,0 +1,71 @@
+---
+layout: post
+title: On converting wiki markup based user macros for use with Confluence 4
+date: 2012-01-24 21:58:21.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- atlassian
+- confluence
+meta:
+  tmac_last_id: '618797363457425408'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="https://answers.atlassian.com/users/4750/thomas-emil-hansen/">Thomas Emil Hansen</a> recently wrote <a href="https://answers.atlassian.com/questions/27632/how-do-i-write-a-user-macro-with-sections-and-panels-using-the-4-0-html-template">How do I write a user macro with "sections" and "panels" using the 4.0 HTML template?</a></p>
+<p>With Confluence 4, the storage format has changed from traditional wiki markup to an XML based storage format.  This means that all those old wiki-markup based user macros are now overdue some TLC.  Luckily, there's always the "Insert Wiki Markup" dropdown in the Confluence editor to fall back on.</p>
+<p>To convert your macro...</p>
+<ol>
+<li>Create a new page and use the "<b>Insert Wiki Markup</b>" function to add your wiki markup:
+<p>[code]<br />
+{section}<br />
+  {column}<br />
+    $body<br />
+  {column}<br />
+  {column:width=300px}<br />
+    {panel}<br />
+      *Contents:*<br />
+      {toc:maxLevel=3}<br />
+    {panel}<br />
+  {column}<br />
+{section}<br />
+[/code]
+</li>
+<li>Save the page</li>
+<li>From the <b>Tools</b> menu, select <b>View Storage Format</b>. This will give you:<br />
+[code lang="xml"]<br />
+&lt;ac:macro ac:name=&quot;section&quot;&gt;<br />
+    &lt;ac:rich-text-body&gt;<br />
+        &lt;ac:macro ac:name=&quot;column&quot;&gt;<br />
+            &lt;ac:rich-text-body&gt;<br />
+                &lt;p&gt;$body&lt;/p&gt;<br />
+            &lt;/ac:rich-text-body&gt;<br />
+        &lt;/ac:macro&gt;<br />
+        &lt;ac:macro ac:name=&quot;column&quot;&gt;<br />
+            &lt;ac:parameter ac:name=&quot;width&quot;&gt;300px&lt;/ac:parameter&gt;<br />
+            &lt;ac:rich-text-body&gt;<br />
+                &lt;ac:macro ac:name=&quot;panel&quot;&gt;<br />
+                    &lt;ac:rich-text-body&gt;<br />
+                        &lt;p&gt;&lt;strong&gt;Contents:&lt;/strong&gt;&lt;/p&gt;<br />
+                        &lt;ac:macro ac:name=&quot;toc&quot;&gt;<br />
+                            &lt;ac:parameter ac:name=&quot;maxLevel&quot;&gt;3&lt;/ac:parameter&gt;<br />
+                        &lt;/ac:macro&gt;<br />
+                    &lt;/ac:rich-text-body&gt;<br />
+                &lt;/ac:macro&gt;<br />
+            &lt;/ac:rich-text-body&gt;<br />
+        &lt;/ac:macro&gt;<br />
+    &lt;/ac:rich-text-body&gt;<br />
+&lt;/ac:macro&gt;<br />
+[/code]
+</li>
+<li>Paste this into your user macro rather than the old-fangled wiki markup.</li>
+<li>Repeat this procedure for all user macros you wish to convert.</li>
+</ol>

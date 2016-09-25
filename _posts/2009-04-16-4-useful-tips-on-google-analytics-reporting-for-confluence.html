@@ -1,0 +1,187 @@
+---
+layout: post
+title: 4 Useful Tips on Google Analytics Reporting for Confluence
+date: 2009-04-16 22:29:38.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+tags:
+- analytics
+- atlassian
+- confluence
+- google analytics
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299681381'
+  _edit_last: '1'
+  tmac_last_id: '618797407556517888'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><!-- 4 useful tips on Google Analytics reporting for Confluence --></p>
+<p>Having <a href="/2009/03/18/tracking-atlassian-confluence-usage-with-google-analytics/">installed Google Analytics on Confluence</a>, you need to ensure that you're not lost in a world of pretty metrics.  </p>
+<p>Make sure that your new analytics toy produces something solid and actionable.  Anything less is just a shiny curiosity that your organisation will soon fail to engage with.</p>
+<p>This article presents 4 useful tips that really show the power of the analytics data available.  Each one can help improve the success of your Confluence installation.<br />
+<!--more--></p>
+<h2>1. Use the Content Drilldown report to segment traffic by site</h2>
+<p>Want to know which sites are generating the most traffic?  The Content Drilldown report is for you.  This allows you to view page reads by Site.</p>
+<p>The gallery below shows you how to access the correct report - In Google Analytics (GA), click on the highlighted links to get to the next page.</p>
+<p><!--***-->[caption id="attachment_291" align="alignnone" width="150" caption="Content Drilldown - Select "display""]<a href="/wp-content/uploads/2009/04/content-drilldown-all.png"><img src="{{ site.baseurl }}/assets/content-drilldown-all-150x150.png" alt="Content Drilldown - Select &quot;display&quot;" title="Content Drilldown - All" width="150" height="150" class="size-thumbnail wp-image-291" /></a>[/caption]</p>
+<p><!--***-->[caption id="attachment_292" align="alignnone" width="150" caption="Content Drilldown - Select "DOC""]<a href="/wp-content/uploads/2009/04/content-drilldown-sites.png"><img src="{{ site.baseurl }}/assets/content-drilldown-sites-150x150.png" alt="Content Drilldown - Select &quot;DOC&quot;" title="Content Drilldown - Sites" width="150" height="150" class="size-thumbnail wp-image-292" /></a>[/caption]</p>
+<p><!--***-->[caption id="attachment_293" align="alignnone" width="150" caption="Content Drilldown - Shows pages within the DOC site"]<a href="/wp-content/uploads/2009/04/content-drilldown-sites-doc.png"><img src="{{ site.baseurl }}/assets/content-drilldown-sites-doc-150x150.png" alt="Content Drilldown - Shows pages within the DOC site" title="Content Drilldown - DOC" width="150" height="150" class="size-thumbnail wp-image-293" /></a>[/caption]</p>
+<h3>Missing Page Views</h3>
+<p>The Content Drilldown report  does <em>not</em> however show everything that happens within the site, but rather only pages that are descendent of <strong>/display/DOC/</strong></p>
+<h4>Examples of missing pages</h4>
+<ul>
+<li>
+		<strong>Pages with punctuation marks in the title.</strong><br />
+		A page with a title of <em>What's this?</em> would have a URI similar to <strong>/pages/viewpage.action?pageId=26181760</strong><br />
+		<em>As a workaround, only use alphanumerics and spaces in page titles.</em>
+	</li>
+<li>
+		<strong>Page edits.</strong><br />
+		A page edit would have a URI similar to <strong>/pages/editpage.action?pageId=26181733</strong>
+	</li>
+<li>
+		<strong>Attachment views.</strong><br />
+		These do not call the Google Analytics JavaScript, so are not caught by the tracking code
+	</li>
+</ul>
+<p>The first 2 of these are tracked, but not on a site by site basis within the Content Drilldown, so they are a little more difficult to understand.</p>
+<p>Each of these <em>could</em> be tracked within the Content Drilldown by using a little jQuery magic to rewrite the URL before it is sent to Google Analytics.</p>
+<p>I've not done this yet, but it should be fairly simple to change the reported URLs to e.g.</p>
+<ul>
+<li>/display/DOC/What's This?</li>
+<li>/display/DOC/Test+Page/Edit Page</li>
+<li>/display/DOC/Test+Page/attachment/screenshot.png</li>
+</ul>
+<h2>2. Enable Site Search  & Search Categories in GA</h2>
+<p>Google Analytics will allow you to categorize site searches. With this option enabled, you can see searches within individual sites.</p>
+<p>In GA, go to <strong>Analytics Settings > Profile Settings > Edit Profile Information</strong></p>
+<p>* Select <strong>Do Track Site Search</strong><br />
+* Add <strong>queryString,searchQuery.queryString</strong> to <strong>Query Parameter (required):</strong><br />
+* Select <strong>Yes</strong> from <strong>Do you use categories for site search?</strong><br />
+* Add <strong>key,searchQuery.spaceKey,where</strong> to <strong>Category Parameter:</strong></p>
+<p><!--***-->[caption id="attachment_306" align="alignnone" width="150" caption="A screenshot of the Site Search Setting section"]<a href="/wp-content/uploads/2009/04/settings-site-search.png"><img src="{{ site.baseurl }}/assets/settings-site-search-150x150.png" alt="Settings - Site Search" title="settings-site-search" width="150" height="150" class="size-thumbnail wp-image-306" /></a>[/caption]</p>
+<h3>Example - Searching for "David Simpson" on Atlassian's own installation of Confluence </h3>
+<p>The table below shows the various different situations and query parameters that I've used to Categorize the Site Search:</p>
+<div class="overflowAuto">
+<table>
+<tr>
+<th>Description/Link</th>
+<th>Example query parameter pairs (Category Parameter in bold)</th>
+<th class="comments">Comments</th>
+</tr>
+<tr>
+<td class="nowrap"><a href="http://confluence.atlassian.com/dosearchsite.action?queryString=David+Simpson">Search the whole site</a></td>
+<td>queryString=David+Simpson</td>
+<td class="nowrap">These are the (not set) results within Google Analytics</td>
+</tr>
+<tr>
+<td class="nowrap"><a href="http://confluence.atlassian.com/dosearchsite.action?key=DOC&searchQuery.queryString=David+Simpson&searchQuery.spaceKey=DOC">Search within a space (1)</a></td>
+<td>
+			<b>key=DOC</b><br />
+			searchQuery.queryString=David+Simpson<br />
+			<b>searchQuery.spaceKey=DOC</b>
+		</td>
+<td>The standard query parameter structure created by the {search-box} macro</td>
+</tr>
+<tr>
+<td class="nowrap"><a href="http://confluence.atlassian.com/dosearchsite.action?queryString=ancestorIds%3A135922+AND+David+Simpson&where=DOC&type=&lastModified=&contributor=&contributorUsername=">Search within a space (2)</a></td>
+<td>
+			queryString=ancestorIds%3A135922+AND+David+Simpson<br />
+			<b>where=DOC</b><br />
+			type=<br />
+			lastModified=<br />
+			contributor=<br />
+			contributorUsername=
+		</td>
+<td>The query parameters created when a {pagetree} macro contains a search box (I think)</td>
+</tr>
+<tr>
+<td><a href="http://confluence.atlassian.com/dosearchsite.action?queryString=David+Simpson&where=DOC&type=&lastModified=&contributor=&contributorUsername=">Filter a previous search</a></td>
+<td>
+			queryString=David+Simpson<br />
+			<b>where=DOC</b><br />
+			type=<br />
+			lastModified=<br />
+			contributor=<br />
+			contributorUsername=
+		</td>
+<td>This is when you perform further searches within the Search Results page</td>
+</tr>
+</table>
+</div>
+<h2>3. Use "Site Search Categories" to show search terms from within individual sites</h2>
+<p>With site specific search information you can see </p>
+<ul>
+<li>What people are looking for </li>
+<li>Whether they've found it</li>
+</ul>
+<p>Some screenshots of how to view the Site Specific search terms:</p>
+<p><!--***-->[caption id="attachment_290" align="alignnone" width="150" caption="Site Search - List of categories"]<a href="/wp-content/uploads/2009/04/site-search-categories.png"><img src="{{ site.baseurl }}/assets/site-search-categories-150x150.png" alt="Site Search - List of categories" title="site-search-categories" width="150" height="150" class="size-thumbnail wp-image-290" /></a>[/caption]</p>
+<p><!--***-->[caption id="attachment_289" align="alignnone" width="150" caption="Site Search Results - DOC category only"]<a href="/wp-content/uploads/2009/04/site-search-categories-doc.png"><img src="{{ site.baseurl }}/assets/site-search-categories-doc-150x150.png" alt="Site Search Results - DOC category only" title="site-search-categories-doc" width="150" height="150" class="size-thumbnail wp-image-289" /></a>[/caption]</p>
+<p>This is powerful.  If they're searching and finding stuff - great!</p>
+<p>If they're failing to find the content they desire, then there's a real problem that needs fixing.   <strong>The top search terms that return no result should be tackled.</strong></p>
+<p>With a little consideration, the user experience can be improved considerably, saving the organisation time and money. </p>
+<h3>Ask yourself a few questions:</h3>
+<ul>
+<li>Why are my visitors searching for <em>search-term-x</em>?</li>
+<li>
+		Is this search term relevent to my site?</p>
+<ul>
+<li>If so, add the content you the site.</li>
+</ul>
+</li>
+<li>
+		Is the search term related to different terminology that I'm using?</p>
+<ul>
+<li>If so, include the various terminologies in pages, so that people with different language styles can find the content</li>
+</ul>
+</li>
+<li>
+		Should the top result be easier to find?</p>
+<ul>
+<li>Consider moving the top search term to be visible on the site home page or higher up in the site hierarchy</li>
+</ul>
+</li>
+</ul>
+<h2>4. Use the "Site Search Start Pages" report to find out where visitors turn to search</h2>
+<p>This report exposes the page a visitor is on when they abandon the navigation system in the site and jump to the search box.  This could give some insight into what's missing in your navigation system. </p>
+<p><!--***-->[caption id="attachment_307" align="alignnone" width="150" caption="Site Search Start Pages Report"]<a href="/wp-content/uploads/2009/04/site-search-start-pages.png"><img src="{{ site.baseurl }}/assets/site-search-start-pages-150x150.png" alt="Site Search Start Pages Report" title="site-search-start-pages" width="150" height="150" class="size-thumbnail wp-image-307" /></a>[/caption]</p>
+<p>To view the search start pages on a site by site basis, filter this report by using the URI of each site.</p>
+<p><!--***-->[caption id="attachment_308" align="alignnone" width="361" caption="Filter by site URI"]<a href="/wp-content/uploads/2009/04/filter-by-site.png"><img src="{{ site.baseurl }}/assets/filter-by-site.png" alt="Filter by site URI" title="filter-by-site" width="361" height="28" class="size-full wp-image-308" /></a>[/caption]</p>
+<h3>Ask some more questions...</h3>
+<ul>
+<li>
+		Are my visitors browsing or just searching?</p>
+<ul>
+<li>When I'm on the eBay homepage, I generally just start searching and ignore all the content on the page.  Are your visits doing this?</li>
+</ul>
+</li>
+<li>
+		Do visitors search from particular pages?</p>
+<ul>
+<li>If so, what are the search terms? Should these be included on, or linked to from these pages?</li>
+</ul>
+</li>
+</ul>
+<h2>To Conclude</h2>
+<p>Using just these 4 simple tips highlights the combined power of Google Analytics and the internal search engine within Confluence.   Answering some of the questions posed should provide the insight you need to improve the usability for all your visitors.    </p>
+<p>These tips are really only the a small part of what analytics has to offer.   I'd encourage you to learn more  and let me know how you get on.</p>
+<h3>Further reading/viewing</h3>
+<ul>
+<li><a href="http://www.google.com/support/conversionuniversity/?hl=en">Google Analytics Conversion University</a></li>
+<li><a href="http://www.youtube.com/watch?v=m4RaGKwvMbY&feature=related">Internal Site Search Analysis and Visitor Intent</a> - video by Avinash Kaushik (<a href="http://twitter.com/avinashkaushik">@avinashkaushik</a>)</li>
+<li><a href="http://www.rosenfeldmedia.com/books/searchanalytics/">Search Analytics</a> book by Louis Rosenfeld (<a href="http://twitter.com/louisrosenfeld">@louisrosenfeld</a>) and Marko Hurst</li>
+<li><a href="http://semphonic.blogs.com/semangel/2007/04/web_analytics_t.html">Web Analytics ToolKit and Internal Search</a></li>
+<li><a href="http://www.kaushik.net/avinash/2007/10/kick-butt-with-internal-site-search-analytics.html">Kick Butt With Internal Site Search Analytics</a> - Avinash Kaushik</li>
+</ul>
+<p><strong>Please note:</strong> We've not had GA tracking Confluence for very long, so there are some empty results for the start of the month.<br />
+I've used <a href="http://getfirebug.com/">Firebug</a> to pretend we're looking at the analytics reports for <a href="http://confluence.atlassian.com/">Atlassian's own installation of Confluence</a></p>

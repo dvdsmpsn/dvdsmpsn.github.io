@@ -1,0 +1,66 @@
+---
+layout: post
+title: The impatient developer's guide to defining colour schemes in Atlassian Confluence
+  themes
+date: 2013-12-11 09:48:35.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797331887091712'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>One of the most tedious parts of creating a custom Confluence theme is populating the colour scheme. There are lots of elements that look something like this:<br />
+<code>&lt;colour key="property.style.topbarcolour" value="#ffffff" /&gt;</code></p>
+<p>Each key corresponds to a colour in Confluence. I don't wish to remember any of this information.</p>
+<p>A quick way to get the elements just right is to edit the colour scheme in Confluence and then export it from the admin console:</p>
+<p> 1. Browse to http://localhost:1990/confluence/admin/lookandfeel.action<br />
+ 2. Click on the <b>Edit</b> button<br />
+ 3. Paste this into your browser console:</p>
+<p>[code]<br />
+    AJS.$('.colour-input').each(function(){<br />
+      AJS.log( '&lt;colour key=&quot;' + AJS.$(this).attr('id') + '&quot; value=&quot;' + AJS.$(this).val() + '&quot; /&gt;' );<br />
+    });<br />
+[/code]</p>
+<p>You'll get something like this:</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2013/12/confluence-colour-scheme1.png"><img src="{{ site.baseurl }}/assets/confluence-colour-scheme1.png" alt="" title="confluence-colour-scheme" class="alignnone size-full wp-image-2180" /></a></p>
+<p>Take the result and paste into an empty colour-scheme in your <b>atlassian-plugin.xml</b>:</p>
+<p>[code]<br />
+&lt;colour-scheme key=&quot;colour-scheme&quot; name=&quot;Custom Colour Scheme&quot; class=&quot;com.atlassian.confluence.themes.BaseColourScheme&quot;&gt;<br />
+  &lt;!-- paste here --&gt;<br />
+&lt;/colour-scheme&gt;<br />
+[/code]</p>
+<p>You should get something like this:</p>
+<p>[code lang="xml"]<br />
+&lt;colour-scheme key=&quot;colour-scheme&quot; name=&quot;Custom Colour Scheme&quot; class=&quot;com.atlassian.confluence.themes.BaseColourScheme&quot;&gt;<br />
+  &lt;colour key=&quot;property.style.topbarcolour&quot; value=&quot;#205081&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.breadcrumbstextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.headerbuttonbasebgcolour&quot; value=&quot;#3b7fc4&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.headerbuttontextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.topbarmenuselectedbgcolour&quot; value=&quot;#3b73af&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.topbarmenuselectedtextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.topbarmenuitemtextcolour&quot; value=&quot;#333333&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.menuitemselectedbgcolour&quot; value=&quot;#3b73af&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.menuitemselectedtextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.menuselectedbgcolour&quot; value=&quot;#3b73af&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.menuitemtextcolour&quot; value=&quot;#333333&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.headingtextcolour&quot; value=&quot;#333333&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.spacenamecolour&quot; value=&quot;#999999&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.linkcolour&quot; value=&quot;#3b73af&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.bordercolour&quot; value=&quot;#cccccc&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.navbgcolour&quot; value=&quot;#3b73af&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.navtextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.navselectedbgcolour&quot; value=&quot;#205081&quot; /&gt;<br />
+  &lt;colour key=&quot;property.style.navselectedtextcolour&quot; value=&quot;#ffffff&quot; /&gt;<br />
+&lt;/colour-scheme&gt;<br />
+[/code]</p>
+<p>That's it. Nice and quick. Now you can go back to concentrating on the <a href="http://css-tricks.com/the-css-box-model/">box model</a>.</p>

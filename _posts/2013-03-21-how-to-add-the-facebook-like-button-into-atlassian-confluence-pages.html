@@ -1,0 +1,40 @@
+---
+layout: post
+title: How to add the Facebook "Like" button into Atlassian Confluence pages
+date: 2013-03-21 17:22:07.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- confluence
+meta:
+  tmac_last_id: '618797348756414464'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Bahar Çağlar asks: </p>
+<blockquote><p><a href="https://answers.atlassian.com/questions/83406/how-to-insert-a-facebook-like-button-in-a-confluence-page">How to insert a facebook like button in a confluence page?</a></p></blockquote>
+<p>Adapting the HTML5 version of the generated code from <a href="http://developers.facebook.com/docs/reference/plugins/like/">this reference</a>...</p>
+<p>In Confluence browse to <strong>Confluence Admin | Look & Feel | Custom HTML</strong></p>
+<p>In <strong>At the end of HEAD</strong>, paste:</p>
+<p>[code lang="html"]<br />
+&lt;script&gt;<br />
+AJS.toInit(function(){<br />
+    var fbLike = '&lt;div class=&quot;fb-like&quot; data-href=&quot;' + window.location.href + '&quot; data-send=&quot;false&quot; data-width=&quot;450&quot; data-show-faces=&quot;true&quot;&gt;&lt;/div&gt;';<br />
+    var fbScript = '&lt;div id=&quot;fb-root&quot;&gt;&lt;/div&gt;&lt;script&gt;(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = &quot;//connect.facebook.net/en_GB/all.js#xfbml=1&quot;;  fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));&lt;/' + 'script&gt;';</p>
+<p>    AJS.$('.wiki-content').append(fbLike);<br />
+    AJS.$('body').prepend(fbScript);<br />
+});<br />
+&lt;/script&gt;<br />
+[/code]</p>
+<p>You should now be able to "Like" and also post to Facebook:</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2013/03/conflu-fb.png"><img src="{{ site.baseurl }}/assets/conflu-fb.png" alt="" title="conflu-fb" class="alignnone size-full wp-image-1700" /></a></p>
+<p>This approach automatically embeds the "Like" button at the end of all Confluence pages and blogposts.</p>

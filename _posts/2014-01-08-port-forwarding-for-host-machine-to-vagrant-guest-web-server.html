@@ -1,0 +1,33 @@
+---
+layout: post
+title: Port forwarding for host machine to Vagrant guest web server
+date: 2014-01-08 10:48:22.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- note to self
+- vagrant
+meta:
+  tmac_last_id: '618797328045109248'
+  _edit_last: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>This is another "note to self". If you have a web server on a <a href="http://www.vagrantup.com/">Vagrant</a> box and wish for the host to appear to serve the content take a look.</p>
+<h2>Step 1</h2>
+<p>In the <strong>Vagrantfile</strong> add:<br />
+<code>config.vm.network :forwarded_port, guest: 80, host: 8080</code></p>
+<p>The guest will forward <b>port 80 to port 8080</b> on the host machine. Remember, the first 1024 ports are restricted to root. </p>
+<h2>Step 2</h2>
+<p>To resolve this problem, you can setup a temporary firewall change on your Mac using <code>ipfw</code>.</p>
+<p>In terminal on your host machine type:<br />
+<code>sudo ipfw add 80 fwd 127.0.0.1,8080 tcp from any to me 80</code> </p>
+<p>This forwards any requests to the host on <b>port 80 to port 8080</b> on the host.</p>
+<p>So, the port forwarding flow becomes:</p>
+<p><code>host:80 ➼ host:8080 ➼ guest:80</code></p>

@@ -1,0 +1,79 @@
+---
+layout: post
+title: Extending AJS.params in Atlassian Confluence
+date: 2014-02-22 23:05:37.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+tags:
+- add-ons
+- atlassian
+- confluence
+- java
+- javascript
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797318553403392'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Have you seen all the good stuff there is in <strong>AJS.params</strong> in Atlassian Confluence?</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2014/02/ajs-params-confluence.png"><img src="{{ site.baseurl }}/assets/ajs-params-confluence.png" alt="AJS.params in Confluence" class="alignnone size-full wp-image-2475" /></a></p>
+<p>OK, it's not <em>that</em> exciting, but if you're a Confluence add-on developer it can be a treasure trove for client-side DOM manipulation. As an add-on developer, you can add to <strong>AJS.params</strong> very easily. All you need is to create a <a href="https://developer.atlassian.com/display/CONFDEV/Web+Panel+Plugin+Module">Web Panel module</a> which adds a meta tag.</p>
+<p>Here's an example:</p>
+<p><b>FulfillmentWebPanel.java:</b><br />
+[code]<br />
+package com.appfusions.confluence.plugins.fulfillment.webpanels;</p>
+<p>import com.atlassian.plugin.web.model.WebPanel;</p>
+<p>import java.io.IOException;<br />
+import java.io.Writer;<br />
+import java.util.Map;</p>
+<p>public class FulfillmentWebPanel implements WebPanel<br />
+{<br />
+    public String getHtml(Map&lt;String, Object&gt; stringObjectMap)<br />
+    {<br />
+        // AJS.params.workForAppFusions<br />
+        return &quot;&lt;meta name=\&quot;ajs-work-for-app-fusions\&quot; content=\&quot;Looking for something more fulfilling? Try AppFusions http://www.appfusions.com/display/Dashboard/Make+it+Happen+Team\&quot; /&gt;&quot;;<br />
+    }</p>
+<p>    @Override<br />
+    public void writeHtml(Writer writer, Map&lt;String, Object&gt; context) throws IOException<br />
+    {<br />
+        writer.write(getHtml(context));<br />
+    }<br />
+}<br />
+[/code]</p>
+<p><b>atlassian-plugin.xml:</b><br />
+[code]<br />
+  &lt;web-panel name=&quot;Fulfillment Web Panel&quot;<br />
+             key=&quot;fulfillment-web-panel&quot;<br />
+             location=&quot;atl.header&quot;<br />
+             weight=&quot;1000&quot;<br />
+             class=&quot;com.appfusions.confluence.plugins.fulfillment.webpanels.FulfillmentWebPanel&quot;&gt;<br />
+    &lt;description key=&quot;fulfillment-web-panel.description&quot;&gt;Looking for something more fulfilling?&lt;/description&gt;<br />
+  &lt;/web-panel&gt;<br />
+[/code]</p>
+<p>The example WebPanel added in the location <strong>atl.header</strong> simply adds a single meta tag. That's all.</p>
+<p>A meta tag with a name attribute of <strong>ajs-work-for-app-fusions</strong> will populate  <strong>AJS.params.workForAppFusions</strong>. A "dash" separated lower-case name attribute with the prefix "ajs-" leads to a camelCase variable within <strong>AJS.params</strong>.</p>
+<p>Now in your browser console, type:</p>
+<p>[code]AJS.params.workForAppFusions[/code]</p>
+<p>Here's what you get:</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2014/01/BWOCoJkIcAA4v5i.png"><img src="{{ site.baseurl }}/assets/BWOCoJkIcAA4v5i.png" alt="Work for AppFusions" title="Work for AppFusions" width="1023" height="698" class="alignnone size-full wp-image-2329" /></a></p>
+<p>If nothing else, it's a simple way of injecting Easter Eggs into your add-ons, which I guess could be kinda cute.</p>
+<p>In addition, if you've read this far and you really are looking for something more fulfilling, consider working for <a href="http://www.appfusions.com/display/Dashboard/Want+to+Join+a+Great+Team">AppFusions</a>.</p>
+<p><strong>Update:</strong><br />
+Alternatively and more easily, use <a href="https://docs.atlassian.com/confluence/latest/com/atlassian/confluence/plugin/webresource/ConfluenceWebResourceManager.html#putMetadata-java.lang.String-java.lang.String-"><code>ConfluenceWebResourceManager</code></a> in your code (hat tip <a href="https://twitter.com/alainmoran">@alainmoran</a>):</p>
+<p>[code]<br />
+confluenceWebResourceManager.putMetadata(&quot;remote-user&quot;, user != null ? user.getName() : &quot;&quot;);<br />
+[/code]</p>
+<p>You'll need to inject <code>ConfluenceWebResourceManager</code> first.</p>

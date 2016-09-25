@@ -1,0 +1,47 @@
+---
+layout: post
+title: Adding jump to top/bottom links in Atlassian Confluence
+date: 2014-05-16 10:47:03.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- usability
+- web
+tags:
+- atlassian
+- confluence
+- hack
+- javascript
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797308180717569'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="https://www.linkedin.com/groupItem?view=&item=5872048918639955971&type=member&gid=105466">Marina Baker asks</a>:</p>
+<blockquote><p>
+Can anyone tell me how to create top/bottom of page links in Confluence 5.5? I am not getting anywhere using the Confluence documentation. (Yes, it is that jump to top/bottom of page links)
+</p></blockquote>
+<p>If you are happy with adding these via JavaScript, you can simply add the following in:<br />
+<b>Confluence Admin | Look and Feel | Custom HTML | At the END of the HEAD</b>:</p>
+<p>[code]<br />
+&lt;script&gt;<br />
+AJS.toInit(function ($) {<br />
+  $('#main').prepend('&lt;a class=&quot;aui-lozenge aui-lozenge-subtle&quot; href=&quot;#theme-footer&quot;&gt;Jump to Bottom&lt;/a&gt;')<br />
+    .append('&lt;a class=&quot;aui-lozenge aui-lozenge-subtle&quot; href=&quot;#main&quot;&gt;Jump to Top&lt;/a&gt;');<br />
+});<br />
+&lt;/script&gt;<br />
+[/code]</p>
+<p>This will produce little clickable 'lozenges' at the top and bottom of every page:</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2014/05/confluence-jump-to.png"><img src="{{ site.baseurl }}/assets/confluence-jump-to.png" alt="confluence-jump-to" width="1437" height="1296" class="alignnone size-full wp-image-2701" /></a></p>
+<p>Clicking on the lozenge at the top sends you to the bottom. Clicking on the lozenge at the bottom sends you to the top.</p>
+<p>Alternatively, you could edit the decorators and add the HTML in that way. It's a little harder though.</p>
+<p><b>Update:</b><br />
+Sadly, Marina doesn't have admin rights on her Confluence instance, so the advice above is no good for her. Instead, she'll need to add links and use the Anchor macro.  I've made a little video to show just how it would be achieved:</p>
+<p><iframe width="100%" height="400" src="//www.youtube.com/embed/b7jpko_2-qE" frameborder="0" allowfullscreen></iframe></p>

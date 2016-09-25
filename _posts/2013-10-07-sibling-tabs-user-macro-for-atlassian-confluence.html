@@ -1,0 +1,94 @@
+---
+layout: post
+title: Sibling Tabs User Macro for Atlassian Confluence
+date: 2013-10-07 16:07:19.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- confluence
+- user macro
+meta:
+  tmac_last_id: '618797339776544768'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _pingme: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>The sibling tabs user macro for Confluence gives a simple way to create a horizontal tabbed navigation system between sibling pages in a Confluence space.</p>
+<p>Here’s a video demo:<br />
+http://www.youtube.com/watch?v=a2BKd53aH58</p>
+<p>Here’s the code and how to apply it to your Confluence system:</p>
+<p>In <strong>Confluence Admin | User Macros</strong>, create a new user macro and paste in:</p>
+<p>[code]<br />
+## Macro title: Sibling Tabs<br />
+## Macro has a body: N<br />
+## Body processing: Selected body processing option<br />
+## Output: Selected output option<br />
+##<br />
+## Developed by: David Simpson &lt;david@appfusions.com&gt;<br />
+## Date created: 2013-10-01<br />
+## Installed by: My Name<br />
+##<br />
+## Use this on each sibling page to add tabbed navigation between sibling pages<br />
+## DO use this when there are 2-6 sibling pages with short page title<br />
+##<br />
+## DO NOT use this when there are more than 6 sibling pages or when the page titles are long</p>
+<p>## @noparams</p>
+<p>#set ($parent = $content.getParent())<br />
+&lt;div class=&quot;aui-tabs horizontal-tabs&quot; data-aui-tab-events-bound=&quot;true&quot; data-aui-responsive=&quot;&quot; role=&quot;application&quot;&gt;<br />
+  &lt;ul class=&quot;tabs-menu&quot;&gt;<br />
+    #foreach ($child in $parent.getChildren())<br />
+      &lt;li class=&quot;menu-item#if ($content.id == $child.id) active-tab#end&quot;&gt;<br />
+        &lt;a href=&quot;$req.contextPath$child.urlPath&quot;&gt;&lt;strong&gt;$webwork.htmlEncode($child.displayTitle)&lt;/strong&gt;&lt;/a&gt;<br />
+      &lt;/li&gt;<br />
+    #end<br />
+  &lt;/ul&gt;<br />
+  &lt;div class=&quot;tabs-pane active-pane&quot;&gt;&lt;/div&gt;<br />
+&lt;/div&gt;<br />
+[/code]</p>
+<p>Simply add the Sibling Tabs user macro whenever you want horizontal tabs — don’t forget to add the macro to each of the pages ;)</p>
+<p><b>Update 2013-10-22:</b></p>
+<p>Olha Vdovych asked me via email how to limit the number of tabs and how to get the order of the tabs to be consistant with the natural ordering within Confluence.</p>
+<p>I've updated the user macro below for both requests:</p>
+<p>[code]<br />
+## Macro title: Sibling Tabs<br />
+## Macro has a body: N<br />
+## Body processing: Selected body processing option<br />
+## Output: Selected output option<br />
+##<br />
+## Developed by: David Simpson &lt;david@appfusions.com&gt;<br />
+## Date created: 2013-10-01<br />
+## Installed by: My Name<br />
+##<br />
+## Use this on each sibling page to add tabbed navigation between sibling pages<br />
+## DO use this when there are 2-6 sibling pages with short page title<br />
+##<br />
+## DO NOT use this when there are more than 6 sibling pages or when the page titles are long</p>
+<p>## @noparams</p>
+<p>#set($count = 0)</p>
+<p>#set ($parent = $content.getParent())<br />
+&lt;div class=&quot;aui-tabs horizontal-tabs&quot; data-aui-tab-events-bound=&quot;true&quot; data-aui-responsive=&quot;&quot; role=&quot;application&quot;&gt;<br />
+  &lt;ul class=&quot;tabs-menu&quot;&gt;<br />
+    #foreach ($child in $parent.getSortedChildren())<br />
+      #if ($count &lt; 6) ## just display the 1st 6 siblings<br />
+        &lt;li class=&quot;menu-item#if ($content.id == $child.id) active-tab#end&quot;&gt;<br />
+          &lt;a href=&quot;$req.contextPath$child.urlPath&quot;&gt;&lt;strong&gt;$webwork.htmlEncode($child.displayTitle)&lt;/strong&gt;&lt;/a&gt;<br />
+        &lt;/li&gt;<br />
+        #set($count = $count + 1)<br />
+      #end<br />
+    #end<br />
+  &lt;/ul&gt;<br />
+  &lt;div class=&quot;tabs-pane active-pane&quot;&gt;&lt;/div&gt;<br />
+&lt;/div&gt;<br />
+[/code]</p>

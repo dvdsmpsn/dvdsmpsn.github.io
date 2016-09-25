@@ -1,0 +1,64 @@
+---
+layout: post
+title: Multi-site WordPress plugin development with VIP Quickstart
+date: 2013-10-17 22:19:14.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797335204630529'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="http://davidsimpson.me/wp-content/uploads/2013/10/vip-quickstart.png"><img src="{{ site.baseurl }}/assets/vip-quickstart.png" alt="" title="vip-quickstart" class="alignnone size-full wp-image-2084" /></a></p>
+<p>Having <a href="/2013/10/15/quick-start-wordpress-plugin-development-with-vagrantpress/">tried out Vagrantpress</a> and enjoyed its simplicity for provisioning a fresh development environment, I was slightly disappointed that I couldn't easily enable multi-site mode because it uses port 8080 by default.  I'm sure this is extremely easily fix, but I thought I'd look elsewhere too. </p>
+<p><a href="http://vip.wordpress.com/2013/10/07/vip-quickstart/">Last week</a>, Automattic announced <a href="https://github.com/Automattic/vip-quickstart">VIP Quickstart</a>. VIP Quickstart is a Vagrant based local development environment for WordPress VIP.</p>
+<p>It requires VirtualBox, Vagrant, Git and (gasp) Subversion.</p>
+<p>The initial startup can take a few minutes, but after that, its quick to go.</p>
+<h2>Procedure</h2>
+<ol>
+<li>Clone the <a href="https://github.com/Automattic/vip-quickstart">VIP Quickstart repo</a>:
+<p>  <code>git clone https://github.com/Automattic/vip-quickstart.git</code></li>
+<li>Run the VIP init script:
+<p><code>vip-quickstart/bin/vip-init</code></p>
+<p>This prompts you a few times with things like your OS X password (to edit /etc/hosts) and your <a href="wordpress.com">wordpress.com</a> user credentials (sign up first if you don't have a wordpress.com login).
+  </li>
+<li>
+Enable multisite mode:<br />
+[code]<br />
+cd vip-quickstart/www<br />
+vi wp-config.php<br />
+[/code]</p>
+<p>Add this line:<br />
+<code>define('WP_ALLOW_MULTISITE', true);</code><br />
+just before this one:<br />
+<code>/* That's all, stop editing! Happy blogging. */</code></p>
+<p>That is the only configuration change. Multisite just works with a single added line. Nice.
+</li>
+<li>Browse to <a href="http://vip.dev">http://vip.dev</a> and login with username: wordpress, password: wordpress</li>
+</ol>
+<p>If you need to get at the underlying MySQL database, you can login to phpMyAdmin at <a href="http://vip.dev/phpmyadmin/">http://vip.dev/phpmyadmin</a> with user credentials &ndash; wordpress:wordpress</p>
+<p>So far, this seems to work very nicely indeed and is an excellent way to quickly get a consistent development environment working. </p>
+<p>Though if you use symbolic links in the <b>www/wp-content/plugins</b> directory to host your plugins in a different location, the plugin does not appear on the plugins page. This is likely by design as <a href="http://www.gayadesign.com/diy/using-wordpress-plugins-as-symbolic-links/">others have found ways around the issue</a>.</p>
+<h2>Update, 15 Jan 2014</h2>
+<p>The procedure is now simpler:</p>
+<ol>
+<li>
+Clone the <a href="https://github.com/Automattic/vip-quickstart">VIP Quickstart repo</a>:</p>
+<p><code>git clone https://github.com/Automattic/vip-quickstart.git</code></p>
+</li>
+<li>
+Run the VIP init script:</p>
+<p><code>vip-quickstart/bin/vip-init</code></p>
+<p>This prompts for your OS X password (to edit /etc/hosts)
+</li>
+<li>Browse to <a href="http://vip.dev">http://vip.dev</a> and login with username: wordpress, password: wordpress</li>
+</ol>

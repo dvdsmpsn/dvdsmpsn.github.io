@@ -1,0 +1,56 @@
+---
+layout: post
+title: 'Confluence Snippet: User Activity Report'
+date: 2009-03-20 10:16:48.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags:
+- confluence
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299652174'
+  _edit_last: '1'
+  tmac_last_id: '618797411222208512'
+  _pingme: '1'
+  _encloseme: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Want to know who are the most active users on your Confluence wiki this week?</p>
+<p>This wiki markup snippet should help. It tabulates:</p>
+<ul>
+<li>Overall activity</li>
+<li>Page creations</li>
+<li>Page Updates</li>
+<li>Page views</li>
+<li>Page Popularity</li>
+</ul>
+<p>&lt;</p>
+<p>pre lang="text"><br />
+h1. This Week's Wiki User Activity Charts</p>
+<p>h2. Overall</p>
+<p>{topusers:spaces=@all|timespan=1w|period=weekly|events=create,update,view|display=icon,title,count}</p>
+<p>h2. Breakdown<br />
+[code]<br />
+|| Page Creation || Page Updates || Page Views || Page Popularity ||<br />
+| {topusers:spaces=@all|timespan=1w|period=weekly|events=create|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=update|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} | {popular:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} |<br />
+[/code]<br />
+<!--more--></p>
+<h2>Results</h2>
+<p>Here's a screenshot of the resulting page - complete with made up names.</p>
+<p>[caption id="attachment_248" align="alignnone" width="300" caption="Monitor page creations, views, updates and popular pages "]<a href="/wp-content/uploads/2009/03/picture-4.png"><img src="{{ site.baseurl }}/assets/picture-4-300x220.png" alt="Monitor page creations, views, updates and popular pages " title="Confluence - Activity Monitor" width="300" height="220" class="size-medium wp-image-248" /></a>[/caption]</p>
+<p><strong>Please note:</strong> Building this page can be rather resource intensive as it queries pretty much the whole database to generate the statistics shown!</p>
+<h2>Related</h2>
+<ul>
+<li><a href="http://www.thecrumb.com/2009/03/13/confluence-whos-updating-what/trackback/">Confluence: Who’s Updating What? - Email notification</a></li>
+</ul>

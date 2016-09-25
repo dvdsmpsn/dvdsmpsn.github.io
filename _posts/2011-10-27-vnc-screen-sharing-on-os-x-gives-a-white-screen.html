@@ -1,0 +1,29 @@
+---
+layout: post
+title: VNC Screen Sharing on OS X gives a white screen
+date: 2011-10-27 13:02:44.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  tmac_last_id: '618797374853414912'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p> I've been accessing a Red Hat box via Mac Screen Sharing. All was good until it started just displaying a white screen.  I assumed it was the fault of the Red Hat server, but couldn't fix it at that end. </p>
+<p>It turns out that there's some kind of bug in 64-bit Screen Sharing on Snow Leopard (and maybe Lion too?), so here's the work around:</p>
+<ol>
+<li>In Finder, go to /System/Library/CoreServices/Screen Sharing.app</li>
+<li>Right click & "Get Info" on the application</li>
+<li>Check the box "Open in 32-bit mode".</li>
+</ol>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2011/10/screen-sharing-white-screen-fix.png"><img src="{{ site.baseurl }}/assets/screen-sharing-white-screen-fix-300x235.png" alt="" title="screen-sharing-white-screen-fix" width="300" height="235" class="alignnone size-medium wp-image-1203" /></a></p>
+<p>By the way, I'm currently running Mac OS X 10.6.8</p>
+<p><a href="https://discussions.apple.com/thread/2414203">More info</a></p>

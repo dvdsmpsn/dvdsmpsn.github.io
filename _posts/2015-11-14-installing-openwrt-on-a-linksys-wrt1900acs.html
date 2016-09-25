@@ -1,0 +1,69 @@
+---
+layout: post
+title: Installing OpenWRT on a Linksys WRT1900ACS
+date: 2015-11-14 23:24:47.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _thumbnail_id: '3322'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Linksys recently released their <a href="http://www.linksys.com/gb/p/P-WRT1900ACS/">WRT1900ACS</a> router. Linksys said it <a href="https://lwn.net/Articles/660229/">collaborated with Marvell andOpenWrt.org to ensure full open source support</a> in the latest version of <a href="http://wiki.openwrt.org/toh/linksys/wrt1900acs">OpenWrt's Chaos Calmer release</a> (15.05) at launch. I've not seen many OpenWRT compatible routers on the market in the UK, so my interest was piqued. It seems like a decent (though expensive) router, so I thought I'd give it a go and install OpenWRT.</p>
+<p>The <a href="http://wiki.openwrt.org/toh/linksys/wrt1900acs">WRT1900ACS page</a> on the OpenWRT wiki was a little vague about which version of the firmware to install, but stated that the router had Marvell Armada 385 &amp; Shelby hardware, so I used the <a href="https://downloads.openwrt.org/snapshots/trunk/mvebu/generic/openwrt-mvebu-armada-385-linksys-shelby-squashfs-factory.img">openwrt-mvebu-armada-385-linksys-shelby-squashfs-factory.img</a> image to flash the firmware. This worked, so I've document it here for others.</p>
+<p>This merely documents what worked for me. If you brick your router following these instructions, I'm sorry, but you do so at your own risk.</p>
+<h2>Installing OpenWRT</h2>
+<p>Download the OpenWRT firmware: <a href="https://downloads.openwrt.org/snapshots/trunk/mvebu/generic/openwrt-mvebu-armada-385-linksys-shelby-squashfs-factory.img">openwrt-mvebu-armada-385-linksys-shelby-squashfs-factory.img</a></p>
+<p>Connect to the router with the supplied network cable.</p>
+<p>Login to <a href="http://192.168.1.1/">http://192.168.1.1/</a>. The password is <code>admin</code>. Don't use the setup wizard. Specify manual setup.</p>
+<p>Browse to <strong>Connectivity</strong> and in <strong>Router Firmware Update</strong> click on <strong>Manual &gt; Select File</strong></p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-1.png"><img class="alignnone size-full wp-image-3316" src="{{ site.baseurl }}/assets/linksys-1.png" alt="linksys-1" width="1801" height="1342" /></a></p>
+<p>Select the previously downloaded <strong>openwrt-mvebu-armada-385-linksys-shelby-squashfs-factor.img</strong>, then click on <strong>Start</strong>.</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-2.png"><img class="alignnone size-full wp-image-3315" src="{{ site.baseurl }}/assets/linksys-2.png" alt="linksys-2" width="1801" height="1342" /></a></p>
+<p>Click on <strong>Yes</strong> in the <strong>Unrecognized file name</strong> modal:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-3.png"><img class="alignnone size-full wp-image-3314" src="{{ site.baseurl }}/assets/linksys-3.png" alt="linksys-3" width="1801" height="1342" /></a></p>
+<p>Click on <strong>Yes</strong> in the <strong>Update firmware</strong> modal:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-4.png"><img class="alignnone size-full wp-image-3313" src="{{ site.baseurl }}/assets/linksys-4.png" alt="linksys-4" width="1801" height="1342" /></a></p>
+<p>Click on <strong>OK</strong> in the <strong>Reboot Router</strong> modal:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-5.png"><img class="alignnone size-full wp-image-3312" src="{{ site.baseurl }}/assets/linksys-5.png" alt="linksys-5" width="1801" height="1342" /></a></p>
+<p>Almost immediately, you'll be able to browse to <a href="http://192.168.1.1">http://192.168.1.1</a> and see that OpenWrt has been installed:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-6.png"><img class="alignnone size-full wp-image-3311" src="{{ site.baseurl }}/assets/linksys-6.png" alt="linksys-6" width="964" height="723" /></a></p>
+<p>It should ask you to set a password at this point. (I forgot to get a screenshot of that).</p>
+<p>By default, the wifi is disabled, but it's really straightforward to enable and secure in the admin UI.</p>
+<p>You'll also be able to <code>ssh</code> into your router. This is where the fun begins...</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/linksys-7_.png"><img class="alignnone size-full wp-image-3310" src="{{ site.baseurl }}/assets/linksys-7_.png" alt="linksys-7" width="782" height="494" /></a></p>
+<h2>Secure your internet access with a VPN</h2>
+<p>The next sensible step is to setup your VPN connection. I use <a href="https://www.privateinternetaccess.com">Private Internet Access</a> as my VPN provider, so my <a href="https://github.com/dvdsmpsn/privateinternetaccess-on-openwrt/blob/master/README.md">VPN setup is tailored to PIA</a>. This is incredibly easy to configure, thanks to previous work by <a href="https://www.loganmarchione.com/2014/10/openwrt-with-openvpn-client-on-tp-link-tl-mr3020/">Logan Marchione</a> and <a href="https://github.com/andrewbrereton/privateinternetaccess-on-openwrt">Andrew Brereton</a>.</p>
+<p><a href="https://github.com/dvdsmpsn/privateinternetaccess-on-openwrt/blob/master/README.md">Follow the script</a> and you'll be done in a couple of minutes.</p>
+<h2>Reboot nightly</h2>
+<p>Sometimes it's best to just restart regularly. Here's how:</p>
+<p>Start &amp; enable cron as it's not enabled by default.</p>
+<p>[code]<br />
+/etc/init.d/cron start<br />
+/etc/init.d/cron enable<br />
+[/code]</p>
+<p>Add this line to the crontab to reboot every day at 3am:<br />
+[code]<br />
+0 3 * * * * reboot<br />
+[/code]</p>
+<h2>Save your eyes, enable the Bootstrap theme</h2>
+<p>One last thing, go into <strong>System | System | Language and Styles</strong> and enable the Bootstrap theme. It means that your admin UI is no longer an eyesore.</p>
+<p>It turns this:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/11/Screen-Shot-2015-11-16-at-00.30.14.png"><img class="alignnone size-full wp-image-3333" src="{{ site.baseurl }}/assets/Screen-Shot-2015-11-16-at-00.30.14.png" alt="Screen Shot 2015-11-16 at 00.30.14" width="1104" height="835" /></a></p>
+<p>Into this:</p>
+<p><img class="alignnone size-full wp-image-3332" src="{{ site.baseurl }}/assets/Screen-Shot-2015-11-16-at-00.32.48.png" alt="Screen Shot 2015-11-16 at 00.32.48" width="1228" height="951" /></p>

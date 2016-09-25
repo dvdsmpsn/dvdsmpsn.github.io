@@ -1,0 +1,56 @@
+---
+layout: post
+title: Adding styles to the Confluence editor
+date: 2015-11-25 11:06:16.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpcom_is_markdown: '1'
+  _wpas_skip_11278197: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>I've tried to add styles to the Confluence editor. It wouldn't take them. Perhaps one of Atlassian's values is "Don't f@@k the editor".</p>
+<p>[code]<br />
+&lt;web-resource name=&quot;editor-scripts&quot; key=&quot;editor-scripts&quot;&gt;<br />
+  &lt;resource name=&quot;editor-templates.js&quot; type=&quot;download&quot;<br />
+    location=&quot;assets/js/editor-templates.js&quot; /&gt;<br />
+  &lt;!-- // TODO: Check whether I need a context here --&gt;<br />
+&lt;/web-resource&gt;</p>
+<p>&lt;web-resource name=&quot;editor-styles&quot; key=&quot;editor-styles&quot;&gt;<br />
+  &lt;resource name=&quot;css/confluence-editor.css&quot; type=&quot;download&quot;<br />
+    location=&quot;assets/css/confluence-editor.css&quot;/&gt;</p>
+<p>  &lt;dependency&gt;com.atlassian.confluence.plugins:confluence-editor-plugins&lt;/dependency&gt;<br />
+  &lt;dependency&gt;${project.groupId}.${project.artifactId}:editor-scripts&lt;/dependency&gt;<br />
+  &lt;dependency&gt;com.atlassian.auiplugin:ajs&lt;/dependency&gt;<br />
+  &lt;context&gt;editor&lt;/context&gt;<br />
+  &lt;!-- // TODO: Check whether I need all the dependencies here --&gt;<br />
+&lt;/web-resource&gt;<br />
+[/code]<br />
+My <code>confluence-editor.css</code> styles just wouldn't be accepted. Javascript injection worked just fine though. Perhaps I could use JS to inject my styles?</p>
+<p>Yup. Adding this to my <code>editor-templates.js</code> file worked a treat:</p>
+<p>[code]<br />
+var editorCss = AJS.params.staticResourceUrlPrefix<br />
+  + '/download/resources/me.davidsimpson.confluence.addon.awesome-addon'<br />
+  + ':editor-styles/css/confluence-editor.css';</p>
+<p>if (AJS.params.isDevMode) {<br />
+  editorCss = editorCss + '?_=' + Date.now();<br />
+}</p>
+<p>$('#wysiwygTextarea_ifr').contents().find('head').append(<br />
+  '&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;' + editorCss + '&quot; media=&quot;all&quot;&gt;'<br />
+);<br />
+[/code]</p>
+<p>Note the cache busting timestamp for local development.</p>

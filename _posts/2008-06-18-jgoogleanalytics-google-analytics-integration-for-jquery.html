@@ -1,0 +1,68 @@
+---
+layout: post
+title: jGoogleAnalytics - Google Analytics integration for jQuery
+date: 2008-06-18 10:43:17.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+tags:
+- google analytics
+- jQuery
+- university of nottingham
+- web analytics
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299700384'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797421066215424'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Since I last added Google Analytics to a website, Google have changed from the old urchin.js file to the shiny new ga.js file.  This means that I really ought to start using ga.js now.</p>
+<p>The <a href="http://www.nottingham.ac.uk/">University of Nottingham</a> uses Sungard's Luminis portal system which produces some rather nasty looking URLs.   Web analytics for this is rather a handful - bad URLs, multiple features per page (each of which we'd like to track) and often tracking would be nice across sub-domains.</p>
+<p>With that in mind,  and Google's <a href="http://web.archive.org/web/20080509094406/http://www.google.com/analytics/GATCmigrationguide.pdf">Tracking Code Migration Guide</a> close at hand, I've written jGoogleAnalytics.js to allow me to track:</p>
+<ul>
+<li>clicks events</li>
+<li>form submit events</li>
+<li>cross subdomain</li>
+<li>cross domain (e.g. for eCommerce payment gateways hosted externally)</li>
+<li>new organic search engines</li>
+<li>all the features of <a href="http://devblog.jasonhuck.com/2007/11/19/google-analytics-integration-with-jquery/">Jason Huck's GA jQuery integration</a></li>
+</ul>
+<p><a title="Download jGoogleAnalytics - Google Analytics integration for jQuery" href="http://webapps.nottingham.ac.uk/js/jquery/jGoogleAnalytics.js">Download jGoogleAnalytics.js</a><br />
+<!--more--><br />
+Usage:<br />
+[source language="javascript"]// At it's simplest<br />
+$.jGoogleAnalytics( 'UA-XXXXXX-X');</p>
+<p>// More advanced version<br />
+$.jGoogleAnalytics(<br />
+	'UA-XXXXXX-X', // Your GA tracker code<br />
+	{<br />
+		anchorClick: false, // adds click tracking to *all* anchors<br />
+		clickEvents: null, // e.g. {'.popup': '/popup/nasty'}<br />
+		crossDomainSelector: false, // e.g. 'a.crossDomain'<br />
+		domainName: false, // e.g. 'nottingham.ac.uk'</p>
+<p>		evalClickEvents: null, // e.g. {'#menu li a': &quot;'/tabs/'+ $(this).text()&quot;}<br />
+		evalSubmitEvents: null, // e.g. {'#menu li a': &quot;'/tabs/'+ $(this).text()&quot;}</p>
+<p>		extensions: [<br />
+		'pdf','doc','xls','csv','jpg','gif', 'mp3',<br />
+		'swf','txt','ppt','zip','gz','dmg','xml'<br />
+		], // download extensions to track</p>
+<p>		external: '/external/', // prefix to add to external links<br />
+		mailto: '/mailto/', // prefix to add to email addresses<br />
+		download: '/download/', // prefix to add to downloads</p>
+<p>		organicSearch: null, // e.g. {'search-engine': 'query-term', 'google.nottingham.ac.uk': 'q'}<br />
+		pageViewsEnabled: true, // can be disabled e.g. if only tracking e.g. click events<br />
+		sampleRate: null, // e.g. 50 - set the sample rate at 50%<br />
+		submitEvents: {'#personUK': '/personsearch/uk'}<br />
+	}<br />
+);[/source]</p>
+<p>I've not added any eCommerce tracking to this release as we simply don't have the need for it.</p>
+<p>If you use this script, pplease leave a comment!</p>

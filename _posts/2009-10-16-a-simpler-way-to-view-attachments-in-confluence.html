@@ -1,0 +1,69 @@
+---
+layout: post
+title: A simpler way to view attachments in Confluence
+date: 2009-10-16 15:37:14.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags:
+- confluence
+- usability
+- user macro
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299685384'
+  _edit_last: '1'
+  tmac_last_id: '618797404075245568'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>...or how to display attachments in an unordered list.</p>
+<p>Something that bugs me in <a href="http://www.atlassian.com/software/confluence/">Confluence</a> is the way that attachments are shown.  The default view is a big table with just about all the information related to each attachment.</p>
+<p>This is great if you want all this detail, but I'm a simple soul with simple needs.</p>
+<p><a href="http://www.sensible.com/dmmt.html">Krug suggested</a> "Omit <span style="text-decoration: line-through;">needless</span> words".  In this case, it's more of "Omit <span style="text-decoration: line-through;">needless</span> metadata".</p>
+<h3>Less is more</h3>
+<p>Enter {list-attachments} - a user macro that dispenses with the excess.  It displays an unordered list with the filename, file size and last modified date.  If there's a comment for the attachment, this is displayed in the link text rather than the filename.</p>
+<p>This is a really straightforward view of the attachments on the page.<br />
+<!--more--></p>
+<h3>How do I install {list-attachments} ?</h3>
+<p>It's pretty easy.  As a Confluence administrator, go to <strong>Confluence Admin | User Macros</strong> and click on <strong>Create a User Macro</strong>.</p>
+<p>Macro name: <strong>list-attachments</strong></p>
+<p>Template:<br />
+[code]<br />
+## MACRO: list-attachments<br />
+## Updated: 2014-05-12<br />
+## View page attachments in a simple list<br />
+## USAGE: {list-attachments}<br />
+## @noparams<br />
+#set ($attachmentsList = $content.getLatestVersionsOfAttachments())<br />
+#if ($attachmentsList.size() &gt; 0)<br />
+	&lt;ul&gt;<br />
+	    #foreach( $attachment in $attachmentsList )<br />
+	        #set ($currentAttachmentId = $attachment.id)<br />
+			#if ($attachment.comment &amp;&amp; $attachment.comment.trim().length() &gt; 0)<br />
+				## Display the comment as the link text instead of the filename<br />
+				&lt;li&gt;&lt;a href=&quot;$generalUtil.htmlEncode(&quot;${req.contextPath}${attachment.downloadPathWithoutVersion}&quot;)&quot;&gt;$generalUtil.htmlEncode($attachment.comment)&lt;/a&gt;&lt;/li&gt;<br />
+			#else<br />
+				## Display the filename as the link text<br />
+				&lt;li&gt;&lt;a href=&quot;$generalUtil.htmlEncode(&quot;${req.contextPath}${attachment.downloadPathWithoutVersion}&quot;)&quot;&gt;$generalUtil.htmlEncode($attachment.fileName)&lt;/a&gt;&lt;/li&gt;<br />
+			#end<br />
+	    #end<br />
+	&lt;/ul&gt;<br />
+#end<br />
+[/code]</p>
+<p>Accept the defaults for the other fields, then click on <strong>Save</strong></p>
+<p>To call the macro in the page type: <strong>{list-attachments}</strong></p>
+<p>The result:<br />
+<img src="{{ site.baseurl }}/assets/list-attachments-example1.png" alt="" title="list-attachments-example" /></p>
+<p>Now you're left with a simple list of links &mdash; much purer than a big fat table of metadata.</p>
+<h3>For extra points (Updated 2011-03-15)</h3>
+<p>If you've got a might great slab of files attached to the Confluence page,  why not wrap this usermacro in the <a href="https://plugins.atlassian.com/plugin/details/31712">azList macro</a>:</p>
+<p>[code]{azlist}{list-attachments}{azlist}[/code]</p>
+<p>The result:<br />
+<img src="{{ site.baseurl }}/assets/list-attachments-extra-points.png" alt="" title="list-attachments-extra-points" /></p>

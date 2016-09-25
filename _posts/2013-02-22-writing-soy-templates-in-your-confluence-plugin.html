@@ -1,0 +1,267 @@
+---
+layout: post
+title: Writing Soy Templates in Your Atlassian Confluence Plugin
+date: 2013-02-22 12:00:12.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Featured
+- Programming
+- web
+tags:
+- confluence
+meta:
+  tmac_last_id: '618797352480944128'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '1661'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><strong>Level of experience:</strong> This is an <strong>intermediate</strong> tutorial. You should have completed at least one beginner tutorial before working through this tutorial. See the<a href="https://developer.atlassian.com/display/DOCS/Tutorials"> list of developer tutorials</a>.</p>
+<p><strong>On this page:</strong></p>
+<ul>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Overview">Overview</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-SourceCode">Source Code</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-WhatareSoytemplates?">What are Soy templates?</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step1.Createthepluginproject">Step 1. Create the plugin project</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step2.CreateaSoytemplate">Step 2. Create a Soy template</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step3.CalltheSoytemplateinaseparateJavaScriptfile">Step 3. Call the Soy template in a separate JavaScript file</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step4.Edittheatlassian-plugin.xmlfile">Step 4. Edit the atlassian-plugin.xml file</a>
+<ul>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Thewebresourcemodule">The web resource module</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Thetransformers">The transformers</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Resources">Resources</a></li>
+</ul>
+</li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step5.Addnewresourcefilesandinternationalisation">Step 5. Add new resource files and internationalisation</a></li>
+<li><a href="#WritingSoyTemplatesinYourPlugin-Step6.Build,installandruntheplugin">Step 6. Build, install and run the plugin</a></li>
+</ul>
+<p><strong>Related:</strong></p>
+<ul>
+<li><a href="https://developer.atlassian.com/display/CONFDEV/Templating+in+JavaScript+with+Soy">Templating in JavaScript with Soy</a></li>
+<li><a href="https://developer.atlassian.com/display/CONFDEV/Extending+the+Confluence+Insert+Link+Dialog">Extending the Confluence Insert Link Dialog</a></li>
+<li><a rel="nofollow" href="https://developers.google.com/closure/templates/" target="_blank">What are Closure Templates?</a> (Google developer documentation)</li>
+<li><a rel="nofollow" href="https://developers.google.com/closure/templates/docs/concepts" target="_blank">Closure Template Concepts</a> (Google developer documentation)</li>
+</ul>
+<h2 id="WritingSoyTemplatesinYourPlugin-Overview">Overview</h2>
+<p>This tutorial shows you how to write a <a href="https://developer.atlassian.com/display/AUI/Soy+Templates">Soy template</a> in your plugin to use in JavaScript. The plugin adds a table of metadata to the top of each Confluence page using Soy templates:</p>
+<p><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A54%3A8.png?version=1&amp;modificationDate=1345755346199" alt="" width="650" /></p>
+<p>In order to do this, you will create a very simple Confluence plugin. Your plugin will consist of the following components:</p>
+<ul>
+<li>Plugin descriptor – to enable the plugin module in Confluence.</li>
+<li>A JavaScript resource – to call the Soy template</li>
+<li>A Soy template.</li>
+<li>A little internationalisation</li>
+</ul>
+<p>All these components will be contained within a single JAR file. Each component is further discussed in the examples below.</p>
+<p>This plugin is of little practical value, but it is designed to show you a way of templating UI elements in JavaScript for use on Confluence.</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-SourceCode">Source Code</h2>
+<p>The source code of the plugin used in this tutorial is available in bitbucket. You can browse the source code here: <a rel="nofollow" href="https://bitbucket.org/appfusions/confluence-tutorial-soy-templates" target="_blank">confluence-tutorial-soy-templates</a>.</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-WhatareSoytemplates?">What are Soy templates?</h2>
+<p>Soy templates are a templating system for dynamically generating re-usable HTML and UI elements in both Java and JavaScript. Soy templates are also referred to as <a rel="nofollow" href="https://developers.google.com/closure/templates/" target="_blank">Closure templates</a>.</p>
+<p>For the client side, Soy templates are precompiled into efficient JavaScript. This tutorial is only concerned with client-side aspect of templating.</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step1.Createthepluginproject">Step 1. Create the plugin project</h2>
+<p>Begin by creating a new Confluence plugin. You can use the Atlassian Plugin SDK to do this. (See <a href="https://developer.atlassian.com/display/DOCS/Set+up+the+Atlassian+Plugin+SDK+and+Build+a+Project">Set up the Atlassian Plugin SDK and Build a Project</a> for full instructions.)</p>
+<p>In a command window, go to the directory where you want to create your plugin project, and type: <code>atlas-create-confluence-plugin</code></p>
+<p>You will be prompted to enter two values, the <strong>group ID</strong> and <strong>artifact ID</strong>. For this tutorial, we used the following values:</p>
+<ul>
+<li>Group ID: <strong>com.appfusions.confluence.plugins</strong></li>
+<li>Artifact ID: <strong>confluence-tutorial-soy-templates</strong></li>
+</ul>
+<p>Accept the default values for <strong>version</strong> and <strong>package</strong>.</p>
+<p>This will create a basic plugin with some Java code and tests. In the <a rel="nofollow" href="https://bitbucket.org/appfusions/confluence-tutorial-soy-templates" target="_blank">sample code</a>, all Java code including tests have been removed as they are not needed for the plugin.</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step2.CreateaSoytemplate">Step 2. Create a Soy template</h2>
+<p>Create a new Soy template at <strong>src/main/resources/template.soy</strong>:</p>
+<p>[code lang="html"]<br />
+{namespace Confluence.Templates.SoyTutorial}<br />
+/**<br />
+ * Renders a table of selected AJS.params<br />
+ * @param pageId<br />
+ * @param pageTitle<br />
+ * @param parentPageId<br />
+ * @param spaceKey<br />
+ * @param spaceName<br />
+ */<br />
+{template .listSelectedAjsParams}<br />
+    &lt;b&gt;{getText('confluence.tutorial.soy.templates.intro')}&lt;/b&gt;<br />
+    &lt;table class=&quot;aui&quot; id=&quot;basic&quot;&gt;<br />
+        &lt;thead&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;th&gt;{getText('confluence.tutorial.soy.templates.name')}&lt;/th&gt;<br />
+                &lt;th&gt;{getText('confluence.tutorial.soy.templates.value')}&lt;/th&gt;<br />
+            &lt;/tr&gt;<br />
+        &lt;/thead&gt;<br />
+        &lt;tbody&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;td&gt;pageId&lt;/td&gt;<br />
+                &lt;td&gt;{$pageId}&lt;/td&gt;<br />
+            &lt;/tr&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;td&gt;pageTitle&lt;/td&gt;<br />
+                &lt;td&gt;{$pageTitle}&lt;/td&gt;<br />
+            &lt;/tr&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;td&gt;parentPageId&lt;/td&gt;<br />
+                &lt;td&gt;{$parentPageId}&lt;/td&gt;<br />
+            &lt;/tr&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;td&gt;spaceKey&lt;/td&gt;<br />
+                &lt;td&gt;{$spaceKey}&lt;/td&gt;<br />
+            &lt;/tr&gt;<br />
+            &lt;tr&gt;<br />
+                &lt;td&gt;spaceName&lt;/td&gt;<br />
+                &lt;td&gt;{$spaceName}&lt;/td&gt;<br />
+            &lt;/tr&gt;<br />
+        &lt;tbody&gt;<br />
+    &lt;/table&gt;<br />
+{/template}<br />
+[/code]</p>
+<p>Each Soy file needs a namespace declaration at the top of the file. It must be declared before any templates are declared.</p>
+<p>In this case, we have created a new <strong>Confluence.Templates.SoyTutorial</strong> namespace for our templates and added a template which displays an <a href="https://developer.atlassian.com/display/AUI">AUI</a>-style table containing a number of attributes that a Confluence page is likely to possess.</p>
+<p>For templates that need parameters, these <strong>must</strong> be declared in JavaDoc style immediately before the template:</p>
+<p>[code lang="html"]<br />
+/**<br />
+ * Renders a table of selected AJS.params<br />
+ * @param pageId<br />
+ * @param pageTitle<br />
+ * @param parentPageId<br />
+ * @param spaceKey<br />
+ * @param spaceName<br />
+ */<br />
+[/code]</p>
+<p>Parameters use this syntax within the template:</p>
+<p>[code lang="html"]<br />
+{$pageId}<br />
+[/code]</p>
+<p>For internationalisation, use <code>getText()</code> – a JavaScript internationalisation transformer will take care of the i18n:</p>
+<p>[code lang="html"]<br />
+&lt;b&gt;{getText('confluence.tutorial.soy.templates.intro')}&lt;/b&gt;<br />
+[/code]</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step3.CalltheSoytemplateinaseparateJavaScriptfile">Step 3. Call the Soy template in a separate JavaScript file</h2>
+<p>Create a new JavaScript resource at <strong>src/main/resources/init.js</strong>:</p>
+<p>[code lang="javascript"]<br />
+AJS.toInit(function () {<br />
+    var $pageMetadata = AJS.$('#content.page.view .page-metadata:first');</p>
+<p>    if ($pageMetadata.length &gt; 0) {<br />
+        var selectedAjsParams = {<br />
+            pageId: AJS.params.pageId,<br />
+            pageTitle: AJS.params.pageTitle,<br />
+            parentPageId: AJS.params.parentPageId,<br />
+            spaceKey: AJS.params.spaceKey,<br />
+            spaceName: AJS.params.spaceName<br />
+        }<br />
+        var template = Confluence.Templates.SoyTutorial.listSelectedAjsParams(selectedAjsParams);<br />
+        $pageMetadata.after(template);<br />
+    }<br />
+});<br />
+[/code]</p>
+<p>Here we are doing four things:</p>
+<ol>
+<li>Getting the first <strong>.page-metadata</strong> element if it exists.</li>
+<li>Creating an object containing only the AJS.params items that we are interested in.</li>
+<li>Passing these items – <code>selectedAjsParams</code> – into the template – <code>Confluence.Templates.SoyTutorial.listSelectedAjsParams</code> – to render the template into HTML.</li>
+<li>Appending the resulting HTML into the browser after the page metadata section.</li>
+</ol>
+<p>&lt;</p>
+<p>blockquote><br />
+You will notice the <a href="https://developer.atlassian.com/display/AUI">AUI</a> function, <code>AJS.params</code> – this contains some useful information about the Confluence installation and the current page. In this case, we are using it for convenience. Take a look at <code>AJS.params</code>in your browser's JavaScript console:</p>
+<p><img src="https://developer.atlassian.com/download/attachments/13631994/image2012-8-23%2021%3A55%3A26.png?version=1&amp;modificationDate=1345755346217" alt="" width="400" </p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step4.Edittheatlassian-plugin.xmlfile">Step 4. Edit the atlassian-plugin.xml file</h2>
+<p>You must now register the plugin module in your plugin descriptor, <code>atlassian-plugin.xml.</code></p>
+<p>Add the following code to your <code>atlassian-plugin.xml</code> file between the <code>&lt;atlassian-plugin&gt;</code> tags, but below the <code>&lt;plugin-info&gt;</code> tag group.</p>
+<p>[code lang="xml"]<br />
+&lt;web-resource key=&quot;view-metadata&quot; name=&quot;View metadata from AJS.params&quot;&gt;</p>
+<p>	&lt;!-- transform calls to AJS.getText() inside JS files --&gt;<br />
+	&lt;transformation extension=&quot;js&quot;&gt;<br />
+		&lt;transformer key=&quot;jsI18n&quot;/&gt;<br />
+	&lt;/transformation&gt;</p>
+<p>	&lt;!-- transform Soy templates into JS --&gt;<br />
+	&lt;transformation extension=&quot;soy&quot;&gt;<br />
+		&lt;transformer key=&quot;soyTransformer&quot;&gt;<br />
+			&lt;functions&gt;com.atlassian.confluence.plugins.soy:soy-core-functions&lt;/functions&gt;<br />
+		&lt;/transformer&gt;<br />
+	&lt;/transformation&gt;</p>
+<p>	&lt;!-- JavaScript resources --&gt;<br />
+	&lt;resource name=&quot;init.js&quot; type=&quot;download&quot; location=&quot;init.js&quot;/&gt;<br />
+	&lt;resource name=&quot;template-soy.js&quot; type=&quot;download&quot; location=&quot;template.soy&quot;/&gt;<br />
+	&lt;context&gt;page&lt;/context&gt;<br />
+&lt;/web-resource&gt;<br />
+[/code]</p>
+<p>Let's break down that XML code, by looking at the web resource module, transformers and resources in the code.</p>
+<h3 id="WritingSoyTemplatesinYourPlugin-Thewebresourcemodule">The web resource module</h3>
+<p>In the code example, the web-resource module (line) has 2 attributes:</p>
+<ul>
+<li><strong>key="view-metadata"</strong> sets an internal name for the new item.</li>
+<li><strong>name="View metadata from AJS.params"</strong> defines the default name of the item.</li>
+</ul>
+<p>[code lang="xml"]<br />
+&lt;web-resource key=&quot;view-metadata&quot; name=&quot;View metadata from AJS.params&quot;&gt;<br />
+[/code]</p>
+<h3 id="WritingSoyTemplatesinYourPlugin-Thetransformers">The transformers</h3>
+<p>In the code example, there are two transformation code blocks:</p>
+<ul>
+<li>The first transformation module performs the internationalisation work.</li>
+<li>The second transformation module transforms the .soy template into precompiled efficient JavaScript which can then be called by the JavaScript in <strong>init.js</strong></li>
+</ul>
+<p>[code lang="xml"]<br />
+	&lt;!-- transform calls to AJS.getText() inside JS files --&gt;<br />
+	&lt;transformation extension=&quot;js&quot;&gt;<br />
+		&lt;transformer key=&quot;jsI18n&quot;/&gt;<br />
+	&lt;/transformation&gt;</p>
+<p>	&lt;!-- transform Soy templates into JS --&gt;<br />
+	&lt;transformation extension=&quot;soy&quot;&gt;<br />
+		&lt;transformer key=&quot;soyTransformer&quot;&gt;<br />
+			&lt;functions&gt;com.atlassian.confluence.plugins.soy:soy-core-functions&lt;/functions&gt;<br />
+		&lt;/transformer&gt;<br />
+	&lt;/transformation&gt;<br />
+[/code]</p>
+<h3 id="WritingSoyTemplatesinYourPlugin-Resources">Resources</h3>
+<p>Lastly, there are Javascript resources for the web resources and the context in which they should be displayed. In this case, the Javascript is only added for Confluence pages, thus the 'page' context.</p>
+<p>[code lang="xml"]<br />
+	&lt;!-- JavaScript resources --&gt;<br />
+	&lt;resource name=&quot;init.js&quot; type=&quot;download&quot; location=&quot;init.js&quot;/&gt;<br />
+	&lt;resource name=&quot;template-soy.js&quot; type=&quot;download&quot; location=&quot;template.soy&quot;/&gt;<br />
+	&lt;context&gt;page&lt;/context&gt;<br />
+[/code]</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step5.Addnewresourcefilesandinternationalisation">Step 5. Add new resource files and internationalisation</h2>
+<p>To add new resource files and internationalisation, add a new file in the resources directory of your plugin, called <code>confluence-tutorial-soy-templates.properties</code>, and include these lines of code:</p>
+<p>[code]<br />
+confluence.tutorial.soy.templates.intro = Some metadata extracted from the AJS.params JavaScript object:<br />
+confluence.tutorial.soy.templates.name  = Name<br />
+confluence.tutorial.soy.templates.value = Value<br />
+[/code]</p>
+<p>The above keys are used in the Soy template. For example:</p>
+<p>[code lang="xml"]<br />
+&lt;b&gt;{getText('confluence.tutorial.soy.templates.intro')}&lt;/b&gt;<br />
+[/code]</p>
+<p>Additionally, add a reference the resource file in the <code>atlassian-plugin.xml</code> file – add this line of code above the <code>&lt;web-resource&gt;</code> code block:</p>
+<p>[code lang="xml"]<br />
+&lt;resource type=&quot;i18n&quot; name=&quot;i18n&quot; location=&quot;confluence-tutorial-soy-templates&quot; /&gt;<br />
+[/code]</p>
+<p>This accesses your <code>confluence-tutorial-soy-templates.properties</code> file and retrieves the text for our button label.</p>
+<p>If you would like to know more about internationalisation, see the <a rel="nofollow" href="http://confluence.atlassian.com/display/DISC/i18n+in+Confluence+Plugin+Development" target="_blank">Confluence documentation on the topic</a>.</p>
+<h2 id="WritingSoyTemplatesinYourPlugin-Step6.Build,installandruntheplugin">Step 6. Build, install and run the plugin</h2>
+<p>Go to the root directory in your plugin project – this is the directory that contains the<code> pom.xml</code> file. Type the <strong>atlas-run</strong> command, to compile the plugin project and then launch a local instance of Confluence.</p>
+<p>Once Confluence has loaded:</p>
+<ul>
+<li>Go to your web browser and access your local instance with this URL:<br />
+        <code><a href="http://localhost:1990/confluence/">http://localhost:1990/confluence/</a></code>
+    </li>
+<li>Log in with username "admin" and password "admin".</li>
+<li>Browse to a page in the Demonstration space</li>
+</ul>
+<p>Each page will now have a table above the page content, containing a selection of metadata – this has been rendered client-side using Soy templates.</p>
+<p><img src="{{ site.baseurl }}/assets/image2012-8-23%2021%3A54%3A8.png?version=1&amp;modificationDate=1345755346199" alt="" width="650" /></p>
+<p>:) Congratulations, you have completed this tutorial.</p>
+<p><em>The above post is a tutorial I wrote for the last <a href="http://blogs.atlassian.com/2012/09/atlassian-doc-sprint-delivers-30-tutorials-for-confluence-4-3/">Atlassian Doc Sprint</a>.  It is mirrored and maintained on the <a href="https://developer.atlassian.com/display/CONFDEV/Writing+Soy+Templates+in+Your+Plugin">Atlassian Developers website</a>.<br />
+</em></p>

@@ -1,0 +1,34 @@
+---
+layout: post
+title: Using the Google Analytics Javascript API to show pageviews from Atlassian
+  Confluence
+date: 2009-09-11 23:48:09.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags: []
+meta:
+  aktt_notify_twitter: 'no'
+  syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299685381'
+  tmac_last_id: '618797407556517888'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="http://davidsimpson.me/labs/ga-api/confluence/">Here's a quick demo</a> I wrote to test out the Google Analytics API.</p>
+<p>It shows pageviews for an Atlassian Confluence wiki on a space by space basis.</p>
+<p>You'll need your own copy of Confluence hooked up to Google Analytics for the demo to work, so I've done a video demo too - no sound, sorry.</p>
+<p><object width="425" height="319"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=6430883&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=6430883&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="425" height="319"></embed></object>
+<p><a href="http://vimeo.com/6430883">Confluence & Google Analytics Javascript API</a> from <a href="http://vimeo.com/dvdsmpsn">David Simpson</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+<p><!--more--><br />
+The main problem for listing data on a space by space basis with the Google Analytics API is that there isn't an equivalent to the Content Drilldown report. My workaround was to get the 500 most popular pages, then using regular expressions, get the spacekeys, remove duplicates and sort alphabetically.  Not particularly elegant, but hey.</p>
+<h2>Next Steps</h2>
+<p>It's a nice proof of concept, but I'd like to display this information - without the authentication and authorisation step - to users without access to Google Analytics.<br />
+e.g. To the owners/administrators of Confluence spaces. </p>
+<p>The next step will be to rewrite in Java and embed the data and some charts directly into Confluence with a custom written macro. </p>

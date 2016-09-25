@@ -1,0 +1,96 @@
+---
+layout: post
+title: 'Meta tags are your friend part 1: Tracking roles in Sungard Luminis with Google
+  Analytics'
+date: 2010-04-08 15:57:23.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags:
+- google analytics
+- luminis
+- sungardhe
+- university of nottingham
+meta:
+  _topsy_cache_timestamp: '1299702167'
+  _syntaxhighlighter_encoded: '1'
+  _topsy_long_url: http://davidsimpson.me/2010/04/08/meta-tags-are-your-friend-part-tracking-roles-in-sungard-luminis-with-google-analytics/
+  topsy_short_url: http://bit.ly/cu7UKe
+  tmac_last_id: '618797398224080897'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>At work, we use <a href="http://www.sungardhe.com/">Sungard HE</a>'s Luminis portal (v3.3) &mdash; It's been good to us over the years, but there's a lack of usage information regarding users' roles and their interactions with Luminis.  </p>
+<p>In the past, <a href="http://davidsimpson.me/2009/02/27/google-analytics-and-sungardhe-luminis/">we've added Google Analytics to Luminis</a> to track the interactions, but never managed to fully segment user roles. Until now.</p>
+<p>Out of the box, Luminis has roles such as staff, student, faculty, ProspectiveStudent etc.  Users can have one or more of these roles and other custom roles too.  If we could capture all the roles and pass them onto Google Analytics, then we'd be able to fully segment the user types and gain a better understanding of how each segment uses Luminis.</p>
+<p>This post aims to show how this is possible in just 3 steps:</p>
+<ol>
+<li><b>XSL:</b> Edit nested-tables.xsl to add a custom meta tag for the luminis roles</li>
+<li><b>Javascript/jQuery:</b> Read the custom meta tag and set a custom variable in Google Analytics</li>
+<li><b>Google Analytics:</b> Create custom segments to view traffic for specific Luminis roles</li>
+</ol>
+<p><!--more--></p>
+<h2>Edit nested-tables.xsl and add a custom meta tag to the header</h2>
+<p>We've seriously hacked at nested-tables.xsl over the years, so our version of the file is likely to be different to most.  The main aim here is to find the html &gt; head  section and add a custom meta tag:</p>
+<p>[code]<br />
+&lt;!-- Dump all roles into a single meta tag as a comma separated value --&gt;<br />
+&lt;meta name=&quot;luminis.role&quot;&gt;<br />
+   	&lt;xsl:attribute name=&quot;content&quot;&gt;<br />
+		&lt;xsl:for-each select=&quot;//layout/cp:cpInfo/cp:cpProperty[@name='pdsRole']/child::*&quot;&gt;<br />
+			&lt;xsl:value-of select=&quot;concat(., ',')&quot; /&gt;<br />
+   		&lt;/xsl:for-each&gt;<br />
+   	&lt;/xsl:attribute&gt;<br />
+&lt;/meta&gt;<br />
+[/code]</p>
+<h2>Read the custom meta tag and set a custom variable in Google Analytics</h2>
+<p>Our implementation of Google Analytics is a little complex, but this example I've based on the standard Google Analytics example code.   </p>
+<p>Using Javascript (infused with jQuery in our case), we can read the custom meta tag and set a custom variable. </p>
+<p>[code lang="javascript"]<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
+document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
+&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;</p>
+<p>	window.onload = function(){<br />
+		try<br />
+		{<br />
+			var pageTracker = _gat._getTracker(&quot;UA-XXXXX-XX&quot;);</p>
+<p>			if (typeof $('meta[name=luminis.role]').attr(&quot;content&quot;) == 'string')<br />
+			{<br />
+				pageTracker._setCustomVar(<br />
+				     1,                                                // This custom var is set to slot #1 of the 5 available in GA<br />
+				     &quot;luminis.role&quot;,                                   // The name acts as a kind of category for the user activity<br />
+				     ','+$('meta[name=luminis.role]').attr(&quot;content&quot;), // The value of the custom variable (starting with a comma)<br />
+				     2                                                 // Sets the scope to session-level<br />
+				);<br />
+			}<br />
+			pageTracker._trackPageview();<br />
+		}<br />
+		catch (err) {}<br />
+	}</p>
+<p>&lt;/script&gt;<br />
+[/code]	</p>
+<p>According to the <a href="http://code.google.com/apis/analytics/docs/tracking/gaTrackingCustomVariables.html#sessionLevel">documentation</a>, it's important to set the custom variable before tracking the page view.	</p>
+<h2>Create custom segments to view traffic for specific Luminis roles</h2>
+<p>Sign in to Google Analytics and view your normal website reports.<br />
+Click on <b>Advanced segments | Create a new advanced segment</b></p>
+<p>Create a new segment where...<br />
+<b>Custom variable (Value 1)</b> contains <b>,staff,</b><br />
+AND<br />
+<b>Custom variable (Value 1)</b> contains <b>,faculty,</b></p>
+<p>Note the surrounding commas - we're using them as role delimiters.</p>
+<p>Give the segment a name e.g. "Luminis roles: staff AND faculty""</p>
+<p><a href="http://localhost/davidsimpson.me/wp-content/uploads/2010/04/create-custom-segment.png"><img src="{{ site.baseurl }}/assets/create-custom-segment-419x440.png" alt="Create  custom segment" title="Create  custom segment" width="419" height="440" class="size-medium wp-image-674" /></a></p>
+<h2>All done, but have patience</h2>
+<p>Your custom segment is now available from the advanced segment drop-down:</p>
+<p><img src="{{ site.baseurl }}/assets/select-custom-segment.png" alt="select-custom-segment" title="Select advanced segment" width="316" height="41" class="wp-image-675" /></p>
+<p>Custom variables seem to take longer to filter through to Google Analytics than normal data such as page views.  So come back in a couple of days and try out your new advanced segment.</p>
+<p><b>Update (12 April 2010):</b><br />
+Shortly after I published this post, the Google Analytics blog posted their <a href="http://analytics.blogspot.com/2010/04/custom-variables-webinar-available-for.html">webinar on Google Analytics custom variables</a>.</p>
+<p>Also, if you're interested in creating advanced segments from custom variables, I've posted a<a href="http://www.youtube.com/watch?v=gOBoqG7LNLc">youtube video that steps through the process</a>.</p>

@@ -1,0 +1,47 @@
+---
+layout: post
+title: Better placement for BlackBox Debug Bar in WordPress
+date: 
+type: post
+published: false
+status: private
+categories: []
+tags:
+- note to self
+- wordpress
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="http://wordpress.org/plugins/blackbox-debug-bar/">BlackBox Debug Bar</a> is an excellent little addition to any WordPress plugin/theme developer's arsenal:</p>
+<blockquote><p>BlackBox is a plugin for plugin and theme developers. It collects and displays useful debug information (errors, executed queries, globals, profiler).<br />
+-- <a href="http://wordpress.org/plugins/blackbox-debug-bar/">http://wordpress.org/plugins/blackbox-debug-bar/</a>
+</p></blockquote>
+<p>I particularly like how it shows the number of PHP errors <strong>at the top of every page</strong> in full view.</p>
+<p>One thing that bugs me is that it hides the header bar by default, so you can't select the menu. This is easily fixed with a small sprinkling of CSS. </p>
+<p>Browse to <b>Admin | Plugins | Installed Plugins</b> and click on <b>Edit</b> under BlackBox.</p>
+<p>Edit <b>blackbox-debug-bar/public/styles.css</b>.</p>
+<p>Add this style to the top of the file:<br />
+[code]<br />
+html #wpwrap,<br />
+html #wpadminbar {<br />
+    top: 28px;<br />
+}<br />
+[/code]</p>
+<p>This simply pushes the page down below the BlackBox Debug Bar so that you can see everything:</p>
+<p><img src="{{ site.baseurl }}/assets/blackbox-edit.png" alt="" title="blackbox-edit" class="alignnone size-full wp-image-2038" /></p>
+<h2>Further Reading</h2>
+<p>If you're serious about debugging WordPress, you should also check out <a href="http://wordpress.org/plugins/debug-bar/">Debug Bar</a> and its family of dependent plugins:</p>
+<ul>
+<li><a href="http://wordpress.org/plugins/debug-bar-console/">Debug Bar Console</a> adds a PHP/MySQL console to the debug bar</li>
+<li><a href="http://wordpress.org/plugins/debug-bar-cron/">Debug Bar Cron</a> adds a new panel to Debug Bar that displays information about WP scheduled events </li>
+<li><a href="http://wordpress.org/plugins/debug-bar-constants/">Debug Bar Constants</a> adds three new panels to the Debug Bar that display the defined WP and PHP constants for the current request</li>
+<li><a href="http://wordpress.org/plugins/debug-bar-transients/">Debug Bar Transients</a> adds a new panel to Debug Bar that displays information about WordPress transients </li>
+<li><a href="http://wordpress.org/plugins/tdd-debug-bar-post-meta/">Debug Bar Post Meta</a> adds a list of post meta for the current post</li>
+</ul>

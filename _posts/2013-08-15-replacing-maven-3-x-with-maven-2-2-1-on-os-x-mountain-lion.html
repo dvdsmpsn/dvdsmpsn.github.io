@@ -1,0 +1,61 @@
+---
+layout: post
+title: Replacing Maven 3.x with Maven 2.2.1 on OS X Mountain Lion
+date: 2013-08-15 11:31:40.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797345497579520'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><strong>Update:</strong> This works just as well on <strong>OS X Mavericks</strong>. Also, if you need to add legacy Java 1.6 support back into your system, <a href="http://support.apple.com/kb/DL1572">download and install Java for OS X 2014-001</a>.</p>
+<p><!--more--><br />
+My MacBook Pro has Maven 3.0.3 on it: </p>
+<p>[code]<br />
+$ mvn -version<br />
+Apache Maven 3.0.3 (r1075438; 2011-02-28 17:31:09+0000)<br />
+Maven home: /usr/share/maven<br />
+Java version: 1.7.0_17, vendor: Oracle Corporation<br />
+Java home: /Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/jre<br />
+Default locale: en_US, platform encoding: UTF-8<br />
+OS name: &quot;mac os x&quot;, version: &quot;10.8.4&quot;, arch: &quot;x86_64&quot;, family: &quot;mac&quot;<br />
+[/code]</p>
+<p>I don't want that. I want Maven 2.2.1.</p>
+<p>[code]/usr/share/maven[/code] is just a symlink to the install directory, so install version 2.2.1 and swap the symlink. Done.</p>
+<p>Install Maven 2.2.1 using Homebrew:</p>
+<p>[code]<br />
+brew tap homebrew/versions<br />
+brew install maven2<br />
+==&amp;gt; Downloading http://www.apache.org/dist/maven/maven-2/2.2.1/binaries/apache-maven-2.2.1-bin.tar.gz<br />
+######################################################################## 100.0%<br />
+[/code]</p>
+<p>Move the symlink and recreate:</p>
+<p>[code]<br />
+cd /usr/share<br />
+sudo mv maven maven-3.0.3<br />
+sudo ln -s /usr/local/Cellar/maven2/2.2.1 maven<br />
+[/code]</p>
+<p>Now check:</p>
+<p>[code]<br />
+mvn -version<br />
+Apache Maven 2.2.1 (r801777; 2009-08-06 20:16:01+0100)<br />
+Java version: 1.6.0_51<br />
+Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home<br />
+Default locale: en_US, platform encoding: MacRoman<br />
+OS name: &quot;mac os x&quot; version: &quot;10.8.4&quot; arch: &quot;x86_64&quot; Family: &quot;mac&quot;<br />
+[/code]</p>
+<p>Lovely. Job done.</p>
+<h2>Further reading</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula">Homebrew install specific version of formula?</a></li>
+</ul>

@@ -1,0 +1,139 @@
+---
+layout: post
+title: Debugging opensocial gadgets in IBM Connections
+date: 2014-11-13 23:15:08.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _encloseme: '1'
+  _pingme: '1'
+  _wpas_done_all: '1'
+  tmac_last_id: '618797288928866305'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>My standard IBM Connections installation has the following logging settings:</p>
+<p>[code]<br />
+     *=info:<br />
+     com.ibm.social.pim.resource.*=all:<br />
+     com.ibm.lconn.homepage.services.widget.*=all:<br />
+     com.ibm.lconn.news.*=all:<br />
+     com.ibm.lconn.events.*=all:<br />
+     com.ibm.lotus.search.engine.*=all:<br />
+     com.ibm.lotus.search.index.*=all:<br />
+     com.ibm.lconn.mailin.*=all:<br />
+     com.ibm.lotus.connections.core.notify.*=all:<br />
+     com.ibm.lconn.scheduler.*=all:<br />
+     org.apache.shindig.*=all<br />
+[/code]</p>
+<p>In WebSphere, this is displayed on a single line:<br />
+[code]<br />
+*=info: com.ibm.social.pim.resource.*=all: com.ibm.lconn.homepage.services.widget.*=all: com.ibm.lconn.news.*=all: com.ibm.lconn.events.*=all: com.ibm.lotus.search.engine.*=all: com.ibm.lotus.search.index.*=all: com.ibm.lconn.mailin.*=all: com.ibm.lotus.connections.core.notify.*=all: com.ibm.lconn.scheduler.*=all: org.apache.shindig.*=all<br />
+[/code]<br />
+<!--more--><br />
+For debugging gadgets and activity stream, we need to up the ante with more logging.</p>
+<p>A suggestion. Add the following lines:</p>
+<p>[code]<br />
+org.apache.shindig.*=all:<br />
+org.apache.shindig.auth.*=all:<br />
+org.apache.shindig.auth.AuthenticationServletFilter=all:<br />
+org.apache.shindig.common.*=all:<br />
+org.apache.shindig.common.cache.*=all:<br />
+org.apache.shindig.common.cache.LruCacheProvider=all:<br />
+org.apache.shindig.common.xml.*=all:<br />
+org.apache.shindig.common.xml.XmlUtil=all:<br />
+org.apache.shindig.config.*=all:<br />
+org.apache.shindig.config.DynamicConfigProperty=all:<br />
+org.apache.shindig.config.JsonContainerConfigLoader=all:<br />
+org.apache.shindig.gadgets.*=all:<br />
+org.apache.shindig.gadgets.AbstractSpecFactory=all:<br />
+org.apache.shindig.gadgets.HashLockedDomainService=all:<br />
+org.apache.shindig.gadgets.admin.*=all:<br />
+org.apache.shindig.gadgets.admin.BasicGadgetAdminStore=all:<br />
+org.apache.shindig.gadgets.features.*=all:<br />
+org.apache.shindig.gadgets.features.FeaturePrecompiler=all:<br />
+org.apache.shindig.gadgets.features.FeatureRegistry=all:<br />
+org.apache.shindig.gadgets.features.FeatureResourceLoader=all:<br />
+org.apache.shindig.gadgets.http.*=all:<br />
+org.apache.shindig.gadgets.http.BasicHttpFetcher=all:<br />
+org.apache.shindig.gadgets.http.HttpRequest=all:<br />
+org.apache.shindig.gadgets.http.HttpResponseMetadataHelper=all:<br />
+org.apache.shindig.gadgets.js.*=all:<br />
+org.apache.shindig.gadgets.js.AddJslInfoVariableProcessor=all:<br />
+org.apache.shindig.gadgets.js.AddJslLoadedVariableProcessor=all:<br />
+org.apache.shindig.gadgets.js.CompilationProcessor=all:<br />
+org.apache.shindig.gadgets.js.IfModifiedSinceProcessor=all:<br />
+org.apache.shindig.gadgets.oauth2.*=all:<br />
+org.apache.shindig.gadgets.oauth2.BasicOAuth2Message=all:<br />
+org.apache.shindig.gadgets.oauth2.BasicOAuth2Request=all:<br />
+org.apache.shindig.gadgets.oauth2.BasicOAuth2Store=all:<br />
+org.apache.shindig.gadgets.oauth2.GadgetOAuth2TokenStore=all:<br />
+org.apache.shindig.gadgets.oauth2.OAuth2CallbackState=all:<br />
+org.apache.shindig.gadgets.oauth2.OAuth2Error=all:<br />
+org.apache.shindig.gadgets.oauth2.OAuth2Module=all:<br />
+org.apache.shindig.gadgets.oauth2.OAuth2Utils=all:<br />
+org.apache.shindig.gadgets.oauth2.handler.*=all:<br />
+org.apache.shindig.gadgets.oauth2.handler.CodeAuthorizationResponseHandler=all:<br />
+org.apache.shindig.gadgets.parse.*=all:<br />
+org.apache.shindig.gadgets.parse.GadgetHtmlParser=all:<br />
+org.apache.shindig.gadgets.parse.caja.*=all:<br />
+org.apache.shindig.gadgets.parse.caja.CajaCssSanitizer=all:<br />
+org.apache.shindig.gadgets.preload.*=all:<br />
+org.apache.shindig.gadgets.preload.PipelineExecutor=all:<br />
+org.apache.shindig.gadgets.process.*=all:<br />
+org.apache.shindig.gadgets.process.Processor=all:<br />
+org.apache.shindig.gadgets.render.*=all:<br />
+org.apache.shindig.gadgets.render.CajaResponseRewriter=all:<br />
+org.apache.shindig.gadgets.render.DefaultServiceFetcher=all:<br />
+org.apache.shindig.gadgets.render.Renderer=all:<br />
+org.apache.shindig.gadgets.render.RenderingGadgetRewriter=all:<br />
+org.apache.shindig.gadgets.render.SanitizingResponseRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.*=all:<br />
+org.apache.shindig.gadgets.rewrite.AbsolutePathReferenceRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.CssResponseRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.MutableContent=all:<br />
+org.apache.shindig.gadgets.rewrite.PipelineDataGadgetRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.ProxyingVisitor=all:<br />
+org.apache.shindig.gadgets.rewrite.TemplateRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.image.*=all:<br />
+org.apache.shindig.gadgets.rewrite.image.BasicImageRewriter=all:<br />
+org.apache.shindig.gadgets.rewrite.js.*=all:<br />
+org.apache.shindig.gadgets.rewrite.js.ClosureJsCompiler=all:<br />
+org.apache.shindig.gadgets.servlet.*=all:<br />
+org.apache.shindig.gadgets.servlet.AsyncConcatProxyServlet=all:<br />
+org.apache.shindig.gadgets.servlet.AsyncMakeRequestServlet=all:<br />
+org.apache.shindig.gadgets.servlet.AsyncProxyServlet=all:<br />
+org.apache.shindig.gadgets.servlet.CajaContentRewriter=all:<br />
+org.apache.shindig.gadgets.servlet.ConcatAuthFilter=all:<br />
+org.apache.shindig.gadgets.servlet.GadgetRenderingServlet=all:<br />
+org.apache.shindig.gadgets.servlet.GadgetsHandler=all:<br />
+org.apache.shindig.gadgets.servlet.HttpRequestHandler=all:<br />
+org.apache.shindig.gadgets.servlet.OAuth2CallbackServlet=all:<br />
+org.apache.shindig.gadgets.sso.*=all:<br />
+org.apache.shindig.gadgets.sso.CookieBasedSSOHandler=all:<br />
+org.apache.shindig.gadgets.templates.*=all:<br />
+org.apache.shindig.gadgets.templates.ContainerTagLibraryFactory=all:<br />
+org.apache.shindig.gadgets.uri.*=all:<br />
+org.apache.shindig.gadgets.uri.DefaultJsUriManager=all:<br />
+org.apache.shindig.gadgets.uri.UriUtils=all:<br />
+org.apache.shindig.gadgets.user.*=all:<br />
+org.apache.shindig.gadgets.user.DefaultValidator=all:<br />
+org.apache.shindig.protocol.*=all:<br />
+org.apache.shindig.protocol.ApiServlet=all:<br />
+org.apache.shindig.protocol.DataServiceServlet=all:<br />
+org.apache.shindig.protocol.DefaultHandlerRegistry=all:<br />
+org.apache.shindig.protocol.conversion.*=all:<br />
+org.apache.shindig.protocol.conversion.BeanXStreamConverter=all:<br />
+org.apache.shindig.protocol.conversion.xstream.*=all:<br />
+org.apache.shindig.protocol.conversion.xstream.InterfaceClassMapper=all:<br />
+[/code]</p>
+<p>This should liven up the logs somewhat. </p>

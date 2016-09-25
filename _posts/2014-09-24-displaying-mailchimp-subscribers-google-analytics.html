@@ -1,0 +1,128 @@
+---
+layout: post
+title: Displaying Mailchimp subscribers in Google Analytics
+date: 2014-09-24 07:39:50.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- Programming
+- web
+tags:
+- google analytics
+- google chrome
+- integration
+- mailchimp
+- pii viewer
+meta:
+  _oembed_c734a9e2e9b150cbba6f0de7c8b55734: "{{unknown}}"
+  _pingme: '1'
+  _encloseme: '1'
+  _edit_last: '1'
+  _thumbnail_id: '2973'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  tmac_last_id: '618797291818725380'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>This blogpost shows you how to get the list member data out of Mailchimp and displayed inline in the Google Analytics user interface without breaking the Google Analytics Terms of Service. It uses the PII Viewer for Google Analytics Chrome extension.</p>
+<p><!--more--><br />
+<strong>tl;dr?</strong> <a href="#mailchimp-video">Skip down to the bottom</a> to see a video demo.</p>
+<p>A while back, Jim Gianoglio from Lunametric wrote a couple of really nice blogposts on setting up Google Analytics to track email opens from Mailchimp mail outs:</p>
+<ul>
+<li><a href="http://www.lunametrics.com/blog/2013/06/17/email-tracking-google-analytics/">Email Tracking in Google Analytics with MailChimp</a></li>
+<li><a href="http://www.lunametrics.com/blog/2013/07/16/google-analytics-email-tracking-part-2/">Google Analytics Email Tracking, Part 2</a></li>
+</ul>
+<p>This is pretty cool as it shows the Mailchimp email open data in Google Analytics.</p>
+<p><b>But what about click throughs from the email? How do you tie those in too?</b></p>
+<h2>Setup Google Analytics tracking in Mailchimp</h2>
+<p>In Mailchimp ensure that your campaign has Google Analytics link tracking enabled:</p>
+<div class="post-thumb"><a href="http://davidsimpson.me/wp-content/uploads/2014/09/mc-tracking.jpg"><img class="alignnone size-full wp-image-2985" alt="mc-tracking" src="{{ site.baseurl }}/assets/mc-tracking.jpg" /></a></div>
+<p>Click throughs from Mailchimp emails give a URL similar to this (with request parameters formatted for easy reading):</p>
+<p>[code]</p>
+<p>  http://read-able.com/<br />
+    ?utm_source=Google+Analytics+Integration+example<br />
+    &amp;utm_campaign=b4ed972584-GA_Integration_Example_19_16_2014<br />
+    &amp;utm_medium=email<br />
+    &amp;utm_term=0_0dc0efa209-b4ed972584-181498085<br />
+    &amp;mc_cid=b4ed972584<br />
+    &amp;mc_eid=ced7155edd</p>
+<p>[/code]</p>
+<p>Lets break this down. The <code>utm_</code> prefixed parameters are well established Google Analytics tracking parameters. And the others?</p>
+<ul>
+<li><code>mc_cid</code> - this is the Mailchimp campaign ID</li>
+<li><code>mc_eid</code> - this is the Mailchimp member email's unique_id</li>
+</ul>
+<p>I’m not concerned about the campaign ID as it is already prefixed onto the <code>utm_campaign</code> parameter. But what about the list member's unique ID?</p>
+<h2>Add Google Analytics tracking code on your website</h2>
+<p>We can capture the list member's unique ID from Mailchimp, then send it to Google Analytics when they open the page.</p>
+<p>How? By adding the following code onto the landing page of your email marketing campaign.</p>
+<p>[code]<br />
+&lt;script&gt;<br />
+	// a helper function<br />
+	location.getParameter = function(item){<br />
+		var svalue = location.search.match(new RegExp(&quot;[\?\&amp;]&quot; + item + &quot;=([^\&amp;]*)(\&amp;?)&quot;,&quot;i&quot;));<br />
+		return svalue ? svalue[1] : svalue;<br />
+	};</p>
+<p>	// Get the Mailchimp ID from the request parameter<br />
+	var mailchimpId = location.getParameter('mc_eid');</p>
+<p>	// Standard Universal Analytics code<br />
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){<br />
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),<br />
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)<br />
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');</p>
+<p>	if (mailchimpId === null) {<br />
+		// standard GA code<br />
+		ga('create', 'UA-XXXX-Y', 'auto');<br />
+	} else {<br />
+		// GA code with user id<br />
+		ga('create', 'UA-XXXX-Y', {'userId': mailchimpId}); // for cross-device tracking<br />
+		ga('set', 'dimension1', mailchimpId);                 // also set a `customUserId` dimension at page level (for fun)<br />
+	}</p>
+<p>	ga('require', 'displayfeatures');<br />
+	ga('send', 'pageview');</p>
+<p>&lt;/script&gt;<br />
+[/code]</p>
+<p>In all honesty, you may as well deploy this code site wide to ensure your Google Analytics JavaScript is consistent.</p>
+<h3>What does it all mean?</h3>
+<p>Let’s break this down line by line…</p>
+<p><code>location.getParameter</code> is just a way to get individual request parameters from a query string</p>
+<p><code>location.getParameter('mc_eid')</code> allows us to capture the list member’s unique ID from Mailchimp.</p>
+<p>The <code>(function(i,s,o,g,r,a,m)…</code> block is the standard set up for Universal Analytics.</p>
+<p>Next, we test whether the visit came from a Mailchimp email click through. if the mailchimpId is null, there was no email click through, so just set the web property id in Google Analytics.</p>
+<p>If the visit did come from a Mailchimp email click through…</p>
+<ul>
+<li>Set up the web property id and also assign the <code>mailchimpId</code> to the user id feature in Google Analytics. This bit does nothing to help us identify the user, but does mean that individual users’ behaviour can be observed across devices.</li>
+<li>Set the <code>mailchimpId</code> in a custom dimension — this bit allows us to view the <code>mailchimpId</code> within Google Analytics, but importantly, this information is not deemed by Google to be PII, so complies with the Terms of Service</li>
+<li></li>
+</ul>
+<p>Finally, send the page view complete with the web property id and the custom dimension.</p>
+<h2>Testing</h2>
+<p>Having deployed this code to your website, you are now ready to start tracking! Push your mail shot out and wait for the click throughs to begin!</p>
+<p>If you’re like me and want to test things out, you can use mail aliases in Gmail (e.g. <code>you+somealias@gmail.com</code>) to sign yourself up to a list multiple times, then send yourself a campaign.</p>
+<p>Click through in several different browsers from different emails, and you can test out the results.</p>
+<p>In Google Analytics, add your custom dimension to any report as a secondary dimension. You should see the MailChimp User ID for each of your separate emails:</p>
+<div class="post-thumb"><a href="http://davidsimpson.me/wp-content/uploads/2014/09/Mailchimp-in-GA-without-PII.png"><img class="alignnone size-full wp-image-2986" alt="Mailchimp in GA - without PII" src="{{ site.baseurl }}/assets/Mailchimp-in-GA-without-PII.png" /></a></div>
+<h2>Joining the dots with PII Viewer for Google Analytics</h2>
+<p>This is great — you’ve tied Google Analytics and Mailchimp together. It’s just a shame that the user id looks like a meaningless collection of characters.</p>
+<p>Help is at hand though. The latest version of my <a href="http://davidsimpson.me/pii-viewer-for-google-analytics/">PII Viewer for Google Analytics</a> Chrome browser extension (v0.0.7) has Mailchimp support baked in. This means that you’ll be able to display the Mailchimp user’s name (email address and whatever else you have stored in Mailchimp) right here in Google Analytics like so:</p>
+<div class="post-thumb"><a href="http://davidsimpson.me/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png"><img src="{{ site.baseurl }}/assets/Mailchimp-in-GA-with-PII.png" alt="Mailchimp in GA - with PII" class="alignnone size-full wp-image-2973" /></a></div>
+<p>Here’s a video to show how that works...</p>
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style>
+<div class="embed-container"><iframe src="https://www.youtube.com/embed/gNo9AIjAqCA" frameborder="0" allowfullscreen></iframe></div>
+<h2>What's next?</h2>
+<p>This really opens up the possibilities of what you can track and then display in Google Analytics. Particularly in the area of goal tracking and conversions.</p>
+<p>Having proved the ability to display data from Mailchimp in Google Analytics, this opens up the field for more integrations. Perhaps you'd like to see your SugarCRM, Salesforce, Marketo or Hubspot data displayed in Google Analytics.</p>
+<p>I'm open to suggestion, but a new integration won't necessarily come for free. <a href="http://davidsimpson.me/contact-me/">Get in touch</a>, <a href="https://bitbucket.org/dvdsmpsn/pii-viewer-for-google-analytics/issues">create an issue</a> and let's make it happen.</p>
+<h2>Further reading</h2>
+<ul>
+<li><a href="http://moometric.com/integrations/gtm/mailchimp-user-tracking-in-google-analytics-using-google-tag-manager/">Mailchimp user tracking in Google Analytics using Google Tag Manager</a></li>
+</ul>

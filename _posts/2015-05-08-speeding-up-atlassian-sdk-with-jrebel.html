@@ -1,0 +1,82 @@
+---
+layout: post
+title: Speeding up the Atlassian SDK with JRebel
+date: 2015-05-08 08:52:07.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- Programming
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _yoast_wpseo_focuskw: jrebel
+  _yoast_wpseo_linkdex: '85'
+  _yoast_wpseo_title: Speeding up the Atlassian SDK with JRebel
+  _yoast_wpseo_metadesc: Faster Atlassian SDK development with JRebel
+  _thumbnail_id: '3204'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  tmac_last_id: '618797283753218048'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>JRebel saves compile time. It "Instantly reload changes to Java classes" – that's <a href="http://zeroturnaround.com/software/jrebel/">the marketing talk anyway</a>. </p>
+<p>The theory is great. Anything has to be better than the randomness of Atlassian's <a href="https://developer.atlassian.com/docs/developer-tools/automatic-plugin-reinstallation-with-fastdev">FastDev</a> or <code>atlas-cli</code>, right? If it's really worth the hype, I want to use it with the Atlassian SDK and speed up my development time. Here's a short tutorial for JIRA development. Scroll down to the video if you want a demo.</p>
+<h2>Getting up and running...</h2>
+<p>Here's my quick "how to" get up and running.<br />
+Get the <code>jrebel.jar</code> and save it somewhere - like <code>/opt/jrebel/jrebel.jar</code></p>
+<p>Add the <code>jvmArgs</code> in the plugin to point at said file (and turn off fast dev)…</p>
+<p>[code]<br />
+&lt;plugin&gt;<br />
+     &lt;groupId&gt;com.atlassian.maven.plugins&lt;/groupId&gt;<br />
+     &lt;artifactId&gt;maven-jira-plugin&lt;/artifactId&gt;<br />
+     &lt;version&gt;${amps.version}&lt;/version&gt;<br />
+     &lt;extensions&gt;true&lt;/extensions&gt;<br />
+     &lt;configuration&gt;<br />
+          &lt;productVersion&gt;${jira.version}&lt;/productVersion&gt;<br />
+          &lt;productDataVersion&gt;${jira.data.version}&lt;/productDataVersion&gt;<br />
+          &lt;enableFastdev&gt;false&lt;/enableFastdev&gt;<br />
+          &lt;log4jProperties&gt;src/main/extra/log4j.properties&lt;/log4jProperties&gt;<br />
+          &lt;jvmArgs&gt;-javaagent:/opt/jrebel/jrebel.jar&lt;/jvmArgs&gt;<br />
+     &lt;/configuration&gt;<br />
+&lt;/plugin&gt;<br />
+[/code]</p>
+<p>Add the <code>jrebel-maven-plugin</code> under <b>build > plugins</b> (see <a href="http://zeroturnaround.com/blog/jrebel-featurecast-how-to-configure-jrebel-for-multi-module-maven-projects/">details of what does what here</a>).</p>
+<p>[code]<br />
+&lt;plugin&gt;<br />
+    &lt;groupId&gt;org.zeroturnaround&lt;/groupId&gt;<br />
+    &lt;artifactId&gt;jrebel-maven-plugin&lt;/artifactId&gt;<br />
+    &lt;version&gt;1.1.5&lt;/version&gt;<br />
+    &lt;configuration&gt;<br />
+        &lt;addResourcesDirToRebelXml&gt;true&lt;/addResourcesDirToRebelXml&gt;<br />
+        &lt;alwaysGenerate&gt;true&lt;/alwaysGenerate&gt;<br />
+        &lt;showGenerated&gt;true&lt;/showGenerated&gt;<br />
+    &lt;/configuration&gt;<br />
+    &lt;executions&gt;<br />
+        &lt;execution&gt;<br />
+            &lt;id&gt;generate-rebel-xml&lt;/id&gt;<br />
+            &lt;phase&gt;process-resources&lt;/phase&gt;<br />
+            &lt;goals&gt;<br />
+                &lt;goal&gt;generate&lt;/goal&gt;<br />
+            &lt;/goals&gt;<br />
+        &lt;/execution&gt;<br />
+    &lt;/executions&gt;<br />
+&lt;/plugin&gt;<br />
+[/code]</p>
+<p>Run <code>atlas-run</code> or <code>atlas-debug</code> on the command line, checking for any errors.</p>
+<p>In Intelli-J, enable automatic compiling on code change by checking Make project build automatically:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/01/make.png"><img src="{{ site.baseurl }}/assets/make.png" alt="make" width="2023" height="1168" class="alignnone size-full wp-image-3128" /></a></p>
+<p>Change something in your code & reload the page.</p>
+<p>All is automatically updated. Immediately. No more waiting for code compile changes.</p>
+<p>Check this quick video demo:</p>
+<p>https://www.youtube.com/watch?v=gG8ONumNsyA</p>
+<p>The good news – it's pretty cool. The bad news – JRebel costs around $365 per seat per year. But think of all the time you save.</p>

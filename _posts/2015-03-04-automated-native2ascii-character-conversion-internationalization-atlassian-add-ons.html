@@ -1,0 +1,79 @@
+---
+layout: post
+title: Automated native2ascii character conversion for internationalisation of Atlassian
+  add-ons
+date: 2015-03-04 14:00:33.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+tags:
+- atlassian plugin sdk
+- java
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _wp_old_slug: automated-native2ascii-character-conversion-atlassian-add-ons
+  _thumbnail_id: '3154'
+  tmac_last_id: '618797284608708609'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Normally, I write my internationalisation (i18n) files in UTF-8 format. This means that they are human readable. </p>
+<p>Java i18n files however must be ISO-8859-1. If you don't process them using something like <code>native2ascii</code>, accented and multibyte characters will return gobbledegook at best.</p>
+<p>You can manually convert a single file manually using this command:<br />
+[code]<br />
+native2ascii -encoding utf-8 ./src/main/resources/i18n.properties ./target/classes/i18n.properties<br />
+[/code]</p>
+<p>That's tedious, so why not automate the process during the build? </p>
+<h2>Using <code>native2ascii-maven-plugin</code></h2>
+<p>Luckily, there's a maven plugin called <strong>native2ascii-maven-plugin</strong>. Its old, but does the job.</p>
+<p>For Atlassian SDK p2 add-ons, use something like this:</p>
+<p>[code]<br />
+&lt;build&gt;<br />
+    &lt;plugins&gt;<br />
+        &lt;plugin&gt;<br />
+            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;<br />
+            &lt;artifactId&gt;native2ascii-maven-plugin&lt;/artifactId&gt;<br />
+            &lt;version&gt;1.0-alpha-1&lt;/version&gt;<br />
+            &lt;executions&gt;<br />
+                &lt;execution&gt;<br />
+                    &lt;id&gt;native2ascii-utf8-properties&lt;/id&gt;<br />
+                    &lt;goals&gt;<br />
+                        &lt;goal&gt;native2ascii&lt;/goal&gt;<br />
+                    &lt;/goals&gt;<br />
+                    &lt;configuration&gt;<br />
+                        &lt;src&gt;src/main/resources&lt;/src&gt;<br />
+                        &lt;includes&gt;*.properties&lt;/includes&gt;<br />
+                        &lt;encoding&gt;UTF8&lt;/encoding&gt;<br />
+                        &lt;dest&gt;target/classes&lt;/dest&gt;<br />
+                    &lt;/configuration&gt;<br />
+                &lt;/execution&gt;<br />
+            &lt;/executions&gt;</p>
+<p>            &lt;!-- For Java 7+ compilation: --&gt;<br />
+            &lt;dependencies&gt;<br />
+                &lt;dependency&gt;<br />
+                    &lt;groupId&gt;com.sun&lt;/groupId&gt;<br />
+                    &lt;artifactId&gt;tools&lt;/artifactId&gt;<br />
+                    &lt;version&gt;1.5.0&lt;/version&gt;<br />
+                    &lt;scope&gt;system&lt;/scope&gt;<br />
+                    &lt;systemPath&gt;${java.home}/../lib/tools.jar&lt;/systemPath&gt;<br />
+                &lt;/dependency&gt;<br />
+            &lt;/dependencies&gt;<br />
+        &lt;/plugin&gt;<br />
+		...<br />
+    &lt;/plugins&gt;<br />
+&lt;/build&gt;<br />
+[/code]</p>
+<p>Your source files will be in sweet UTF-8 format and your target files will be mangled into ISO-8859-1 as Java requires.</p>
+<p>How do you do this? Please add a comment below with details.</p>
+<p><a id="hey-gommo"></a><br />
+<b>Update:</b> Maven resource filtering can mess with the working of this plugin, so try with no resource filtering first ;)</p>

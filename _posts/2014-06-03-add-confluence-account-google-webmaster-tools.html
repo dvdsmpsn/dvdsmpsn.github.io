@@ -1,0 +1,53 @@
+---
+layout: post
+title: Adding Atlassian Confluence to your Google Webmaster Tools account
+date: 2014-06-03 14:58:48.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- atlassian
+- confluence
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  _yoast_wpseo_focuskw: google webmaster tools
+  _yoast_wpseo_linkdex: '79'
+  tmac_last_id: '618797305295163392'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="https://answers.atlassian.com/questions/186707/add-confluence-to-my-account-google-webmaster-tools">Daniel Garcia asks</a>:</p>
+<blockquote><p>
+I want to add my Confluence system to Google WebMaster Tools. I upload the file verification to server but when I load, I see that include template of Confluence in plain text of the Google file verification...</p>
+<p>Is there any way to not include template of Confluence when I load this file? Google search to find the text verification but is unable to find it if it includes apart the CSS and HTML code of Confluence
+</p></blockquote>
+<h2>Procedure</h2>
+<h3>Step 1: Meta tag verification in Google Webmaster Tools</h3>
+<p>There are 2 methods of verification for Google Webmaster Tools. File upload, and meta tag verificsation. For Atlassian Confluence, the latter is much easier to perform. To verify your site by adding a meta tag, browse to <a href="https://www.google.com/webmasters/tools/">Google Webmaster Tools</a>:<br />
+<!--more--></p>
+<ol>
+<li>Click on <strong>Manage Site</strong> next to the site you want, then click <strong>Verify this site</strong>.</li>
+<li>If <strong>HTML tag</strong> is not visible on the <strong>Recommended method</strong> tab, click the <strong>Alternate methods</strong> tab.</li>
+<li>Select <strong>HTML tag</strong> - you'll see a meta tag similar to the one below. Copy it.</li>
+</ol>
+<p>[code]&lt;meta name=&quot;google-site-verification&quot; content=&quot;...&quot; &gt;[/code]</p>
+<h3>Step 2: Adding the meta verification to Atlassian Confluence</h3>
+<p>In a new browser tab, open Confluence.</p>
+<p>Browse to <b>Confluence Admin | Look and Feel | Custom HTML | At the End of the HEAD</b></p>
+<p>Paste the meta tag into the form and submit:</p>
+<p>[code]&lt;meta name=&quot;google-site-verification&quot; content=&quot;...&quot; &gt;[/code]</p>
+<h3>Step 3: Verify in Google Webmaster Tools</h3>
+<p>Back in <a href="https://www.google.com/webmasters/tools/">Google Webmaster Tools</a>, click on <strong>Verify</strong>. That's it.</p>
+<h2>Aside</h2>
+<p>If you're using Zen Foundation to theme your site, then you're probably out of luck. That add-on removes the <b>At the End of the HEAD</b> functionality, so this method just won't work. Sorry.</p>
+<h2>Further information</h2>
+<ul>
+<li><a href="https://support.google.com/webmasters/answer/35659?hl=en">Verification: Meta tag</a></li>
+</ul>

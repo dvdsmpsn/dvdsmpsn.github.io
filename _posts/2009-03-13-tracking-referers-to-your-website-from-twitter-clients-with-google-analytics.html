@@ -1,0 +1,40 @@
+---
+layout: post
+title: Tracking referers to your website from Twitter clients with Google Analytics
+date: 2009-03-13 20:53:50.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+tags:
+- analytics
+- google analytics
+- twitter
+- web analytics
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299700366'
+  tmac_last_id: '618797413021552640'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>If someone using a desktop Twitter client (such as <a href="http://tweetdeck.com/">TweetDeck</a> or <a href="http://www.twhirl.org/">Twirl</a>) clicks on a link I've posted to my blog, the Google Analytics referer information will be blank.  It registers as direct traffic to the website.  </p>
+<p>This is fine when linking to other people's websites &mdash; I'm not worried about them &mdash; but I'd like to know where that traffic to <em>my</em> websites comes from.</p>
+<p>I generally shorten URLs with a service like <a href="http://bit.ly">bit.ly</a> (which does provide basic statistics on click throughs).  The trouble here is that you still miss the referrer information on your Google Analytics account. </p>
+<h2>How can we capture that the source of the link was a Twitter post?</h2>
+<p>The <a href="http://www.epikone.com/blog/">Analytics Talk</a> blog post &mdash; <a href="http://www.epikone.com/blog/2008/09/02/tracking-twitter/">Twitter and Google Analytics: What to Track</a> &mdash; gives a good solution to this problem.</p>
+<p>Put simply, before you shorten the URL, add the following GA campaign request parameters to the end:<br />
+<code>?utm_campaign=blog&utm_source=twitter&utm_medium=micro-blog</code></p>
+<p>e.g.<br />
+<code>http://example.com/</code><br />
+becomes<br />
+<code>http://example.com/?utm_campaign=blog&utm_source=twitter&utm_medium=micro-blog</code> </p>
+<p>Now you can track referrers from Twitter clients within Google Analytics using<br />
+<code>Traffic Sources | Campaigns</code>.  Nice.</p>
+<p>Check out <a href="http://www.epikone.com/blog/2008/09/02/tracking-twitter/">Twitter and Google Analytics: What to Track</a> by Justin Cutroni  for the details.  </p>
+<p><b>Aside:</b> Justin's <a href="http://www.gashortcut.com/">Google Analytics Short Cut</a> PDF book ($10 from O'Reilly) is a great read, but it was written in 2007 before the last GA update.  I hope Justin gets the time to release an updated version soon.</p>

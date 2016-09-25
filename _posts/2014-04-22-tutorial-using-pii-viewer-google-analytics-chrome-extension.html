@@ -1,0 +1,88 @@
+---
+layout: post
+title: 'Tutorial: Using the PII Viewer for Google Analytics Chrome extension'
+date: 2014-04-22 18:55:51.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- chrome extension
+- google analytics
+- google chrome
+- personally identifiable information
+- pii
+- pii viewer
+- tutorial
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797311821488128'
+  _post_restored_from: a:3:{s:20:"restored_revision_id";i:2815;s:16:"restored_by_user";i:1;s:13:"restored_time";i:1403165413;}
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><iframe width="100%" style="height:400px" src="//www.youtube.com/embed/1ZLmzBdnYzg" frameborder="0" allowfullscreen></iframe></p>
+<p>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted. This is a tutorial to aide users of the <a href="http://davidsimpson.me/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to PII such as name and email address stored locally. </p>
+<p>The test scenario we're using gives a pseudo-randomly generated User ID to each web page visitor. The "User ID" feature in Google Analytics is currently (April 2014) being rolled out, so in the meantime, we're using a Custom Dimension to store our own "Custom User ID".</p>
+<p>On my local filesystem, I have created a set of sample personas in <b>sample.csv</b> which contains "User ID" values along with some personal information. This CSV file contains a header row to describe the columns.</p>
+<p><b>sample.csv</b>:<br />
+[code]<br />
+user_id,display_name,email,company,country<br />
+abc-123-rst,Albert Cox,acox@realcube.info,Real Cube,Colombia<br />
+abc-123-uvw,Justine Bishop,jbishop@youspan.name,You Span,Panama<br />
+abc-123-xyz,Paula Smith,psmith@skinte.name,Skinte,Romania<br />
+abc-456-rst,Louise Mcdonald,lmcdonald@meezzy.com,Meezzy,Turkey<br />
+abc-456-uvw,Christopher Burns,cburns@midel.biz,Midel,Algeria<br />
+abc-456-xyz,Laura Ruiz,lruiz@zooveo.biz,Zoo Veo,Austria<br />
+abc-789-rst,Julie Ramirez,jramirez@meetz.org,Meetz,Ukraine<br />
+abc-789-uvw,Jimmy Elliott,jelliott@twitterlist.biz,TwitterList,China<br />
+abc-789-xyz,Amanda Owens,aowens@avamba.edu,Avamba,Indonesia<br />
+def-123-rst,Denise Stephens,dstephens@tagtune.mil,TagTune,India<br />
+def-123-uvw,Betty Watkins,bwatkins@photobug.name,PhotoBug,&amp;quot;Congo, Republic of&amp;quot;<br />
+def-123-xyz,Daniel Rose,drose@skipstorm.biz,SkipStorm,Djibouti<br />
+def-456-rst,Paula Baker,pbaker@bluezoom.net,Blue Zoom,Luxembourg<br />
+def-456-uvw,Kevin Arnold,karnold@dynabox.net,DynaBox,New Zealand<br />
+def-456-xyz,Gerald Black,gblack@skybar.org,Sky Bar,Ukraine<br />
+def-789-rst,Donald Dixon,ddixon@trilia.gov,Trilia,Turkey<br />
+def-789-uvw,Julia Tucker,jtucker@centizu.name,Centizu,Ascension Island<br />
+def-789-xyz,Elizabeth Gilbert,egilbert@kanoodle.mil,Kanoodle,Bulgaria<br />
+ghi-123-rst,Barbara Ross,bross@digitube.edu,DigiTube,Gambia<br />
+ghi-123-uvw,Rose Oliver,roliver@vitz.org,Vitz,Morocco<br />
+ghi-123-xyz,Louis Mills,lmills@skyble.org,Skyble,Bosnia and Herzegovina<br />
+ghi-456-rst,Angela Dunn,adunn@wikibox.gov,WikiBox,Saint Barthelemy<br />
+ghi-456-uvw,Anna Ward,award@dabjam.net,DAB Jam,United States<br />
+ghi-456-xyz,Evelyn Simpson,esimpson@rhyzio.edu,Rhyzio,Canada<br />
+ghi-789-rst,Joe Green,jgreen@jaloo.gov,JA Loo,Kiribati<br />
+ghi-789-uvw,Patricia Hayes,phayes@lazzy.gov,Lazzy,Chad<br />
+ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom<br />
+[/code]</p>
+<p>Please note that this data is sample data and <em>not</em> real customer data.</p>
+<p>In PII Viewer for Google Analytics, we upload the CSV file into the extension.</p>
+<p>Now, the extension is installed locally and it saves the data to the local machine in Chrome's <b>chrome.storage.local</b> API. The point I'm making here is that the PII data is not uploaded anywhere outside of your local machine. This means that your PII data is safe. It also means that legally, you are complying with section 7 of the Google Analytics terms of service.</p>
+<p>Next we select a "Select Google Analytics User Identifier column" from the list of columns. In the sample dataset, select <b>user_id</b>.</p>
+<p>When setting up the tracking code, this user_id was used in the JavaScript. Something like this:</p>
+<p>[code]<br />
+&amp;lt;script&amp;gt;<br />
+  ...<br />
+  ...<br />
+  ga('create', 'UA-XXXXXX-Y', {'userId': customUserId});   // If &amp;quot;User ID&amp;quot; feature is available<br />
+  ga('set', 'dimension1', customUserId);                   // Set a `customUserId` dimension at page level<br />
+  ga('send', 'pageview');<br />
+&amp;lt;/script&amp;gt;<br />
+[/code]</p>
+<p>Having configured the extension with the data and the mapping, you can jump straight into Google Analytics and see the extension in action.</p>
+<p>The extension adds a small toolbar to the bottom of the Google Analytics interface. You can hide it so that it's out of the way. The extension looks at dimension data displayed in Google Analytics and if a mapping between the user_id in the locally stored CSV file and the dimension displayed in Google Analytics is found, the PII from the local CSV file is injected into the Google Analytics interface.</p>
+<p>In our example, we have a <b>Custom User ID</b> dimension added, so we can add this as a secondary dimension to one of the reports.</p>
+<p>Our CSV had columns:<br />
+[code]user_id,display_name,email,company,country[/code]</p>
+<p>We used <b>user_id</b> for the mapping, so the other columns are  available for selection in a dropdown in the toolbar. Selecting any of these will display the mapping within the dimension columns in Google Analytics like so:</p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2014/04/pii-viewer.png"><img src="{{ site.baseurl }}/assets/pii-viewer.png" alt="pii-viewer" width="2492" height="1428" class="alignnone size-full wp-image-2619" /></a></p>
+<p>As the extension maps against any dimensions in the reports, it could lead to some false positives, so I've also added a toggle in the toolbar to switch the mapping off.</p>
+<p>In upcoming releases, I'll consider injecting the mapping into different places in the Google Analytics interface.</p>

@@ -1,0 +1,96 @@
+---
+layout: post
+title: Adding new sample users to IBM Connections via Domino Administrator
+date: 2014-01-02 00:19:29.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+tags:
+- domino
+- ibm connections
+- linux
+- ssh
+- x11 forwarding
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _oembed_d05665c5d5f7259123cd9ca239602f9e: <iframe width="500" height="375" src="http://www.youtube.com/embed/iaenM8U5qZs?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_f73e804de016e19adb202d73e0231883: <iframe width="500" height="375" src="http://www.youtube.com/embed/ty9DyJ8Bi1Y?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  tmac_last_id: '618797330616070144'
+  _oembed_a3ebfd269be2b02dbd7cc9d78785ae5a: <iframe width="465" height="349" src="http://www.youtube.com/embed/iaenM8U5qZs?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_ce8d62289cd0ec9ff33ddea7bf54cf32: <iframe width="465" height="349" src="http://www.youtube.com/embed/ty9DyJ8Bi1Y?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_03f338cd7d0010cd250789a3a29a7644: <iframe width="600" height="450" src="http://www.youtube.com/embed/iaenM8U5qZs?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_81977462b7396bbf73ccb242b851d22d: <iframe width="750" height="563" src="http://www.youtube.com/embed/iaenM8U5qZs?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_a10da1c5be23d0fe7d57a43bd7fdc634: <iframe width="750" height="563" src="http://www.youtube.com/embed/ty9DyJ8Bi1Y?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_b02365cff105eed35b01d543162fc9c9: <iframe width="600" height="450" src="http://www.youtube.com/embed/ty9DyJ8Bi1Y?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>Some time back I was installing a demo IBM Connections 4.0 system using the instructions at <a href="http://www-10.lotus.com/ldd/lcwiki.nsf/dx/Tutorial_-_Installing_IBM_Connections_4.0_on_a_Linux_RHEL_6.3_64-bit_systemcol">Tutorial - Installing IBM Connections 4.0 on a Linux RHEL 6.3 64 bit system</a>.</p>
+<p>At a certain point, I realised that I needed to add some extra users to the system. This blog post shows how to add a new user to Domino and then populate IBM Connections with the new user. This is an example for test purposes only. </p>
+<p>This procedure runs through <a href="http://www-10.lotus.com/ldd/lcwiki.nsf/dx/Tutorial_-_Installing_IBM_Connections_4.0_on_a_Linux_RHEL_6.3_64-bit_Systemcol_LESSON_7col_Installing_a_Domino_LDAP_Directory#Task+3%3A+Prepare+for+use+with+LDAP">"Task 3: Prepare for use with LDAP" (step 2) in "LESSON 7: Installing a Domino LDAP Directory"</a> and <a href="http://www-10.lotus.com/ldd/lcwiki.nsf/dx/Tutorial_-_Installing_IBM_Connections_4.0_on_a_Linux_RHEL_6.3_64-bit_Systemcol_LESSON_8col_Installing_a_Domino_LDAP_Directory#Task+4%3A+Populate+the+Profiles+Database">"Task 4: Populate the Profiles Database" in "LESSON 8: Intermediate Steps"</a></p>
+<p>http://www.youtube.com/watch?v=iaenM8U5qZs</p>
+<p>In case you didn't realise, "Task 3: Prepare for use with LDAP" requires a separate Windows system running Domino Administrator. Before you can continue, you must get the software and install it on a Windows system.</p>
+<p>Carrying out this procedure using Domino Administrator and the Profiles Population Wizard is quite a challenge for the unfamiliar, so I created a video in case I needed to repeat the steps. As an aside, the process is almost identical for IBM Connections 4.5</p>
+<h2>Procedure</h2>
+<p>To break this down a little, here are the basic steps:</p>
+<h3>Add the users to the Domino LDAP</h3>
+<p>On a Windows machine with Domino Administrator installed, add users in the usual manner...</p>
+<p>This is quite a long video that someone else did, but is very useful:<br />
+http://www.youtube.com/watch?v=ty9DyJ8Bi1Y</p>
+<h3>Run the population wizard</h3>
+<p>On the IBM Connections server:<br />
+[code]<br />
+sudo bash<br />
+cd /opt/installs/Wizards<br />
+./populationWizard.sh<br />
+[/code]</p>
+<p>This will bring up a graphical wizard for you to step through that looks similar to this:  </p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2013/11/cnx-wiz.png"><img src="{{ site.baseurl }}/assets/cnx-wiz.png" alt="" title="cnx-wiz" class="alignnone size-full wp-image-2155" /></a></p>
+<p>Click through the wizard, it should remember all the settings except passwords from the last time is was run. </p>
+<p>If however you have no GUI access to the IBM Connections server, read on...</p>
+<h2> Aside: Running the population wizard in a sudo session and displaying it on your Mac </h2>
+<h3> Remote Linux server </h3>
+<p>Add to <b>/etc/ssh/sshd_config</b>:<br />
+[code]<br />
+XForwarding yes<br />
+[/code]</p>
+<h3> Local Mac machine </h3>
+<p>Edit or create <b>~/.ssh/config</b> and add X11Forwarding:</p>
+<p>[code]<br />
+Host connections.example.com<br />
+ForwardX11 yes<br />
+[/code]</p>
+<p>Then connect to the remote Linux server via ssh & run the X11 program:</p>
+<p>[code]<br />
+ssh -X david@connections.example.com<br />
+sudo su -<br />
+su - david -c 'xauth list' | \<br />
+       grep `echo $DISPLAY | \<br />
+           cut -d ':' -f 2 | \<br />
+           cut -d '.' -f 1 | \<br />
+           sed -e s/^/:/`  | \<br />
+     xargs -n 3 xauth add</p>
+<p>cd /opt/install/Wizards<br />
+./populationWizard.sh<br />
+[/code]</p>
+<p>This will result in X11 forwarding from your remote Linux server to your Mac: </p>
+<p><a href="http://davidsimpson.me/wp-content/uploads/2013/11/cnx-x11-forwarding.jpg"><img src="{{ site.baseurl }}/assets/cnx-x11-forwarding.jpg" alt="" title="cnx-x11-forwarding" class="alignnone size-full wp-image-2154" /></a></p>
+<h3>Further reading</h3>
+<ul>
+<li><a href="http://joelinoff.com/blog/?p=729"> Make X11 programs work in an ssh sudo session </a></li>
+</ul>

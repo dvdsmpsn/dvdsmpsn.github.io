@@ -1,0 +1,74 @@
+---
+layout: post
+title: Push speed test results from OpenWRT to Google Sheets
+date: 2016-02-05 20:16:33.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _yoast_wpseo_focuskw: speed test
+  _yoast_wpseo_linkdex: '70'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>I recently read <a href="http://makezine.com/projects/send-ticket-isp-when-your-internet-drops/">Use Raspberry Pi to Measure Broadband Speeds to Hold Your ISP Accountable</a> on <a href="http://makezine.com/">Make</a> and realised that this was an excellent candidate for monitoring my somewhat unstable Virgin Media connection.</p>
+<p>I use an OpenWRT router (running a VPN to add a little bit of privacy), so I could adapt the article to run on the router rather than an attached Raspberry Pi.</p>
+<p>Here are the steps adapted for OpenWRT...<br />
+<!--more--></p>
+<p>OpenWRT uses <code>opkg</code> rather than <code>apt-get</code>, so that is used throughout as a replacement.</p>
+<p>Install <code>pip</code> -- a packaging manager for Python and the <code>speedtest-cli</code> package from the <code>pip</code> repositories.</p>
+<p>[code]opkg install python-pip<br />
+pip install speedtest-cli<br />
+[/code]</p>
+<p>Test out the installed package:</p>
+<p>[code]root@OpenWrt:~# speedtest-cli<br />
+Retrieving speedtest.net configuration...<br />
+Retrieving speedtest.net server list...<br />
+Testing from Virgin Media (x.x.x.x)...<br />
+Selecting best server based on latency...<br />
+Hosted by Virgin Media (Nottingham) [2.68 km]: 20.29 ms<br />
+Testing download speed........................................<br />
+Download: 156.39 Mbit/s<br />
+Testing upload speed..................................................<br />
+Upload: 9.84 Mbit/s<br />
+[/code]</p>
+<p>So far so good.</p>
+<p>Next, we need to run the following script. I've saved it at <code>/root/bin/speedtest-ifttt.sh</code></p>
+<p><script src="https://gist.github.com/dvdsmpsn/2021b5c68b09d2002f4e.js"></script></p>
+<p>Update <code>log=/tmp/$user/speedtest-csv.log</code> to <code>log=/$user/tmp/speedtest-csv.log</code></p>
+<p>Add the key to line 82</p>
+<p>[code]secret_key=&quot;SECRET_KEY&quot;<br />
+[/code]</p>
+<p>OOTB, OpenWRT doesn't have bash or curl, so install that too:</p>
+<p>[code]opkg install bash curl<br />
+[/code]</p>
+<p>Make a directory to save the temperary file:</p>
+<p>[code]mkdir ~/tmp<br />
+[/code]</p>
+<p>Add execute permission:</p>
+<p>[code]chmox +x /root/bin/speedtest-ifttt.sh<br />
+[/code]</p>
+<p>Now, run the file once &amp; see if it creates a Google Sheet and saves details to the sheet</p>
+<p>[code]/root/bin/speedtest-ifttt.sh<br />
+[/code]</p>
+<p>If all is good, add this to the <code>cron</code> job and sit back:</p>
+<p>[code]crontab -e<br />
+15,45 * * * * /root/bin/speedtest-ifttt.sh<br />
+[/code]</p>
+<p>Right now, I'm measuring the speed every 30 minutes at 15, 45 mins past the hour. This can be changed to be run more frequently, as required.</p>
+<p>At this point, I created a chart in the Sheet so that I could view the data being collected.</p>
+<p>Here are the results so far:</p>
+<p><iframe width="100%" height="400" style="border: 1px solid #eee; border-radius: 5px;" src="https://docs.google.com/spreadsheets/d/1Dk3LJS4Qqs-bc7diTJfREb5KRF1ohO7G_z8_hVu7fkI/pubchart?oid=31045440&amp;format=interactive"></iframe></p>

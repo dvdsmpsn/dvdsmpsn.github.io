@@ -1,0 +1,179 @@
+---
+layout: post
+title: Templating Confluence for enhanced usability
+date: 2009-03-18 22:02:21.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- usability
+tags:
+- confluence
+- usability
+- ux
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299700419'
+  _topsy_long_url: http://davidsimpson.me/2009/03/18/templating-confluence-for-enhanced-usability/
+  topsy_short_url: http://bit.ly/97Vj4a
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  tmac_last_id: '618797412237193216'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><b>I love Confluence.</b>  It's simple. It's easy to use.  It's hierarchical, so you can build a nice structure. </p>
+<p>But...</p>
+<p><strong>I hate Confluence.</strong> I can't find anything. Ever. It's hierarchical, but which branch in the hierarchy is my content located in?  Damnit, the <a href="http://lucene.apache.org/">Lucene</a> powered search doesn't seem to be able to find what I'm searching for.</p>
+<p>My main gripe with Confluence is that by default it uses breadcrumb trails as primary navigation contrary to <a href="http://www.smashingmagazine.com/2009/03/17/breadcrumbs-in-web-design-examples-and-best-practices-2/">breadcrumbs best practices</a>.  They are no replacement for the real deal.</p>
+<p>Breadcrumbs are secondary navigation designed as an alternative to the main navigational scheme.    As such they give no context to relate the current page to others at the same level in the hierarchy.  Breadcrumbs cannot aid in navigation within a level.  So using breadcrumbs as primary navigation leads to a lack of awareness of the structure of the website/wiki space and thus confusion.</p>
+<p>With this in mind, I decided to add a consistent primary navigational scheme to our global Confluence template.   As Atlassian have in the past been known to change the templating scheme a little on upgrade to newer versions of Confluence, it is important to limit the changes to be as minimal as possible to limit ongoing templating maintenance issues.<br />
+<!--more--></p>
+<h2>Templating changes</h2>
+<p>These are limited to...</p>
+<ul>
+<li>Replace the main content div with a 2 column table based layout (I know, that's a somewhat naughty, but I'm a realist and in a hurry - Confluence already uses tables for some aspects of layout)</li>
+<li>Add a {pagetree} to the left hand column for primary navigation</li>
+<li>Replace a few icons in the {pagetree} macro to be a bit more Mac, a bit less Windows</li>
+<li>Add a custom/override stylesheet</li>
+</ul>
+<p>I'm using the {pagetree} macro, but I'm not overly fond of it.  Ideally, I'd like it to expand siblings and children of the current page by default.  But again, I'm not interested in rolling my own navigational system.  Rather I'll make do and mend what's available.  It does an adequate job, but looks a bit ugly.</p>
+<h3>Edit Site Layouts | Page Layout</h3>
+<p>Find this content div:</p>
+<p>[code language="html"]<br />
+&lt;div id=&quot;content&quot; class=&quot;page $!mode&quot;&gt;<br />
+	...<br />
+	...<br />
+	...<br />
+&lt;/div&gt;<br />
+[/code]</p>
+<p>Replace it with a table</p>
+<p>[code language="html"]<br />
+&lt;table id=&quot;myContent&quot;&gt;<br />
+	&lt;tr&gt;<br />
+		&lt;td class=&quot;myNavigation&quot;&gt;$helper.renderConfluenceMacro(&quot;{pagetree:root=$space.homePage.title|startDepth=1}&quot;)&lt;/td&gt;</p>
+<p>		&lt;td id=&quot;content&quot; class=&quot;page $!mode&quot;&gt;<br />
+			...<br />
+			...<br />
+			...<br />
+		&lt;/td&gt;<br />
+	&lt;/tr&gt;<br />
+&lt;/table&gt;<br />
+[/code]</p>
+<p>I'm not proud of adding a table for layout, but it much less bad than the markup I've seen produced by some third party theme building plugins. </p>
+<h3>Global Stylesheet</h3>
+<p>Add a custom/override to the default stylesheet:<br />
+[code language="css"]<br />
+body {<br />
+	width: 90%;<br />
+	min-width: 750px;<br />
+	/*max-width: 1000px;*/<br />
+	margin:0 auto;<br />
+	height: 100%;<br />
+	background-color: #fff;<br />
+}<br />
+h1, h2 ,h3, h4 {<br />
+	font-family: Calibri, Arial, &quot;Helvetica Neue&quot;, Helvetica, sans-serif;<br />
+	line-height: 1.25;<br />
+	margin: 0 0 .25em;<br />
+}<br />
+#header {<br />
+	margin: 0;<br />
+	padding: 3px 6px;<br />
+	background: #fff url(/images/my-images/backgrounds/menus/blue03.png) repeat-x;<br />
+}<br />
+#main {<br />
+	border: 0;<br />
+	padding-top: 30px;<br />
+}<br />
+#com-atlassian-confluence h1#title-heading img.space {<br />
+	margin-right: 10px;<br />
+	margin-left: 320px;<br />
+}<br />
+#myContent, #myContent  td {<br />
+	border-collapse:collapse;<br />
+}<br />
+#myContent, #myContent td td {<br />
+	border: 0;<br />
+}<br />
+#myContent {<br />
+	margin: -87px 0 0 0;<br />
+	background-color: #fff;<br />
+}<br />
+#myContent tr {<br />
+	vertical-align: top;<br />
+}<br />
+#myContent .myNavigation  {<br />
+	width: 270px;<br />
+	min-width: 270px;<br />
+	padding-top: 100px;<br />
+}<br />
+#myContent .myNavigation a {<br />
+	text-decoration: none;<br />
+}<br />
+#myContent .myNavigation ul ul {<br />
+	padding-left: 0;<br />
+	border-top: 1px solid #ccc;<br />
+}<br />
+#myContent .myNavigation ul ul ul {<br />
+	padding: 0;<br />
+	border: 0;<br />
+	margin: 10px -8px 0 -8px;<br />
+}<br />
+#myContent .myNavigation ul ul ul ul {<br />
+	margin: 0;<br />
+	padding: 0;<br />
+}<br />
+#myContent .myNavigation ul ul li {<br />
+	border-bottom: 1px solid #ccc;<br />
+	padding: 8px 8px 0 8px;<br />
+	background: #fff url(/images/my-images/backgrounds/menus/grey01.png) repeat-x;<br />
+}<br />
+#myContent .myNavigation ul ul ul li {<br />
+	border: 0;<br />
+	padding: 3px 8px 3px 20px;<br />
+	background-color: #ccc;<br />
+	background-image: none;<br />
+}<br />
+#myContent .myNavigation img {<br />
+	margin-right: 2px;<br />
+}<br />
+#myContent .myNavigation span img {<br />
+	display: none;<br />
+}<br />
+#myContent #content {<br />
+	padding: 100px 10px 10px 50px;<br />
+}<br />
+#myContent #content #editpageform {<br />
+	width: 100%;<br />
+}<br />
+#myContent #content .page-metadata {<br />
+	color: #999;<br />
+}<br />
+#myContent #content .wiki-content &gt; .panelMacro {<br />
+	margin: 10px 0;<br />
+}<br />
+#footer {<br />
+	display: none;<br />
+}<br />
+[/code]</p>
+<h3>Additional and replacement images</h3>
+<p>I've replaced the following images used by {pagetree}.  </p>
+<ul>
+<li>/images/icons/tree_plus.gif</li>
+<li>/images/icons/tree_minus.gif</li>
+<li>/images/icons/tree_square.gif</li>
+</ul>
+<p>This will have the side effect of making all {pagetree} icons more pleasing to look at.</p>
+<p>I've added the following backgrounds:</p>
+<ul>
+<li>/images/my-images/backgrounds/menus/blue03.png (for the breadcrumb trail /search bar)</li>
+<li>/images/my-images/backgrounds/menus/grey01.png (for the primary/left-hand navigation)</li>
+</ul>
+<h2>Resulting Look and Feel</h2>
+<p>This is just a work-in-progress, but gives a marked improvement in usability due to the enhanced navigation.</p>
+<p><a href="/wp-content/uploads/2009/03/confluence-theme.png"><img src="{{ site.baseurl }}/assets/confluence-theme-300x230.png" alt="" title="Confluence Theme" width="300" height="230" class="alignnone size-medium wp-image-205" /></a></p>

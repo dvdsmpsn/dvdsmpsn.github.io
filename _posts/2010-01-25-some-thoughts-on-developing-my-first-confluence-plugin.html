@@ -1,0 +1,214 @@
+---
+layout: post
+title: Some thoughts on developing my first Confluence plugin
+date: 2010-01-25 13:42:04.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+- web
+tags:
+- analytics
+- atlassian
+- confluence
+- google analytics
+- java
+- plugin
+- wiki
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299691618'
+  _topsy_long_url: http://davidsimpson.me/2010/01/25/some-thoughts-on-developing-my-first-confluence-plugin/
+  topsy_short_url: http://bit.ly/8X5OVK
+  _edit_last: '1'
+  tmac_last_id: '618797401055178752'
+  _encloseme: '1'
+  _pingme: '1'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><img class="alignnone" title="ga-idea" src="{{ site.baseurl }}/assets/ga-idea2.png" alt="ga-idea" /></p>
+<p><!-- Some thoughts on developing my first Confluence plugin  or A bluffer's guide to developing Confluence plugins --></p>
+<p>I recently started building Confluence plugins.  The first one being my <a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/">Google Analytics plugin for Confluence</a>. This post outlines my "journey" into Confluence plugin development.  It documents a beginner's pitfalls when developing with the Atlassian Plugin SDK. Hopefully others can learn from, or at least laugh at my mistakes.</p>
+<p>Where I was starting from:</p>
+<ul>
+<li>No experience of <a href="http://maven.apache.org/">maven</a></li>
+<li>No understanding of how Confluence plugins work or how they are written</li>
+<li>Some experience of Java - Mainly <a href="http://www.jasig.org/uportal">uPortal</a>/<a href="http://www.sungardhe.com/products/luminis-platform">Luminis</a> portal development for the <a href="http://my.nottingham.ac.uk/">University of Nottingham</a> and some consultancy work e.g. for Astra Zeneca, Documentum and 3Com</li>
+<li>No experience of unit testing or integration testing in Java - oh dear</li>
+<li>I prefer UI work to real programming</li>
+</ul>
+<p><!--more--></p>
+<h2>Initial failure</h2>
+<p>I tried to setup a development environment for plugin development using Atlassian's <a href="http://confluence.atlassian.com/display/DEVNET/How+to+Build+an+Atlassian+Plugin">documentation</a> a little before the beta release of version 3 of the Atlassian Plugin SDK.  It was a pain. This was no fault of the documentation — it was really just to do with my schedules and available time to experiment.</p>
+<p>The problem was two-fold:</p>
+<ol>
+<li>I'd not done this before, so was clueless to what was involved</li>
+<li>The setup was a complete ball-ache considering the time restraints</li>
+</ol>
+<p>I was well aware of point 1 and the pain it was likely to cause.  Point 2 seemed to be the old chestnut - install and configure the exact correct versions of the software you need in the correct sequence, then start.</p>
+<p>Wait.  I don't know what that means, see point 1. Yes, I've got maven installed on my MacBook! Woo! Let's go.  Hang on, it's not the correct version. Where do I get that from?</p>
+<p>In many ways, it reminded me of my initial experience of building and installing Apache 1.x on Solaris SPARC boxes back in the day:</p>
+<blockquote><p>cd /path/to/apache/source; make; make install;<br />
+Oh. Wrong version of make. Where do I get that from?  Hmmm.<br />
+Install correct version of make. Damn, make needs the correct version of gcc. Where do I get that from?<br />
+And so on. Moving further and further away from the problem you're trying to solve.</p></blockquote>
+<p>So, I stopped there.  No shiny Confluence plugins for me.  I've got plenty of other things to do anyway thank you very much.</p>
+<h2>Reboot</h2>
+<p>Then Atlassian released the Plugin SDK beta and all this nastiness was removed.  Everything you need to build an Atlassian plugin was bundled in one place.  Refreshing. All commands have been wrapped and so are prefixed with <code>atlas-</code> to prevent conflict with whatever else you've got installed.</p>
+<p>For the impatient, this really drives down the barriers to entry for plugin development.</p>
+<p>Following the documentation for <a href="http://confluence.atlassian.com/display/DEVNET/Setting+up+your+Plugin+Development+Environment">installing the Plugin SDK</a> was a piece of cake.  It just worked.</p>
+<ul>
+<li>Download</li>
+<li>Unzip</li>
+<li>Add some environment settings. Edit <code>~/.profile</code> and add:<br />
+[code]<br />
+PATH=$PATH:.<br />
+PATH=$PATH:$HOME/<br />
+PATH=$PATH:$HOME/bin<br />
+PATH=$PATH:$HOME/atlassian-plugin-sdk/atlassian-plugin-sdk-3.0-beta3<br />
+PATH=$PATH:$HOME/atlassian-plugin-sdk/atlassian-plugin-sdk-3.0-beta3/bin<br />
+export PATH<br />
+[/code]</li>
+<li>Start building a plugin</li>
+</ul>
+<p>Starting out to build your Atlassian plugin is <a href="http://confluence.atlassian.com/display/DEVNET/Developing+your+Plugin+using+the+Atlassian+Plugin+SDK">documented here</a>. It's a fairly straightforward set of instructions.</p>
+<p>You start by doing something like this:</p>
+<p>[code]<br />
+mkdir ~/projects/davidsimpson.me/<br />
+mkdir ~/projects/davidsimpson.me/confluence<br />
+cd  ~/projects/davidsimpson.me/confluence</p>
+<p>atlas-create-confluence-plugin<br />
+...<br />
+...<br />
+...<br />
+When prompted<br />
+Define value for groupId: : me.davdsimpson.confluence.plugins<br />
+Define value for artifactId: : googleanalytics<br />
+Define value for version:  1.0-SNAPSHOT: :<br />
+Define value for package:  me.davdsimpson.confluence.plugins: :<br />
+Confirm properties configuration:<br />
+groupId: me.davdsimpson.confluence.plugins<br />
+artifactId: googleanalytics<br />
+version: 1.0-SNAPSHOT<br />
+package: me.davdsimpson.confluence.plugins<br />
+[/code]</p>
+<p>Then type...</p>
+<p>[code]cd googleanalytics<br />
+atlas-run[/code]</p>
+<p>...and sit back.  If maven doesn't fall over for lack of memory at this point, you're laughing.  Go away, have a beer or two.  This may take some time.</p>
+<p><img class="aligncenter size-medium wp-image-525" title="Beer" src="{{ site.baseurl }}/assets/iStock_000009660877XSmall.jpg" alt="Beer" width="440" height="175" /></p>
+<p>On your return, maven will hopefully have finished dragging all manner of nonsense from Australia and installed a working copy of Confluence, together with an empty plugin onto your computer. Nice.  Next, write some code.</p>
+<p><strong>I like to run before I can walk.</strong> It seems like much more fun to attempt something that's harder.  You do fall over a lot more often though.  So rather than some kind of silly little hello world or equivalent plugin, my first plugin was an integration of Google Analytics with Confluence using the Google Analytics API to fetch data from Google.  It requires some additional JARs from Google.</p>
+<p>Google doesn't have a public maven repository to my knowledge and I'd no idea how to get these JARs added into maven.  Luckily, people had already written about <a href="http://www.techbits.de/2009/08/06/adding-googles-gdata-java-api-to-your-maven-repository/">parts</a> of <a href="http://blog.stuartlewis.com/2009/05/29/surfacing-google-analytics-stats-in-dspace/">this</a>, so I put 2 and 2 together.</p>
+<p><strong>Add Google Analytics JARs to maven:</strong></p>
+<p>[code]<br />
+atlas-mvn install:install-file -DgroupId=com.google.gdata<br />
+    -DartifactId=gdata-core<br />
+    -Dversion=1.0<br />
+    -Dpackaging=jar<br />
+    -Dfile=/path/to/gdata-core-1.0.jar<br />
+    -DgeneratePom=true</p>
+<p>atlas-mvn install:install-file -DgroupId=com.google.gdata<br />
+    -DartifactId=gdata-analytics<br />
+    -Dversion=2.0<br />
+    -Dpackaging=jar<br />
+    -Dfile=/path/to/gdata-analytics-2.0.jar<br />
+    -DgeneratePom=true</p>
+<p>atlas-mvn install:install-file -DgroupId=com.google.collect<br />
+    -DartifactId=google-collect<br />
+    -Dversion=1.0<br />
+    -Dpackaging=jar<br />
+    -Dfile=/path/to/google-collect-1.0-rc3.jar<br />
+[/code]</p>
+<p><strong>Edit the Project Object Model (POM) to add the dependencies</strong></p>
+<p>Edit the pom:</p>
+<pre lang="bash">vi ~/projects/davidsimpson.me/confluence/googleanalytics/pom.xml</pre>
+<p>Add this bit to the end of the dependencies node:</p>
+<p>[code]<br />
+&lt;!-- Add Google Analytics dependencies: --&gt;</p>
+<p>       com.google.gdata<br />
+       gdata-core<br />
+       1.0</p>
+<p>       com.google.gdata<br />
+       gdata-analytics<br />
+       2.0</p>
+<p>	com.google.collect<br />
+	google-collect<br />
+	1.0</p>
+<p>[/code]</p>
+<p><strong>Next, fire up your IDE</strong></p>
+<p>My chosen IDE is <a href="http://www.jetbrains.com/idea/">IntelliJ IDEA</a>.</p>
+<ul>
+<li>Open the pom.xml in IntelliJ IDEA (File | Open project)</li>
+<li>Override/set the maven home directory:
+<pre lang="bash">/Users/davidsimpson/atlassian-plugin-sdk-3.0-beta3/apache-maven</pre>
+</li>
+<li>Set the JDK for build as 1.5 or 1.6</li>
+<li>Start editing the plugin</li>
+</ul>
+<h2>Hiccups</h2>
+<p>It's not all straightforward.  Here's some of the annoyances that I came across.</p>
+<h3>Maven needs more memory</h3>
+<p>I needed more memory for maven.  Not really a problem - append to <code>~/.profile</code>:</p>
+<p>[code]<br />
+export MAVEN_OPTS=-Xmx512m<br />
+[/code]</p>
+<h3>Annoying warnings on <code>atlas-run</code></h3>
+<p>I noticed this on running <code>atlas-run</code> - it probably shouldn't be there:</p>
+<pre lang="bash">[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!</pre>
+<p>Of course, someone has already blogged about it — <a href="http://www.redleopard.com/2009/04/macroman-encoding-creeps-into-maven/">Red Leopard</a> — and it's easily fixed by editing the POM to add the correct encoding.</p>
+<p>[code]<br />
+3.0.2<br />
+    3.0</p>
+<p>    &lt;!-- Fix for MacRoman warnings on build --&gt;<br />
+    UTF-8<br />
+    UTF-8</p>
+<p>[/code]</p>
+<p>Now, we have no nasty warnings.</p>
+<h3>The macro browser icon</h3>
+<p>I love the Macro Browser in Confluence.  It's a nice step forward in the evolution of the UI.  So as a result, I wanted my macro to have a  shiny icon in the macro browser.   That damn Macro Browser icon ate up several hours of my life.  Looking at the comments on the <a href="http://confluence.atlassian.com/display/CONFDEV/Updating+macros+for+the+Macro+Browser">documentation</a> page, several other people have had a whole load of fun getting their pretty icon to show up too.</p>
+<p>[caption id="attachment_521" align="alignnone" width="440" caption="The macro browser icon: What we"]<a href="http://localhost/davidsimpson.me/wp-content/uploads/2010/01/macro-browser1.png"><img class="size-medium wp-image-521" title="macro-browser" src="{{ site.baseurl }}/assets/macro-browser1.png" alt="The macro browser icon: What we're aiming for" /></a>[/caption]</p>
+<p>Could I get the Macro Browser to show my plugin's icon. No.  I followed the <a href="http://confluence.atlassian.com/display/CONFDEV/Updating+macros+for+the+Macro+Browser">documentation</a>.  It did not work.  I looked again. This time I <em>really</em> paid attention.  Was it my fat fingers?  Was I just being stupid? (Probably.)  I ignored this for a while — maybe it would be better after a night's sleep.</p>
+<p>Everything <a href="http://twitter.com/dvdsmpsn/status/5796289204">seemed to work a whole lot better</a> when I dropped the beta and moved to version 3.0.2 of the Plugin SDK.<br />
+<strong>Note:</strong> I had to update my <code>~/.profile</code> to point to the new version of the SDK and update the references to maven in Intelli-J at this point.</p>
+<p>I also followed a different tack on getting the macro browser icon to work</p>
+<ul>
+<li>Find a macro that has a custom icon in the macro browser</li>
+<li>Go to the Atlassian public subversion repository and browse to the source for that macro plugin.</li>
+<li>Copy the exact syntax from the <code>atlassian-plugin.xml</code> and paste into your macro's own <code>atlassian-plugin.xml</code></li>
+<li>Name the icon exactly the same as in the <code>atlassian-plugin.xml</code> and put it in the correct place in the directory structure</li>
+</ul>
+<p>I'm not entirely sure whether it was the copy and paste approach that helped or moving away from the beta.  It works now, so I'm not going to loose sleep on why.</p>
+<h3>Adding a configuring UI to the plugin</h3>
+<p>My plugin needed to store Google account credentials and display a list of Google Analytics sites, so you can choose the correct profile.   How do you do that?  Hmmm. Go back to the <a href="http://confluence.atlassian.com/display/CONFDEV/Adding+a+Configuration+UI+for+your+Plugin">documentation</a>.  It wasn't nearly detailed enough for my liking, so time to vent a <a href="http://twitter.com/dvdsmpsn/status/5719013792">little</a>.</p>
+<p>Again, it seemed the best way to learn was to find a plugin that has a similar kind of configuration to that you're hoping for and start appropriating the code.</p>
+<h3>Unit testing and integration testing</h3>
+<p>This is a good idea. Period. Did I have a clue how to do it for Confluence?  Of course not.</p>
+<p>Again, the community helped out.  Atlassian partners at Adaptavist, Comala Technology and Customware have written about this:</p>
+<ul>
+<li><a href="http://web.archive.org/web/20110601004526/http://www.customware.net/repository/display/GREENHOUSE/2009/03/18/Integration+Testing+of+Confluence+Plugins">Integration Testing of Confluence Plugins</a> by Bo Wang</li>
+<li><a href="http://web.archive.org/web/20110531152216/http://www.adaptavist.com/display/~erobertshaw/2009/08/17/Unit+testing+a+Confluence+Action">Unit testing a Confluence Action</a> by Edward Robertshaw</li>
+<li><a href="http://web.archive.org/web/20110531152247/http://www.adaptavist.com/display/~erobertshaw/Unit+testing+a+Confluence+Macro">Unit testing a Confluence Macro</a> by Edward Robertshaw</li>
+<li><a href="http://web.archive.org/web/20110531152859/http://www.mundoreves.com/display/HOME/2009/01/29/Confluence+plugin+integration+testing"> Confluence plugin integration testing </a> by Roberto Dominguez</li>
+</ul>
+<p>Browsing around the Atlassian public subversion repository was also a help.  I've got to say that I'm an easy convert to testing.  It just makes sense.</p>
+<p><strong>Update (2010-05-04):</strong> A nice feature of the SDK is running or testing your plugin against different versions of the product.  This is straightforward:</p>
+<p>[code language="bash"]<br />
+# Integration tests for different versions<br />
+atlas-integration-test -v 3.0<br />
+atlas-integration-test -v 3.1<br />
+atlas-integration-test -v 3.2<br />
+# Run different versions of Confluence<br />
+atlas-run -v 3.0<br />
+atlas-run -v 3.1<br />
+atlas-run -v 3.2<br />
+[/code]</p>
+<h2>Wrapping up</h2>
+<p>After a good deal of stumbling around, it turns out that I can write a Confluence plugin after all.  Everything started working a lot better after I updated from the beta version, but that could just be coincidence.  The documentation <em>could</em> be a little better to help the uninitiated  but it was equally my fault for not learning to walk first.  There is a lot of good information, but it is spread over a few different spaces.</p>
+<p>My next step was to get the plugin added to Atlassian <a href="https://plugins.atlassian.com/plugin/home">Plugin Exchange</a>.  It took a little while to get this done — maybe that's best saved for a follow up post.  The plugin is now <a href="https://plugins.atlassian.com/plugin/details/16722">available</a> on Atlassian Plugin Exchange.  I hope other people get some use out of it.</p>

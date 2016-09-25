@@ -1,0 +1,45 @@
+---
+layout: post
+title: A better standard of cheese for your wiki
+date: 2012-05-08 20:19:36.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- cheese
+- confluence
+- localisation
+- user macro
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '1541'
+  tmac_last_id: '618797357715427328'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><img src="{{ site.baseurl }}/assets/5176468736_26da8f3aa2_b.jpeg" alt="" class="alignnone size-full wp-image-1541" /></p>
+<p><strong>Cheese can be a wonderful thing, but not all cheeses are created equal.</strong> For example <a href="http://en.wikipedia.org/wiki/Easy_Cheese">Easy Cheese</a> is filth, whereas <a href="http://en.wikipedia.org/wiki/Stinking_Bishop_cheese">Stinking Bishop</a> is pure gold.</p>
+<p>The <a href="http://confluence.atlassian.com/display/DOC/Cheese+Macro">Cheese Macro</a> in Confluence is great, but it's a bit generic. It obviously wasn't written with quality or localisation in mind.  I find that it's a bit too limited in scope for my needs.<br />
+<!--more--><br />
+To resolve this problem, I've created <strong>British Cheese</strong>, a user macro that celebrates the quality milk-based food products of the British Isles.</p>
+<p>[code]<br />
+## Macro title: British Cheese<br />
+## Macro has a body: N<br />
+## Body processing: n/a<br />
+## Output: Selected output option<br />
+##<br />
+## Developed by: David Simpson &lt;david@davidsimpson.me&gt;<br />
+## Date created: 2012-05-08<br />
+## Installed by: My Name</p>
+<p>## @param Type:title=Variety|type=enum|enumValues=Caerphilly,Cheddar,Cheshire,Cornish Yarg,Derby,Double Gloucester,Lancashire,Red Leicester,Shropshire Blue,Stilton,Wensleydale,White Stilton|default=Shropshire Blue|desc=Choose your favourite British cheese</p>
+<p>#set ($url = $paramType.replaceAll(&quot; &quot;,&quot;&quot;).toLowerCase())</p>
+<p>I love &lt;a href=&quot;http://www.britishcheese.com/${url}&quot;&gt;$paramType&lt;/a&gt;!<br />
+[/code]</p>
+<p>If you like this user macro but don't agree that Britain produces the finest cheese on the planet, why not create your own localised version of it.  Maybe call it something like {käse} or {fromage}.</p>
+<p><small>Photo credit: <a href="http://www.flickr.com/photos/26235325@N05/5176468736/">Stilton</a></small></p>

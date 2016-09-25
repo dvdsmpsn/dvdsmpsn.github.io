@@ -1,0 +1,40 @@
+---
+layout: post
+title: Use ASCII code in CSS content on pseudo elements
+date: 2014-02-04 07:30:17.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  tmac_last_id: '618797320738619392'
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p>I've been experiencing some oddities with character encoding when deploying code on a client system. I was in a bit of a rush and didn't have time to dig deeper.</p>
+<p>Adding the "<b>&amp;#187;</b>" character to my CSS worked so worked nicely on my dev and test system:</p>
+<p>[code]<br />
+#breadcrumbs li:before {<br />
+    content: &quot;»&quot;;<br />
+}<br />
+[/code]</p>
+<p>But on deployment, I get the dreaded "<b>??</b>" output. Yuck. This is likely to be something to do with the build server or the client machine.</p>
+<p>As a really quick workaround, replace the unicode with ASCII instead:</p>
+<p>[code]<br />
+#breadcrumbs li:before {<br />
+    content: &quot;&#92;&#48;0BB&quot;;<br />
+}<br />
+[/code]</p>
+<p>This just works no matter what. In future, it'll be ASCII all the way for me.</p>
+<h2>Helpful resources</h2>
+<ul>
+<li><a href="http://ikreator.com/special-characters/">HTML Special Characters</a></li>
+<li><a href="http://www.evotech.net/articles/testjsentities.html">Entity Conversion Calculator</a></li>
+</ul>

@@ -1,0 +1,91 @@
+---
+layout: post
+title: HTML 5 Video user macro for Atlassian Confluence
+date: 2013-07-28 06:13:38.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- confluence
+- html5
+- user macro
+- video
+meta:
+  tmac_last_id: '618797345782800385'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _oembed_09ae133a479882420394c898909bcb3a: <iframe width="500" height="375" src="http://www.youtube.com/embed/33iA8akPny8?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_41445133fa503bb414e4776e91a8f817: <iframe width="500" height="375" src="http://www.youtube.com/embed/33iA8akPny8?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_2a86b5f094c397d9d71736b97cdd2e76: <iframe width="465" height="349" src="http://www.youtube.com/embed/33iA8akPny8?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_6a83bcd8dc53a35b55395e35fe7ae57a: <iframe width="750" height="563" src="http://www.youtube.com/embed/33iA8akPny8?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_3cffcd3a31a127f3a1f816640943ad76: <iframe width="600" height="450" src="http://www.youtube.com/embed/33iA8akPny8?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+author:
+  login: admin
+  email: david@davidsimpson.me
+  display_name: David Simpson
+  first_name: David
+  last_name: Simpson
+---
+<p><a href="https://answers.atlassian.com/questions/171822/embedding-mp4-movie-screen-size">Peter Jouret writes</a>:</p>
+<blockquote><p>
+When I embed an mp4 movie of 1280x800 quality i have todo the settings 1280x800 in order to be able to see the play button. When i set 720x400 i see the movie is not scaled and i also don't see my play button. Is there a work-around for this or a payed tool to make this work. I don't want to stream movies from youtube or vimeo. I want to add it local to the confluence page.
+</p></blockquote>
+<p>So I created a user macro that solves the problem on most browsers.  The user macro uses the HTML5 &lt;video&gt; tag with a fallback to the flash based flow player for older browsers.</p>
+<p>[code]<br />
+## Macro title: HTML5 Video<br />
+## Macro has a body: N<br />
+##<br />
+## Output: HTML<br />
+##<br />
+## Developed by: David Simpson<br />
+## Date created: dd/mm/yyyy<br />
+## Installed by: My Name<br />
+##<br />
+## @param width:title=Width|type=string|required=false|desc=Video width<br />
+## @param height:title=Height|type=string|required=false|desc=Video height<br />
+## @param poster:title=Poster|type=string|required=false|desc=Set a placeholder image<br />
+## @param src:title=Source|type=string|required=true|desc=Attached video filename<br />
+##<br />
+## Tested on Google Chrome and Safari using mp4 files<br />
+## Does not work for mp4s on Firefox as Mozilla does not support mp4 files - lame<br />
+## Fail-back to Flash/Flow Player for old browsers -- Tested on Internet Explorer 8<br />
+##<br />
+## Usage: {html5video:src=myvideo.mp4|width=600|height=400}</p>
+<p>#set ($attachment = $content.getAttachmentNamed($paramsrc)) </p>
+<p>&lt;video controls=&quot;controls&quot;<br />
+	#if ($paramwidth)  width=&quot;$paramwidth&quot;   #end<br />
+	#if ($paramheight) height=&quot;$paramheight&quot; #end<br />
+	#if ($paramposter) poster=&quot;$paramposter&quot; #end ## Set a placeholder image for the video<br />
+	&gt;<br />
+	&lt;source type=&quot;video/$attachment.getFileExtension()&quot; src=&quot;$attachment.getDownloadPath()&quot; /&gt;<br />
+	&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot;<br />
+		#if ($paramwidth)  width=&quot;$paramwidth&quot;   #else width=&quot;640&quot;  #end<br />
+		#if ($paramheight) height=&quot;$paramheight&quot; #else height=&quot;360&quot; #end<br />
+		&gt;<br />
+		&lt;param name=&quot;movie&quot; value=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; /&gt;<br />
+		&lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot; /&gt;<br />
+		&lt;param name=&quot;wmode&quot; value=&quot;transparent&quot; /&gt;<br />
+		&lt;param name=&quot;flashVars&quot; value=&quot;config={'playlist':[{'url':'$generalUtil.urlEncode(&quot;$action.getGlobalSettings().getBaseUrl()${attachment.getDownloadPath()}&quot;)','autoPlay':false}]}&quot; /&gt;<br />
+		&lt;span title=&quot;No video playback capabilities, please download the video below&quot;&gt;&lt;/span&gt;<br />
+	&lt;/object&gt;<br />
+&lt;/video&gt;<br />
+&lt;p&gt;<br />
+	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;$attachment.getDownloadPath()&quot;&gt;$attachment.getFileExtension() format&lt;/a&gt;<br />
+&lt;/p&gt;</p>
+<p>&lt;script&gt;<br />
+	## Remove the Firefox lameness and revert to the Flow Player embed<br />
+	if (jQuery.browser.mozilla) jQuery('source[type=&quot;video/mp4&quot;]').unwrap();<br />
+&lt;/script&gt;</p>
+<p>## Big props to: http://sandbox.thewikies.com/vfe-generator/<br />
+## In response to: https://answers.atlassian.com/questions/171822/embedding-mp4-movie-screen-size<br />
+[/code]</p>
+<p>Updated code here:<a href="https://gist.github.com/dvdsmpsn/5764152">html5-video-user-macro.vm</a></p>
+<p>Here's a video of it in action:<br />
+http://www.youtube.com/watch?v=33iA8akPny8</p>
+<p>It's not perfect, but mainly works well in the browsers I've tested it out in.  </p>
