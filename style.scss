@@ -288,5 +288,13 @@ footer {
   text-align: center;
 }
 
+
+
+pre {
+	border: 1px solid #ccc;
+	padding:10px;
+	background: #fafafa;
+}
+
 @import "highlights";
 @import "jekyll-mono";
