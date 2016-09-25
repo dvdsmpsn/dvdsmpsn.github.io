@@ -16,16 +16,16 @@ description: Programmer From Somewhere On Earth
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: agarwal.akshay.akshay8@gmail.com
+  email: david@davidsimpson.me
   facebook:
   flickr:
-  github: AkshayAgarwal007
-  instagram:
-  linkedin: akshay-agarwal-782018a4
+  github: dvdsmpsn
+  instagram: dvdsmpsn
+  linkedin: dvdsmpsn
   pinterest:
   rss: # just type anything here for a working RSS icon
-  twitter: 
-  stackoverflow: # your stackoverflow profile, e.g. "users/3807565/akshay"
+  twitter: dvdsmpsn
+  stackoverflow: users/1958200/dvdsmpsn # your stackoverflow profile, e.g. "users/3807565/akshay"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
 
