@@ -92,8 +92,7 @@ This tutorial's level of difficulty is at 'beginner' level, so you can follow it
 </ul>
 <p>This will create a basic plugin with some Java code and tests. In the <a rel="nofollow" href="https://bitbucket.org/appfusions/confluence-tutorial-keyboard-shortcuts" target="_blank">sample code</a>, all Java code including tests have been removed as they are not needed for the plugin.</p>
 <h2 id="AddingConfluenceKeyboardShortcuts-Step2.Edittheatlassian-plugin.xmlfile">Step 2. Edit the atlassian-plugin.xml file</h2>
-<p>In this step, you must now register the plugin module in your plugin descriptor, <strong>atlassian-plugin.xml</strong>. In other words, add the following code to your <strong>atlassian-plugin.xml</strong> file between the <code><atlassian-plugin/></code> tags, but below the <code>
-<plugin-info/></code> tag group.</p>
+<p>In this step, you must now register the plugin module in your plugin descriptor, <strong>atlassian-plugin.xml</strong>. In other words, add the following code to your <strong>atlassian-plugin.xml</strong> file between the <code>&gt;atlassian-plugin/></code> tags, but below the <code>&gt;plugin-info/></code> tag group.</p>
 <pre><code>
 &lt;keyboard-shortcut key=&quot;goto.four.oh.four&quot; i18n-name-key=&quot;keyboard.shortcut.four.oh.four&quot; name=&quot;Page not found&quot;&gt;<br />
   &lt;order&gt;200&lt;/order&gt;<br />

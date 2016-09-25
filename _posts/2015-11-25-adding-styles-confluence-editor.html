@@ -19,8 +19,7 @@ meta:
 author: David Simpson
 ---
 <p>I've tried to add styles to the Confluence editor. It wouldn't take them. Perhaps one of Atlassian's values is "Don't f@@k the editor".</p>
-<pre><code>
-&lt;web-resource name=&quot;editor-scripts&quot; key=&quot;editor-scripts&quot;&gt;<br />
+<pre><code>&lt;web-resource name=&quot;editor-scripts&quot; key=&quot;editor-scripts&quot;&gt;<br />
   &lt;resource name=&quot;editor-templates.js&quot; type=&quot;download&quot;<br />
     location=&quot;assets/js/editor-templates.js&quot; /&gt;<br />
   &lt;!-- // TODO: Check whether I need a context here --&gt;<br />
@@ -32,9 +31,9 @@ author: David Simpson
   &lt;dependency&gt;${project.groupId}.${project.artifactId}:editor-scripts&lt;/dependency&gt;<br />
   &lt;dependency&gt;com.atlassian.auiplugin:ajs&lt;/dependency&gt;<br />
   &lt;context&gt;editor&lt;/context&gt;<br />
-  &lt;!-- // TODO: Check whether I need all the dependencies here --&gt;<br />
-&lt;/web-resource&gt;<br />
-</code></pre><br />
+  &lt;!-- // TODO: Check whether I need all the dependencies here --&gt;
+&lt;/web-resource&gt;
+</code></pre>
 My <code>confluence-editor.css</code> styles just wouldn't be accepted. Javascript injection worked just fine though. Perhaps I could use JS to inject my styles?</p>
 <p>Yup. Adding this to my <code>editor-templates.js</code> file worked a treat:</p>
 <pre><code>
