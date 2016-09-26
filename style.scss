@@ -257,6 +257,10 @@ nav {
 }
 
 .post {
+  meta {
+    font-size: 80%;
+    color: $gray;
+  }
   blockquote {
     margin: 1.8em .8em;
     border-left: 2px solid $gray;
