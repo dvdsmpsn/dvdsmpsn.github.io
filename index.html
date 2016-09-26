@@ -5,7 +5,10 @@ layout: default
 <div class="posts">
   <ul>
   {% for post in site.posts %}
-    <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+    <li>
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      {{ post.excerpt | remove: '<p>' | remove: '</p>' }}    
+    </li>
   {% endfor %}
   </ul>
 </div>
