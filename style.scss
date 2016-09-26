@@ -302,5 +302,9 @@ footer {
 	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
 
+pre {
+	font-size: 15px;
+}
+
 @import "highlights";
 @import "jekyll-mono";
