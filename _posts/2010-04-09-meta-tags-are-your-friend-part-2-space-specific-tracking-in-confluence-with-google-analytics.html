@@ -23,6 +23,7 @@ meta:
   topsy_short_url: http://bit.ly/bg13EL
   tmac_last_id: '618797398098194432'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>I've previously written a number of posts about Confluence and Google Analytics (GA), including <a href="/2009/03/18/tracking-atlassian-confluence-usage-with-google-analytics/">how to set up GA on Confluence</a> and pointers for <a href="/2009/04/16/4-useful-tips-on-google-analytics-reporting-for-confluence/">GA reports you should consider</a>.  Lastly, I wrote the <a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/">Confluence Google Analytics Plugin</a> (CGAP) which provides space specific GA reports from within Confluence.</p>
 <p>However, I've not been entirely happy because there wasn't a method to allow complete tracking of all space specific Confluence pages using CGAP or the reports that I've previously described.</p>
@@ -46,7 +47,7 @@ author: David Simpson
 <li>A Javascript and velocity templating method</li>
 </ol>
 <p>Both have their drawbacks, but they do let you get a little closer to understanding what your users are doing within your Confluence spaces. Try them out and please report back on your preference or your own alternative solution.</p>
-<p><!--more--></p>
+<!--more-->
 <h2>The Javascript only method</h2>
 <p>In this method, we track a custom variable in GA where possible, so that we can attach a page view to the corresponding Confluence space.</p>
 <p>Atlassian handily provide the following (example) meta tag on every page that has an associated space:</p>

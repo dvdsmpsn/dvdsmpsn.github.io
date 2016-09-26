@@ -18,11 +18,12 @@ meta:
   _pingme: '1'
   _encloseme: '1'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>I recently read <a href="http://makezine.com/projects/send-ticket-isp-when-your-internet-drops/">Use Raspberry Pi to Measure Broadband Speeds to Hold Your ISP Accountable</a> on <a href="http://makezine.com/">Make</a> and realised that this was an excellent candidate for monitoring my somewhat unstable Virgin Media connection.</p>
 <p>I use an OpenWRT router (running a VPN to add a little bit of privacy), so I could adapt the article to run on the router rather than an attached Raspberry Pi.</p>
 <p>Here are the steps adapted for OpenWRT...<br />
-<!--more--></p>
+<!--more-->
 <p>OpenWRT uses <code>opkg</code> rather than <code>apt-get</code>, so that is used throughout as a replacement.</p>
 <p>Install <code>pip</code> -- a packaging manager for Python and the <code>speedtest-cli</code> package from the <code>pip</code> repositories.</p>
 <pre><code>opkg install python-pip<br />

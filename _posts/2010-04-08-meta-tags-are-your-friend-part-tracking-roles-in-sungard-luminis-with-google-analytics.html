@@ -20,6 +20,7 @@ meta:
   topsy_short_url: http://bit.ly/cu7UKe
   tmac_last_id: '618797398224080897'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>At work, we use <a href="http://www.sungardhe.com/">Sungard HE</a>'s Luminis portal (v3.3) &mdash; It's been good to us over the years, but there's a lack of usage information regarding users' roles and their interactions with Luminis.  </p>
 <p>In the past, <a href="http://davidsimpson.me/2009/02/27/google-analytics-and-sungardhe-luminis/">we've added Google Analytics to Luminis</a> to track the interactions, but never managed to fully segment user roles. Until now.</p>
@@ -30,7 +31,7 @@ author: David Simpson
 <li><b>Javascript/jQuery:</b> Read the custom meta tag and set a custom variable in Google Analytics</li>
 <li><b>Google Analytics:</b> Create custom segments to view traffic for specific Luminis roles</li>
 </ol>
-<p><!--more--></p>
+<!--more-->
 <h2>Edit nested-tables.xsl and add a custom meta tag to the header</h2>
 <p>We've seriously hacked at nested-tables.xsl over the years, so our version of the file is likely to be different to most.  The main aim here is to find the html &gt; head  section and add a custom meta tag:</p>
 <pre><code>

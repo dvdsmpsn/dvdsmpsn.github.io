@@ -21,11 +21,12 @@ meta:
   _edit_last: '1'
   tmac_last_id: '618797419543728128'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>This is a step by step guide for building a find nearest/store locator <strong><em>for free</em></strong> in PHP just like <a href="http://www.postcodeanywhere.co.uk/products/store_locater/demos.aspx">Postcode Anywhere</a>.</p>
 <p>It requires PHP and a mySQL database. That's all.</p>
 <p>You don't <em>need</em> Google Maps, but it helped me populating the database, so I've included it for completeness.  The example I'm using is UK based, but provided Google have a postcode/zipcode to lat/long convertor for your country, it should work nicely.</p>
-<p><!--more--></p>
+<!--more-->
 <h2>Background Maths</h2>
 <p>Before we start, it's time to go back to school with some background maths.</p>
 <p>Don't be tempted into Pythagorean territory here, because the world isn't flat and the distance between lines of longitude gets smaller as we get closer to the poles.  Also with the curvature of the earth for distances over say 15 miles, the sides of the triangle go from straight into an arc - not good.</p>

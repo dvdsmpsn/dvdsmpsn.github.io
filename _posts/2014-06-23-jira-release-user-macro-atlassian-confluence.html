@@ -25,6 +25,7 @@ meta:
   _pingme: '1'
   _encloseme: '1'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>Back when JIRA macros in Confluence involved the knowledge of bizarre URL string combinations, I wrote a user macro that allowed me to list all issues in a JIRA release/version if I only knew 2 bits of information: the project key and the version. </p>
 <p>It helped me whenever I wrote a blogpost to notify people about the release of a new product version. Like so:</p>
@@ -33,7 +34,7 @@ author: David Simpson
 <pre><code>
 {release:ProjectKey=AF032|Version=3.0.0}<br />
 </code></pre><br />
-<!--more--><br />
+<!--more-->
 Though JIRA macros have improved notably, I still find myself coming back to this macro again and again. The main reason being &ndash; it's stupidly easy to remember how to use it. Don't make me think. Just let me do.</p>
 <p>The code below is just a wrapper with a little JQL, but works a treat.</p>
 <pre><code>

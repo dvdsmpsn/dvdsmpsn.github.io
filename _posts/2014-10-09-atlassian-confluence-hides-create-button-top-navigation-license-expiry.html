@@ -18,6 +18,7 @@ meta:
   _wpas_skip_11278197: '1'
   _wpcom_is_markdown: '1'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>This was driving me crazy. I developed an add-on for Confluence, but sometimes the top navigation bar was missing items.</p>
 <p>I was concerned that my add-on was really misbehaving and interfering in some way with the core product. There was no need to worry as <a href="http://twitter.com/dzhu">Danielle</a> figured it out.</p>
@@ -29,7 +30,7 @@ author: David Simpson
 <li>The search box</li>
 </ul>
 <p>If you run a product under the Atlassian SDK, you get a single day license. If you leave it overnight and come back, bits of the product (such as the Create button) get disabled. Restarting the product resets the license, so the disabled parts start working again.  This doesn't seem to be documented anywhere as far as I can tell.<br />
-<!--more--></p>
+<!--more-->
 <p>Here's a video demo:</p>
 <div class="embed-container"><iframe src="https://www.youtube.com/embed/xZzybwL66yE" frameborder="0" allowfullscreen></iframe></div>
 <p>This is really annoying as it can lead to wasted time, so here's some boilerplate JavaScript to add to all Confluence plugins:</p>

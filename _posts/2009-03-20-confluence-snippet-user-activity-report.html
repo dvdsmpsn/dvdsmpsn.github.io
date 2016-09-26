@@ -20,6 +20,7 @@ meta:
   _wpas_skip_11278197: '1'
   _wpcom_is_markdown: '1'
 author: David Simpson
+excerpt_separator: <!--more-->
 ---
 <p>Want to know who are the most active users on your Confluence wiki this week?</p>
 <p>This wiki markup snippet should help. It tabulates:</p>
@@ -40,7 +41,7 @@ h1. This Week's Wiki User Activity Charts</p>
 || Page Creation || Page Updates || Page Views || Page Popularity ||<br />
 | {topusers:spaces=@all|timespan=1w|period=weekly|events=create|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=update|display=icon,title,count} | {topusers:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} | {popular:spaces=@all|timespan=1w|period=weekly|events=view|display=icon,title,count} |<br />
 </code></pre><br />
-<!--more--></p>
+<!--more-->
 <h2>Results</h2>
 <p>Here's a screenshot of the resulting page - complete with made up names.</p>
 <p>[caption id="attachment_248" align="alignnone" width="300" caption="Monitor page creations, views, updates and popular pages "]<a href="/wp-content/uploads/2009/03/picture-4.png"><img src="{{ site.baseurl }}/assets/picture-4-300x220.png" alt="Monitor page creations, views, updates and popular pages " title="Confluence - Activity Monitor" width="300" height="220" class="size-medium wp-image-248" /></a>[/caption]</p>
