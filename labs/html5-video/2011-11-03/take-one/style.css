@@ -1,0 +1,15 @@
+body {
+	font-family: georgia, serdif;
+}
+#wrapper {
+	position: absolute;
+	top: 0;	
+	left: 600px;
+}
+#console {
+	height: 400px;
+	border: 1px solid #ccc;
+
+	width: 400px;
+	overflow:auto;
+}

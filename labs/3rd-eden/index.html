@@ -1,0 +1,16 @@
+<html>
+<head>
+	<script type="text/javascript" src="useragent.js"></script>
+	<script>
+		var userAgentString = navigator.userAgent,
+			ua_obj = parser( userAgentString ),
+			is = browser( userAgentString );
+
+	document.write( ua_obj.pretty() + ' ' + ua_obj.prettyOs() );
+	
+	
+	</script>
+</head>
+<body id="x">
+	
+</body>	

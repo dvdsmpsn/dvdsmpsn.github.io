@@ -1,0 +1,66 @@
+{
+     "name": "Gister Macro",
+     "description": "Atlassian Connect add-on",
+     "key": "me.davidsimpson.confluence.addon.gister",
+     "baseUrl": "https://davidsimpson.me/labs/gister-for-confluence-cloud",
+     "vendor": {
+         "name": "David Simpson",
+         "url": "http://davidsimpson.me/"
+     },
+     "authentication": {
+         "type": "none"
+     },
+	 "scopes": [
+	         "READ"
+     ],
+     "apiVersion": 1,
+     "modules": {
+		 "dynamicContentMacros": [
+	         {
+  	           "url": "/gister.html?gistUrl={gistUrl}",
+	           "description": {
+	             "value": "Gister: GitHub Gist Macro for Confluence"
+	           },
+	           "icon": {
+	             "width": 90,
+	             "height": 90,
+	             "url": "https://davidsimpson.me/labs/gister-for-confluence-cloud/macro-icon.png"
+	           },
+	           "documentation": {
+	             "url": "https://davidsimpson.me/labs/gister-for-confluence-cloud/docs.html"
+	           },
+	           "categories": [
+	             "confluence-content"
+	           ],
+	           "outputType": "block",
+			   "bodyType": "none",
+	           "featured": true,
+	           "key": "gister-macro",
+	           "name": {
+	             "value": "Gister"
+	           },			   
+	           "parameters": [
+	             {
+	               "identifier": "gistUrl",
+	               "name": {
+	                 "value": "Gist URL"
+	               },
+	               "description": {
+	                 "value": "Just paste in the location of your Gist"
+	               },
+	               "type": "string",
+	               "required": true
+	             }
+	           ],
+	           "autoconvert": {
+	             "urlParameter": "gistUrl",
+	             "matchers": [
+				    {
+					  "pattern": "https://gist.github.com/{}"
+				    }
+	             ]
+	           }			   
+	         }
+		 ]
+     }
+ }

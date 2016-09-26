@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	
+<head>
+	
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>HTML5 download attribute demo</title>
+	<meta name="description" value="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>	
+	<link href="../scroll-up-menu/styles.css" rel="stylesheet" type="text/css">
+	
+	
+	<!-- These aren't required, but make the demo look pretty -->
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">	
+	<link href="//fonts.googleapis.com/css?family=Rokkitt:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+
+	<!-- Analytics tracking for the demo -->
+    <script type="text/javascript">//<![CDATA[
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-920590-3']);
+	_gaq.push(['_trackPageview']);
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+    //]]></script>	
+
+
+
+
+
+</head>
+
+<body>
+	<div id="top">
+		<div class="wrap">
+			<h1>David Simpson</h1>
+			<h2><span>HTML5 download attribute demo</span></h2>
+		</div>
+	</div>
+	<div id="content" style="margin-top: 0;">
+		<div class="wrap">
+
+
+Trying to use the HTML5 <code>download</code> attribute to create a forced download of a file...
+
+
+<pre><code>&lt;a href="original-filename.txt" download="newname.txt">
+  Download text file
+&lt;/a>
+</code></pre>
+
+
+<h2>From this server</h2>
+
+<p>This should work provided that this server is not Dropbox.
+
+<p>It seems that some servers do not correctly do this. Maybe it's the mime type or something.
+
+<ul>
+	<li><a href="original-filename.txt" download="newname.txt">Download text file</a></li>
+	<li><a href="dabc8480fbeffac58f2207eb653ef440.jpeg" download="avatar.jpeg">Download jpeg file</a></li>
+</ul>
+
+<h3>Results in various browsers</h3>
+
+<p>In Chrome and Firefox, this works.
+<p><i class="fa fa-safari" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Safari, the file is displayed inline with it's original name.
+
+
+
+<h2>For an external server</h2>
+
+<p> Download attributes don't seem to work when the content is on a separate server
+<ul>
+	<li><a href="https://davidwalsh.name/demo/some-realy-crazy-file-name-389247823879472398.txt" download="newname.txt">Download text file</a></li>
+	<li><a href="https://www.gravatar.com/avatar/dabc8480fbeffac58f2207eb653ef440/?default=&s=64" download="avatar.jpeg">Download jpeg file</a></li>
+</ul>
+
+<h3>Results in various browsers</h3>
+
+<p><i class="fa fa-chrome" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Chrome, the file is downloaded with it's original name
+<p><i class="fa fa-edge" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Edge, the file is downloaded with it's original name
+<p><i class="fa fa-firefox" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Firefox, the file is displayed inline with it's original name.
+<p><i class="fa fa-safari" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Safari, the file is displayed inline with it's original name.
+<p><i class="fa fa-internet-explorer" aria-hidden="true"></i> <i class="fa fa-frown-o" aria-hidden="true"></i> In Internet Explorer 11, the file is displayed inline with it's original name.
+
+		</div>
+	</div>
+
+</body>
+</html>

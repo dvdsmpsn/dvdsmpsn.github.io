@@ -43,7 +43,7 @@ Caused by: com.atlassian.bamboo.plugins.git.GitCommandException: command /opt/gi
 </code></pre>
 <p>Oh, wait a minute, "you do not have permission to, access it", crap. It's that again.</p>
 <p>OK, that's easy to fix. We're using a dedicated Bamboo user to access the repo. I bet I haven't added permissions for that user in my Stash project.</p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2014/01/stash-bamboo-annotated.png"><img src="{{ site.baseurl }}/assets/stash-bamboo-annotated.png" alt="stash-bamboo-annotated" width="1325" height="650" class="alignnone size-full wp-image-2265" /></a></p>
+<p><a href="/wp-content/uploads/2014/01/stash-bamboo-annotated.png"><img src="{{ site.baseurl }}/assets/stash-bamboo-annotated.png" alt="stash-bamboo-annotated" width="1325" height="650" class="alignnone size-full wp-image-2265" /></a></p>
 <p>There we go. Added. Guess what, my build works just dandy now. </p>
 <p>Idiot. Maybe a <del datetime="2014-01-07T11:25:45+00:00">public shaming</del> blog post will remind me for next time.</p>
 <h2>Update</h2>
@@ -68,6 +68,6 @@ Omit --global to set the identity only in this repository.</p>
 [INFO] For more information, run Maven with the -e switch<br />
 </code></pre>
 <p>Browse to your release job, Maven task...</p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2014/01/env-variables.png"><img src="{{ site.baseurl }}/assets/env-variables.png" alt="env-variables" width="1580" height="1311" class="alignnone size-full wp-image-2274" /></a></p>
+<p><a href="/wp-content/uploads/2014/01/env-variables.png"><img src="{{ site.baseurl }}/assets/env-variables.png" alt="env-variables" width="1580" height="1311" class="alignnone size-full wp-image-2274" /></a></p>
 <p>Add something similar to this in <b>Environment variables</b>:</p>
 <p><code>GIT_AUTHOR_NAME=Bamboo GIT_AUTHOR_EMAIL=bamboo@example.com GIT_COMMITTER_NAME=Bamboo GIT_COMMITTER_EMAIL=bamboo@example.com</code></p>

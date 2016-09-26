@@ -22,7 +22,7 @@ author: David Simpson
 excerpt_separator: <!--more-->
 ---
 <p><iframe width="100%" style="height:400px" src="//www.youtube.com/embed/tjY_ZmSRW4o" frameborder="0" allowfullscreen></iframe></p>
-<p><b>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted.</b> This is a tutorial to aide users of the <a href="http://davidsimpson.me/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to locally-stored <abbr title="Personally Identifiable Information">PII</abbr> such as name and email address. </p>
+<p><b>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted.</b> This is a tutorial to aide users of the <a href="/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to locally-stored <abbr title="Personally Identifiable Information">PII</abbr> such as name and email address. </p>
 <p>The test scenario we're using gives a pseudo-randomly generated User ID to each web page visitor. The "User ID" feature in Google Analytics (Universal Analytics) is currently (April 2014) being rolled out, so in the meantime, we're using a Custom Dimension to store our own "Custom User ID".</p>
 <p>This configuration is for testing purposes only and has no real value as meaningful data unless you replace the pseudo-randomly generated User ID with a real user ID from your custom database or CRM.</p>
 <p>There are 2 parts to this tutorial:</p>
@@ -76,7 +76,7 @@ excerpt_separator: <!--more-->
 <p>Note that we're storing our <b>customUserId</b> in the custom dimension <b>dimension1</b>. This is assigned back to the <b>Custom User ID</b> configured in Google Analytics. For test purposes, and to ensure that <b>dimension1</b> is always assigned, we're setting its value on every page view.</p>
 <p>As we've specified a <strong>Visitor</strong> scope for this custom dimension, all visits from a single user will take the last recorded value set as the value for the "Custom User ID" dimension.</p>
 <p>If all goes well, you should now see the Custom User ID as a dimension in Google Analytics:</p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2014/04/custom_user_id.png"><img src="{{ site.baseurl }}/assets/custom_user_id.png" alt="custom_user_id" width="2518" height="1552" class="alignnone size-full wp-image-2601" /></a></p>
+<p><a href="/wp-content/uploads/2014/04/custom_user_id.png"><img src="{{ site.baseurl }}/assets/custom_user_id.png" alt="custom_user_id" width="2518" height="1552" class="alignnone size-full wp-image-2601" /></a></p>
 <h3>Next Steps</h3>
 <p>Having created this tracking code, we have also created a set of sample personas in <b>sample.csv</b> which contains the 27 possible "User ID" values along with some personal information. As I'm sharing this publicly, I'd like to reiterate that these are just made up personas. They are not real people.</p>
 <p><b>sample.csv</b>:</p>

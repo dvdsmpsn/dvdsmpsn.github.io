@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Example Google Analytics Data Export API Script</title>
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    <script type="text/javascript" src="gettingStarted.js"></script>
+
+	<style>
+		html { font-family: helvetica, arial,sans-serif; }
+		table { border-collapse: collapse;}
+		th { border-bottom: 3px solid #ccc; padding: 0.2em 0.6em;}
+		td { border-bottom: 1px solid #ccc; padding: 0.2em 0.6em;}
+		.left { text-align: left; }
+		.right { text-align: right; }
+		em { font-size: 0.7em; color: #999; }
+	</style>
+	
+	<!-- Source: http://code.google.com/p/ga-api-javascript-samples/ -->
+
+
+
+  </head>
+  <body>
+    <h1>Google Analytics Data Export API Script</h1>
+    <button id="authButton">Loading...</button>
+    <div id="dataControls" style="display:none">
+
+
+
+      <p>
+        <label for="tableId">Show top 20 pageviews for account:</label><br/>
+ 
+		<select id="tableId">
+			<option value="ga:1594745">Intranet Portal - Staff/Student</option>
+			<option value="ga:16264232">Workspace</option>
+			<option value="ga:18999094">University News</option>
+		</select>
+
+
+        <button id="getData">Get Report Data</button><br/>
+  		<em>2009-07-01 to 2009-07-30 only</em>
+    </p>
+    </div>
+    <div id="outputDiv"></div>
+    <img src="dummy.gif" style="display:none" alt="required for Google Data"/>
+  </body>
+<html>

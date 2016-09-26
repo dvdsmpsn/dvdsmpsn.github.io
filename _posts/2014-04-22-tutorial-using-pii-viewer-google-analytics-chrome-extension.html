@@ -25,7 +25,7 @@ author: David Simpson
 excerpt_separator: <!--more-->
 ---
 <p><iframe width="100%" style="height:400px" src="//www.youtube.com/embed/1ZLmzBdnYzg" frameborder="0" allowfullscreen></iframe></p>
-<p>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted. This is a tutorial to aide users of the <a href="http://davidsimpson.me/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to PII such as name and email address stored locally. </p>
+<p>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted. This is a tutorial to aide users of the <a href="/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to PII such as name and email address stored locally. </p>
 <p>The test scenario we're using gives a pseudo-randomly generated User ID to each web page visitor. The "User ID" feature in Google Analytics is currently (April 2014) being rolled out, so in the meantime, we're using a Custom Dimension to store our own "Custom User ID".</p>
 <p>On my local filesystem, I have created a set of sample personas in <b>sample.csv</b> which contains "User ID" values along with some personal information. This CSV file contains a header row to describe the columns.</p>
 <p><b>sample.csv</b>:<br />
@@ -79,6 +79,6 @@ ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom<br />
 <p>Our CSV had columns:<br />
 <pre><code>user_id,display_name,email,company,country</code></pre>
 <p>We used <b>user_id</b> for the mapping, so the other columns are  available for selection in a dropdown in the toolbar. Selecting any of these will display the mapping within the dimension columns in Google Analytics like so:</p>
-<p><a href="http://davidsimpson.me/wp-content/uploads/2014/04/pii-viewer.png"><img src="{{ site.baseurl }}/assets/pii-viewer.png" alt="pii-viewer" width="2492" height="1428" class="alignnone size-full wp-image-2619" /></a></p>
+<p><a href="/wp-content/uploads/2014/04/pii-viewer.png"><img src="{{ site.baseurl }}/assets/pii-viewer.png" alt="pii-viewer" width="2492" height="1428" class="alignnone size-full wp-image-2619" /></a></p>
 <p>As the extension maps against any dimensions in the reports, it could lead to some false positives, so I've also added a toggle in the toolbar to switch the mapping off.</p>
 <p>In upcoming releases, I'll consider injecting the mapping into different places in the Google Analytics interface.</p>

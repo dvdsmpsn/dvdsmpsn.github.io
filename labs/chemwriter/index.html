@@ -1,0 +1,106 @@
+<!DOCTYPE HTML> 
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7, IE=9"><!-- needed for 'bugs in IE8' -->
+    <link rel=stylesheet href="chemwriter.css" type="text/css" media="screen" />
+	<style>
+
+		body {
+			width:800px; 
+			margin:0 auto; 
+			font-family:sans-serif;
+		}
+		h1,h2 {
+			font-weight:normal;
+			font-family:georgia,serif;
+		}
+
+		.load li, .loadPainter { /* pretend these are links -- i know */
+			color:#00f; 
+			cursor:pointer; 
+			text-decoration:underline; 
+		}
+
+		#painter {
+			margin:10px 0; 	
+			height:150px;
+		}
+		pre {
+			border:1px solid #ddd; 
+			padding:10px; 
+			border-radius:4px; 
+			width:584px; 
+		}
+		
+	</style>
+  </head>
+  <body>
+
+	<h1>ChemWriter demo</h1>
+
+	<p>A little PoC using <a href="http://metamolecular.com/chemwriter/">ChemWriter</a>, a pure JavaScript chemical structure editor from <a href="http://metamolecular.com/">Metamolecular</a>.</p>
+
+	<h2>The Editor:</h2>
+
+	<p>Some custom controls...</p>
+	<ul class="load">
+		<li id="loadEditor">Load phenol into editor</li>
+		<li class="loadPainter">Copy molecule from editor to painter</li>
+	</ul>
+
+    <div id="editor"></div>
+
+	<h2>The output or 'Painter'</h2>
+	<div id="painter">No molecule loaded yet.  Please <span class="loadPainter">copy one</span> from the editor.</div>
+
+
+	<h2>Phenol -- an example molecule:</h2>
+
+	
+	
+<pre id="loadMe">[PHENOL]
+  CHEMW2  0526111321132D                              
+Created by David Simpson - /
+  7  7  0  0  0  0            999 V2000
+    3.2222   -4.8056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0882   -5.3056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.9543   -4.8056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.9543   -3.8056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.0882   -3.3056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.2222   -3.8056    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.8203   -5.3056    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  2  0  0  0  0
+  2  3  1  0  0  0  0
+  3  4  2  0  0  0  0
+  4  5  1  0  0  0  0
+  5  6  2  0  0  0  0
+  6  1  1  0  0  0  0
+  3  7  1  0  0  0  0
+M  END
+</pre>	
+
+
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="chemwriter.js"></script>	
+	<script>
+			$(document).ready(function(){
+
+				var editor = chemwriter.loadEditor('editor');
+
+				// lazily using jQuery for click events :)
+
+				$('#loadEditor').click(function(){
+					editor.setMolfile( $('#loadMe').text());
+				});
+
+				$('.loadPainter').click(function(){
+					$('#painter').empty();
+					chemwriter.loadPainter('painter', {molfile: editor.getMolfile()});
+				});
+
+
+			});
+	</script>
+  </body>
+</html>

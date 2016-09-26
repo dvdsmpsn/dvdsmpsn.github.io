@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>--allow-running-insecure-content</title>
+
+<script>
+
+window.onload = function () {
+	
+	var iframeBody = document.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('body')[0];
+
+	if (iframeBody.innerHTML === '') {
+		iframeBody.style.background = "red";
+		iframeBody.innerHTML = 'Sorry! <code>--allow-running-insecure-content</code> is not supported.';
+	}
+}
+
+</script>
+
+<head>
+<body style="font-family: arial; padding: 10px 20%">
+
+<h1>Test for Google Chrome <code>--allow-running-insecure-content</code> support</h1>
+
+<h2>Steps:</h2>
+<ol>
+	<li>Open Google Chrome using: <code>/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --allow-running-insecure-content &</code></li>
+	<li> Browse to <a href="https://davidsimpson.me/labs/--allow-running-insecure-content/">https://davidsimpson.me/labs/--allow-running-insecure-content/</a></li>
+</ol>	
+		
+
+
+<p>If you see a green page below, <code>--allow-running-insecure-content</code> works:</p>
+
+<iframe src="http://conciseweb.co.uk/labs/--allow-running-insecure-content/" style="width: 100%; height: 100px">
+	Yikes! It doesn't look like that worked out :(
+</iframe>
+
+
+<p>See related blogpost: <a href="https://davidsimpson.me/2013/10/10/how-to-allow-not-block-mixed-content-in-web-browsers/">How to allow (rather than block) mixed content in web browsers</a></p>
+
+
+
+
+<script type="text/javascript">
+
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-920590-3']);
+	_gaq.push(['_gat._forceSSL']);
+	_gaq.push(['_trackPageview']);
+
+	(function () {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+
+</script>
+
+</body>
+</html>
