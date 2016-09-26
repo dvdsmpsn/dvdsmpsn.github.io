@@ -288,9 +288,7 @@ footer {
   text-align: center;
 }
 
-
-
-pre {
+.entry > pre {
 	border: 1px solid #ccc;
 	padding:10px;
 	background: #fafafa;
@@ -298,7 +296,9 @@ pre {
 	font-size: 15px;
 }
 
-code, pre {
+.entry > pre > code,
+.entry > pre 
+{
 	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
 
