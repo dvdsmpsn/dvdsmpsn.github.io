@@ -31,7 +31,7 @@
               <div class="tags">
                 Tags:
                 {% for tag in page.tags %}
-                  <a href="{{ site.baseurl }}/tag/{{tag}}" class="tag">{{tag}}</a>
+                  <a class="tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
                 {% endfor %}
               </div>
             </div>
