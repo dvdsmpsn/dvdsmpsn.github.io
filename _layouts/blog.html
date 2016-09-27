@@ -29,8 +29,9 @@
                 <a href="{{ site.baseurl }}/">Return to Blog</a>
               </div>
               <div class="tags">
+                Tags:
                 {% for tag in page.tags %}
-                  <a href="{{ site.baseurl }}/tag/{{tag}}" class="tag label label-default">{{tag}}</a>
+                  <a href="{{ site.baseurl }}/tag/{{tag}}" class="tag">{{tag}}</a>
                 {% endfor %}
               </div>
             </div>
