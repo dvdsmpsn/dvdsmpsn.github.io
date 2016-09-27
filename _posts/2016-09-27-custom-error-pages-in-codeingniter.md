@@ -19,24 +19,26 @@ As these pages are within your `application` directory, you are free to customis
 
 If your normal view template looks something like this:
 
-
-    <?php $this->load->view('includes/header'); ?>
-    ...
-    ...
-    <?php $this->load->view('includes/footer'); ?>
+{% highlight php %}
+<?php $this->load->view('includes/header'); ?>
+...
+...
+<?php $this->load->view('includes/footer'); ?>
+{% endhighlight %}
 
 You can adapt this in your `/application/views/errors/html/error_*.php` files like so:
 
-
-    <?php
-      $page_title = $heading;
-      include VIEWPATH.'includes'.DIRECTORY_SEPARATOR.'header.php';
-    ?>
-	<div class="well">
-	  <h1><?php echo $heading; ?></h1>
-	  <?php echo $message; ?>
-	</div>
-    <?php include VIEWPATH.'includes'.DIRECTORY_SEPARATOR.'footer.php'; ?>
+{% highlight php %}
+<?php
+  $page_title = $heading;
+  include VIEWPATH.'includes'.DIRECTORY_SEPARATOR.'header.php';
+?>
+<div class="well">
+  <h1><?php echo $heading; ?></h1>
+  <?php echo $message; ?>
+</div>
+<?php include VIEWPATH.'includes'.DIRECTORY_SEPARATOR.'footer.php'; ?>
+{% endhighlight %}
 
 Notice that we're no longer using views, but instead including the view files for the `header` & `footer`.
 
