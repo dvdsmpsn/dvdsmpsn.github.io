@@ -313,11 +313,14 @@ pre {
 a.tag {
     display: inline-block;
     background: $darkGray;
-    color: $white;
+    color: $white!important;
     padding: 2px 8px;
     margin-right: 2px;
     border-radius: 4px;
     font-size: 80%;
+}
+a.tag {
+    background: $black;
 }
 
 @import "highlights";
