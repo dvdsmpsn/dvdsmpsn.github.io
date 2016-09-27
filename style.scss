@@ -310,5 +310,15 @@ pre {
 	font-size: 15px;
 }
 
+a.tag {
+    display: inline-block;
+    background: $darkGray;
+    color: #fff;
+    padding: 2px 8px;
+    margin-right: 2px;
+    border-radius: 4px;
+    font-size: 80%;
+}
+
 @import "highlights";
 @import "jekyll-mono";
