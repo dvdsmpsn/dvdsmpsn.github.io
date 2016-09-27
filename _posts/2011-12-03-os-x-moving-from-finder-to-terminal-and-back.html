@@ -29,16 +29,18 @@ excerpt_separator: <!--more-->
 <h2>2. Open the current Terminal directory in a new Terminal tab</h2>
 <h3>Setup</h3>
 <p>First, we'll need to add some AppleScript to <b>~/.profile</b><br />
-<pre><code> language="bash"]<br />
-# Open a new tab on Terminal with the current  directory<br />
-# See: http://elsethenif.wordpress.com/2009/06/11/open-a-new-tab-on-terminal-with-the-same-path-on-mac-os-x/<br />
-function nt {<br />
-        osascript -e &quot;<br />
-                tell application &quot;System Events&quot; to tell process &quot;Terminal&quot; to keystroke &quot;t&quot; using command down<br />
-                tell application &quot;Terminal&quot; to do script &quot;cd \&quot;$(PWD)\&quot;&quot; in selected tab of the front window<br />
-        &quot; &gt; /dev/null 2&gt;&amp;1<br />
-}<br />
-</code></pre>
+
+{% highlight bash %}
+# Open a new tab on Terminal with the current  directory
+# See: http://elsethenif.wordpress.com/2009/06/11/open-a-new-tab-on-terminal-with-the-same-path-on-mac-os-x/
+function nt {
+        osascript -e &quot;
+                tell application &quot;System Events&quot; to tell process &quot;Terminal&quot; to keystroke &quot;t&quot; using command down
+                tell application &quot;Terminal&quot; to do script &quot;cd \&quot;$(PWD)\&quot;&quot; in selected tab of the front window
+        &quot; &gt; /dev/null 2&gt;&amp;1
+}
+{% endhighlight %}
+  
 <h3>Usage</h3>
 <p>In terminal, now type: </p>
 <pre>nt</pre>
