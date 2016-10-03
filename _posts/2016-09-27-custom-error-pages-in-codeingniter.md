@@ -45,3 +45,6 @@ Notice that we're no longer using views, but instead including the view files fo
 Another thing to note:
 
 In the `header` view, I'm passing a `$data` object which includes `$data['page_title']`. As the error pages don't use views, you have to add any variables that you'd normally pass into the view, hence the presence of `$page_title`.
+
+## Why use this approach?
+The big advantage of this approach over [the](http://tutsnare.com/create-custom-404-page-codeigniter/) [various](http://jeromejaglale.com/doc/php/codeigniter_404) [other](https://php.quicoto.com/how-to-create-a-404-page-in-codeigniter/) [techniques](http://jeromejaglale.com/doc/php/codeigniter_404) is the simplicity. You simply override the existing views in  `/application/views/errors/html/error_*.php` and use the existing logic to display the various error pages.
