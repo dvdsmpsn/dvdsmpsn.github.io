@@ -4,6 +4,11 @@ title: Projects
 permalink: /projects/
 ---
 
+### [Foreign Exchange](/fx/) 
+Currently just showing the GBP to USD exchange rate. Maybe I'll add some historic data and graphs at some point.
+
+***
+
 ### [Project 1](https://github.com/tux4kids/tuxmania) 
 Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
 
