@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	.test {
+		display: inline-block;
+		width: 300px;
+		height: 250px;
+	}
+	</style>
+</head>
+<body style="margin:20px">
+
+	
+	<h1>PDFs and sandboxed iframes with ViewerJS</h1>
+	
+	<p id="browser"></p>
+
+	<script>
+		document.getElementById("browser").innerHTML = navigator.appVersion;
+	</script>
+		
+	<h2>No sandbox</h2>
+	<div class="test">
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<h2>Sandboxes</h2>
+	<div class="test">
+		<h3>allow-same-origin</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<div class="test">
+		<h3>allow-same-origin allow-scripts</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin allow-scripts" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<div class="test">
+		<h3>allow-same-origin allow-scripts allow-popups</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<div class="test">
+		<h3>allow-same-origin allow-scripts allow-popups allow-forms</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<div class="test">
+		<h3>allow-same-origin allow-scripts allow-popups allow-forms</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	<div class="test">
+		<h3>allow-same-origin allow-scripts allow-popups allow-forms allow-modals</h3>
+		<iframe src="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" style="border: 1px solid #ccc;" width="100%" height="200"></iframe>
+	</div>
+	
+	
+	<p><a href="./ViewerJS/index.html#/u/658119/KS1%20SATs%20-%20Info%20for%20parents%20-%2013%20Jan%202012%2009-40.pdf">Remove iframe</a></p>
+	
+
+</body>
+</html>
