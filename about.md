@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-<img src="{{ site.baseurl }}/assets/David-Lambs-1987.jpg" alt="" title="David with newborn Poll Dorset lambs - Christmas 1987" class="alignnone size-full wp-image-635" />
+<img src="{{ site.baseurl }}/assets/David-Lambs-1987.jpg" alt="" title="David with newborn Poll Dorset lambs - Christmas 1987">
 
 ## My Background
 
