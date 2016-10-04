@@ -6,7 +6,7 @@ permalink: /about/
 
 <img src="{{ site.baseurl }}/assets/David-Lambs-1987.jpg" alt="" title="David with newborn Poll Dorset lambs - Christmas 1987" class="alignnone size-full wp-image-635" />
 
-##My Background
+## My Background
 
 - I grew up on a [farm](http://catlane.co.uk)
 - I'm keen on higher education — I've got a couple of degrees</li>
