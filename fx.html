@@ -10,7 +10,7 @@ permalink: /fx/
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> -->
 <div class="well">
   <div class="headline">
-    £1 is currently worth $<span id="currentUsd"><span class="loading"></span></span> 
+    £1 = $<span id="currentUsd"><span class="spinner"></span></span> 
   </div>
   <div class="source">Via <a href="//fixer.io/">fixer.io</a> sourced from the <a href="http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html">ECB</a>. Updated daily around 4PM CET.</div>
 </div>
@@ -35,5 +35,19 @@ $(function () {
   }
   .source {
     font-size: 70%;
+  }
+  .spinner {
+    margin: 50px;
+    height: 28px;
+    width: 28px;
+    animation: rotate 0.8s infinite linear;
+    border: 8px solid #fff;
+    border-right-color: transparent;
+    border-radius: 50%;
+  }
+
+  @keyframes rotate {
+    0%    { transform: rotate(0deg); }
+    100%  { transform: rotate(360deg); }
   }
 </style>
