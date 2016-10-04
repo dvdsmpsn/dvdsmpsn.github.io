@@ -18,7 +18,7 @@ permalink: /fx/
 <script>
 $(function () {
   $.ajax({
-    url: 'http://api.fixer.io/latest?symbols=USD,GBP&base=GBP',
+    url: '//api.fixer.io/latest?symbols=USD,GBP&base=GBP',
     success: function (response) {
       $('#currentUsd').html( response.rates['USD'] ); 
     }
