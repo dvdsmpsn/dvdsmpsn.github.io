@@ -12,11 +12,14 @@ permalink: /fx/
   <div class="headline">
     £1 = $<span id="currentUsd"><span class="spinner"></span></span> 
   </div>
-  <div class="source">Via <a href="//fixer.io/">fixer.io</a> sourced from the <a href="http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html">ECB</a>. Updated daily around 4PM CET.</div>
+  <div class="source">
+    Via <a href="//fixer.io/">fixer.io</a> sourced from the <a href="http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html">ECB</a>. Updated daily around 4PM CET.<br>
+    <a target="_blank" href="//www.xe.com/currencycharts/?from=GBP&to=USD&view=1D#graphWrapper">xe.com £/$ chart</a>
+ 
+  </div>
 </div>
 <div id="chart"><div>
   
-  <iframe src="//www.xe.com/currencycharts/?from=GBP&to=USD&view=1D#graphWrapper"></iframe>
 
 <script>
 $(function () {
@@ -37,10 +40,6 @@ $(function () {
   }
   .source {
     font-size: 70%;
-  }
-  iframe {
-    width: 100%;
-    height: 520px;
   }
   
   .spinner {
