@@ -25,7 +25,6 @@
             <h1>{{page.title}}</h1>
             <div class="meta">
               <div class="nav">
-                <a href="https://github.com/dvdsmpsn/dvdsmpsn.github.io/edit/master/{{ page.path }}" title="Edit this page"><i class="icon-code" aria-hidden="true"></i></a>
                 Posted by <a href="{{ site.baseurl }}/about">{{page.author}}</a> on {{ page.date | date: "%B %e, %Y" }}.
                 <a href="{{ site.baseurl }}/">Return to Blog</a>.
               </div>
@@ -34,6 +33,9 @@
                 {% for tag in page.tags %}
                   <a class="tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
                 {% endfor %}
+              </div>
+              <div class="edit">
+                <a href="https://github.com/dvdsmpsn/dvdsmpsn.github.io/edit/master/{{ page.path }}" title="Edit this page"><i class="icon-code" aria-hidden="true"></i></a>
               </div>
             </div>
         </div>
