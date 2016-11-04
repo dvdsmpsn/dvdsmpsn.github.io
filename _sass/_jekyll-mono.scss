@@ -36,9 +36,10 @@
 	
      }
 	.edit {
-	  visibility: hidden;
+	  opacity: 0;
+	  transition: opacity 1s;
 	  &:hover {
-	    visibility: visible;	  
+	    opacity: 1;	  
 	  }
 	}
  }
