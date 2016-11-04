@@ -33,7 +33,14 @@
          &:hover{
            color: darken($hl-color,20);
          }
+	
      }
+	.edit {
+	  visibility: hidden;
+	  &:hover {
+	    visibility: visible;	  
+	  }
+	}
  }
  
 /*
