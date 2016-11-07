@@ -59,7 +59,8 @@ Easy too, just different:
 
 {% highlight javascript %}
 for (var key in images) {
-  if (images.hasOwnProperty(key) === false) continue; // skip loop if the property is from prototype
+  // skip loop if the property is from prototype
+  if (images.hasOwnProperty(key) === false) continue;
   console.log(key, images[key]);
 }
 {% endhighlight %}
