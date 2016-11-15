@@ -13,6 +13,46 @@ author: David Simpson
 excerpt_separator: <!--more-->
 
 ---
+{% highlight html %}
+<div id="console">Loading...</div>
+{% endhighlight %}
+
+{% highlight javascript %}
+var iframeLoaded = false;
+var iframe = document.createElement('iframe');
+
+// ***** SWAP THE `iframe.src` VALUE BELOW FOR DIFFERENT RESULTS ***** //
+// iframe.src = "https://davidsimpson.me"; // This will work. There is no 'X-Frame-Options' header.
+iframe.src = "https://google.com"; // This won't work. 'X-Frame-Options' is set to 'SAMEORIGIN'.
+iframe.id = 'theFrame';
+ 
+var iframeOnloadEvent = function () {
+  iframeLoaded = true;
+  var consoleDiv = document.getElementById('console');
+  if (iframe.contentWindow.length > 0) {
+    consoleDiv.innerHTML = '✔ Content window loaded: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: green;'
+  } else {
+    consoleDiv.innerHTML = '✘ Content window failed to load: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: red;'
+	}
+} 
+
+if (iframe.attachEvent){
+  iframe.attachEvent('onload', iframeOnloadEvent);
+} else {
+  iframe.onload = iframeOnloadEvent;
+}
+document.body.appendChild(iframe);
+
+// iframe.onload event doesn't trigger in firefox if loading mixed content (http iframe in https parent) and it is blocked.
+setTimeout(function () {
+  if (iframeLoaded === false) {
+    consoleDiv.innerHTML = '✘ iframe failed to load within 5s: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: red;'    
+  }
+}, 5000);
+{% endhighlight %}
 
 
 
