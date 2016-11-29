@@ -9,8 +9,8 @@ name: David Simpson
 description: deliver. iterate. repeat.
 
 # Enforce SSL See https://sheharyar.me/blog/free-ssl-for-github-pages-with-custom-domains/
-url: https://davidsimpson.me
-enforce_ssl: davidsimpson.me
+#url: https://davidsimpson.me
+#enforce_ssl: davidsimpson.me
 
 
 #
