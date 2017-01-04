@@ -19,9 +19,9 @@ excerpt_separator: <!--more-->
 <img src="{{ site.baseurl }}/assets/icon1281.png" width="64" height="64" class="alignleft size-full wp-image-2653" style="float:left; margin: 0 1em 1em 0;" />
 **<abbr title="personally identifiable information">PII</abbr> Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.**
 
-[<img src="{{ site.baseurl }}/assets/Mailchimp-in-GA-with-PII.png" alt="Mailchimp in GA - with PII" width="2311" height="756" class="alignnone size-full wp-image-2973" />](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
+[<img src="{{ site.baseurl }}/assets/Mailchimp-in-GA-with-PII.png" alt="Mailchimp in GA - with PII" />](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
 
-<p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/assets/add-to-chrome.png" alt="" width="264" height="55" class="alignnone size-full wp-image-2615" /></a></p>
+<p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/assets/add-to-chrome.png" alt="" /></a></p>
 
 ## How it works
 
@@ -31,16 +31,16 @@ Rather than building your own custom integration to map this data together, you 
 
 **Update**
 
-PII Viewer for Google Analytics now supports identifying users in <a href="https://support.google.com/analytics/answer/2785577?hl=en">Behaviour Flow</a> and <a href="http://mailchimp.com/">Mailchimp integration</a>.
+PII Viewer for Google Analytics now supports identifying users in [Behaviour Flow](https://support.google.com/analytics/answer/2785577?hl=en) and [Mailchimp integration](http://mailchimp.com/).
 
-<a href="/wp-content/uploads/2014/04/behavior-flow.png"><img src="{{ site.baseurl }}/assets/behavior-flow.png" alt="behavior-flow" width="1280" height="800" class="alignnone size-full wp-image-2967" /></a></p>
+<a href="/wp-content/uploads/2014/04/behavior-flow.png"><img src="{{ site.baseurl }}/assets/behavior-flow.png" alt="behavior-flow"  /></a></p>
 
 ## Tutorials
 
 
-- <a href="/2014/04/20/tutorial-send-user-ids-google-analytics/">How to send user IDs to Google Analytics (including with custom dimensions)</a></li>
+- [How to send user IDs to Google Analytics (including with custom dimensions)](/2014/04/20/tutorial-send-user-ids-google-analytics/)
 - [Using the PII Viewer for Google Analytics Chrome extension](/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/)
-- <a href="/2014/09/24/displaying-mailchimp-subscribers-google-analytics/">Displaying Mailchimp subscribers in Google Analytics using PII Viewer</a></li>
+- [Displaying Mailchimp subscribers in Google Analytics using PII Viewer](/2014/09/24/displaying-mailchimp-subscribers-google-analytics/)
 
 ## Releases
 
