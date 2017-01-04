@@ -21,8 +21,6 @@ excerpt_separator: <!--more-->
 
 [ ![Mailchimp in GA - with PII](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png) ](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
 
-[<img src="{{ site.baseurl }}/assets/Mailchimp-in-GA-with-PII.png" alt="Mailchimp in GA - with PII" />](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
-
 <p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/wp-content/uploads/2014/04/add-to-chrome.png" alt="" /></a></p>
 
 ## How it works
