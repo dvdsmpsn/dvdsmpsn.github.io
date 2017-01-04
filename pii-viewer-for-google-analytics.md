@@ -19,9 +19,11 @@ excerpt_separator: <!--more-->
 <img src="{{ site.baseurl }}/assets/icon1281.png" width="64" height="64" class="alignleft size-full wp-image-2653" style="float:left; margin: 0 1em 1em 0;" />
 **<abbr title="personally identifiable information">PII</abbr> Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.**
 
+[ ![Mailchimp in GA - with PII](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png) ](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
+
 [<img src="{{ site.baseurl }}/assets/Mailchimp-in-GA-with-PII.png" alt="Mailchimp in GA - with PII" />](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
 
-<p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/assets/add-to-chrome.png" alt="" /></a></p>
+<p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/wp-content/uploads/2014/04/add-to-chrome.png" alt="" /></a></p>
 
 ## How it works
 
@@ -33,10 +35,9 @@ Rather than building your own custom integration to map this data together, you 
 
 PII Viewer for Google Analytics now supports identifying users in [Behaviour Flow](https://support.google.com/analytics/answer/2785577?hl=en) and [Mailchimp integration](http://mailchimp.com/).
 
-<a href="/wp-content/uploads/2014/04/behavior-flow.png"><img src="{{ site.baseurl }}/assets/behavior-flow.png" alt="behavior-flow"  /></a></p>
+<a href="/wp-content/uploads/2014/04/behavior-flow.png"><img src="{{ site.baseurl }}/assets/behavior-flow.png" alt="behavior-flow"  /></a>
 
 ## Tutorials
-
 
 - [How to send user IDs to Google Analytics (including with custom dimensions)](/2014/04/20/tutorial-send-user-ids-google-analytics/)
 - [Using the PII Viewer for Google Analytics Chrome extension](/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/)
