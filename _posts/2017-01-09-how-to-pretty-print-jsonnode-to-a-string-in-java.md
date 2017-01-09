@@ -11,7 +11,6 @@ tags:
 - json
 - note to self
 author: David Simpson
-excerpt_separator: <!--more-->
 
 ---
 
@@ -28,7 +27,6 @@ Filed under *note to self* as I keep forgetting this. Here's a very simple way t
         }
     }
 {% endhighlight %}
-
 
 The `prettyPrintJsonString(...)` method above would print out `example` JsonNode here...
 
