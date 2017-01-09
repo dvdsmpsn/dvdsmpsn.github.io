@@ -15,7 +15,7 @@ excerpt_separator: <!--more-->
 
 ---
 
-Filed under *note to self* as I keep forgetting this. Here's a very simple way topretty print a `com.fasterxml.jackson.databind.JsonNode`:
+Filed under *note to self* as I keep forgetting this. Here's a very simple way to pretty print a `com.fasterxml.jackson.databind.JsonNode`:
 
 {% highlight java %} 
     public String prettyPrintJsonString(JsonNode jsonNode) {
