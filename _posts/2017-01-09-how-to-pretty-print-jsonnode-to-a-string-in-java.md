@@ -28,7 +28,9 @@ Filed under *note to self* as I keep forgetting this. Here's a very simple way t
 
 The `prettyPrintJsonString(...)` method above would print out `example` JsonNode here...
 
-    JsonNode example = Json.newObject().put("name", "Example").set("obj", Json.newObject());
+    JsonNode example = Json.newObject()
+                           .put("name", "Example")
+                           .set("obj", Json.newObject());
 
 ...as this:
 
