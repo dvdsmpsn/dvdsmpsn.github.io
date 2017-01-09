@@ -16,7 +16,6 @@ author: David Simpson
 
 Filed under *note to self* as I keep forgetting this. Here's a very simple way to pretty print a `com.fasterxml.jackson.databind.JsonNode`:
 
-{% highlight java %} 
     public String prettyPrintJsonString(JsonNode jsonNode) {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -26,21 +25,16 @@ Filed under *note to self* as I keep forgetting this. Here's a very simple way t
             return "Sorry, pretty print didn't work";
         }
     }
-{% endhighlight %}
 
 The `prettyPrintJsonString(...)` method above would print out `example` JsonNode here...
 
-{% highlight java %} 
     JsonNode example = Json.newObject().put("name", "Example").set("obj", Json.newObject());
-{% endhighlight %}
 
 ...as this:
 
-{% highlight  %} 
     {
         "name": "Example",
         "obj": {}
-    }  
-{% endhighlight %}
+    }
 
 This a simple trick, but I forget things.
