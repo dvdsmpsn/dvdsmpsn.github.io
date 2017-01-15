@@ -25,12 +25,27 @@
 			color: white;
 			font-family: 'Helvetica';
 			font-weight: bold;
+			/* animation: rpm 1.4s infinite linear; //example */
 		}
+		
+		@keyframes rpm {
+			0% {
+				-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
 	</style>
 
 	<script>
 		window.addEventListener('devicemotion', function (ev) {
-			document.getElementById("rpm").innerHTML = (Math.abs(ev.rotationRate.gamma)/6).toFixed(2)
+			var rpm = (Math.abs(ev.rotationRate.gamma)/6).toFixed(2);
+			document.getElementById("rpm").innerHTML = rpm;		
+			document.getElementById('display').style['animation'] = 'rpm ' + (1 / rpm) + 's infinite linear';
 		}, true);
 	</script>
 </head>
