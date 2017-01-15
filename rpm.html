@@ -25,10 +25,10 @@
 			color: white;
 			font-family: 'Helvetica';
 			font-weight: bold;
-			animation: spr 1.4s infinite linear; /* //example */
+			/* animation: spr 1.4s infinite linear;  //example */
 		}
 		
-		@keyframes spr {
+		@keyframes secondsPerRevolution {
 			0%  {transform: rotate(360deg);}
 			100% {transform: rotate(0deg);}	
 		}
@@ -39,7 +39,7 @@
 		window.addEventListener('devicemotion', function (ev) {
 			var rpm = Math.abs(ev.rotationRate.gamma)/6;
 			document.getElementById("rpm").innerHTML = rpm.toFixed(2);		
-			document.getElementById('display').style['animation'] = 'rpm ' + (60 / rpm) + 's infinite linear';
+			document.getElementById('display').style['animation'] = 'secondsPerRevolution ' + (60 / rpm) + 's infinite linear';
 		}, true);
 	</script>
 </head>
