@@ -43,7 +43,7 @@
 		window.addEventListener('devicemotion', function (ev) {
 			var rpm = (Math.abs(ev.rotationRate.gamma)/6).toFixed(2);
 			document.getElementById("rpm").innerHTML = rpm;		
-			document.getElementById('display').style['animation'] = 'rpm ' + (1 / rpm) + 's infinite linear';
+			document.getElementById('display').style['animation'] = 'rpm ' + (60 / rpm) + 's infinite linear';
 		}, true);
 	</script>
 </head>
