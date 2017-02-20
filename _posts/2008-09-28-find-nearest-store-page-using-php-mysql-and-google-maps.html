@@ -43,112 +43,136 @@ excerpt_separator: <!--more-->
 <h2>Building the scripts</h2>
 <p>This example is unashamedly simplifed.  The PHP is procedural and basic.  It is for demonstration only - apply you own favourite MVC framework when working this up.</p>
 <h3>Create a simple mySQL database table for stores</h3>
-<p>[source language="sql"]CREATE TABLE `stores` (<br />
-  `id` bigint(20) NOT NULL auto_increment,<br />
-  `store_name` varchar(300) NOT NULL,<br />
-  `postcode` varchar(10) NOT NULL,<br />
-  `latitude` double NOT NULL,<br />
-  `longitude` double NOT NULL,<br />
-  `postal_address` text NOT NULL<br />
-  PRIMARY KEY  (`id`)<br />
-);[/source]<br />
-In reality, you'd probably want to add columns for phone no, web address, email etc.</p>
+
+{% highlight sql %}
+CREATE TABLE `stores` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `store_name` varchar(300) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `postal_address` text NOT NULL
+  PRIMARY KEY  (`id`)
+);
+{% endhighlight %}
+
+<p>In reality, you'd probably want to add columns for phone no, web address, email etc.</p>
 <h3>Add some data to the table</h3>
-<p>I'm using real locations of Apple computer stores in the UK...<br />
-[source language="sql"]INSERT INTO `stores` (`id`, `store_name`, `postcode`, `latitude`, `longitude`, `postal_address`,)<br />
-VALUES<br />
-(<br />
-	(1, 'KRCS Mac computer store', 'NG1 7QQ', 52.952493, -1.140725, 'Victoria Centre, Nottingham'),<br />
-	(2, 'Apple Store', 'M4 3AJ', 51.51277, -2.14308, 'U23, New Cannon Street Mall,  Manchester'),<br />
-	(3, 'Apple Store', 'S9 1EA', 53.41442, -1.41089, '80 High Street, Meadowhell,  Sheffield')<br />
-);[/source]<br />
-The lat/long values can be populated manually (e.g. go get them from Google Maps) or automatically using a function similar to this:<br />
-[source language="php"]/*<br />
- * Get LatLong From Postcode<br />
- *<br />
- * @access  public<br />
- * @param   string $postcode<br />
- * @param   string $country<br />
- * @param   string $gmapApiKey<br />
- * @return  array(statusCode, accuracy, latitude, longitude);<br />
- */<br />
-function getLatLongFromPostcode($postcode, $country, $gmapApiKey)<br />
-{<br />
-	/* remove spaces from postcode */<br />
-	$postcode = urlencode(trim($postcode));</p>
-<p>	/* connect to the google geocode service */<br />
-	$file = &quot;http://maps.google.com/maps/geo?q=$postcode,$country&amp;amp;amp;output=csv&amp;amp;amp;key=$gmapApiKey&quot;;</p>
-<p>	$contents = file_get_contents($file);<br />
-	return explode(',', $contents);<br />
-}[/source]</p>
+<p>I'm using real locations of Apple computer stores in the UK...</p>
+
+{% highlight sql %}
+INSERT INTO `stores` (`id`, `store_name`, `postcode`, `latitude`, `longitude`, `postal_address`,)
+VALUES
+(
+	(1, 'KRCS Mac computer store', 'NG1 7QQ', 52.952493, -1.140725, 'Victoria Centre, Nottingham'),
+	(2, 'Apple Store', 'M4 3AJ', 51.51277, -2.14308, 'U23, New Cannon Street Mall,  Manchester'),
+	(3, 'Apple Store', 'S9 1EA', 53.41442, -1.41089, '80 High Street, Meadowhell,  Sheffield')
+);
+{% endhighlight %}
+
+<p>The lat/long values can be populated manually (e.g. go get them from Google Maps) or automatically using a function similar to this:<br />
+</p>
+{% highlight php %}
+/**
+ * Get LatLong From Postcode
+ *
+ * @access  public
+ * @param   string $postcode
+ * @param   string $country
+ * @param   string $gmapApiKey
+ * @return  array(statusCode, accuracy, latitude, longitude);
+ */
+function getLatLongFromPostcode($postcode, $country, $gmapApiKey)
+{
+	/* remove spaces from postcode */
+	$postcode = urlencode(trim($postcode));
+	/* connect to the google geocode service */
+	$file = &quot;http://maps.google.com/maps/geo?q=$postcode,$country&amp;amp;amp;output=csv&amp;amp;amp;key=$gmapApiKey&quot;;
+	$contents = file_get_contents($file);
+	return explode(',', $contents);
+}
+{% endhighlight %}
+
 <p>...but you'll need a <a href="http://code.google.com/apis/maps/signup.html">Google Maps API key</a></p>
 <p>Example for the Apple Store in Regent Street:</p>
-<p>[source language="php"]$geocode = getLatLongFromPostcode ('W1B 2EL', 'uk', 'ABQIAAAA2xzlSb6lvuy1qNdW6D87dBSX4wCNHpcq6aPi4BCCV9JuIkX6UhQgj9ZmrEF5FYpCKxFE5wNmrj');[/source]</p>
+
+
+{% highlight php %}
+$geocode = getLatLongFromPostcode ('W1B 2EL', 'uk', 'ABQIAAAA2xzlSb6lvuy1qNdW6D87dBSX4wCNHpcq6aPi4BCCV9JuIkX6UhQgj9ZmrEF5FYpCKxFE5wNmrj');
+{% endhighlight %}
 <h3>Build the search/results page</h3>
-<p>[source language="php"]&lt;form class=&quot;center&quot; action=&quot;./find-a-store.php&quot; method=&quot;get&quot;&gt;<br />
+{% highlight php %}
+&lt;form class=&quot;center&quot; action=&quot;./find-a-store.php&quot; method=&quot;get&quot;&gt;<br />
 	&lt;label for=&quot;postcode&quot;&gt;Postcode or Town&lt;/label&gt;<br />
 	&lt;input id=&quot;postcode&quot; name=&quot;postcode&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;<br />
 	&lt;input name=&quot;submit&quot; type=&quot;submit&quot; value=&quot;Search »&quot; /&gt;<br />
-&lt;/form&gt;</p>
-<p>&lt;?php<br />
-	if (isset($_REQUEST['postcode']))<br />
-	{<br />
-		$geocode = getLatLongFromPostcode($_REQUEST['postcode'], $country, $gmapApiKey);</p>
-<p>		$storeResults = array();</p>
-<p>		if ($geocode[0] == '200')<br />
-		{<br />
-			$latitude = $geocode[2];<br />
-			$longitude = $geocode[3];</p>
-<p>			// Print heading<br />
-			$htmlOutput .= &quot;<br />
-				&lt;div class=&quot;results&quot;&gt;<br />
-				&lt;h2&gt;Nearest stores to &lt;em&gt;$postcode&lt;/em&gt;&lt;/h2&gt;<br />
-				&lt;ol&gt;&quot;;</p>
-<p>			// Build the spherical geometry SQL string<br />
-			$earthRadius = '3963.0'; // In miles</p>
-<p>			$sql = &quot;<br />
-				SELECT<br />
-					ROUND(<br />
-						$earthRadius * ACOS(<br />
-							SIN( $latitude*PI()/180 ) * SIN( latitude*PI()/180 )<br />
-							+ COS( $latitude*PI()/180 ) * COS( latitude*PI()/180 )  *  COS( (longitude*PI()/180) - ($longitude*PI()/180) )   )<br />
-					, 1)<br />
-					AS distance,<br />
-					store_name,<br />
-					postcode,<br />
-					postal_address,<br />
-					latitude,<br />
-					longitude<br />
-				FROM<br />
-					stores<br />
-				ORDER BY<br />
-					distance ASC<br />
-				LIMIT 0, 10&quot;;</p>
-<p>			// Search the database for the nearest agents<br />
-			$result = db_query($sql);<br />
-			while ($row = mysql_fetch_array($result))<br />
-			{<br />
-				array_push($storeResults, $row);<br />
-			}			</p>
-<p>			foreach ($storeResults as $store)<br />
-			{<br />
-				// Print listings as an unordered list (structured: ol &gt; li &gt; h3 + div)<br />
-				$htmlOutput .= &quot;<br />
-	&lt;li&gt;<br />
-&lt;h3&gt;&lt;em&gt;{$store[store_name]} &lt;em&gt;{$store[distance]} miles.&lt;/em&gt;&lt;/em&gt;&lt;/h3&gt;<br />
+&lt;/form&gt;
+&lt;?php
+	if (isset($_REQUEST['postcode']))
+	{
+		$geocode = getLatLongFromPostcode($_REQUEST['postcode'], $country, $gmapApiKey);
+		$storeResults = array();
+		if ($geocode[0] == '200')
+		{
+			$latitude = $geocode[2];
+			$longitude = $geocode[3];
+
+			// Print heading
+			$htmlOutput .= &quot;
+				&lt;div class=&quot;results&quot;&gt;
+				&lt;h2&gt;Nearest stores to &lt;em&gt;$postcode&lt;/em&gt;&lt;/h2&gt;
+				&lt;ol&gt;&quot;;
+
+			// Build the spherical geometry SQL string
+			$earthRadius = '3963.0'; // In miles
+
+			$sql = &quot;
+				SELECT
+					ROUND(
+						$earthRadius * ACOS(
+							SIN( $latitude*PI()/180 ) * SIN( latitude*PI()/180 )
+							+ COS( $latitude*PI()/180 ) * COS( latitude*PI()/180 )  *  COS( (longitude*PI()/180) - ($longitude*PI()/180) )   )
+					, 1)
+					AS distance,
+					store_name,
+					postcode,
+					postal_address,
+					latitude,
+					longitude
+				FROM
+					stores
+				ORDER BY
+					distance ASC
+				LIMIT 0, 10&quot;;
+
+			// Search the database for the nearest agents
+			$result = db_query($sql);
+			while ($row = mysql_fetch_array($result))
+			{
+				array_push($storeResults, $row);
+			}			
+
+			foreach ($storeResults as $store)
+			{
+				// Print listings as an unordered list (structured: ol &gt; li &gt; h3 + div)
+				$htmlOutput .= &quot;
+	&lt;li&gt;
+&lt;h3&gt;&lt;em&gt;{$store[store_name]} &lt;em&gt;{$store[distance]} miles.&lt;/em&gt;&lt;/em&gt;&lt;/h3&gt;
 &lt;div&gt;&lt;em&gt;&quot; . str_replace(&quot;n&quot;, ', ', $store['postal_address']) .&quot;&lt;/em&gt;&lt;/div&gt;&lt;/li&gt;&quot;;<br />
-			}<br />
-			$htmlOutput .= '<br />
-			&lt;/ol&gt;&lt;/div&gt;';</p>
-<p>			echo $htmlOutput;<br />
-		}<br />
-		else<br />
-		{<br />
-			echo &quot;Problem with postcode.&quot;<br />
-		}</p>
-<p>	} // if isset()<br />
-?&gt;<br />
-[/source]</p>
+			}
+			$htmlOutput .= '
+			&lt;/ol&gt;&lt;/div&gt;';
+
+			echo $htmlOutput;
+		}
+		else
+		{
+			echo &quot;Problem with postcode.&quot;
+		}
+	} // if isset()
+?>
+{% endhighlight %}
+
 <p>By the way, properly cleanse <code>$_REQUEST['postcode']</code> to prevent XSS attacks.  The code above is for demo only.</p>
 <h3>Reference</h3>
 <ul>

@@ -33,7 +33,15 @@
          &:hover{
            color: darken($hl-color,20);
          }
+	
      }
+	.edit a {
+	  opacity: 0;
+	  transition: opacity 1s;
+	  &:hover {
+	    opacity: 1;	  
+	  }
+	}
  }
  
 /*
@@ -94,7 +102,7 @@ button.button-primary:focus {
 }
 
 .intro-header .post-heading {
-  padding: 100px 0 50px;
+  padding: 0 0 50px;
   color: $white;
   
 }
@@ -104,12 +112,6 @@ button.button-primary:focus {
     font-size: 36px;
     line-height: 1.5;
     font-family:$raleway ;
-}
-
-@media only screen and (min-width: 768px) {
-  .intro-header .post-heading{
-    padding: 150px 0;
-  }
 }
 
 /* 

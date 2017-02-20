@@ -22,16 +22,24 @@ excerpt_separator: <!--more-->
 ---
 <p>Sometimes I need to concatenate several mp4 files together. <a href="https://www.ffmpeg.org/">ffmpeg</a> is a good tool for this job.</p>
 <p>On OSX, it's easy to install using <a href="http://brew.sh/">Homebrew</a>:<br />
-<pre><code>brew install ffmpeg</code></pre>
+  
+{% highlight bash %}brew install ffmpeg{% endhighlight %}
+  
 <blockquote><p>
 If you have MP4 files, these could be losslessly concatenated by first transcoding them to mpeg transport streams.<br />
 <em>Source &ndash; <a href="https://trac.ffmpeg.org/wiki/Concatenate">https://trac.ffmpeg.org/wiki/Concatenate</a></em>
 </p></blockquote>
-<p>Say we have 2 mp4 files to concatenate or join together, first we transcode each of these into an intermediate format:<br />
-<pre><code>ffmpeg -i input1.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate1.ts<br />
-ffmpeg -i input2.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate2.ts<br />
-</code></pre>
-<p>After that we can concatenate these together using the following:<br />
-<pre><code>ffmpeg -i &quot;concat:intermediate1.ts|intermediate2.ts&quot; -c copy -bsf:a aac_adtstoasc output.mp4<br />
-</code></pre>
-<p>For more file, just piple separate the additional files here: <code>"concat:intermediate1.ts|intermediate2.ts"</code></p>
+<p>Say we have 2 mp4 files to concatenate or join together, first we transcode each of these into an intermediate format:</p>
+  
+{% highlight bash %}ffmpeg -i input1.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate1.ts
+ffmpeg -i input2.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate2.ts
+{% endhighlight %}
+  
+<p>After that we can concatenate these together using the following:</p>
+
+{% highlight bash %}ffmpeg -i "concat:intermediate1.ts|intermediate2.ts" -c copy -bsf:a aac_adtstoasc output.mp4
+{% endhighlight %}
+  
+<p>For more files, just pipe separate the additional files here:</p>
+
+{% highlight bash %}"concat:intermediate1.ts|intermediate2.ts"{% endhighlight %}

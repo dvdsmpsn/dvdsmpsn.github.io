@@ -6,7 +6,11 @@
 name: David Simpson
 
 # Short bio or description (displayed in the header)
-description: Developing the web. One page at a time.
+description: deliver. iterate. repeat.
+
+# Enforce SSL See https://sheharyar.me/blog/free-ssl-for-github-pages-with-custom-domains/
+url: https://davidsimpson.me
+enforce_ssl: davidsimpson.me
 
 
 #

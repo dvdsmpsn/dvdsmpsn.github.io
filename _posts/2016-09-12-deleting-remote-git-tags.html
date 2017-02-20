@@ -29,25 +29,17 @@ david$ git tag
 v1.0.0
 v1.0.1
 v1.1.0
-v1.1.1
-v1.1.2
-v1.2.0
 {% endhighlight %}
   
 <p>Delete them all:
   
 {% highlight bash %}
-david$ git tag -dv1.0.0 v1.0.1 v1.1.0 v1.1.1 v1.1.2 v1.2.0
+david$ git tag -d v1.0.0 v1.0.1 v1.1.0
 {% endhighlight %}
   
 <p>Push all those deletes to the remote system:
 {% highlight bash %}
-david$ git push origin :refs/tags/v1.0.0
-david$ git push origin :refs/tags/v1.0.1
-david$ git push origin :refs/tags/v1.1.0
-david$ git push origin :refs/tags/v1.1.1
-david$ git push origin :refs/tags/v1.1.2
-david$ git push origin :refs/tags/v1.2.0
+david$ git push origin :refs/tags/v1.0.0 :refs/tags/v1.0.1 :refs/tags/v1.1.0
 {% endhighlight %}
   
 <p>That's it. Destruction complete.</p>

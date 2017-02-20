@@ -1,0 +1,67 @@
+---
+layout: post
+title: Checking for iframes blocked by the 'X-Frame-Options' header in JavaScript
+date: 2016-11-15 16:10:05.000000000 +00:00
+type: post
+published: false
+status: publish
+categories: []
+tags:
+- javascript
+- note to self
+author: David Simpson
+excerpt_separator: <!--more-->
+
+---
+{% highlight html %}
+<div id="console">Loading...</div>
+{% endhighlight %}
+
+{% highlight javascript %}
+var iframeLoaded = false;
+var iframe = document.createElement('iframe');
+
+// ***** SWAP THE `iframe.src` VALUE BELOW FOR DIFFERENT RESULTS ***** //
+// iframe.src = "https://davidsimpson.me"; // This will work. There is no 'X-Frame-Options' header.
+iframe.src = "https://google.com"; // This won't work. 'X-Frame-Options' is set to 'SAMEORIGIN'.
+iframe.id = 'theFrame';
+ 
+var iframeOnloadEvent = function () {
+  iframeLoaded = true;
+  var consoleDiv = document.getElementById('console');
+  if (iframe.contentWindow.length > 0) {
+    consoleDiv.innerHTML = '✔ Content window loaded: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: green;'
+  } else {
+    consoleDiv.innerHTML = '✘ Content window failed to load: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: red;'
+  }
+} 
+
+if (iframe.attachEvent){
+  iframe.attachEvent('onload', iframeOnloadEvent);
+} else {
+  iframe.onload = iframeOnloadEvent;
+}
+document.body.appendChild(iframe);
+
+// iframe.onload event doesn't trigger in firefox if loading mixed content (http iframe in https parent) and it is blocked.
+setTimeout(function () {
+  if (iframeLoaded === false) {
+    consoleDiv.innerHTML = '✘ iframe failed to load within 5s: ' + iframe.src;
+    consoleDiv.style.cssText = 'color: red;'    
+  }
+}, 5000);
+{% endhighlight %}
+
+
+
+Hello there.
+<!--more-->
+<h2>Demos</h2>
+An iframe at google.com is blocked:
+<style> iframe { width:100%; height: 540px; } </style>
+<iframe src="//jsfiddle.net/dvdsmpsn/7qusz4q3/embedded/result%2Cjs%2Chtml%2Ccss/"></iframe>
+
+An iframe at davidsimpson.me loads just fine:
+<iframe src="//jsfiddle.net/dvdsmpsn/2c2rhpzt/3/embedded/result%2Cjs%2Chtml%2Ccss/"></iframe>
