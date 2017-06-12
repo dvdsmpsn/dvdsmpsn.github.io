@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>AppSpokes Test Harness</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.css">
+	
+	<style>
+		iframe { 
+			width: 100%; 
+			border: 0; 
+			border: 5px solid hotpink; 
+			border-radius: 5px; 
+		}
+		pre {
+		    overflow-x: auto;
+			font-size: 80%;
+		}
+		pre code {
+		    overflow-wrap: normal;
+		    white-space: pre;
+		}
+	</style>
+	
+	
+	<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script>
+	<script>
+		// START: POLYFILL
+		/**
+		 * Array.includes polyfill for IE
+		 *
+		 * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
+		 * https://tc39.github.io/ecma262/#sec-array.prototype.includes
+		 */
+		if (!Array.prototype.includes) {
+		  Object.defineProperty(Array.prototype, 'includes', {
+		    value: function(searchElement, fromIndex) {
+
+		      // 1. Let O be ? ToObject(this value).
+		      if (this == null) {
+		        throw new TypeError('"this" is null or not defined');
+		      }
+
+		      var o = Object(this);
+
+		      // 2. Let len be ? ToLength(? Get(O, "length")).
+		      var len = o.length >>> 0;
+
+		      // 3. If len is 0, return false.
+		      if (len === 0) {
+		        return false;
+		      }
+
+		      // 4. Let n be ? ToInteger(fromIndex).
+		      //    (If fromIndex is undefined, this step produces the value 0.)
+		      var n = fromIndex | 0;
+
+		      // 5. If n ≥ 0, then
+		      //  a. Let k be n.
+		      // 6. Else n < 0,
+		      //  a. Let k be len + n.
+		      //  b. If k < 0, let k be 0.
+		      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+		      function sameValueZero(x, y) {
+		        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+		      }
+
+		      // 7. Repeat, while k < len
+		      while (k < len) {
+		        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+		        // b. If SameValueZero(searchElement, elementK) is true, return true.
+		        // c. Increase k by 1. 
+		        if (sameValueZero(o[k], searchElement)) {
+		          return true;
+		        }
+		        k++;
+		      }
+
+		      // 8. Return false
+		      return false;
+		    }
+		  });
+		} // END: POLYFILL
+		
+		
+		
+		var widgetInstanceIds = [];
+		var message = {
+			source: {
+				resourceId: 'zzzzz',                                          // e.g. The community UUID or XCC ID for the page or community equivalent
+				resourceName: 'XCC Community Equivalent\'s Name',             // e.g. the name of the WorkSpace On  page or community equivalent
+				resourceType: 'xcc-community-equivalent',                     // A  unique resourceType for XCC
+				orgId: 'o12345',                                              // The orgId/customerId from IBM Connections
+				widgetInstanceId: '__widgetInstanceId__'                      // Populated from the data-widget-instance-id attribute on the iframe - make this unique
+			},                                                                
+			user: {                                                           // From IBM Connections
+				userId: 'u1234',                                              // 
+				orgId: 'o12345',                                               // Could be different from the source.orgId if the user is a visitor/guest
+				displayName: 'David Simpson',                                 // 
+				email: 'david@appfusions.com'                                 // 
+			},                                                                
+			extraContent: {                                                   
+				canContribute: 'true',                                        // 
+				canPersonalize: 'true'                                        // 'true' || 'false' - Means that the user is a community owner or equivalent, so can configure the app
+			}
+		};
+
+		window.onload = function() {
+			$('iframe.spoke').each(function (item) {
+				var widgetInstanceId = $(this).data('widget-instance-id');
+				message.source.widgetInstanceId = widgetInstanceId;
+				widgetInstanceIds.push(widgetInstanceId);
+				var origin = '*';
+				var src = $(this).attr('src'); 
+				if (src.startsWith('http') ) {
+					origin = src.substring(0, src.split('/', 3).join('/').length);
+				}
+				
+				this.contentWindow.postMessage(message, origin);
+			});
+			
+			window.addEventListener('message', function(eventMessage) {
+				// console.log(' ++ message received: ', eventMessage);
+				var commandObject;
+
+				if (typeof eventMessage.data === 'string') {
+					// Special handling of text message
+					if (eventMessage.data === 'appReady') {
+						commandObject = {};
+						commandObject.command = 'appReady';
+						commandObject.origin = eventMessage.origin;
+					}
+					
+					console.log(' ++ eventMessage.data: ', eventMessage.data);
+					
+					widgetInstanceIds.forEach(function (widgetInstanceId) {
+						if (eventMessage.data.startsWith('setHeight|' + widgetInstanceId + '|')) {
+							commandObject = {};
+							commandObject.command = 'setHeight';
+							commandObject.widgetInstanceId = eventMessage.data.split('|')[1];
+							commandObject.height = eventMessage.data.split('|')[2];
+							commandObject.origin = eventMessage.origin;
+						}
+					});
+				} else if (typeof eventMessage.data === 'object') {
+					commandObject = eventMessage.data;
+					commandObject.origin = eventMessage.origin;
+				}
+
+				// Process the parsed command
+				if (typeof commandObject === "object") {
+					processCommand(commandObject);
+				} else {
+					console.log("[E] cannot parse event data", eventMessage.data);
+				}
+			});
+		};
+
+		var processCommand = function(commandObject) {
+			// All other commands require to manage the widgetInstanceId matching
+			// console.log(' ++ processCommand', commandObject);
+
+			if (widgetInstanceIds.includes(commandObject.widgetInstanceId)) {
+				var $iframe = $('iframe.spoke[data-widget-instance-id="' + commandObject.widgetInstanceId + '"]');
+				if (commandObject.command === 'appDialog') {
+					// Using Fancybox as an example
+					// This can be replaced with your own dialog/modal implementation
+					$.fancybox.open({
+						src: commandObject.iFrameUrl,
+						type: 'iframe',
+						options: {
+							iframe : {
+								scrolling: 'yes',
+								css : {
+									width: commandObject.width || '100%',
+									height: commandObject.height || '100%'
+								}
+							}
+						}
+					});
+				} else if (commandObject.command === 'openWindow') {
+					// Open new window free of iFrame sandbox
+					window.open(commandObject.url,
+						commandObject.name || '_new',
+						commandObject.specs || '',
+						commandObject.raplace || false
+					);
+				} else if (commandObject.command === 'setHeight') {
+					// Update widget iFrame height to passed value
+					$iframe.height(commandObject.height);
+				}
+			}
+		}
+		
+	</script>
+</head>
+<div class="container">
+	
+	<h1>AppSpokes Test Harness</h1>
+	
+	<div class="alert alert-warning">
+		Run this code on a real web server, not just from your local file system.
+	</div>
+	
+	<p>This is an example of pushing IBM Connections Cloud "Community Apps" into a standard HTML page.</p>
+	
+	<p>This standard HTML page will still require access to the IBM Connections Cloud instance in order to properly inject the context into the community app.</p>
+	
+	<p>Scroll down to the <a href="#results"><strong style="color:hotpink">hotpink-bordered</strong> iframes</a> at the bottom of the page to see the <a href="#results">resulting working example</a>.
+	
+	<h2>Context</h2>
+	<p>Each app requires a context so that it can understand what to show. The context uses a <code>postMessage</code> with information about the context -- displayed in the iframes below. 
+	
+	<h3>The message</h3>	
+	<p>The context is populated with information from both XCC and IBM Connections using the Javascript inline in this page (see the page source):</p>
+	<pre><code>var message = {
+    source: {
+        <strong>resourceId: 'zzzzz'</strong>,                               // e.g. The community UUID or XCC ID for the page or community equivalent
+        <strong>resourceName: 'XCC Community Equivalent\'s Name'</strong>,  // e.g. the name of the WorkSpace On  page or community equivalent
+        <strong>resourceType: 'xcc-community-equivalent'</strong>,          // A  unique resourceType for XCC
+        <strong>orgId: 'o12345'</strong>,                                   // The orgId/customerId from IBM Connections
+        <strong>widgetInstanceId: '__widgetInstanceId__'</strong>           // Populated from the data-widget-instance-id attribute on the iframe - make this unique
+    },                                                     
+    user: {                                                // From IBM Connections
+        <strong>userId: 'u1234'</strong>,                                   // 
+        <strong>orgId: 'o12345'</strong>,                                   // Could be different from the source.orgId if the user is a visitor/guest
+        <strong>displayName: 'David Simpson'</strong>,                      // 
+        <strong>email: 'david@appfusions.com'</strong>                      // 
+    },                                                     
+    extraContent: {                                        
+        canContribute: 'true',                             // From IBM Connections
+        canPersonalize: <strong>'true'</strong>                             // 'true' || 'false' - Means that the user is a community owner or equivalent, so can configure the app
+    }
+};</code></pre>	
+	
+	<h3>The iframe</h3>	
+	<p>In this test harness <em>each</em> app required a <em>unique</em> <code>data-widget-instance-id</code> attribute on the <code>iframe</code>:</p>
+	
+	<pre><code>&lt;iframe class="spoke" 
+    <strong>data-widget-id="xxx1"</strong> 
+    <strong>data-widget-instance-id="xxx1_yyy"</strong> 
+    src="https://rawgit.com/dvdsmpsn/ibm-connect-2016-examples/master/community-app/skeleton.html" 
+    scrolling="no">&lt;/iframe></code></pre>
+	
+		
+	<h2>Behaviour</h2>	
+	
+	<p>The iframes need to resize when the content gets larger or smaller. This happens when a <code>postMessage</code> is sent from the iframe content to the host page.</p>
+	
+	<p>The iframes need the ability to open dialog modals in the host page. This happens when a <code>postMessage</code> is sent from the iframe content to the host page.</p>
+	
+	<h2 id="results">The Result</h2>
+	<div class="row">
+		<div class="col-sm-6">
+			<h2 class="h4">Skeleton App Instance 1</h2>
+			<iframe class="spoke" data-widget-id="xxx1" data-widget-instance-id="xxx1_yyy" src="https://rawgit.com/dvdsmpsn/ibm-connect-2016-examples/master/community-app/skeleton.html" scrolling="no"></iframe>
+		</div>
+		<div class="col-sm-6">
+			<h2 class="h4">Skeleton App Instance 2</h2>
+			<iframe class="spoke" data-widget-id="xxx2" data-widget-instance-id="xxx2_yyy" src="https://rawgit.com/dvdsmpsn/ibm-connect-2016-examples/master/community-app/skeleton.html" scrolling="no"></iframe>
+		</div>
+	</div>
+	
+	<p><a href="https://github.com/dvdsmpsn/ibm-connect-2016-examples/blob/master/community-app/skeleton.html">Source for the Community app</a></p>
+</div>
+
+</html>
