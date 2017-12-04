@@ -45,18 +45,18 @@ The slides are shared below, as are 2 of the demos
 
 ## Slides
 
-<iframe src='//www.slideshare.net/dvdsmpsn/dev1602-serving-up-watson-iot-and-cognitive-services-into-ibm-connections-cloud-83318695' style='border:0'></iframe></div>
+<div class="embed-container"><iframe src="//www.slideshare.net/dvdsmpsn/dev1602-serving-up-watson-iot-and-cognitive-services-into-ibm-connections-cloud-83318695" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
 
 ## Alexa and IBM Connections demo
 
 Created using NodeRed
 
-<iframe src='https://www.youtube.com/embed/L5lM9oENEVs' frameborder='0' allowfullscreen></iframe></div>
+<div class="embed-container"><iframe src="//www.youtube.com/embed/L5lM9oENEVs" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
 
 ## Alexa and Watson Workspace demo
 
 Created using IFTTT
 
-<iframe src='https://www.youtube.com/embed/oHDjR0yjzSQ' frameborder='0' allowfullscreen></iframe></div>
+<div class="embed-container"><iframe src="https://www.youtube.com/embed/oHDjR0yjzSQ" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'>
