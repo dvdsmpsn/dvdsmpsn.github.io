@@ -41,7 +41,7 @@ The presentation comprised 4 live demos of connecting to IBM service using the i
 - A demo connecting an Amazon Echo/Alexa to IBM Connections to read activities and information from IBM Connections
 - A demo using a microphone & IoT device to talk to Watson speech to text which in turn posts updates to the IBM Connections activity stream using NodeRed
 
-The slides are shared below, as are 2 of the demos
+The slides are shared below, as are 2 of the demos.
 
 ## Slides
 
