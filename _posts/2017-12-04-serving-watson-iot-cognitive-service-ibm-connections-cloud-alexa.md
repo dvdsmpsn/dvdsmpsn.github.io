@@ -45,7 +45,7 @@ The slides are shared below, as are 2 of the demos
 
 ## Slides
 
-<div class="embed-container"><iframe src="//www.slideshare.net/dvdsmpsn/dev1602-serving-up-watson-iot-and-cognitive-services-into-ibm-connections-cloud-83318695" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
+<div class="embed-container"><iframe src="//www.slideshare.net/slideshow/embed_code/key/rsF55TpV43mJN7" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
 
 ## Alexa and IBM Connections demo
 
