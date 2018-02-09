@@ -31,6 +31,7 @@ Cloud Macros for Bitbucket and Confluence is the missing solution for users of b
 
 A private Atlassian Cloud add-on for tracking user interactionss within Confluence Cloud. Works nicely, but contact me if you want to know more.
 
+- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
 - [Documentation](https://dvdsmpsn.atlassian.net/wiki/display/analytics/Documentation)
 
 ### Gister Macro for Confluence Cloud
