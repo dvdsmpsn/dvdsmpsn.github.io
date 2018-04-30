@@ -50,6 +50,7 @@ excerpt_separator: <!--more-->
 <h3>Add tracking code to populate the custom dimension</h3>
 <p>On your test website, add the following Universal Analytics tracking code:</p>
 <pre><code>&lt;script&gt;
+
   // IMPORTANT: This is just example data for demonstration purposes to send *something* to GA. Populate your `customUserId` some other way. DO NOT COPY THIS.
   var prefix = ['abc', 'def', 'ghi'],
       middle = ['123', '456', '789'],
@@ -57,9 +58,10 @@ excerpt_separator: <!--more-->
       random = function() {
           return Math.floor(Math.random() * 3);
       };
+      
   // IMPORTANT: POPULATE YOUR OWN `customUserId` HERE...
   // Simple pseudo-random user id - 27 possible values
-  // This is *just* some &quot;random&quot; text that we're using as userIds. DO NOT COPY THIS.
+  // This is *just* some "random" text that we're using as userIds. DO NOT COPY THIS.
   // You'll need to implement something here linked to your customer database, CRM system, mailing list or whatever you're using
   var customUserId = prefix[random()] + '-' + middle[random()] + '-' + suffix[random()]; // e.g. abc-123-rst
   // Standard Google Universal Analytics code
@@ -67,10 +69,12 @@ excerpt_separator: <!--more-->
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-XXXXXX-Y', {'userId': customUserId});   // If &quot;User ID&quot; feature is available
+ 
+  ga('create', 'UA-XXXXXX-Y', {'userId': customUserId});   // If "User ID" feature is available
   ga('require', 'displayfeatures');
   ga('set', 'dimension1', customUserId);                   // Set a `customUserId` dimension at page level
   ga('send', 'pageview');
+  
 &lt;/script&gt;
 </code></pre>
 <p>Note that we're storing our <b>customUserId</b> in the custom dimension <b>dimension1</b>. This is assigned back to the <b>Custom User ID</b> configured in Google Analytics. For test purposes, and to ensure that <b>dimension1</b> is always assigned, we're setting its value on every page view.</p>
