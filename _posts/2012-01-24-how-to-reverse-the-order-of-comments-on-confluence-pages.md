@@ -45,23 +45,23 @@ Browse to **Confluence Admin | Look & Feel | Custom HTML**
 
 Add this to **At the end of the HEAD**:
 
-  <script>
-    function reverseCommentOrder() {
-     $comments = AJS.$('#page-comments');
-     $comments.children().each(function(i,li){$comments.prepend(li)});
-    }
-   AJS.toInit(function ($) {
-     // reverse the comment order
-     reverseCommentOrder();
-     // add a link to reverse the order
-      $('#comments-section-title').append('<a id="page-comments-reverse" href="#">(Reverse Order)</a>');
-      $('#page-comments-reverse')
-       .css({ 'color':'#999','font-size':'0.65em'})
-       .click(function (e) {
-         reverseCommentOrder();
-         e.preventDefault();
-       });
-   });
-  </script>
+    <script>
+      function reverseCommentOrder() {
+       $comments = AJS.$('#page-comments');
+       $comments.children().each(function(i,li){$comments.prepend(li)});
+      }
+     AJS.toInit(function ($) {
+       // reverse the comment order
+       reverseCommentOrder();
+       // add a link to reverse the order
+        $('#comments-section-title').append('<a id="page-comments-reverse" href="#">(Reverse Order)</a>');
+        $('#page-comments-reverse')
+         .css({ 'color':'#999','font-size':'0.65em'})
+         .click(function (e) {
+           reverseCommentOrder();
+           e.preventDefault();
+         });
+     });
+    </script>
               
 That's all. Have fun.
