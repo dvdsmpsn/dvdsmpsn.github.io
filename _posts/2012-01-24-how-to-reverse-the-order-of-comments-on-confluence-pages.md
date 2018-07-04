@@ -41,7 +41,7 @@ Job done.
 
 If you want to be able to reverse the order, then it's slightly more effort.
 
-Browse to **Confluence Admin | Look & Feel | Custom HTML**
+Browse to <b>Confluence Admin | Look & Feel | Custom HTML</b>
 
 Add this to **At the end of the HEAD**:
 
