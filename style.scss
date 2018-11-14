@@ -325,3 +325,8 @@ a.tag:hover {
 
 @import "highlights";
 @import "jekyll-mono";
+
+.highlight pre.highlight {
+    border: 0;
+    box-shadow: none;
+}
