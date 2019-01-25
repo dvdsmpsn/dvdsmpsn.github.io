@@ -12,6 +12,7 @@ description: deliver. iterate. repeat.
 url: https://davidsimpson.me
 enforce_ssl: davidsimpson.me
 
+title_image: /assets/dvdsmpsn-twitter-card.png
 
 #
 # Flags below are optional
@@ -29,7 +30,7 @@ footer-links:
   pinterest:
   rss: # just type anything here for a working RSS icon
   twitter: dvdsmpsn
-  stackoverflow:  # your stackoverflow profile, e.g. "users/3807565/akshay"
+  stackoverflow: /users/1958200/dvdsmpsn # your stackoverflow profile, e.g. "users/3807565/akshay"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
 
