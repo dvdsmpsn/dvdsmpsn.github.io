@@ -30,7 +30,7 @@ excerpt_separator: <!--more-->
 ---
 <p>The <a href="http://www.nottingham.ac.uk/">University of Nottingham</a> (my employers at the time) started using <a href="http://www.concur.com/">Concur</a>'s online travel & expense management system towards the end of 2010.  They needed a simple method of accessing the Concur system from their travel and expenses documentation (hosted in Confluence) without additional authentication prompts.</p>
 <p>A <a href="http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language" title="Security Assertion Markup Language">SAML</a>-based single sign-on plugin from Confluence to Concur was rapidly designed and built over the course of a single week.  Here's a demonstration of the basic functionality:</p>
-<p>http://www.youtube.com/watch?v=4sML2RAhqig</p>
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/4sML2RAhqig" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 <p>The workflow for the plugin  is essentially the same as the <a href="http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language#The_SAML_Use_Case">primary SAML use case</a>, except that we skip steps 1 & 2 in the diagram below.</p>
 <p><img src="{{ site.baseurl }}/assets/800px-Saml2-browser-sso-redirect-post.png" title="SAML workflow" class="alignnone" /></p>
 <p>In this case, Confluence acts as the Identity Provider and Concur is the Service Provider. When you click on the  "Sign in to Concur" link in the video step 3 of the workflow is initiated.</p>
