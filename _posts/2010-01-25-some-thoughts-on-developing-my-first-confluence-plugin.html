@@ -28,7 +28,7 @@ meta:
 author: David Simpson
 excerpt_separator: <!--more-->
 ---
-<p><img class="alignnone" title="ga-idea" src="{{ site.baseurl }}/assets/ga-idea2.png" alt="ga-idea" /></p>
+<p><img class="alignnone" title="ga-idea" src="{{ site.baseurl }}/wp-content/uploads/2010/01/ga-idea2.png" alt="ga-idea" /></p>
 <p><!-- Some thoughts on developing my first Confluence plugin  or A bluffer's guide to developing Confluence plugins --></p>
 <p>I recently started building Confluence plugins.  The first one being my <a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/">Google Analytics plugin for Confluence</a>. This post outlines my "journey" into Confluence plugin development.  It documents a beginner's pitfalls when developing with the Atlassian Plugin SDK. Hopefully others can learn from, or at least laugh at my mistakes.</p>
 <p>Where I was starting from:</p>
@@ -98,7 +98,7 @@ package: me.davdsimpson.confluence.plugins<br />
 <pre><code>cd googleanalytics<br />
 atlas-run</code></pre>
 <p>...and sit back.  If maven doesn't fall over for lack of memory at this point, you're laughing.  Go away, have a beer or two.  This may take some time.</p>
-<p><img class="aligncenter size-medium wp-image-525" title="Beer" src="{{ site.baseurl }}/assets/iStock_000009660877XSmall.jpg" alt="Beer" width="440" height="175" /></p>
+<p><img class="aligncenter size-medium wp-image-525" title="Beer" src="{{ site.baseurl }}/wp-content/uploads/2010/01/iStock_000009660877XSmall.jpg" alt="Beer" width="440" height="175" /></p>
 <p>On your return, maven will hopefully have finished dragging all manner of nonsense from Australia and installed a working copy of Confluence, together with an empty plugin onto your computer. Nice.  Next, write some code.</p>
 <p><strong>I like to run before I can walk.</strong> It seems like much more fun to attempt something that's harder.  You do fall over a lot more often though.  So rather than some kind of silly little hello world or equivalent plugin, my first plugin was an integration of Google Analytics with Confluence using the Google Analytics API to fetch data from Google.  It requires some additional JARs from Google.</p>
 <p>Google doesn't have a public maven repository to my knowledge and I'd no idea how to get these JARs added into maven.  Luckily, people had already written about <a href="http://www.techbits.de/2009/08/06/adding-googles-gdata-java-api-to-your-maven-repository/">parts</a> of <a href="http://blog.stuartlewis.com/2009/05/29/surfacing-google-analytics-stats-in-dspace/">this</a>, so I put 2 and 2 together.</p>
