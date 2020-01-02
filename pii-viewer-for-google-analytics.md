@@ -8,16 +8,16 @@ status: publish
 categories: []
 tags: []
 meta:
-  _edit_last: '1'
+  _edit_last: "1"
   _yoast_wpseo_focuskw: personally identifiable information
-  _yoast_wpseo_linkdex: '61'
+  _yoast_wpseo_linkdex: "61"
   _wp_page_template: default
-  _thumbnail_id: '2973'
+  _thumbnail_id: "2973"
 author: David Simpson
 excerpt_separator: <!--more-->
 ---
-<img src="{{ site.baseurl }}/assets/icon1281.png" width="64" height="64" class="alignleft size-full wp-image-2653" style="float:left; margin: 0 1em 1em 0;" />
 
+<img src="{{ site.baseurl }}/assets/icon1281.png" width="64" height="64" class="alignleft size-full wp-image-2653" style="float:left; margin: 0 1em 1em 0;" />
 
 **<abbr title="personally identifiable information">PII</abbr> Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.**
 
