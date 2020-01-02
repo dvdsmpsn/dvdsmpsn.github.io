@@ -174,10 +174,9 @@ let consoleNode, consoleNodeDesc, buttons;
 
 const clickHandler = e => {
   const note = JSON.parse(e.target.dataset.note);
-  console.log("click", note.positions, consoleNode, buttons);
 
-  consoleNode.innerHTML = `${note.name}: ${note.positions.natural}`;
-  consoleNodeDesc.innerHTML = `${note.name}&#9839;: ${note.positions.sharp} &nbsp; • &nbsp; ${note.name}&#9837;: ${note.positions.flat} `;
+  consoleNode.innerHTML = `${note.name} ${note.positions.natural}`;
+  consoleNodeDesc.innerHTML = `${note.name}&#9839; ${note.positions.sharp} • ${note.name}&#9837; ${note.positions.flat} `;
 
   Array.from(buttons).map(item => {
     item.setAttribute("data-focused", false);
@@ -195,12 +194,6 @@ window.onload = () => {
     note.setAttribute("class", item.class);
     note.setAttribute("data-note", JSON.stringify(item));
     note.onclick = clickHandler;
-
-    // note.onmouseup = e => {
-    //   e.preventDefault();
-    //   console.log("onmouseup", e);
-    // };
-
     note.appendChild(text);
     staff.appendChild(note);
   });
