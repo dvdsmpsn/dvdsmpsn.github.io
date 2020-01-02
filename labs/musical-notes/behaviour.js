@@ -147,27 +147,27 @@ var notes = [
       natural: "",
       flat: ""
     }
-  },
-
-  {
-    name: "B",
-    class: "", // 'none || 'full', 'ledger',
-    positions: {
-      sharp: "",
-      natural: "",
-      flat: ""
-    }
-  },
-
-  {
-    name: "C",
-    class: "ledger", // 'none || 'full', 'ledger',
-    positions: {
-      sharp: "",
-      natural: "",
-      flat: ""
-    }
   }
+
+  // {
+  //   name: "B",
+  //   class: "", // 'none || 'full', 'ledger',
+  //   positions: {
+  //     sharp: "",
+  //     natural: "",
+  //     flat: ""
+  //   }
+  // },
+
+  // {
+  //   name: "C",
+  //   class: "ledger", // 'none || 'full', 'ledger',
+  //   positions: {
+  //     sharp: "",
+  //     natural: "",
+  //     flat: ""
+  //   }
+  // }
 ];
 
 let consoleNode, consoleNodeDesc, buttons;
