@@ -22,6 +22,7 @@ body {
   flex-direction: column;
 
   font-size: 6vh;
+  letter-spacing: -2px;
 }
 
 #console-text-desc {
