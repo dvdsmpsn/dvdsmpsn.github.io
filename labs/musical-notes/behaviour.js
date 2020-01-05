@@ -13,7 +13,7 @@ var notes = [
     name: "B",
     class: "", // none || 'full', 'ledger',
     positions: {
-      sharp: "??",
+      sharp: "-",
       natural: "2",
       flat: "1"
     }
@@ -43,7 +43,7 @@ var notes = [
     name: "E",
     class: "full", // 'none || 'full', 'ledger',
     positions: {
-      sharp: "??",
+      sharp: "-",
       natural: "1 + 2",
       flat: "2 + 3"
     }
@@ -55,7 +55,7 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "1",
-      flat: "??"
+      flat: "-"
     }
   },
 
@@ -83,7 +83,7 @@ var notes = [
     name: "B",
     class: "full", // 'none || 'full', 'ledger',
     positions: {
-      sharp: "",
+      sharp: "-",
       natural: "2",
       flat: "1"
     }
@@ -95,7 +95,7 @@ var notes = [
     positions: {
       sharp: "1 + 2",
       natural: "0",
-      flat: ""
+      flat: "-"
     }
   },
 
@@ -105,7 +105,7 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "1",
-      flat: "1+2"
+      flat: "1 + 2"
     }
   },
 
@@ -133,7 +133,7 @@ var notes = [
     name: "G",
     class: "", // 'none || 'full', 'ledger',
     positions: {
-      sharp: "2",
+      sharp: "2 + 3",
       natural: "0",
       flat: "2"
     }
@@ -143,9 +143,9 @@ var notes = [
     name: "A",
     class: "ledger", // 'none || 'full', 'ledger',
     positions: {
-      sharp: "",
-      natural: "",
-      flat: ""
+      sharp: "1",
+      natural: "1 + 2",
+      flat: "2 + 3"
     }
   }
 
@@ -175,8 +175,8 @@ let consoleNode, consoleNodeDesc, buttons;
 const clickHandler = e => {
   const note = JSON.parse(e.target.dataset.note);
 
-  consoleNode.innerHTML = `${note.name} ${note.positions.natural}`;
-  consoleNodeDesc.innerHTML = `${note.name}&#9839; ${note.positions.sharp} • ${note.name}&#9837; ${note.positions.flat} `;
+  consoleNode.innerHTML = `${note.name} &nbsp; ${note.positions.natural}`;
+  consoleNodeDesc.innerHTML = `&#9839; ${note.positions.sharp} &nbsp; <span>•</span> &nbsp; &#9837; ${note.positions.flat} `;
 
   Array.from(buttons).map(item => {
     item.setAttribute("data-focused", false);

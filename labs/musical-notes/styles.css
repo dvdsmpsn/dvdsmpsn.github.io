@@ -26,9 +26,12 @@ body {
 }
 
 #console-text-desc {
-  font-size: 4vh;
+  /* font-size: 4vh; */
+  font-size: 26px;
 }
-
+#console span {
+  color: #aaa;
+}
 .cleff {
   position: absolute;
   left: -30px;

@@ -4,17 +4,17 @@ title: Projects
 permalink: /projects/
 ---
 
+### [PII Viewer for Google Analytics](/pii-viewer-for-google-analytics/)
 
-### [PII Viewer for Google Analytics](/pii-viewer-for-google-analytics/) 
 PII Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.
 
-***
+---
 
-### [Foreign Exchange](/fx/) 
+### [Foreign Exchange](/fx/)
+
 Currently just showing the GBP to USD exchange rate. Maybe I'll add some historic data and graphs at some point.
 
-
-***
+---
 
 ## Atlassian Add-Ons
 
@@ -26,7 +26,7 @@ Cloud Macros for Bitbucket and Confluence is the missing solution for users of b
 
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.bitbucket-issues/cloud/overview)
 - [Documentation](https://dvdsmpsn.atlassian.net/wiki/spaces/bitbucket)
-   
+
 ### Google Analytics for Confluence Cloud
 
 A private Atlassian Cloud add-on for tracking user interactionss within Confluence Cloud. Works nicely, but contact me if you want to know more.
@@ -51,7 +51,6 @@ For adding JSFiddles to your Confluence pages
 ## Donate
 
 If you find any of these projects useful, why not contribute to their maintenance:
-
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
    <input type="hidden" name="cmd" value="_s-xclick">
