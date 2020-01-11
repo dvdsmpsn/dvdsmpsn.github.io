@@ -4,15 +4,15 @@ title: Projects
 permalink: /projects/
 ---
 
-### [PII Viewer for Google Analytics](/pii-viewer-for-google-analytics/)
+### [Muscial Notes](/labs/musical-notes)
 
-PII Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.
+A progressive web app to allow me to learn the fingerings on a B&#9837; instrument such as Euphonioum or Baritone Horn.
 
 ---
 
-### [Foreign Exchange](/fx/)
+### [PII Viewer for Google Analytics](/pii-viewer-for-google-analytics/)
 
-Currently just showing the GBP to USD exchange rate. Maybe I'll add some historic data and graphs at some point.
+PII Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.
 
 ---
 
