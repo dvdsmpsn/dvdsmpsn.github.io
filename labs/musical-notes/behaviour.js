@@ -1,5 +1,14 @@
 var notes = [
   {
+    name: "G",
+    class: "", // 'none || 'full', 'ledger',
+    positions: {
+      sharp: "2 + 3",
+      natural: "1 + 3",
+      flat: "1 + 2 + 3"
+    }
+  },
+  {
     name: "A",
     class: "ledger", // none || 'full', 'ledger',
     positions: {
@@ -166,6 +175,16 @@ var notes = [
       sharp: "2",
       natural: "0",
       flat: "-"
+    }
+  },
+
+  {
+    name: "D",
+    class: "", // 'none || 'full', 'ledger',
+    positions: {
+      sharp: "2 or 2 + 3",
+      natural: "0 or 1",
+      flat: "2 or 1 + 2"
     }
   }
 ];
