@@ -3,12 +3,13 @@ body {
   height: 100%;
   margin: 0;
   font-family: sans-serif;
-  color: #666;
 }
 
 body {
   display: flex;
   flex-direction: column-reverse;
+  background-color: white;
+  color: #666;
 }
 
 #console {
@@ -30,7 +31,7 @@ body {
   font-size: 22px;
 }
 #console span {
-  color: #aaa;
+  color: rgba(128, 128, 128, 0.5);
 }
 .cleff {
   position: absolute;
@@ -117,4 +118,19 @@ button[data-focused="true"]:after {
 :root {
   --note-width: 50px;
   --note-height: 130%;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+  }
+  #console {
+    background: #111;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+  button[data-focused="true"]:after {
+    background: #ccc;
+  }
 }
