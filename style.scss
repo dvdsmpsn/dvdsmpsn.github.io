@@ -330,3 +330,48 @@ a.tag:hover {
     border: 0;
     box-shadow: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.highlight {
+  overflow: auto;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+  }
+  .masthead,
+  .masthead a,
+  .site-description {
+    color: black;
+  }
+
+
+  .wrapper-footer {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background-color: #333;
+  }
+
+  .highlight {
+    background-color: #333;
+    border: 1px solid #333;
+  }
+  .intro-header {
+      border-top: 5px solid black;
+  }
+}
