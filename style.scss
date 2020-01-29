@@ -345,8 +345,15 @@ a.tag:hover {
 
 
 
+
 .highlight {
   overflow: auto;
+  padding: 20px;
+  margin: 0;
+}
+div.highlight {
+  margin: 10px 0;
+  padding: 0;
 }
 
 @media screen and (prefers-color-scheme: dark) {
