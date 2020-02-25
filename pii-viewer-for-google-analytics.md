@@ -85,6 +85,6 @@ Our extensions use Google Analytics. Items currently being tracked by Google Ana
 
 <h2 id="donate">Did you find this useful?</h2>
 
-If you found this Chrome extension useful, why not say thanks by buying me a pot of tea to contribute to its maintenance. I don't do coffee.
+If you found this browser extension useful, why not say thanks by buying me a pot of tea to contribute to its maintenance. I don't do coffee.
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input type="hidden" name="cmd" value="_s-xclick" /><input type="hidden" name="hosted_button_id" value="47SSZXRKTN6FJ" /><input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." /><img alt="" border="0" src="{{ site.baseurl }}/assets/pixel.gif" width="1" height="1" /></form>
