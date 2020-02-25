@@ -53,6 +53,36 @@ This extension uses PII which is locally stored only, therefore this extension i
 
 Contacts at Google have confirmed that the extension is compliant with the terms of service.
 
+
+<h2 id="data-security">Data security and privacy statement</h2>
+
+**We do not read your data.**
+
+Our extensions are served by static files, and as such, store no data. All markup is rendered client-side, so no data is transmitted to our servers.
+
+Any configuration data saved is saved within your browser on your own computer and only accessed by client-side JavaScript.
+
+
+### Privacy
+**We do not read your data.**
+
+We do however reserve the right to track usage with web analytics software such as Google Analytics.
+
+
+#### Google Analytics
+Our extensions use Google Analytics. Items currently being tracked by Google Analytics:
+
+- Options page loadServer Base URL
+-- *e.g. /options.html*
+- Some events such as button clicks on the options page
+-- Attempts to upload a file into your browser 
+-- Whether the upload was successful or not
+-- A count of how many users were in the file, but not their details
+-- When the user mapping is updated
+
+
+
+
 <h2 id="donate">Did you find this useful?</h2>
 
 If you found this Chrome extension useful, why not say thanks by buying me a pot of tea to contribute to its maintenance. I don't do coffee.
