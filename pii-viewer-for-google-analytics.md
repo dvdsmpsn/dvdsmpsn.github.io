@@ -19,7 +19,7 @@ excerpt_separator: <!--more-->
 
 <img src="{{ site.baseurl }}/assets/icon1281.png" width="64" height="64" class="alignleft size-full wp-image-2653" style="float:left; margin: 0 1em 1em 0;" />
 
-**<abbr title="personally identifiable information">PII</abbr> Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.**
+**<abbr title="personally identifiable information">PII</abbr> Viewer for Google Analytics is a browser extension (for Chromium-based browsers) which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.**
 
 [ ![Mailchimp in GA - with PII](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png) ](/wp-content/uploads/2014/04/Mailchimp-in-GA-with-PII.png)
 
@@ -29,7 +29,7 @@ excerpt_separator: <!--more-->
 
 Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> in a custom dimension is permitted. This extension allows you to map the user ID stored in Google Analytics to locally stored PII such as name and email address.
 
-Rather than building your own custom integration to map this data together, you can simply reference a locally stored CSV file (or use the in-built Mailchimp integration) and let this Chrome extension do the hard work. This means that you full comply with the Google Analytics privacy policy, but get to understand your visitor data.
+Rather than building your own custom integration to map this data together, you can simply reference a locally stored CSV file (or use the in-built Mailchimp integration) and let this extension do the hard work. This means that you full comply with the Google Analytics privacy policy, but get to understand your visitor data.
 
 **Update**
 
@@ -40,7 +40,7 @@ PII Viewer for Google Analytics now supports identifying users in [Behaviour Flo
 ## Tutorials
 
 - [How to send user IDs to Google Analytics (including with custom dimensions)](/2014/04/20/tutorial-send-user-ids-google-analytics/)
-- [Using the PII Viewer for Google Analytics Chrome extension](/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/)
+- [Using the PII Viewer for Google Analytics browser extension](/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/)
 - [Displaying Mailchimp subscribers in Google Analytics using PII Viewer](/2014/09/24/displaying-mailchimp-subscribers-google-analytics/)
 
 ## Releases
