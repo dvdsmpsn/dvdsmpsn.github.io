@@ -16,7 +16,9 @@ PII Viewer for Google Analytics is a Google Chrome extension which allows you to
 
 ---
 
-## Atlassian Add-Ons
+## Atlassian Apps
+
+My Atlassian Apps are now detailed on a separate domain as <a href="https://dsapps.dev/" target="_blank">David Simpson Apps</a>
 
 ### Cloud Macros for Bitbucket & Confluence
 
