@@ -20,14 +20,13 @@ PII Viewer for Google Analytics is a Google Chrome extension which allows you to
 
 My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https://dsapps.dev/" target="_blank">David Simpson Apps</a>
 
-
 ### Google Analytics for Confluence Cloud
 
 An Atlassian Cloud app for tracking user interactions within Confluence Cloud.
 
 - [Google Analytics in Confluence - product website](https://dsapps.dev/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
-- [Documentation](https://dvdsmpsn.atlassian.net/wiki/display/analytics/Documentation)
+- [Documentation](https://dsapps.atlassian.net/wiki/display/analytics/Documentation)
 
 ### Gister Macro for Confluence Cloud
 
@@ -35,21 +34,20 @@ Effortlessly embed GitHub Gists into Confluence
 
 - [Gister Macro for Confluence Cloud - product website](https://dsapps.dev/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.gister/cloud/overview)
-- [Documentation](https://dvdsmpsn.atlassian.net/wiki/spaces/gister)
+- [Documentation](https://dsapps.atlassian.net/wiki/spaces/gister)
 
 ### Cloud Macros for Bitbucket & Confluence
 
 Cloud Macros for Bitbucket and Confluence is the missing solution for users of both Bitbucket Cloud and Confluence Cloud.
 
-![Cloud Macros for Bitbucket and Confluence](https://dvdsmpsn.atlassian.net/wiki/download/attachments/11567116/4-macros.png?version=1&modificationDate=1445942143501&cacheVersion=1&api=v2&effects=border-simple,blur-border)
+![Cloud Macros for Bitbucket and Confluence](https://dsapps.atlassian.net/wiki/download/attachments/11567116/4-macros.png?version=1&modificationDate=1445942143501&cacheVersion=1&api=v2&effects=border-simple,blur-border)
 
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.bitbucket-issues/cloud/overview)
-- [Documentation](https://dvdsmpsn.atlassian.net/wiki/spaces/bitbucket)
+- [Documentation](https://dsapps.atlassian.net/wiki/spaces/bitbucket)
 
 ### A JSFiddle Macro for Confluence Cloud
 
 For adding JSFiddles to your Confluence pages
-
 
 - [JSFiddle Macro for Confluence Cloud - product website](https://dsapps.dev/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.jsfiddle/server/overview)
