@@ -25,6 +25,8 @@ excerpt_separator: <!--more-->
 
 <p style="text-align: center;"><a target="_blank" title="Add to Google Chrome" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><img src="{{ site.baseurl }}/wp-content/uploads/2014/04/add-to-chrome.png" alt="" /></a></p>
 
+<p style="text-align:center;"><a target="_blank" href="https://microsoftedge.microsoft.com/addons/detail/jljblgkbeachmcginbdbmbfachjdhjli">Add to Microsoft Edge</a></p>
+
 ## How it works
 
 Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> in a custom dimension is permitted. This extension allows you to map the user ID stored in Google Analytics to locally stored PII such as name and email address.
