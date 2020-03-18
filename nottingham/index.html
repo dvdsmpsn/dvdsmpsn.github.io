@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nottingham webcam screenshots</title>
+    <style>
+      img {
+        width: 300px;
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      var baseUrl =
+        "https://www.itsnottingham.info/handler/proxy.ashx?http://data.nottinghamtravelwise.org.uk/images"; //  + '220.jpg'
+
+      $(function() {
+        var $body = $("body");
+        for (var i = 1; i < 230; i++) {
+          var src = [baseUrl, i, ".jpg?_=", new Date()].join("");
+          $body.append(
+            [
+              '<a target="_blank" href="',
+              src,
+              '"><img src="',
+              src,
+              '" /></a>'
+            ].join("")
+          );
+        }
+      });
+    </script>
+  </head>
+  <body></body>
+</html>
