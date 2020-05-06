@@ -134,3 +134,20 @@ button[data-focused="true"]:after {
     background: #ccc;
   }
 }
+
+button#webshare {
+  background-color: #3740ff;
+  position: absolute;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+}
+button#webshare svg {
+  width: 40px;
+  height: 40px;
+  max-width: 80%;
+  max-height: 80%;
+}

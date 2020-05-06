@@ -5,8 +5,8 @@ var notes = [
     positions: {
       sharp: "2 + 3",
       natural: "1 + 3",
-      flat: "1 + 2 + 3"
-    }
+      flat: "1 + 2 + 3",
+    },
   },
   {
     name: "A",
@@ -14,8 +14,8 @@ var notes = [
     positions: {
       sharp: "1",
       natural: "1 + 2",
-      flat: "2 + 3"
-    }
+      flat: "2 + 3",
+    },
   },
 
   {
@@ -24,8 +24,8 @@ var notes = [
     positions: {
       sharp: "0 (C)",
       natural: "2",
-      flat: "1"
-    }
+      flat: "1",
+    },
   },
 
   {
@@ -34,8 +34,8 @@ var notes = [
     positions: {
       sharp: "1 + 2 + 3",
       natural: "0",
-      flat: "2 + 3"
-    }
+      flat: "2 + 3",
+    },
   },
 
   {
@@ -44,8 +44,8 @@ var notes = [
     positions: {
       sharp: "2 + 3",
       natural: "1 + 3",
-      flat: "1 + 2 + 3"
-    }
+      flat: "1 + 2 + 3",
+    },
   },
 
   {
@@ -54,8 +54,8 @@ var notes = [
     positions: {
       sharp: "1",
       natural: "1 + 2",
-      flat: "2 + 3"
-    }
+      flat: "2 + 3",
+    },
   },
 
   {
@@ -64,8 +64,8 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "1",
-      flat: "-"
-    }
+      flat: "-",
+    },
   },
 
   {
@@ -74,8 +74,8 @@ var notes = [
     positions: {
       sharp: "2 + 3",
       natural: "0",
-      flat: "2"
-    }
+      flat: "2",
+    },
   },
 
   {
@@ -84,8 +84,8 @@ var notes = [
     positions: {
       sharp: "1",
       natural: "1 + 2",
-      flat: "2 + 3"
-    }
+      flat: "2 + 3",
+    },
   },
 
   {
@@ -94,8 +94,8 @@ var notes = [
     positions: {
       sharp: "0 (C)",
       natural: "2",
-      flat: "1"
-    }
+      flat: "1",
+    },
   },
 
   {
@@ -104,8 +104,8 @@ var notes = [
     positions: {
       sharp: "1 + 2",
       natural: "0",
-      flat: "-"
-    }
+      flat: "-",
+    },
   },
 
   {
@@ -114,8 +114,8 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "1",
-      flat: "1 + 2"
-    }
+      flat: "1 + 2",
+    },
   },
 
   {
@@ -124,8 +124,8 @@ var notes = [
     positions: {
       sharp: "1",
       natural: "0",
-      flat: "2"
-    }
+      flat: "2",
+    },
   },
 
   {
@@ -134,8 +134,8 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "1",
-      flat: "-"
-    }
+      flat: "-",
+    },
   },
 
   {
@@ -144,8 +144,8 @@ var notes = [
     positions: {
       sharp: "2 + 3",
       natural: "0",
-      flat: "2"
-    }
+      flat: "2",
+    },
   },
 
   {
@@ -154,8 +154,8 @@ var notes = [
     positions: {
       sharp: "1",
       natural: "1 + 2",
-      flat: "2 + 3"
-    }
+      flat: "2 + 3",
+    },
   },
 
   {
@@ -164,8 +164,8 @@ var notes = [
     positions: {
       sharp: "0 (C)",
       natural: "2",
-      flat: "1"
-    }
+      flat: "1",
+    },
   },
 
   {
@@ -174,8 +174,8 @@ var notes = [
     positions: {
       sharp: "2",
       natural: "0",
-      flat: "-"
-    }
+      flat: "-",
+    },
   },
 
   {
@@ -184,14 +184,14 @@ var notes = [
     positions: {
       sharp: "2 or 2 + 3",
       natural: "0 or 1",
-      flat: "2 or 1 + 2"
-    }
-  }
+      flat: "2 or 1 + 2",
+    },
+  },
 ];
 
 let consoleNode, consoleNodeDesc, buttons;
 
-const clickHandler = e => {
+const clickHandler = (e) => {
   const note = JSON.parse(e.target.dataset.note);
 
   consoleNode.innerHTML = `${note.name} &nbsp; ${note.positions.natural}`;
@@ -210,16 +210,31 @@ const clickHandler = e => {
 
   consoleNodeDesc.innerHTML = desc;
 
-  Array.from(buttons).map(item => {
+  Array.from(buttons).map((item) => {
     item.setAttribute("data-focused", false);
   });
   e.target.setAttribute("data-focused", true);
 };
 
+const shareHandler = (e) => {
+  if (navigator.share) {
+    navigator
+      .share({
+        title: "Musical Notes for B♭ instruments",
+        text: "Check out Musical Notes for B♭ instruments.",
+        url: "https://davidsimpson.me/labs/musical-notes/",
+      })
+      .then(() => console.log("Successful share"))
+      .catch((error) => console.log("Error sharing", error));
+  } else {
+    console.log("webshare not supported by browser");
+  }
+};
+
 window.onload = () => {
   const staff = document.getElementById("staff");
   let buttonHeight = 0;
-  notes.map(item => {
+  notes.map((item) => {
     // const text = document.createTextNode(item.name);
 
     const note = document.createElement("button");
@@ -247,4 +262,11 @@ window.onload = () => {
   lines = document.getElementsByClassName("line");
   consoleNode = document.getElementById("console-text");
   consoleNodeDesc = document.getElementById("console-text-desc");
+
+  const shareButton = document.getElementById("webshare");
+  shareButton.onclick = shareHandler;
+
+  if (!navigator.share) {
+    shareButton.hidden = true;
+  }
 };
