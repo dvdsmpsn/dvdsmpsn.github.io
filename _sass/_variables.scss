@@ -1,8 +1,6 @@
-
 //
 // VARIABLES
 //
-
 
 // Colors
 
@@ -12,29 +10,26 @@ $darkGray: #333;
 $gray: #666;
 $lightGray: #eee;
 $white: #fff;
-$blue: #4183C4;
+$blue: #4183c4;
 
-
-// Main theme colors 
+// Main theme colors
 // Some cool main theme colors(violet:#8476ad;blue:#5cacee;red:#ff7373,#ff6f69;green:#6acf64,#2ddbb3;orange:#ffa268)
 
-$mono-color: #6acf64;                // main theme color(header, links, footer icons, buttons, post-title)
-$hl-color: $darkGray;              // header link color (author name and posted on date) for blog post meta 
-$navbar-hover-color:$gray;        // navbar hover color (site name and navbar links hover color)
-$link-color: #5cacee;        // normal hyperlink color other than the ones above.
-
+$mono-color: #6acf64; // main theme color(header, links, footer icons, buttons, post-title)
+$hl-color: $darkGray; // header link color (author name and posted on date) for blog post meta
+$navbar-hover-color: $gray; // navbar hover color (site name and navbar links hover color)
+$link-color: #5cacee; // normal hyperlink color other than the ones above.
 
 // Heading colors
 // You can play around with these too!
 $h1-color: $mono-color;
-$h2-color: $mono-color; 
-$h3-color: $darkerGray; 
-$h4-color: $gray; 
+$h2-color: $mono-color;
+$h3-color: $darkerGray;
+$h4-color: $gray;
 
 // Your avatar
 
-$avatar: "https://raw.githubusercontent.com/AkshayAgarwal007/Jekyll-Mono/gh-pages/images/avatar.jpg";
-
+$avatar: "/images/avatar.jpg";
 
 // Font stacks
 $helvetica: Helvetica, Arial, sans-serif;
