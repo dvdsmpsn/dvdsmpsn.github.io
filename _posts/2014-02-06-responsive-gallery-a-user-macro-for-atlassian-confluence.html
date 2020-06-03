@@ -1,0 +1,58 @@
+---
+layout: post
+title: Responsive gallery - a user macro for Atlassian Confluence
+date: 2014-02-06 10:22:06.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- confluence
+- user macro
+meta:
+  _wp_old_slug: responsive-gallery-macro-for-atlassian-confluence
+  tmac_last_id: '618797320738504704'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>The Confluence gallery macro is handy. In its most basic form, it adds all attached images into the page. Unfortunately, it puts the images in a table. Really? Well, I'm sure they'll get around to fixing that eventually.</p>
+<p>Meantime, I'd like the gallery to display as many images as it can in a a row, and <em>then</em> wrap to the next line.</p>
+<p>Shouldn't be too hard, right?</p>
+<p>Indeed it isn't. A little user macro wrapper with some client side code to clean up the markup seems to do the job:</p>
+<pre><code>
+## Macro: responsive-gallery<br />
+## Macro title: Responsive Gallery<br />
+## Macro has a body: N<br />
+## Body processing: n/a<br />
+## Output: HTML<br />
+##<br />
+## Developed by: David Simpson &lt;david@davidsimpson.me&gt;<br />
+## Date created: 2013-11-20<br />
+## Installed by: My Name</p>
+<p>## @noparams</p>
+<p>&lt;ac:structured-macro ac:name=&quot;gallery&quot; /&gt;</p>
+<p>&lt;script&gt;<br />
+  (function() { // from: http://stackoverflow.com/a/8584217/1958200<br />
+    jQuery.fn.changeElementType = function(newType) {<br />
+      var attrs = {};<br />
+      jQuery.each(this[0].attributes, function(idx, attr) {<br />
+        attrs[attr.nodeName] = attr.nodeValue;<br />
+      });<br />
+      this.replaceWith(function() {<br />
+        return jQuery(&quot;&lt;&quot; + newType + &quot;/&gt;&quot;, attrs).append($(this).contents());<br />
+      });<br />
+    }<br />
+  })(jQuery);</p>
+<p>  jQuery(&quot;td.gallery-image&quot;)<br />
+    .unwrap().unwrap().unwrap() // unwrap tr, tbody &amp; table<br />
+    .changeElementType(&quot;span&quot;);<br />
+  jQuery('.gallery tr').remove(); // remove extra rows<br />
+  jQuery('a.gallery-link').css({'display':'inline'}); // fix styles<br />
+&lt;/script&gt;<br />
+</code></pre>
+<p>With this your gallery will fit the page width.</p>
+<p>Here's a demo</p>
+<p><iframe width="100%" height="470" src="//www.youtube.com/embed/HWZ_BqX8Tno" frameborder="0" allowfullscreen></iframe></p>
+<p>When Atlassian catch up and make the gallery macro responsive, you can simply remove the JavaScript </p>

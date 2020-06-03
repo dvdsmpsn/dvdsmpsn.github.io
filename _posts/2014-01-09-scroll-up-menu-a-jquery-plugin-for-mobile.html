@@ -1,0 +1,39 @@
+---
+layout: post
+title: Scroll Up Menu - a jQuery plugin for mobile
+date: 2014-01-09 00:41:10.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- usability
+- web
+tags:
+- jQuery
+- mobile
+- ui patterns
+meta:
+  tmac_last_id: '618797326547574784'
+  _edit_last: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<h2>Born out of annoyance</h2>
+<p>Fixed headers and menus are everywhere on mobile 'friendly' sites and I hate them. On iOS for example, they really get in the way if you're viewing a page in a WebView for some application. This isn't as big a deal on Android because the browser takes control. Android is good like that.</p>
+<p>Either way, fixed headers are really annoying, especially when paired with fixed footers for advertisements. One example of this (though there are many) is the Forbes website when viewed in Tweetbot:</p>
+<p><a href="/wp-content/uploads/2014/01/forbes.png"><img src="{{ site.baseurl }}/assets/forbes.png" alt="forbes" width="2170" height="1630" class="alignnone size-full wp-image-2306" /></a></p>
+<p>You have the top and bottom chrome from Tweetbox, the Forbes header and menu bar, and a fixed footer advertisement. The actual readable content area is minimal. Scrolling at least removes the Forbes logo, but there's so much unwanted stuff onscreen detracting from the content. </p>
+<h2>Scroll up for menu pattern</h2>
+<p>Having browsed <a href="http://wired.com/">wired.com</a> on iOS, I noticed that their menu/header disappears out of the way when you're reading an article. Scrolling up slightly conveniently activates the header menu immediately.</p>
+<p>This is a great pattern for mobile sites. It maximises the available space for content yet makes navigation a doddle.</p>
+<h2>Scroll Up Menu jQuery plugin</h2>
+<p>Unfortunately, I couldn't find any mention of this pattern elsewhere, so leaped ahead and rolled my own - <strong>Scroll Up Menu</strong>. It's written as a jQuery plugin - simply because jQuery is so very popular.</p>
+<p>Usage:</p>
+<p><code>$('#top').scrollUpMenu();</code></p>
+<p>This assumes that the header is contained in a `#top` selector. </p>
+<ul>
+<li><a href="/labs/scroll-up-menu/demo.html"><i class="fa fa-eye"></i> View Demo</a></li>
+<li><a href="https://github.com/dvdsmpsn/Scroll-Up-Menu"><i class="fa fa-code-fork"></i> Fork on Github</a></li>
+</ul>
+<p>Having recently migrated to a <a href="http://caslay.com/tiny/">WordPress theme</a> that I really like, which actually has a fixed header (yes, really), I'll endeavour to apply this to the blog as soon as possible.</p>

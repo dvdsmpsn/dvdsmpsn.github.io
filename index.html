@@ -3,10 +3,11 @@ layout: default
 ---
 
 <div class="posts">
-  {% for post in site.posts %}
+  {% for post in site.posts limit:10 %}
     <article class="post">
 
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+      <div class="meta">{{ post.date | date: "%B %e, %Y" }}</div>
 
       <div class="entry">
         {{ post.excerpt }}
@@ -15,4 +16,15 @@ layout: default
       <a href="{{ site.baseurl }}{{ post.url }}" class="button button-primary">Read More</a>
     </article>
   {% endfor %}
+  
+  <h1>Older posts</h2>
+  <ul>
+  {% for post in site.posts offset:10 %}
+    <li>
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      <span class="meta">{{ post.date | date: "%B %e, %Y" }}</span>
+    </li>
+  {% endfor %}  
+  </ul>
+
 </div>

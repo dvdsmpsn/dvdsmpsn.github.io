@@ -1,0 +1,52 @@
+---
+layout: post
+title: 'HTML5 data attributes are made to #measure'
+date: 2011-06-15 00:56:09.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '1129'
+  tmac_last_id: '618797377969889280'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><img src="{{ site.baseurl }}/assets/flickr-robynlou8-4808929775.jpeg" alt="" title="flickr-robynlou8-4808929775" class="alignnone size-full wp-image-1129" /></p>
+<p>Often when writing web apps, it's nice to report errors (or just some kind of event) to the user in a calm and unassuming manner, but at the same time flag these events to the developers in an entirely different and likely more geeky manner.</p>
+<p>One way of doing this is simply to log the event to the server logs and move on. This is fine if you then back this up with some kind of server logs search engine, e.g. <a href="http://splunk.com/">Splunk</a> or <a href="http://loglogic.com/">LogLogic</a>.</p>
+<p>If that's out of reach or not relevant to you, why not make use of your favorite web analytics platform.<!--more--> You can log anything here as an event and then leverage the richness of the reporting engine to build custom reports on your chosen event metric. This has the real advantage of easy access to historical data so you can quickly establish patterns of activity and adapt your web app as required.</p>
+<p>But wait, didn't I mention something about HTML5 in the title?</p>
+<p>HTML5 introduced custom data attributes. Simply put, any attribute that starts with "data-" is treated as a storage area for private data that the end user will not see. This is a perfect place to store secret data that you wish to collect with your favorite web analytics platform.  For example, Google Analytics gives you the ability to track events (or indeed create virtual pageviews). </p>
+<p>Combine both of these and you have a very useful reporting mechanism. </p>
+<p>Take this simple HTML markup:</p>
+<pre><code>
+&lt;div class=&quot;measure&quot;<br />
+  data-analytics-action=&quot;Example action for Google Analytics&quot;  <br />
+  data-analytics-category=&quot;Example category for Google Analytics&quot;  <br />
+  data-analytics-label=&quot;Example label for Google Analytics&quot;&gt;<br />
+    Keep calm and carry on.<br />
+&lt;/div&gt;<br />
+</code></pre>
+<p>...and this simple drop of jQuery:</p>
+<pre><code>
+jQuery('.measure').each(function(){<br />
+  _gaq.push(['_trackEvent', <br />
+    jQuery(this).attr('data-analytics-action'),<br />
+    jQuery(this).attr('data-analytics-category'), <br />
+    jQuery(this).attr('data-analytics-label')<br />
+  ]);<br />
+});<br />
+</code></pre>
+<p>When used in combination, it provides:</p>
+<ul>
+<li>Something warm and fluffy for the end user</li>
+<li>The potential for detailed reporting for your web developer</li>
+</ul>
+<p>Handy if you want to add human friendly error messages to your page, but track developer-friendly error messages.</p>
+<p><small style="font-size:60%;">Photo credit: <a href="http://www.flickr.com/photos/robynlou8/4808929775">does it measure up? by Robynlou Kavanagh</a>.</small></p>

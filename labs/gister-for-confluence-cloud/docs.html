@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Gister Macro for Confluence Cloud</title>
+	<link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui.css" media="all" />
+	<!--[if IE 9]><link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui-ie9.css" media="all" /><![endif]-->
+	<link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui-experimental.css" media="all">
+	<link rel="stylesheet" href="gister.css?_=2015-02-17_04" media="all">
+
+
+	<script src="marked.min.js"></script>
+
+</head>
+<body class="aui-layout aui-theme-default aui-page-hybrid">
+	<div id="page">
+	
+		<header id="header" role="banner">
+		<!-- App Header goes inside #header -->
+
+		  <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
+			  <div class="width">
+			      <div class="aui-header-primary">
+			          <h1 id="logo" class="aui-header-logo aui-header-logo-custom">
+						  <a href="http://davidsimpson.me/labs/gister-for-confluence-cloud/docs.html">
+							  <img src="logo.png">
+							  <span class="aui-header-logo-text">Gister Macro for Confluence Cloud</span>
+						  </a>
+					  </h1>
+					</div>
+				</div>
+			</nav>
+		</header>
+	
+	
+	
+		<section id="content" role="main">
+	        <header class="aui-page-header">
+	            <div class="aui-page-header-inner">
+	                <div class="aui-page-header-main">
+	                    <h1>
+	                        Documentation
+	                    </h1>
+	                </div>
+	            </div>
+	        </header>
+
+	        <div class="aui-page-panel">
+	            <div class="aui-page-panel-inner">
+            
+					<div class="aui-page-panel-nav">
+					    <nav class="aui-navgroup aui-navgroup-vertical">
+					        <div class="aui-navgroup-inner">
+            
+							<!--
+					            <div class="aui-nav-heading">
+					                <strong>Markdown Basics</strong>
+					            </div>
+								<ul class="aui-nav __skate">  								
+									<li><a href="#para">Paragraphs, Headers, Blockquotes</a></li>
+							        <li><a href="#phrase-emphasis">Phrase Emphasis</a></li>
+							        <li><a href="#lists">Lists</a></li>
+									<li><a href="#links">Links</a></li>
+    								<li><a href="#images">Images</a></li>
+    								<li><a href="#code">Code</a></li>
+								</ul>
+							-->
+					            <div class="aui-nav-heading">
+					                <strong>Gister Macro for Confluence Cloud</strong>
+					            </div>
+								<ul class="aui-nav __skate">  								
+									<li><a href="atlassian-connect.json">atlassian-connect.json</a></li>
+								</ul>
+								
+					        </div>
+					    </nav>
+					</div>
+	                <section class="aui-page-panel-content ac-page">
+						<div id="marked">
+							<span class="aui-icon aui-icon-wait"></span>
+							Loading...
+						</div>
+	                </section>
+	            </div>
+	        </div>
+	    </section>
+		
+		<footer id="footer" role="contentinfo">
+		            <section class="footer-body">
+		                <ul id="aui-footer-list">
+		                    <li>Copyright &copy; 2014 David Simpson</li>
+		                </ul>
+		                <div id="footer-logo-dvdsmpsn">
+		                    <a href="http://davidsimpson.me/">David Simpson</a>
+		                </div>
+		            </section>
+		        </footer>
+	
+	</div>
+	
+	
+	
+<div id="markdown-source">
+
+## Gister Macro for Confluence Cloud
+
+It's so simple and easy to use.
+
+1. Type `{gist` in a Confluence page
+1. Select the **Gister** macro
+1. Paste the URL of your gist, e.g. `https://gist.github.com/dvdsmpsn/1c3b9d24d73d619733b6`
+1. Save the macro and the page
+
+Voilà! Your gist is embedded in the page.
+
+</div>
+	
+	
+
+
+	
+	<script>
+		window.onload = function () {
+			var e = document.getElementById('marked');
+			e.innerHTML = marked(document.getElementById('markdown-source').innerHTML);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+---
+layout: post
+title: Update your user macros on Confluence 5.5.1 and atlassian-xwork-core-1.17
+date: 2014-05-22 10:54:54.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  tmac_last_id: '618797307203420160'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Following yesterdays <a href="https://confluence.atlassian.com/display/DOC/Confluence+Security+Advisory+2014-05-21">Atlassian security advisory for Confluence</a>, it looks like there are some added steps required for people who have user macros. Be careful folks.</p>
+<p><a href="https://twitter.com/BergerofLondon">@BergerofLondon</a> spotted this first:</p>
+<blockquote class="twitter-tweet"en"><p>Following upgrade to Confluence 5.5.1 the values of parameters in user macros cannot be evaluated the same way. Discovered this the hard way</p>
+<p>&mdash; Berger (@BergerofLondon) <a href="https://twitter.com/BergerofLondon/statuses/469419808128503808">May 22, 2014</a></p></blockquote>
+<blockquote class="twitter-tweet"en"><p>You can&#39;t use the same shorthand you use for standard variables. <a href="https://twitter.com/search?q=%23if&amp;src=hash">#if</a> ($paramistrue) will always evaluate as true.</p>
+<p>&mdash; Berger (@BergerofLondon) <a href="https://twitter.com/BergerofLondon/statuses/469420013154488320">May 22, 2014</a></p></blockquote>
+<blockquote class="twitter-tweet"en"><p>You now have to use things like <a href="https://twitter.com/search?q=%23if&amp;src=hash">#if</a> ($paramistrue == true) or <a href="https://twitter.com/search?q=%23if&amp;src=hash">#if</a> ($paramistrue == false).</p>
+<p>&mdash; Berger (@BergerofLondon) <a href="https://twitter.com/BergerofLondon/statuses/469420360761638912">May 22, 2014</a></p></blockquote>
+<blockquote class="twitter-tweet"en"><p><a href="https://twitter.com/baitman">@baitman</a> For strings I can no longer do <a href="https://twitter.com/search?q=%23if&amp;src=hash">#if</a> ($paramfoo), I have to do <a href="https://twitter.com/search?q=%23if&amp;src=hash">#if</a> ($paramfoo).length() &gt; 0. Which is crazy.</p>
+<p>&mdash; Berger (@BergerofLondon) <a href="https://twitter.com/BergerofLondon/statuses/469424156648685569">May 22, 2014</a></p></blockquote>
+<blockquote class="twitter-tweet"en"><p><a href="https://twitter.com/baitman">@baitman</a> Also, if you&#39;re upgrading to 5.5.1 to fix the security vulnerability double-check that it&#39;s upgraded xwork to 1.17. Ours wasn&#39;t.</p>
+<p>&mdash; Berger (@BergerofLondon) <a href="https://twitter.com/BergerofLondon/statuses/469425606888022016">May 22, 2014</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>The update to <b>atlassian-xwork-core-1.17.jar</b> means you have to be more specific with your coding. Thanks to <a href="https://twitter.com/BergerofLondon">@BergerofLondon</a> for the heads up.</p>

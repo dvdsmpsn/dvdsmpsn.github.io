@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Can you get rounded corners on an iframe?</title>
+		<style>
+			html {
+				font-size: 80%;
+				font-family: georgia, serif;
+			}
+			body {
+				font-family:100%;
+				width: 320px;
+				margin: 2em auto;
+				line-height: 180%;
+			}
+			iframe {
+				border: 10px solid #ccc;
+				width: 100%;
+				height: 480px;
+				border-radius: 10px;
+				text-align: center;
+				display: block;
+			}
+			code {
+				font-family: courier;
+			}
+		</style>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-920590-3']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<h1>Can you get rounded corners on an iframe?</h1>
+		<iframe src="http://davidsimpson.me/"></iframe>
+		
+		<p>Using <code>border-radius</code> doesn't work, so I guess not. The scrollbars would likely be difficult to render.</p>
+
+	</body>
+</html>

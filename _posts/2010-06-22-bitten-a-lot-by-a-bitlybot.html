@@ -1,0 +1,85 @@
+---
+layout: post
+title: Bitten a lot by a bitlybot
+date: 2010-06-22 00:29:14.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- bad coding
+- bitly
+- bitlybot
+meta:
+  _topsy_cache_timestamp: '1299686050'
+  _syntaxhighlighter_encoded: '1'
+  _topsy_long_url: /2010/06/22/bitten-a-lot-by-a-bitlybot/
+  topsy_short_url: http://bit.ly/a81ZZF
+  _wp_old_slug: ouch-website-bitten-a-lot-by-a-bitlybot
+  _oembed_eb07d48f32e64e669856aa7509ae3865: "{{unknown}}"
+  _oembed_ac3af0ae3eb1860cb3f8595c09a9e697: "{{unknown}}"
+  _oembed_eaecdc692d1553534827c913833c4943: "{{unknown}}"
+  _edit_last: '1'
+  _oembed_4d0de38eb038d2d5f2ef1fc3a03fbdcc: "{{unknown}}"
+  _oembed_4bbc088aaaecbece70f0cbb1846aec5e: "{{unknown}}"
+  _oembed_a50ebd2eee6c596933a7b5777e7189ec: "{{unknown}}"
+  tmac_last_id: '618797392976973824'
+  _oembed_5696d3db9bc5f33d1fdd8aff5867da6b: "{{unknown}}"
+  _oembed_474619960e7a198bf99fa437b63e4177: "{{unknown}}"
+  _oembed_c403d5a23c7bbda223dde8a4af207740: "{{unknown}}"
+  _oembed_9a804cf1659c110bd53670fc28728f12: "{{unknown}}"
+  _oembed_361384338013630f4c98684058614fb6: "{{unknown}}"
+  _oembed_1ac7d492e2d2d16c9a190e3800ecd6ba: "{{unknown}}"
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><a href="http://bit.ly/"><img src="{{ site.baseurl }}/assets/blowfish_twtr.png" alt="Bitly" title="Bitly blowfish" width="73" height="73" class="alignleft size-full wp-image-841" /></a></p>
+<p>This website and one or two others I run recently experienced what appeared to be a denial-of-service attack.   </p>
+<p>Looking at the access logs, I could see several tens of thousands of requests all originating from a range of amazonaws.com IP addresses. All with the useragent "bitlybot".</p>
+<p>This post is a quick postmortem of what went wrong and why.<br />
+<!--more-->	</p>
+<h2>So what happened?</h2>
+<p>I've been happily using the excellent <a href="http://bit.ly/">bit.ly</a> URL shortening API on the <a href="http://www.read-able.com/">Readability Test Tool</a> website for over a year with no problems at all.  Whenever a user checks the readability of a web page using the Readability Test Tool, a convenient "tweet this" link is provided for the results page.  </p>
+<p>My bit.ly link also innocently appended a query string &mdash; <strong>&utm_source=twitter&utm_medium=retweet</strong> &mdash; so that I can track click-throughs from Twitter in <a hef="http://www.google.com/analytics/">Google Analytics</a>.  </p>
+<p>Looking back at this, it wasn't that clever a thing to do, but it only took a couple of minutes to implement, so was very little effort for a nice bit of analytics/measurement return.</p>
+<p>All was good for a year.  Google Analytics tracking worked well.  There were no problems.  Indeed looking back at the access logs, the bitlybot user agent had not so much as sniffed the website once in that time. </p>
+<p>One day, something changed.  Overnight bitlybot started crawling my website for all the links it had created over the year.  Unfortunately for every link it crawl, it also created another link appending more parameters to the query string. </p>
+<p>Which it then crawled. Creating another link with more appended query parameters.  Ouch.</p>
+<p>e.g.<br />
+<pre><code>
+http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet<br />
+http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet<br />
+http://www.read-able.com/check.php?uri=http%3A%2F%2Fwww.example.com%2F&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet&amp;utm_source=twitter&amp;utm_medium=retweet<br />
+</code></pre>
+<p>And so on.</p>
+<h2>What did I do?</h2>
+<p>Initially I ranted on Twitter.  </p>
+<p>Then I removed the "tweet this" link to prevent further bit.ly URLs from being created.  This wouldn't stop things for while, but would at least prevent the problem from getting any worse.</p>
+<p>Then I edited robots.txt:<br />
+<pre><code>
+# Tell &quot;bitlybot&quot; not to come here at all
+User-agent: bitlybot
+Disallow: /
+</code></pre>
+
+<p>This did not work - bitlybot only checks robots.txt once a day, so this would not improve matters instantly.</p>
+<p>Then I redirected the traffic to bit.ly:<br />
+<pre><code> language="php"]<br />
+if ($_SERVER['HTTP_USER_AGENT'] == 'bitlybot')<br />
+{<br />
+	header('Location: http://bit.ly/', true, 301);<br />
+}<br />
+</code></pre>
+<p>That slowed it a bit.  Admittedly, I was still blaming them at this point.</p>
+<p>Then <a href="http://twitter.com/dvdsmpsn/status/12973263701">I reached out to @bitly</a>.</p>
+<p>They were very responsive. I sent them a detailed email with a section of access logs and they fixed it.  Quickly.</p>
+<p>They disabled my account, preventing me from causing any further mischief.  They stopped bitlybot from it's crawling activity and reported the progress back to me.</p>
+<p>Each contact with bit.ly via twitter or email resulted in a positive response &mdash; they were very quick to respond and my websites were soon back to their usual somewhat diminutive volume of traffic.</p>
+<h2>Conclusions</h2>
+<ul>
+<li>Bit.ly has excellent support - they are very responsive and my little server was soon back to normal</li>
+<li>Think before you write code that uses other people's APIs - you may not fully understand the consequences of your actions</li>
+<li>My Google Analytics tracking parameters were added with little thought - I really ought to have tried a bit harder to weigh up the implications</li>
+<li>My small VPS does nicely thank you for the limited traffic that it experiences.  Given some decent volumes of traffic it will fail.</li>
+</ul>

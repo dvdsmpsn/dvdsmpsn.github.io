@@ -1,0 +1,64 @@
+---
+layout: post
+title: Runing a web server in the current directory
+date: 2015-05-07 08:51:57.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- web
+tags:
+- note to self
+- web server
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  tmac_last_id: '618797284420136960'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Sometimes I want to run a simple web server in the current directory. </p>
+<p>There are many ways to do this. Here's here's one using <a href="https://www.npmjs.com/package/serve"> npm / serve </a>.</p>
+<h2>Installation</h2>
+<pre><code>
+npm install serve -g<br />
+. ~/.profile<br />
+</code></pre>
+<h2>Running</h2>
+<pre><code>
+cd /path/to/directory<br />
+serve<br />
+</code></pre>
+<p>You get this message:<br />
+<pre><code>
+serving /path/to/directory on port 3000<br />
+</code></pre>
+<p>You can now access the directory in a browser:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2015/05/serve.png"><img src="{{ site.baseurl }}/assets/serve.png" alt="serve" width="1151" height="613" class="alignnone size-full wp-image-3187" /></a></p>
+<h3>Options</h3>
+<p>There are more options available:</p>
+<pre><code>
+serve -h</p>
+<p>  Usage: serve [options] [dir]</p>
+<p>  Options:</p>
+<p>    -h, --help                output usage information<br />
+    -V, --version             output the version number<br />
+    -a, --auth &lt;user&gt;:&lt;pass&gt;  specify basic auth credentials<br />
+    -F, --format &lt;fmt&gt;        specify the log format string<br />
+    -p, --port &lt;port&gt;         specify the port [3000]<br />
+    -H, --hidden              enable hidden file serving<br />
+    -S, --no-stylus           disable stylus rendering<br />
+    -J, --no-jade             disable jade rendering<br />
+        --no-less             disable less css rendering<br />
+    -I, --no-icons            disable icons<br />
+    -L, --no-logs             disable request logging<br />
+    -D, --no-dirs             disable directory serving<br />
+    -f, --favicon &lt;path&gt;      serve the given favicon<br />
+    -C, --cors                allows cross origin access serving<br />
+        --compress            gzip or deflate the response<br />
+        --exec &lt;cmd&gt;          execute command on each request<br />
+</code></pre>

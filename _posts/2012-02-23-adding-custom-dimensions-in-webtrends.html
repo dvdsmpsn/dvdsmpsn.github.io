@@ -1,0 +1,61 @@
+---
+layout: post
+title: Adding custom dimensions in Webtrends. A video tutorial.
+date: 2012-02-23 19:40:59.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- analytics
+- video
+- webtrends
+meta:
+  tmac_last_id: '618797362664837120'
+  _edit_last: '1'
+  _oembed_da6443a46dbea29c2bdacde723307754: <iframe width="500" height="375" src="http://www.youtube.com/embed/3Xd6uSUBBp4?fs=1&feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_b6703ebdde1a806d8fc76e14166d122c: <iframe width="500" height="375" src="http://www.youtube.com/embed/geHGDBLBPRw?fs=1&feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_bc7a6e60884d2668738ef7b475928105: <iframe width="500" height="375" src="http://www.youtube.com/embed/geHGDBLBPRw?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_cdef56b5a0a661adf2e6a640f49109f7: <iframe width="500" height="375" src="http://www.youtube.com/embed/3Xd6uSUBBp4?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_2c0c69351d0e45ce13df42f25abfc856: <iframe width="465" height="349" src="http://www.youtube.com/embed/geHGDBLBPRw?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_9b969e317ce5bf8c3cab699fdffb399c: <iframe width="465" height="349" src="http://www.youtube.com/embed/3Xd6uSUBBp4?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_5c1233e6614610ad2b5151f2a29b8ec8: <iframe width="750" height="563" src="http://www.youtube.com/embed/geHGDBLBPRw?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_c30e65f59ac34b2039ab68036b683c68: <iframe width="750" height="563" src="http://www.youtube.com/embed/3Xd6uSUBBp4?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_4a89f80bea26fea0af8c49745859f081: <iframe width="600" height="450" src="http://www.youtube.com/embed/geHGDBLBPRw?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_d9e48e4b2bb0425d58fa6d3a282da5d0: <iframe width="600" height="450" src="http://www.youtube.com/embed/3Xd6uSUBBp4?feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>This post is a short video tutorial that shows how to add custom dimensions to Webtrends.</p>
+<p>Having setup <a href="/2011/11/04/a-simple-webtrends-event-tracking-tip/">event tracking on Webtrends</a>, you'll likely want to build reports in the Webtrends admin UI.  Even after adding event tracking JavaScript, reporting of your dimension or measure doesn't just happen magically. Webtrends needs to know what to look for. So, before you can create reports, you'll need to add the dimension.</p>
+<p>When creating custom dimensions or measures from events tracked via <b>dcsMultiTrack</b>, example query parameter <b>DCSext.w_custom_identifier</b> will be converted into <b>w_custom_identifier</b> in Webtrends, so this is the name of the query parameter that you then add in the Webtrends Admin UI.</p>
+<h2>How to add a new dimension</h2>
+<p>Check the short video below for details on adding new dimensions:</p>
+<div class="embed-container">
+  <iframe src="//www.youtube.com/embed/geHGDBLBPRw" frameborder="0" allowfullscreen></iframe>
+</div>
+<h2>How to add a new dimension based on a lookup table</h2>
+<p>Lookup tables are a great way of converting one metric into another within Webtrends.  The easiest way to create a lookup table is to add a CSV file under the Webtrends installation directory here:<br />
+<code>.wtm_wtxdatfilesdatasourcesMyLookupTabel.csv</code><br />
+If you use Webtrends On Demand, then you'll have to submit the lookup table to Webtrends for them to install.</p>
+<p>Check the short video below for details on adding a new dimension based on a lookup table</p>
+<div class="embed-container">
+  <iframe src="//www.youtube.com/embed/3Xd6uSUBBp4" frameborder="0" allowfullscreen></iframe>
+</div>
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style>

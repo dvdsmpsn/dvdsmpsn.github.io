@@ -3,13 +3,22 @@
 #
 
 # Name of your site (displayed in the header)
+<<<<<<< HEAD
 
 name: Your Username
+=======
+name: David Simpson
+>>>>>>> master
 
 
 # Short bio or description (displayed in the header)
-description: Programmer From Somewhere On Earth
+description: deliver. iterate. repeat.
 
+# Enforce SSL See https://sheharyar.me/blog/free-ssl-for-github-pages-with-custom-domains/
+url: https://davidsimpson.me
+enforce_ssl: davidsimpson.me
+
+title_image: /assets/dvdsmpsn-twitter-card.png
 
 #
 # Flags below are optional
@@ -18,26 +27,30 @@ description: Programmer From Somewhere On Earth
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: agarwal.akshay.akshay8@gmail.com
+  email: davidsimpson.me@davidsimpson.me
   facebook:
   flickr:
-  github: AkshayAgarwal007
-  instagram:
-  linkedin: akshay-agarwal-782018a4
+  github: dvdsmpsn
+  instagram: 
+  linkedin: dvdsmpsn
   pinterest:
   rss: # just type anything here for a working RSS icon
-  twitter: 
-  stackoverflow: # your stackoverflow profile, e.g. "users/3807565/akshay"
+  twitter: dvdsmpsn
+  stackoverflow: /users/1958200/dvdsmpsn # your stackoverflow profile, e.g. "users/3807565/akshay"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
-disqus:
+disqus: dvdsmpsn
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
+<<<<<<< HEAD
 google_analytics: UA-64882818-3
+=======
+google_analytics: UA-920590-3
+>>>>>>> master
 
 # Your website URL (e.g. http://akshayagarwal007.github.io)
 # Used for Sitemap.xml and your RSS feed
@@ -53,7 +66,7 @@ baseurl: "/Jekyll-Mono"
 # !! You don't need to change any of the configuration flags below !!
 #
 
-permalink: /:title/
+permalink: /:year/:month/:day/:title/
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:

@@ -1,0 +1,74 @@
+---
+layout: post
+title: Adding nice buttons to Atlassian Confluence
+date: 
+type: post
+published: false
+status: draft
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpcom_is_markdown: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>AUI Button<br />
+<pre><code>
+## aui-button<br />
+##<br />
+## Macro title: AUI Button<br />
+## Macro has a body: N<br />
+## Output: HTML<br />
+##<br />
+## Developed by: David Simpson &lt;david@appfusions.com&gt;<br />
+## Date created: 2013-09-18<br />
+## Installed by: Your Name</p>
+<p>### aui-button </p>
+<p>## @param Title:title=Button Title|type=string|required=true<br />
+## @param Href:title=Link URL|type=string|required=true<br />
+## @param Type:title=Button Type|type=enum|enumValues=Normal,Primary,Subtle,Icon|required=true<br />
+## @param IconClass:title=Icon Class|type=string|required=false|desc=For icon type buttons only. Add the AUI class for the required icon</p>
+<p>#set($href = $paramHref)<br />
+#set($title = $paramTitle)</p>
+<p>## Note: Confluence sanitises classes on anchors, so we have to wrap the anchor in a span<br />
+&lt;span  class=&quot;aui-button #if ($paramType ==&quot;Primary&quot;) aui-button-primary #elseif ($paramType ==&quot;Subtle&quot;) aui-button-subtle #end&quot;&gt;<br />
+  &lt;a href=&quot;${href}&quot;&gt;<br />
+    #if ($paramIconClass) &lt;span class=&quot;aui-icon aui-icon-small $paramIconClass&quot;&gt;*&lt;/span&gt; #end<br />
+	  ${title}<br />
+  &lt;/a&gt;<br />
+  ## A little style fixing. Can be done inline (but will be repeated for every button on the page) or once in a custom stylesheet.<br />
+  ## Note, this is nested here so that aui-button-container can use the &quot;.aui-button-container span:last-child&quot; selector<br />
+  ## for styling the rounded corners on thelast button<br />
+  &lt;style&gt;<br />
+	.aui-button a, .aui-button a:hover { text-decoration: none; color: #000; }<br />
+	.aui-button.aui-button-primary a { color: #fff; }<br />
+  &lt;/style&gt;<br />
+&lt;/span&gt;</p>
+<p></code></pre>
+<p>AUI Button Container:</p>
+<pre><code>
+## aui-button-container (wrapper)<br />
+##<br />
+## Macro title: AUI Button Container<br />
+## Macro has a body: Y<br />
+## Output: HTML<br />
+##<br />
+## Developed by: David Simpson &lt;david@appfusions.com&gt;<br />
+## Date created: 2013-09-18<br />
+## Installed by: Your Name<br />
+##<br />
+## For grouping buttons created by the aui-button user macro.<br />
+##<br />
+## @noparams</p>
+<p>&lt;div class=&quot;aui-buttons&quot;&gt;$body&lt;/div&gt;</p>
+<p>## Note: Need to correct for the last button in the container missing rounded corners...<br />
+&lt;style&gt;<br />
+  .aui-buttons span:last-child .aui-button {<br />
+    border-top-right-radius: 3px;<br />
+    border-bottom-right-radius: 3px;<br />
+  }<br />
+&lt;/style&gt;<br />
+</code></pre>

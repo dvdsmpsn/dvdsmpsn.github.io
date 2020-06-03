@@ -1,0 +1,43 @@
+---
+layout: post
+title: 'Terminal: idea pom.xml'
+date: 2012-10-24 15:27:18.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- Programming
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797357715427328'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>I'm lazy. If I can shave a little time off mundane tasks, I'll try. One such task that's bothered me of late is opening a Maven project in Intelli-J.<br />
+<!--more-->
+This seems wasteful:</p>
+<ol>
+<li>Open Intelli-J</li>
+<li>File | Open Project</li>
+<li>Shuffle around looking for the correct directory</li>
+<li> Click OK</li>
+</ol>
+<p>I just want to type <strong>idea pom.xml</strong> in Terminal and have my IDE ready and waiting. </p>
+<p>For example with TextMate, if I want to view the current project, I'll type <strong>mate .</strong> in Terminal and all is good. So why not just apply the same to Intelli-J?</p>
+<p>How does the <strong>mate</strong> command work?  Well, it's essentially just an alias for <strong>open -a TextMate.app</strong></p>
+<p>So the simple answer is... <strong>open -a IntelliJ IDEA 10.5.4.app pom.xml</strong></p>
+<p>Hmmmm. That's a big command for a simple developer to remember. Which version of Intelli-J was I on again?</p>
+<p>To sharpen this up, add an alias to <strong>~/.profile</strong></p>
+<pre><code>
+alias idea=&quot;open -a IntelliJ IDEA 10.5.4.app&quot;<br />
+</code></pre>
+<p>Now we can just use:</p>
+<pre><code>
+idea pom.xml<br />
+</code></pre>
+<p>If the project has already been imported into Intelli-J, you get this dialog:<br />
+<img src="{{ site.baseurl }}/assets/idea-dialog.png" alt="" title="idea-dialog" class="alignnone size-full wp-image-1590" /></p>
+<p>I can cope with that. It's already feeling a lot better. </p>

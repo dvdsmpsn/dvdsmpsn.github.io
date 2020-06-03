@@ -1,0 +1,60 @@
+---
+layout: page
+title: Foreign Exchange
+permalink: /fx/
+---
+
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> -->
+<div class="well">
+  <div class="headline">
+    £1 = $<span id="currentUsd"><span class="spinner"></span></span> 
+  </div>
+  <div class="source">
+    <p>via <a href="//fixer.io/">fixer.io</a> sourced from the <a href="http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html">ECB</a>. Updated daily around 4PM CET.</p>
+    <p><a target="_blank" href="http://www.xe.com/currencycharts/?from=GBP&to=USD&view=1D#graphWrapper">£/$ chart</a></p>
+ 
+  </div>
+</div>
+<div id="chart"><div>
+  
+
+<script>
+$(function () {
+  $.ajax({
+    url: '//api.fixer.io/latest?symbols=USD,GBP&base=GBP',
+    success: function (response) {
+      $('#currentUsd').html( response.rates['USD'] ); 
+    }
+  });
+});
+</script>
+<style>
+  .well {
+    text-align: center; 
+  }
+  .headline {
+    font-size: 300%;  
+  }
+  .source {
+    font-size: 70%;
+  }
+  
+  .spinner {
+    margin-left: 10px;
+    height: 35px;
+    width: 35px;
+    animation: rotate 0.8s infinite linear;
+    border: 8px solid #6acf64;
+    border-right-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  @keyframes rotate {
+    0%    { transform: rotate(0deg); }
+    100%  { transform: rotate(360deg); }
+  }
+</style>

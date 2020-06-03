@@ -1,0 +1,349 @@
+---
+layout: post
+title: Nginx as a secure front to JIRA and Confluence under the Atlassian SDK
+date: 2014-07-18 11:38:44.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- atlassian
+- atlassian plugin sdk
+- nginx
+meta:
+  _encloseme: '1'
+  _pingme: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797297606856704'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Sometimes, you just need to use HTTPS during Atlassian add-on development. Atlassian SDK doesn't currently cover this, so here's a tutorial to show you how.</p>
+<h2>Install &amp; configure nginx</h2>
+<p>I use Boxen to configure my development environment. Installing nginx is pretty easy. In boxen <code>scripts/site.pp</code>, ensure that this is not commented out:</p>
+<pre><code>include nginx</code></pre>
+<p>That done, enable SSL. You'll need keys, secrets &amp; certificates...</p>
+<h3>Create a key</h3>
+<pre><code></p>
+<p>Davids-MacBook-Pro:nginx david$ sudo openssl genrsa -des3 -out server.key 2048<br />
+Password:<br />
+Generating RSA private key, 2048 bit long modulus<br />
+.........+++<br />
+.............................................+++<br />
+e is 65537 (0x10001)<br />
+Enter pass phrase for server.key:<br />
+Verifying - Enter pass phrase for server.key:<br />
+</code></pre>
+<h3>Remove the passphase</h3>
+<pre><code>
+Davids-MacBook-Pro:nginx david$ sudo cp server.key server.key.org<br />
+Davids-MacBook-Pro:nginx david$ sudo openssl rsa -in server.key.org -out server.key<br />
+Enter pass phrase for server.key.org:<br />
+writing RSA key<br />
+Davids-MacBook-Pro:nginx david$<br />
+</code></pre>
+<h3>Generate a certificate that's good for a year</h3>
+<pre><code>
+Davids-MacBook-Pro:nginx david$ sudo openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt<br />
+Password:<br />
+Signature ok<br />
+subject=/C=GB/ST=Notts/L=Nottingham/O=AppFusions/OU=EU/CN=localhost/emailAddress=david@davidsimpson.me<br />
+Getting Private key<br />
+Davids-MacBook-Pro:nginx david$<br />
+</code></pre>
+<h3>Configure nginx</h3>
+<p>I use <code>dvdsmpsn.appfusions.com</code> as the server name and redirect all traffic on port 80 to 443. I've also boosted the file upload size so that I can install add-ons easily.</p>
+<p>Edit <code>/opt/boxen/config/nginx/nginx.conf</code></p>
+<pre><code>
+server {<br />
+    listen         80;<br />
+    server_name    dvdsmpsn.appfusions.com;<br />
+    rewrite        ^ https://$server_name$request_uri? permanent;<br />
+}</p>
+<p>server {<br />
+    listen         443 ssl;<br />
+    server_name    dvdsmpsn.appfusions.com;<br />
+    ssl            on;</p>
+<p>    ssl_certificate /opt/boxen/config/nginx/server.crt;<br />
+    ssl_certificate_key /opt/boxen/config/nginx/server.key;<br />
+    ssl_session_cache shared:SSL:10m;</p>
+<p>    location /confluence {<br />
+        proxy_pass http://localhost:1990/confluence; # my existing Atlassian SDK tomcat - for Confluence<br />
+        proxy_set_header Host $host;<br />
+    }</p>
+<p>    location /jira {<br />
+        proxy_set_header Host $host;</p>
+<p>        proxy_set_header X-Forwarded-Server $host;<br />
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</p>
+<p>        proxy_pass https://localhost:8443/jira; # We need to configure JIRA to use this port yet<br />
+    }</p>
+<p>     client_max_body_size 20M; # had problems with uploading plugins - Nginx Error - 413 Request Entity Too Large<br />
+ }<br />
+</code></pre>
+<h3>Restart nginx</h3>
+<pre><code>
+sudo launchctl unload -w /Library/LaunchDaemons/dev.nginx.plist<br />
+sudo launchctl load -w /Library/LaunchDaemons/dev.nginx.plist<br />
+</code></pre>
+<p>At this point, a Confluence instance running at <code>http://localhost:1990/confluence</code> will be available on HTTPS at <code>https://dvdsmpsn.appfusions.com/confluence</code> secured by nginx, but for JIRA, you have a bit of extra work.</p>
+<h3>Configure JIRA</h3>
+<p>For JIRA, Tomcat needs a little extra configuration. It's a development system, so I don't care about strong passwords. In fact, I'm sharing the password with you.</p>
+<p>On the command line:</p>
+<pre><code>$JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA</code></pre>
+<p>and specify a password value of <code>change it</code>. — this saves to <code>${user.home}/.keystore</code></p>
+<p>In Tomcat <code>server.xml</code> search for this:</p>
+<pre><code>
+&lt;!--<br />
+&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;<br />
+           maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;<br />
+           clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;<br />
+--&gt;<br />
+</code></pre>
+<p>Append this:</p>
+<pre><code>
+&lt;Connector<br />
+            protocol=&quot;HTTP/1.1&quot;<br />
+            port=&quot;8443&quot; maxThreads=&quot;200&quot;<br />
+            scheme=&quot;https&quot; secure=&quot;true&quot; SSLEnabled=&quot;true&quot;<br />
+            keystoreFile=&quot;${user.home}/.keystore&quot; keystorePass=&quot;changeit&quot;<br />
+            clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot;/&gt;<br />
+</code></pre>
+<p>It's important that the node is pasted in the correct place.</p>
+<p>I simply paste this single XML node to the configuration file rather than editing one of the existing <code><connector /></code> nodes just because its very easy. See <b>Further Reading</b> and the end of the post for a different, more production ready approach.</p>
+<p>There are 2 copies of <code>server.xml</code> below the target directory. You should change both of them.</p>
+<p>Restart JIRA.</p>
+<p>That done, you should have a fully working JIRA available at <code>https://dvdsmpsn.appfusions.com/jira</code></p>
+<h2>Why the extra configuration for JIRA?</h2>
+<p>You could try to terminate SSL at nginx, but that won't give you a fully working JIRA.</p>
+<p>If you configured JIRA just like Confluence, you'd use something like this in the nginx configuration file:</p>
+<pre><code>
+    location /jira {<br />
+        proxy_pass http://localhost:2990/jira;<br />
+        proxy_set_header Host $host;<br />
+    }<br />
+</code></pre>
+<p>Accessing JIRA on <code>https://dvdsmpsn.appfusions.com/jira/</code> would display the following on page error message:</p>
+<p><a href="/wp-content/uploads/2014/07/jira-mismatched-scheme.png"><img class="alignnone size-full wp-image-2895" alt="jira-mismatched-scheme" src="{{ site.baseurl }}/assets/jira-mismatched-scheme.png" width="1099" height="924" /></a></p>
+<p>The full error message reads:</p>
+<blockquote><p>We've detected a potential problem with JIRA's Dashboard configuration that your administrator can correct. Hide</p>
+<p><strong>Dashboard Diagnostics: Mismatched URL Scheme</strong></p>
+<p>JIRA is reporting that it is using the URL scheme 'http', which does not match the scheme used to run these diagnostics, 'https'. This is known to cause JIRA to construct URLs using an incorrect hostname, which will result in errors in the dashboard, among other issues.</p>
+<p>The most common cause of this is the use of a reverse-proxy HTTP(S) server (often Apache or IIS) in front of the application server running JIRA. While this configuration is supported, some additional setup might be necessary in order to ensure that JIRA detects the correct scheme.</p>
+<p>The following articles describe the issue and the steps you should take to ensure that your web server and app server are configured correctly:</p>
+<ul>
+<li><a href="http://confluence.atlassian.com/display/JIRAKB/Gadgets+do+not+display+correctly+after+upgrade+to+JIRA+4.0">Gadgets do not display correctly after upgrade to JIRA 4.0</a></li>
+<li><a href="http://confluence.atlassian.com/display/JIRA/Integrating+JIRA+with+Apache">Integrating JIRA with Apache</a></li>
+<li><a href="http://confluence.atlassian.com/display/JIRA/Integrating+JIRA+with+Apache+using+SSL">Integrating JIRA with Apache using SSL</a></li>
+</ul>
+<p>If you believe this diagnosis is in error, or you have any other questions, please contact Atlassian Support.</p>
+<p><strong>Detailed Error</strong></p>
+<pre><code>
+com.atlassian.gadgets.dashboard.internal.diagnostics.UrlSchemeMismatchException: Detected URL scheme, 'http', does not match expected scheme 'https'<br />
+at com.atlassian.gadgets.dashboard.internal.diagnostics.Diagnostics.checkExpectedScheme(Diagnostics.java:64)<br />
+at com.atlassian.gadgets.dashboard.internal.diagnostics.Diagnostics.check(Diagnostics.java:36)<br />
+at com.atlassian.gadgets.dashboard.internal.diagnostics.DiagnosticsServlet.executeDiagnostics(DiagnosticsServlet.java:97)<br />
+at com.atlassian.gadgets.dashboard.internal.diagnostics.DiagnosticsServlet.doPost(DiagnosticsServlet.java:65)<br />
+at javax.servlet.http.HttpServlet.service(HttpServlet.java:647)<br />
+at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)<br />
+at com.atlassian.plugin.servlet.DelegatingPluginServlet.service(DelegatingPluginServlet.java:42)<br />
+at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)<br />
+at com.atlassian.plugin.servlet.ServletModuleContainerServlet.service(ServletModuleContainerServlet.java:52)<br />
+at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:305)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.steps.ChainedFilterStepRunner.doFilter(ChainedFilterStepRunner.java:87)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.XContentTypeOptionsNoSniffFilter.doFilter(XContentTypeOptionsNoSniffFilter.java:22)<br />
+at com.atlassian.core.filters.AbstractHttpFilter.doFilter(AbstractHttpFilter.java:31)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.core.filters.HeaderSanitisingFilter.doFilter(HeaderSanitisingFilter.java:44)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:46)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.jira.tzdetect.IncludeResourcesFilter.doFilter(IncludeResourcesFilter.java:39)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.jira.baseurl.IncludeResourcesFilter.doFilter(IncludeResourcesFilter.java:38)<br />
+at com.atlassian.core.filters.AbstractHttpFilter.doFilter(AbstractHttpFilter.java:31)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.applinks.core.rest.context.ContextFilter.doFilter(ContextFilter.java:25)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.mywork.client.filter.ServingRequestsFilter.doFilter(ServingRequestsFilter.java:37)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsSiteMeshFixupFilter.doFilter(PrettyUrlsSiteMeshFixupFilter.java:36)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsDispatcherFilter.doFilter(PrettyUrlsDispatcherFilter.java:60)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsSiteMeshFilter.doFilter(PrettyUrlsSiteMeshFilter.java:92)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsMatcherFilter.doFilter(PrettyUrlsMatcherFilter.java:56)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.labs.botkiller.BotKillerFilter.doFilter(BotKillerFilter.java:36)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.labs.httpservice.resource.ResourceFilter.doFilter(ResourceFilter.java:59)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:77)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:63)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.accesslog.AccessLogFilter.executeRequest(AccessLogFilter.java:103)<br />
+at com.atlassian.jira.web.filters.accesslog.AccessLogFilter.doFilter(AccessLogFilter.java:87)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.security.xsrf.XsrfTokenAdditionRequestFilter.doFilter(XsrfTokenAdditionRequestFilter.java:54)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.opensymphony.sitemesh.webapp.SiteMeshFilter.obtainContent(SiteMeshFilter.java:181)<br />
+at com.opensymphony.sitemesh.webapp.SiteMeshFilter.doFilter(SiteMeshFilter.java:85)<br />
+at com.atlassian.jira.web.filters.SitemeshPageFilter.doFilter(SitemeshPageFilter.java:124)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.steps.ChainedFilterStepRunner.doFilter(ChainedFilterStepRunner.java:87)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:46)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsCombinedMatchDispatcherFilter.doFilter(PrettyUrlsCombinedMatchDispatcherFilter.java:61)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:77)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:63)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.seraph.filter.SecurityFilter.doFilter(SecurityFilter.java:234)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.security.auth.trustedapps.filter.TrustedApplicationsFilter.doFilter(TrustedApplicationsFilter.java:100)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.seraph.filter.BaseLoginFilter.doFilter(BaseLoginFilter.java:169)<br />
+at com.atlassian.jira.web.filters.JiraLoginFilter.doFilter(JiraLoginFilter.java:70)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:46)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.oauth.serviceprovider.internal.servlet.OAuthFilter.doFilter(OAuthFilter.java:69)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsCombinedMatchDispatcherFilter.doFilter(PrettyUrlsCombinedMatchDispatcherFilter.java:61)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:77)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:63)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.util.profiling.filters.ProfilingFilter.doFilter(ProfilingFilter.java:99)<br />
+at com.atlassian.jira.web.filters.JIRAProfilingFilter.doFilter(JIRAProfilingFilter.java:19)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.johnson.filters.AbstractJohnsonFilter.doFilter(AbstractJohnsonFilter.java:71)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at org.tuckey.web.filters.urlrewrite.RuleChain.handleRewrite(RuleChain.java:176)<br />
+at org.tuckey.web.filters.urlrewrite.RuleChain.doRules(RuleChain.java:145)<br />
+at org.tuckey.web.filters.urlrewrite.UrlRewriter.processRequest(UrlRewriter.java:92)<br />
+at org.tuckey.web.filters.urlrewrite.UrlRewriteFilter.doFilter(UrlRewriteFilter.java:394)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.gzipfilter.GzipFilter.doFilterInternal(GzipFilter.java:80)<br />
+at com.atlassian.gzipfilter.GzipFilter.doFilter(GzipFilter.java:51)<br />
+at com.atlassian.jira.web.filters.gzip.JiraGzipFilter.doFilter(JiraGzipFilter.java:55)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:46)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.fastdev.AutoReloadFilter.doFilter(AutoReloadFilter.java:63)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter$1.doFilter(DelegatingPluginFilter.java:70)<br />
+at com.atlassian.prettyurls.filter.PrettyUrlsCombinedMatchDispatcherFilter.doFilter(PrettyUrlsCombinedMatchDispatcherFilter.java:61)<br />
+at com.atlassian.plugin.servlet.filter.DelegatingPluginFilter.doFilter(DelegatingPluginFilter.java:78)<br />
+at com.atlassian.plugin.servlet.filter.IteratingFilterChain.doFilter(IteratingFilterChain.java:42)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:77)<br />
+at com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter.doFilter(ServletFilterModuleContainerFilter.java:63)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.steps.ChainedFilterStepRunner.doFilter(ChainedFilterStepRunner.java:87)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.core.filters.cache.AbstractCachingFilter.doFilter(AbstractCachingFilter.java:33)<br />
+at com.atlassian.core.filters.AbstractHttpFilter.doFilter(AbstractHttpFilter.java:31)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.core.filters.encoding.AbstractEncodingFilter.doFilter(AbstractEncodingFilter.java:41)<br />
+at com.atlassian.core.filters.AbstractHttpFilter.doFilter(AbstractHttpFilter.java:31)<br />
+at com.atlassian.jira.web.filters.PathMatchingEncodingFilter.doFilter(PathMatchingEncodingFilter.java:49)<br />
+at com.atlassian.core.filters.AbstractHttpFilter.doFilter(AbstractHttpFilter.java:31)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.startup.JiraStartupChecklistFilter.doFilter(JiraStartupChecklistFilter.java:79)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.MultipartBoundaryCheckFilter.doFilter(MultipartBoundaryCheckFilter.java:41)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at com.atlassian.jira.web.filters.steps.ChainedFilterStepRunner.doFilter(ChainedFilterStepRunner.java:87)<br />
+at com.atlassian.jira.web.filters.JiraFirstFilter.doFilter(JiraFirstFilter.java:60)<br />
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)<br />
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)<br />
+at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)<br />
+at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)<br />
+at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)<br />
+at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)<br />
+at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)<br />
+at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)<br />
+at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)<br />
+at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)<br />
+at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1008)<br />
+at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)<br />
+at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)<br />
+at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895)<br />
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918)<br />
+at java.lang.Thread.run(Thread.java:695)<br />
+</code></pre>
+</p></blockquote>
+<p>For this reason, I've added SSL support to Tomcat as well.</p>
+<h3> Avoid HTTPS warnings by telling OS X to trust the certificate</h3>
+<p><em>Updated: 2015-02-15</em> This section is copied wholesale from <a href="https://gist.github.com/jed/6147872">How to set up stress-free SSL on an OS X development machine</a> by <a href="http://jed.is/">Jed Scmidt</a>.</p>
+<blockquote><p>
+Since our certificate is self-signed, we'll always get a warning when using it for our HTTPS site. We need to use Keychain Access to tell OS X to enhance its calm for this domain.<br />
+<a href="https://davidsimpson.me/wp-content/uploads/2014/07/keychain.gif"><img src="{{ site.baseurl }}/assets/keychain.gif" alt="keychain" class="alignnone size-full wp-image-3139" /></a></p>
+<ol>
+<li>Open the certificate in Keychain Access. <pre><code>open /Applications/Utilities/Keychain\ Access.app /opt/boxen/config/nginx/server.crt</code></pre></li>
+<li>Click Don't Trust.</li>
+<li>Select the newly imported certificate, which should appear at the bottom of the certificate list, and click the [ｉ] button.</li>
+<li>In the popup window, click the ▶ button to the left of Trust, and select Always Trust for When using this certificate:.</li>
+<li>Close the popup window.</li>
+<li>When prompted, enter your password again and click Update Settings.</li>
+<li>Close Keychain Access.</li>
+</ol>
+</blockquote>
+<p>The certificate will now be trusted by Safari & Chrome. Firefox needs a little more work. See Jed's write up for more details.</p>
+<h2>Further reading</h2>
+<ul>
+<li><a href="http://www.aip.im/2012/05/how-to-solve-url-scheme-mismatch-when-running-jira-behind-a-reverse-proxy/">How to solve URL scheme mismatch when running Jira behind a reverse proxy</a> -- an alternative approach with SSL termination at nginx</li>
+</ul>

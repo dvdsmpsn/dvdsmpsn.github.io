@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <style type="text/css">
+    body {
+	  padding: 20px;
+	}
+	p {
+	  margin: 20px 0;
+	}
+	#console {
+		width:100%;
+		height:800px;
+		background: #fafafa;
+		border: 1px solid #ccc;
+	}
+  </style>
+
+  <title></title>
+
+	<script type='text/javascript'>
+  		$(function(){
+			var access_token = 'LP21giubWLzamslTsMTSFsyNXTCt5WAP';
+
+			// see https://blog.box.com/blog/uploading-files-with-cors/
+			var form = new FormData();
+			var fileBody = '<p>hey!<p>'; // The content of the file
+			var blob = new Blob([fileBody], { type: 'text/xml'}); // JS file-like object
+			form.append('file', blob); // Add the file to the form
+			form.append('parent_id', '0'); // Add the destination folder for the upload to the form
+
+			var uploadUrl = 'https://upload.box.com/api/2.0/files/content';
+
+			// The Box OAuth 2 Header. Add your access token.
+			var headers = {
+			  'Authorization': 'Bearer ' + access_token
+			};
+     
+			$.ajax({
+			    url: uploadUrl,
+			    headers: headers,
+			    type: 'POST',
+			    // This prevents JQuery from trying to append the form as a querystring
+			    processData: false,
+			    contentType: false,
+			    data: form,
+				
+				error: function (xhr) {
+					$('#console').html(xhr.status + ': ' + xhr.statusText);
+				}
+			}).complete(function ( data ) {
+			    // Log the JSON response to prove this worked
+			    console.log(data.responseText);
+				$('#console').html(data.responseText);
+			});        
+		});
+	</script>
+
+ 
+</head>
+
+<body>
+	<p><a target="_blank" href="https://app.box.com/developers/services/">Enable CORS in your app here.</a></p>
+	
+  	<p>Run at <a target="_top" href="https://dl.dropboxusercontent.com/u/658119/Af/tmp/box-upload-cors.html">https://dl.dropboxusercontent.com/u/658119/Af/tmp/box-upload-cors.html</a></p>
+	
+	<p>Console:</p>
+	<pre id="console"></pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,81 @@
+---
+layout: post
+title: Using mPDF with CodeIgniter
+date: 2013-05-19 23:43:28.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+tags:
+- codeigniter
+- mPDF
+- pdf
+- php
+meta:
+  tmac_last_id: '618797347485675520'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>mPDF is "a PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support". </p>
+<p>Here's a short guide to using mPDF with CodeIgniter.  I'm currently using CodeIgniter 2.1.3, but this should work with previous versions back to v1.6.</p>
+<h2>Download and extract mPDF</h2>
+<p>Download <a href="http://www.mpdf1.com/mpdf/index.php">mPDF</a> and extract it to<br />
+<pre><code>/application/third_party/mpdf</code></pre> so that you have a file structure like so:</p>
+<p><img src="{{ site.baseurl }}/assets/mpdf.png" alt="" title="mpdf" class="alignnone size-full wp-image-1776" /></p>
+<h2>Create the CodeIgniter library for mPDF</h2>
+<p>This is a simple wrapper for mPDF. Create <code>/application/library/pdf.php</code>:</p>
+<pre><code>
+&lt;?php if (!defined('BASEPATH')) exit('No direct script access allowed');</p>
+<p>class pdf {</p>
+<p>	function pdf()<br />
+	{<br />
+		$CI = &amp; get_instance();<br />
+		log_message('Debug', 'mPDF class is loaded.');<br />
+	}</p>
+<p>	function load($param=NULL)<br />
+	{<br />
+		include_once APPPATH.'/third_party/mpdf/mpdf.php';</p>
+<p>		if ($params == NULL)<br />
+		{<br />
+			$param = '&quot;en-GB-x&quot;,&quot;A4&quot;,&quot;&quot;,&quot;&quot;,10,10,10,10,6,3';<br />
+		}</p>
+<p>		return new mPDF($param);<br />
+	}<br />
+}<br />
+</code></pre>
+<h2>Call the library in your code</h2>
+<p>Add some code in your controller e.g.</p>
+<pre><code>
+...<br />
+// As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/<br />
+$pdfFilePath = FCPATH.&quot;/downloads/reports/$filename.pdf&quot;;<br />
+$data['page_title'] = 'Hello world'; // pass data to the view</p>
+<p>if (file_exists($pdfFilePath) == FALSE)<br />
+{<br />
+	ini_set('memory_limit','32M'); // boost the memory limit if it's low ;)<br />
+	$html = $this-&gt;load-&gt;view('pdf_report', $data, true); // render the view into HTML</p>
+<p>	$this-&gt;load-&gt;library('pdf');<br />
+	$pdf = $this-&gt;pdf-&gt;load();<br />
+	$pdf-&gt;SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date(DATE_RFC822)); // Add a footer for good measure ;)<br />
+	$pdf-&gt;WriteHTML($html); // write the HTML into the PDF<br />
+	$pdf-&gt;Output($pdfFilePath, 'F'); // save to file because we can<br />
+}</p>
+<p>redirect(&quot;/downloads/reports/$filename.pdf&quot;);<br />
+...<br />
+</code></pre>
+<p>That's it. Very quick and simple.  The mPDF files are untouched in a self contained directory, but called by the custom <pre><code>/application/library/pdf.php</code></pre> script.</p>
+<p>FWIW: Here's <a href="/wp-content/uploads/2013/05/report.pdf">an example file created using mPDF</a>.</p>
+<p><strong>Update:</strong><br />
+A major benefit of this approach over some of the others I've seen is that this wrapper does not copy any code from the mPDF library onto your file structure elsewhere. If you wish to upgrade the mPDF library, just replace the files below <pre><code>/application/third_party/mpdf</code></pre><br />
+The wrapper should take care of the rest with minimal changes.</p>
+<h2>Further reading</h2>
+<p>If you need any help with mPDF rather than just fitting it into CodeIgniter, these are the best places to visit:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/tagged/mpdf">mPDF questions on Stackoverflow</a></li>
+<li><a href="http://www.mpdf1.com/mpdf/examples">mPDF Examples</a></li>
+<li><a href="http://mpdf.bpm1.com/forum/">mPDF Forum</a></li>
+<li><a href="http://mpdf1.com/manual/">mPDF Documentation</a></li>
+</ul>

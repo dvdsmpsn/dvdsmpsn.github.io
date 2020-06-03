@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Markdown Macro for Confluence Cloud</title>
+	<link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui.css" media="all" />
+	<!--[if IE 9]><link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui-ie9.css" media="all" /><![endif]-->
+	<link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.7.3/css/aui-experimental.css" media="all">
+	<link rel="stylesheet" href="marked.css" media="all">
+
+
+	<script src="marked.min.js"></script>
+
+</head>
+<body>
+
+<div id="marked">
+
+# Markdown Macro for Confluence Cloud
+
+This markdown text is rendered by [Marked].
+
+- [Marked]: https://github.com/chjj/marked
+- [Marked.](https://github.com/chjj/marked)
+
+```
+console.log('Hello world');
+```
+
+</div>
+	
+	<script>
+		var e = document.getElementById('marked');
+		e.innerHTML = marked(e.innerHTML);
+	</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+---
+layout: post
+title: Releasing a locked port on a Mac / OS X
+date: 2014-12-12 11:13:05.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- note to self
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  tmac_last_id: '618797286907183104'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Sometimes a port doesn't release properly resulting in servers staring on non-standard ports.</p>
+<p>How do you release the port? Easy, use this:</p>
+<pre><code>
+lsof -i :portnumber<br />
+</code></pre>
+<p>Grab the resulting PID and kill the process. Use <code>-9</code> if you really have to.</p>
+<p>Here's a "worked example":<br />
+<pre><code>
+$ lsof -i :1990<br />
+COMMAND  PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME<br />
+java    2857 david   39u  IPv6 0x23ed6292526f5971      0t0  TCP *:stun-p1 (LISTEN)<br />
+$ kill -9 2857<br />
+</code></pre>

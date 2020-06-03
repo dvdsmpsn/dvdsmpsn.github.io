@@ -1,0 +1,105 @@
+---
+layout: post
+title: Customising Atlassian Confluence with header photos
+date: 2014-12-02 22:07:41.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '3089'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _wp_old_slug: adding-header-images-atlassian-confluence-pages
+  tmac_last_id: '618797288928866305'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Header photos are all the rage (as my mother might say). Twitter has them. So does Facebook. Yup, even LinkedIn has them. </p>
+<p>Confluence is a great platform for documentation, but what if you want to add extra some flare to your pages? Would a custom header photo be a good idea? Maybe so.</p>
+<p>This post gives a simple method to do just that for pages that use the Default Theme.  </p>
+<p>In <b>Confluence Admin | Configuration | User Macros</b> create a new user macro:</p>
+<pre><code>
+## Macro: header-photo<br />
+## Author: David Simpson<br />
+##<br />
+## @param Photo:title=Header Photo|type=enum|enumValues=akabilk,captain_oblivion,rikpiks,renateflynn,grotan|default=red|desc=Choose a photo from one of these Flickr users<br />
+##<br />
+&lt;script&gt;AJS.toInit(function($){ $('body').addClass('header-photo photo-${paramPhoto}'); }); &lt;/script&gt;<br />
+</code></pre>
+<p>This gives you a user macro with some options to swap the background image between these images:<br />
+[gallery ids="3086,3082,3084,3085,3083"]</p>
+<p>In <b>Confluence Admin | Look and Feel | Stylesheet</b> add the following:</p>
+<pre><code>
+/**<br />
+ *  Uses the {header-photo} user macro to trigger the styles:<br />
+ */ </p>
+<p>.header-photo #main-header {<br />
+	margin: -20px;<br />
+	padding: 20px;<br />
+	background: #69c;<br />
+}</p>
+<p>.header-photo #title-text {<br />
+	padding-top: 40px<br />
+}</p>
+<p>.header-photo #breadcrumbs a,<br />
+.header-photo #title-text a,<br />
+.header-photo .page-metadata,<br />
+.header-photo .page-metadata ul li a<br />
+ {<br />
+	color: #fff;<br />
+	text-shadow: 2px 2px 5px #000;<br />
+}</p>
+<p>/*** Hide these until mouseover/hover ***/<br />
+.header-photo #page-metadata-banner,<br />
+.header-photo #breadcrumbs,<br />
+.header-photo #navigation,<br />
+.header-photo .page-metadata {<br />
+	transition         : opacity .25s ease-in-out;<br />
+	-moz-transition    : opacity .25s ease-in-out;<br />
+	-webkit-transition : opacity .25s ease-in-out;<br />
+	opacity: 0;<br />
+}</p>
+<p>/*** Display on mouseover/hover ***/<br />
+.header-photo #breadcrumbs:hover,<br />
+.header-photo #navigation:hover,<br />
+.header-photo .page-metadata:hover {<br />
+	opacity: 1;<br />
+}</p>
+<p>.header-photo #main-header {<br />
+	background-size: cover;<br />
+	background-color: #000;<br />
+	background-position: 50% 50%;<br />
+}</p>
+<p>/*** Each of these backgrounds has been selected from Flicker and uses a Creative Commons license ***/</p>
+<p>/* From: flickr.com/photos/grotan/14035217861 */<br />
+.header-photo.photo-akabilk #main-header {<br />
+	background: #000 url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-grotan-14035217861.jpg)  no-repeat  ;<br />
+}</p>
+<p>/* From: flickr.com/photos/captain_oblivion/5601940290 */<br />
+.header-photo.photo-captain_oblivion #main-header {<br />
+	background-image:  url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-captain_oblivion-5601940290.jpg);<br />
+}</p>
+<p>/* From: flickr.com/photos/rikpiks/7721449224 */<br />
+.header-photo.photo-rikpiks #main-header {<br />
+	background-image: url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-rikpiks-7721449224.jpg);<br />
+}</p>
+<p>/* From: flickr.com/photos/renateflynn/8884401289 */<br />
+.header-photo.photo-renateflynn #main-header {<br />
+	background-image: url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-renateflynn-8884401289.jpg);<br />
+}</p>
+<p>/* From: flickr.com/photos/grotan/14035217861 */<br />
+.header-photo.photo-grotan #main-header {<br />
+	background-image: url(//davidsimpson.me/wp-content/uploads/2014/11/flickr.com-photos-grotan-14035217861.jpg);<br />
+}<br />
+</code></pre>
+<p>This is a simple bit of CSS that adds a different background to the page header based on the body class added in the user macro. I've purposefully chosen only dark backgrounds so that I can use a single text colour. Yes, that was quite lazy. You can embellish with more styles as required.</p>
+<p>Here's the macro configuration screen:</p>
+<p><a href="https://davidsimpson.me/wp-content/uploads/2014/12/edit-header-photo-macro.png"><img src="{{ site.baseurl }}/assets/edit-header-photo-macro.png" alt="edit-header-photo-macro" width="1596" height="1004" class="alignnone size-full wp-image-3097" /></a></p>
+<p>The macro parameter values in the dropdown match the CSS classes in the custom global stylesheet. It's pretty straightforward.</p>
+<p>I've really restricted the number of photos available here. This is just an example of how you could implement a feature like this. You could easily adapt this for custom photos on every space or every page if you really feel like it.  </p>
+<p>Perhaps random photos is the way forward for you? If so, you could do worse than <a href="http://placekitten.com/">placekitten.com</a>.</p>

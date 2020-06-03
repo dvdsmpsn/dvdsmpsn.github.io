@@ -1,0 +1,70 @@
+---
+layout: post
+title: Adding Disqus commenting to Atlassian Confluence is easy
+date: 2013-06-05 23:49:37.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797347485675520'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Some time back, I had a thought about integrating Disqus with Confluence. It's a small matter really, just involving a little JavaScript, so rather than bothering to create a full blown plugin, I wrote a little user macro.</p>
+<p>Add the <b>{disqus}</b> user macro to a page and it will replace the Confluence comments section (if enabled) with the standard Disqus functionality.</p>
+<p>This example uses <b>{disqus:shortname=your-disqus-identifier}</b>:</p>
+<pre><code>
+## Macro title: Disqus<br />
+## Macro has a body: N<br />
+## Body processing: Selected body processing option<br />
+## Output: Selected output option<br />
+##<br />
+## Developed by: David Simpson<br />
+## Date created: 13/06/2011<br />
+## Installed by: David Simpson</p>
+<p>## This is an example macro<br />
+## @param shortname:title=Short Name|type=string|required=true|desc=The Disqus shortname associated to your account</p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;</p>
+<p>AJS.toInit(function(){</p>
+<p>    if (AJS.$('#comments-section')){</p>
+<p>        // replace the comments section</p>
+<p>        AJS.$('#comments-section').after('&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;').remove();</p>
+<p>        var disqus_shortname = '$paramshortname'; //'local-confluence';<br />
+        var disqus_identifier = 'content_id_$content.getIdAsString()';</p>
+<p>        (function() {<br />
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;<br />
+            dsq.src = location.protocol +'//' + disqus_shortname + '.disqus.com/embed.js';<br />
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);<br />
+        })();<br />
+    }<br />
+});<br />
+&lt;/script&gt;<br />
+</code></pre>
+<p>This results in:</p>
+<p><img src="{{ site.baseurl }}/assets/disqus-comments.png" alt="" title="disqus-comments" class="alignnone size-full wp-image-1789" /></p>
+<p>Looking good for a single page, but what if you want to do this site-wide?</p>
+<p>Again, that's pretty easy. In <b>Confluence Admin | Look and Feel | Custom HTML | At the end of the BODY</b>, paste:</p>
+<pre><code></p>
+<p>&lt;script type=&quot;text/javascript&quot;&gt;</p>
+<p>AJS.toInit(function(){</p>
+<p>    if (AJS.$('#comments-section')){</p>
+<p>        // replace the comments section</p>
+<p>        AJS.$('#comments-section').after('&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;').remove();</p>
+<p>        var disqus_shortname = 'local-confluence'; // ##################### change this to your own<br />
+        var disqus_identifier = 'content_id_' + AJS.params.pageId;<br />
+        //var disqus_url = location.href</p>
+<p>        (function() {<br />
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;<br />
+            dsq.src = location.protocol +'//' + disqus_shortname + '.disqus.com/embed.js';<br />
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);<br />
+        })();<br />
+    }<br />
+});<br />
+&lt;/script&gt;<br />
+</code></pre>
+<p>Again, this code only replaces the comments section if the comments have been enabled for the space -- removing commenting functionality in the standard way removes the Disqus comments.</p>
+<p>It works nicely on HTTP <em>and</em> HTTPS as we use <b>location.protocol</b> to match the protocols between Confluence and Disqus.</p>

@@ -1,0 +1,39 @@
+---
+layout: post
+title: How to access the HSQL Database Manager during  Atlassian Confluence add-on
+  development
+date: 2013-12-11 11:14:08.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797331647848448'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wp_old_slug: how-to-access-the-confluence-hsql-database-manager-during-add-on-development
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>So you've got a development instance of Confluence running using the Atlassian SDK & <b>atlas-run</b>, but now want to access the database with some kind of GUI. How?</p>
+<p>Easy. First shutdown the Confluence instance &ndash; <b>CTRL+C</b> should do the trick.</p>
+<p>From the base directory of your <del>plugin</del> add-on:<br />
+<pre><code>
+magical-addon$ ls<br />
+pom.xml				src				target<br />
+magical-addon$ java -cp ./target/confluence/webapp/WEB-INF/lib/hsqldb-2.3.0.jar org.hsqldb.util.DatabaseManager -user sa -url jdbc:hsqldb:./target/confluence/home/database/confluencedb<br />
+</code></pre>
+<p>This will bring up the HSQL Database Manager from which you can use SQL to delve deeper:</p>
+<p><a href="/wp-content/uploads/2013/12/hsql-database-manager.png"><img src="{{ site.baseurl }}/assets/hsql-database-manager.png" alt="" title="HSQL Database Manager" class="alignnone size-full wp-image-2198" /></a></p>
+<h2>On JIRA</h2>
+<p>For JIRA (6.1), the command is</p>
+<pre><code>
+java -cp ./target/jira/webapp/WEB-INF/lib/hsqldb-1.8.0.5.jar  org.hsqldb.util.DatabaseManager -user sa -url jdbc:hsqldb:./target/jira/home/database<br />
+</code></pre>
+<p>Note that versions of the HSQL jar will change, and that the name and location of the <b>confluencedb.script</b> and <b>database.script</b> file</p>
+<h2>Further reading</h2>
+<ul>
+<li><a href="https://confluence.atlassian.com/display/JIRA/Running+SQL+commands+in+a+HSQL+database">Running SQL commands in a HSQL database</a></li>
+<li><a href="http://blog.networkedcollaboration.com/2012/03/15/accessing-hsql-database-manager/">Accessing HSQL Database Manager</a></li>
+</ul>

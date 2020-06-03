@@ -4,29 +4,65 @@ title: Projects
 permalink: /projects/
 ---
 
-### [Project 1](https://github.com/tux4kids/tuxmania) 
-Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
+### [Muscial Notes](/labs/musical-notes)
 
-***
+A progressive web app to allow me to learn the fingerings on a B&#9837; instrument such as Euphonioum or Baritone Horn.
 
-### [Project 2](https://github.com/AkshayAgarwal007/Moodly)
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam imperdiet urna eu dolor placerat varius. Vivamus eros augue, consequat id scelerisque nec, fringilla in est. Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
+---
 
-Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
+### [PII Viewer for Google Analytics](/pii-viewer-for-google-analytics/)
 
-***
+PII Viewer for Google Analytics is a Google Chrome extension which allows you to map the user ID stored in Google Analytics to locally stored personally identifiable information (PII) such as name and email address.
 
-## Other Projects
+---
 
-### This Could Be Another Project Name
+## Atlassian Apps
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam imperdiet urna eu dolor placerat varius. Vivamus eros augue, consequat id scelerisque nec, fringilla in est. Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam imperdiet urna eu dolor placerat varius. Vivamus eros augue, consequat id scelerisque nec, fringilla in est. Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
-   
-### This Could Be Yet Another Project Name
+My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https://dsapps.dev/" target="_blank">David Simpson Apps</a>
 
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam imperdiet urna eu dolor placerat varius. Vivamus eros augue, consequat id scelerisque nec, fringilla in est. Proin pellentesque malesuada mauris, quis aliquam augue vestibulum ac. Vestibulum ut feugiat nibh. Sed faucibus felis purus, sed convallis leo dictum vehicula.
+### Google Analytics for Confluence Cloud
 
+An Atlassian Cloud app for tracking user interactions within Confluence Cloud.
+
+- [Google Analytics in Confluence - product website](https://dsapps.dev/)
+- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
+- [Documentation](https://dsapps.atlassian.net/wiki/display/analytics/Documentation)
+
+### Gister Macro for Confluence Cloud
+
+Effortlessly embed GitHub Gists into Confluence
+
+- [Gister Macro for Confluence Cloud - product website](https://dsapps.dev/)
+- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.gister/cloud/overview)
+- [Documentation](https://dsapps.atlassian.net/wiki/spaces/gister)
+
+### Cloud Macros for Bitbucket & Confluence
+
+Cloud Macros for Bitbucket and Confluence is the missing solution for users of both Bitbucket Cloud and Confluence Cloud.
+
+![Cloud Macros for Bitbucket and Confluence](https://dsapps.atlassian.net/wiki/download/attachments/11567116/4-macros.png?version=1&modificationDate=1445942143501&cacheVersion=1&api=v2&effects=border-simple,blur-border)
+
+- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.bitbucket-issues/cloud/overview)
+- [Documentation](https://dsapps.atlassian.net/wiki/spaces/bitbucket)
+
+### A JSFiddle Macro for Confluence Cloud
+
+For adding JSFiddles to your Confluence pages
+
+- [JSFiddle Macro for Confluence Cloud - product website](https://dsapps.dev/)
+- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.jsfiddle/server/overview)
+- [Documentation](#TODO)
+
+## Donate
+
+If you find any of these projects useful, why not contribute to their maintenance:
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+   <input type="hidden" name="cmd" value="_s-xclick">
+   <input type="hidden" name="hosted_button_id" value="47SSZXRKTN6FJ">
+   <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online."><img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>
 
 ## Contact me
 
-[agarwal.akshay.akshay8@gmail.com](mailto:agarwal.akshay.akshay8@gmail.com)
+[david@davidsimpson.me](mailto:david+project+page@davidsimpson.me)

@@ -1,0 +1,183 @@
+---
+layout: post
+title: Find nearest store page using PHP, mySQL and Google Maps
+date: 2008-09-28 23:38:17.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Uncategorised
+tags:
+- find nearest
+- google maps
+- mapping
+- mysql
+- php
+- spherical geometry
+meta:
+  aktt_notify_twitter: 'no'
+  _topsy_cache_timestamp: '1299700350'
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  tmac_last_id: '618797419543728128'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>This is a step by step guide for building a find nearest/store locator <strong><em>for free</em></strong> in PHP just like <a href="http://www.postcodeanywhere.co.uk/products/store_locater/demos.aspx">Postcode Anywhere</a>.</p>
+<p>It requires PHP and a mySQL database. That's all.</p>
+<p>You don't <em>need</em> Google Maps, but it helped me populating the database, so I've included it for completeness.  The example I'm using is UK based, but provided Google have a postcode/zipcode to lat/long convertor for your country, it should work nicely.</p>
+<!--more-->
+<h2>Background Maths</h2>
+<p>Before we start, it's time to go back to school with some background maths.</p>
+<p>Don't be tempted into Pythagorean territory here, because the world isn't flat and the distance between lines of longitude gets smaller as we get closer to the poles.  Also with the curvature of the earth for distances over say 15 miles, the sides of the triangle go from straight into an arc - not good.</p>
+<p>Trying a little harder, we get to the <a href="http://en.wikipedia.org/wiki/Great-circle_distance">Great Circle Distance method</a>.</p>
+<p>The <strong>Great Circle Distance Formula</strong> using radians:</p>
+<pre>r * acos[sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon2 - lon1)]</pre>
+<p>Where r is the radius of the earth <em>e.g. r = 3963.0 miles</em></p>
+<p>or<br />
+<img src="{{ site.baseurl }}/assets/9c57640515e58765b63ffc12dc2a8950.png" alt="Great Circle Distance arccos formula" /></p>
+<p>As I'm lazy, I want to add this directly into a SQL query that checks against lat/long values for my stores in my database.</p>
+<p>Converted to (my)SQL syntax using lat/long in <em>degrees</em> becomes:<br />
+[source language="sql"]SELECT 3963.0 * ACOS(   SIN( lat1*PI()/180 ) * SIN( lat2*PI()/180 ) + COS( lat1*PI()/180 ) * COS( lat2*PI()/180 )  *  COS( (lon2*PI()/180) - (lon1*PI()/180) )   )  AS distance;[/source]</p>
+<p>Assuming <a href="http://dev.mysql.com/doc/refman/5.0/en/numeric-types.html">mySQL uses double precision</a>, we can be assured that the calculation is reasonably accurate.  Although the arcos formula can suffer from rounding errors at small distances. But in my experience, it works well when compared to other distance calculators (e.g.<a href="http://www.gmap-pedometer.com/">GMap Pedometer</a> and <a href="http://www.daftlogic.com/projects-google-maps-distance-calculator.htm">Daft Logic Google Maps Distance Calculator</a>).</p>
+<h2>Building the scripts</h2>
+<p>This example is unashamedly simplifed.  The PHP is procedural and basic.  It is for demonstration only - apply you own favourite MVC framework when working this up.</p>
+<h3>Create a simple mySQL database table for stores</h3>
+
+{% highlight sql %}
+CREATE TABLE `stores` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `store_name` varchar(300) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `postal_address` text NOT NULL
+  PRIMARY KEY  (`id`)
+);
+{% endhighlight %}
+
+<p>In reality, you'd probably want to add columns for phone no, web address, email etc.</p>
+<h3>Add some data to the table</h3>
+<p>I'm using real locations of Apple computer stores in the UK...</p>
+
+{% highlight sql %}
+INSERT INTO `stores` (`id`, `store_name`, `postcode`, `latitude`, `longitude`, `postal_address`,)
+VALUES
+(
+	(1, 'KRCS Mac computer store', 'NG1 7QQ', 52.952493, -1.140725, 'Victoria Centre, Nottingham'),
+	(2, 'Apple Store', 'M4 3AJ', 51.51277, -2.14308, 'U23, New Cannon Street Mall,  Manchester'),
+	(3, 'Apple Store', 'S9 1EA', 53.41442, -1.41089, '80 High Street, Meadowhell,  Sheffield')
+);
+{% endhighlight %}
+
+<p>The lat/long values can be populated manually (e.g. go get them from Google Maps) or automatically using a function similar to this:<br />
+</p>
+{% highlight php %}
+/**
+ * Get LatLong From Postcode
+ *
+ * @access  public
+ * @param   string $postcode
+ * @param   string $country
+ * @param   string $gmapApiKey
+ * @return  array(statusCode, accuracy, latitude, longitude);
+ */
+function getLatLongFromPostcode($postcode, $country, $gmapApiKey)
+{
+	/* remove spaces from postcode */
+	$postcode = urlencode(trim($postcode));
+	/* connect to the google geocode service */
+	$file = &quot;http://maps.google.com/maps/geo?q=$postcode,$country&amp;amp;amp;output=csv&amp;amp;amp;key=$gmapApiKey&quot;;
+	$contents = file_get_contents($file);
+	return explode(',', $contents);
+}
+{% endhighlight %}
+
+<p>...but you'll need a <a href="http://code.google.com/apis/maps/signup.html">Google Maps API key</a></p>
+<p>Example for the Apple Store in Regent Street:</p>
+
+
+{% highlight php %}
+$geocode = getLatLongFromPostcode ('W1B 2EL', 'uk', 'ABQIAAAA2xzlSb6lvuy1qNdW6D87dBSX4wCNHpcq6aPi4BCCV9JuIkX6UhQgj9ZmrEF5FYpCKxFE5wNmrj');
+{% endhighlight %}
+<h3>Build the search/results page</h3>
+{% highlight php %}
+&lt;form class=&quot;center&quot; action=&quot;./find-a-store.php&quot; method=&quot;get&quot;&gt;<br />
+	&lt;label for=&quot;postcode&quot;&gt;Postcode or Town&lt;/label&gt;<br />
+	&lt;input id=&quot;postcode&quot; name=&quot;postcode&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;<br />
+	&lt;input name=&quot;submit&quot; type=&quot;submit&quot; value=&quot;Search »&quot; /&gt;<br />
+&lt;/form&gt;
+&lt;?php
+	if (isset($_REQUEST['postcode']))
+	{
+		$geocode = getLatLongFromPostcode($_REQUEST['postcode'], $country, $gmapApiKey);
+		$storeResults = array();
+		if ($geocode[0] == '200')
+		{
+			$latitude = $geocode[2];
+			$longitude = $geocode[3];
+
+			// Print heading
+			$htmlOutput .= &quot;
+				&lt;div class=&quot;results&quot;&gt;
+				&lt;h2&gt;Nearest stores to &lt;em&gt;$postcode&lt;/em&gt;&lt;/h2&gt;
+				&lt;ol&gt;&quot;;
+
+			// Build the spherical geometry SQL string
+			$earthRadius = '3963.0'; // In miles
+
+			$sql = &quot;
+				SELECT
+					ROUND(
+						$earthRadius * ACOS(
+							SIN( $latitude*PI()/180 ) * SIN( latitude*PI()/180 )
+							+ COS( $latitude*PI()/180 ) * COS( latitude*PI()/180 )  *  COS( (longitude*PI()/180) - ($longitude*PI()/180) )   )
+					, 1)
+					AS distance,
+					store_name,
+					postcode,
+					postal_address,
+					latitude,
+					longitude
+				FROM
+					stores
+				ORDER BY
+					distance ASC
+				LIMIT 0, 10&quot;;
+
+			// Search the database for the nearest agents
+			$result = db_query($sql);
+			while ($row = mysql_fetch_array($result))
+			{
+				array_push($storeResults, $row);
+			}			
+
+			foreach ($storeResults as $store)
+			{
+				// Print listings as an unordered list (structured: ol &gt; li &gt; h3 + div)
+				$htmlOutput .= &quot;
+	&lt;li&gt;
+&lt;h3&gt;&lt;em&gt;{$store[store_name]} &lt;em&gt;{$store[distance]} miles.&lt;/em&gt;&lt;/em&gt;&lt;/h3&gt;
+&lt;div&gt;&lt;em&gt;&quot; . str_replace(&quot;n&quot;, ', ', $store['postal_address']) .&quot;&lt;/em&gt;&lt;/div&gt;&lt;/li&gt;&quot;;<br />
+			}
+			$htmlOutput .= '
+			&lt;/ol&gt;&lt;/div&gt;';
+
+			echo $htmlOutput;
+		}
+		else
+		{
+			echo &quot;Problem with postcode.&quot;
+		}
+	} // if isset()
+?>
+{% endhighlight %}
+
+<p>By the way, properly cleanse <code>$_REQUEST['postcode']</code> to prevent XSS attacks.  The code above is for demo only.</p>
+<h3>Reference</h3>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Great-circle_distance">Great Circle Distance - Wikipedia</a></li>
+<li><a href="http://www.meridianworlddata.com/Distance-Calculation.asp">Original source for this calculation</a></li>
+</ul>
+<h3>Update</h3>
+<p>If you find this useful, but are still having trouble, here's an excellent article &mdash; <a href="http://code.google.com/apis/maps/articles/phpsqlsearch.html">Creating a Store Locator with PHP, MySQL & Google Maps</a> from Google.</p>

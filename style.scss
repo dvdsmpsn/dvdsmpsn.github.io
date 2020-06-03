@@ -258,6 +258,10 @@ nav {
 }
 
 .post {
+  meta {
+    font-size: 80%;
+    color: $gray;
+  }
   blockquote {
     margin: 1.8em .8em;
     border-left: 2px solid $gray;
@@ -289,5 +293,93 @@ footer {
   text-align: center;
 }
 
+.entry > pre {
+	border: 1px solid #ccc;
+	padding:10px;
+	background: #fafafa;
+	overflow: auto;
+	font-size: 15px;
+}
+
+.entry > pre > code,
+.entry > pre 
+{
+	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+pre {
+	font-size: 15px;
+}
+
+a.tag {
+    display: inline-block;
+    background: $darkGray;
+    color: $white!important;
+    padding: 2px 8px;
+    margin-right: 2px;
+    border-radius: 4px;
+    font-size: 80%;
+}
+a.tag:hover {
+    background: $black;
+}
+
 @import "highlights";
 @import "jekyll-mono";
+
+.highlight pre.highlight {
+    border: 0;
+    box-shadow: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.highlight {
+  overflow: auto;
+  padding: 20px;
+  margin: 0;
+}
+div.highlight {
+  margin: 10px 0;
+  padding: 0;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+  }
+  .masthead,
+  .masthead a,
+  .site-description {
+    color: black;
+  }
+
+
+  .wrapper-footer {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background-color: #333;
+  }
+
+  .highlight {
+    background-color: #333;
+    border: 1px solid #333;
+  }
+  .intro-header {
+      border-top: 5px solid black;
+  }
+}

@@ -1,0 +1,140 @@
+---
+layout: post
+title: Objects Available to Velocity in Atlassian Confluence - A User Macro
+date: 2014-06-19 18:24:43.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- web
+tags:
+- atlassian
+- atlassian plugin sdk
+- confluence
+- user macro
+meta:
+  _encloseme: '1'
+  _pingme: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797300026978304'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>There's a great list of <a href="https://developer.atlassian.com/display/CONFDEV/Confluence+Objects+Accessible+From+Velocity">Confluence Objects Accessible From Velocity</a> on the Atlassian Developers site. I often refer to that page. However, the list is not exactly complete.</p>
+<p>Scott Dudley wrote a handy <a href="http://stackoverflow.com/a/23819584/1958200">user macro</a> that displays all the available objects. I've improved a little on Scott's user macro by linking to the latest Confluence JavaDocs for each class.</p>
+<p>Here's the user macro:</p>
+<!--more-->
+<p><!--Gist here: https://gist.github.com/dvdsmpsn/6de6de59b8ba5bc94dc8--></p>
+<pre><code>
+## Based on Scott Dudley's answer here:<br />
+## http://stackoverflow.com/a/23819584/1958200<br />
+##<br />
+## @noparams</p>
+<p>#set($cashMoney = &quot;$&quot;) ## just for display</p>
+<p>#set($macroUtilClass=$action.class.forName('com.atlassian.confluence.renderer.radeox.macros.MacroUtils'))<br />
+#set($getContextMethod=$macroUtilClass.getDeclaredMethod('defaultVelocityContext',null))<br />
+#set($ctx=$getContextMethod.invoke(null))<br />
+#set($objects = $ctx.keySet().toArray())&lt;/pre&gt;<br />
+&lt;ul&gt;<br />
+&lt;ul&gt;#foreach($p in $objects)&lt;/ul&gt;<br />
+&lt;/ul&gt;<br />
+&amp;nbsp;<br />
+&lt;ul&gt;<br />
+&lt;ul&gt;#set($className = $ctx.get($p).getClass().getName().toString())&lt;/ul&gt;<br />
+&lt;/ul&gt;<br />
+&amp;nbsp;<br />
+&lt;ul&gt;<br />
+&lt;ul&gt;<br />
+	&lt;li&gt;&lt;code&gt;$cashMoney$p.toString()&lt;/code&gt; –<br />
+ #if ($className.contains(&quot;$&quot;) == true || $className.startsWith(&quot;com.atlassian&quot;) == false)<br />
+ $className<br />
+ #else<br />
+ #set($classUrl = &quot;https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/&quot; + $className.replace(&quot;.&quot;, &quot;/&quot;) + &quot;.html&quot;)<br />
+ &lt;a href=&quot;$classUrl&quot;&gt;$className&lt;/a&gt;<br />
+ #end&lt;/li&gt;<br />
+&lt;/ul&gt;<br />
+&lt;/ul&gt;<br />
+&amp;nbsp;<br />
+&lt;ul id=&quot;velocityObjects&quot;&gt;#end&lt;/ul&gt;<br />
+&lt;pre&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[<br />
+  // Sort them - Confluence doesn't have velocity SortTool, so doing this client side.<br />
+  AJS.toInit(function ($) {<br />
+    var sort_by_name = function(a, b) {<br />
+      return a.innerHTML.toLowerCase().localeCompare(b.innerHTML.toLowerCase());<br />
+    }</p>
+<p>    var velocityObjects = $(&quot;#velocityObjects &gt; li&quot;).get();<br />
+    velocityObjects.sort(sort_by_name);<br />
+    for (var i = 0; i &lt; velocityObjects.length; i++) {<br />
+      velocityObjects[i].parentNode.appendChild(velocityObjects[i]);<br />
+    }<br />
+  });<br />
+// ]]&gt;&lt;/script&gt;&lt;/pre&gt;<br />
+&lt;style&gt;&lt;!--<br />
+  /* add some style */<br />
+  #com-atlassian-confluence #velocityObjects code {<br />
+    margin: 0 2px;<br />
+    padding: 0px 5px;<br />
+    border: 1px solid #ddd;<br />
+    background-color: #f5f5f5;<br />
+    -webkit-border-radius: 3px;<br />
+    -moz-border-radius: 3px;<br />
+    border-radius: 3px;<br />
+  }<br />
+--&gt;&lt;/style&gt;<br />
+&lt;pre&gt;<br />
+</code></pre>
+<p>And the resulting HTML displayed:</p>
+<p><a href="/wp-content/uploads/2014/06/velocity-objects-in-confluence.png"><img class="alignnone size-full wp-image-2819" alt="velocity-objects-in-confluence" src="{{ site.baseurl }}/assets/velocity-objects-in-confluence.png" width="992" height="1346" /></a></p>
+<h2>Complete list of Confluence object available to Velocity</h2>
+<p>For completeness, I've copied over from a Confluence 5.5.x instance with links to the latest JavaDocs below. I won't be updating the list as you can use the user macro instead.</p>
+<ul id="velocityObjects">
+<li><code>$action</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/pages/actions/ViewPageAction.html" rel="nofollow">com.atlassian.confluence.pages.actions.ViewPageAction</a></li>
+<li><code>$applicationConfig</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/config/ApplicationConfig.html" rel="nofollow">com.atlassian.config.ApplicationConfig</a></li>
+<li><code>$attachmentManager</code> – com.sun.proxy.$Proxy26</li>
+<li><code>$bootstrap</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/DefaultBootstrapManager.html" rel="nofollow">com.atlassian.confluence.setup.DefaultBootstrapManager</a></li>
+<li><code>$buildInfo</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/BuildInformation.html" rel="nofollow">com.atlassian.confluence.setup.BuildInformation</a></li>
+<li><code>$confluenceFlavour</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/settings/ConfluenceFlavour.html" rel="nofollow">com.atlassian.confluence.setup.settings.ConfluenceFlavour</a></li>
+<li><code>$contentUiSupport</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/content/ui/DefaultContentUiSupport.html" rel="nofollow">com.atlassian.confluence.content.ui.DefaultContentUiSupport</a></li>
+<li><code>$darkFeatures</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/settings/DarkFeatures.html" rel="nofollow">com.atlassian.confluence.setup.settings.DarkFeatures</a></li>
+<li><code>$deprecated</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/velocity/Deprecated.html" rel="nofollow">com.atlassian.confluence.velocity.Deprecated</a></li>
+<li><code>$docBean</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/i18n/VersionSpecificDocumentationBean.html" rel="nofollow">com.atlassian.confluence.util.i18n.VersionSpecificDocumentationBean</a></li>
+<li><code>$docThemeHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/plugins/doctheme/DocThemeHelper.html" rel="nofollow">com.atlassian.confluence.plugins.doctheme.DocThemeHelper</a></li>
+<li><code>$fileUtil</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/core/util/FileUtils.html" rel="nofollow">com.atlassian.core.util.FileUtils</a></li>
+<li><code>$generalUtil</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/GeneralUtil.html" rel="nofollow">com.atlassian.confluence.util.GeneralUtil</a></li>
+<li><code>$i18n</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/i18n/DefaultI18NBean.html" rel="nofollow">com.atlassian.confluence.util.i18n.DefaultI18NBean</a></li>
+<li><code>$i18nBean</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/i18n/DefaultI18NBean.html" rel="nofollow">com.atlassian.confluence.util.i18n.DefaultI18NBean</a></li>
+<li><code>$jsonator</code> – com.sun.proxy.$Proxy2372</li>
+<li><code>$licenseManager</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/license/LicenseManager.html" rel="nofollow">com.atlassian.license.LicenseManager</a></li>
+<li><code>$messageManager</code> – com.sun.proxy.$Proxy91</li>
+<li><code>$officeVelocityHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/extra/office/velocity/VelocityHelper.html" rel="nofollow">com.atlassian.confluence.extra.office.velocity.VelocityHelper</a></li>
+<li><code>$pageManager</code> – com.sun.proxy.$Proxy58</li>
+<li><code>$permissionCheckDispatcher</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/security/PermissionCheckDispatcher.html" rel="nofollow">com.atlassian.confluence.security.PermissionCheckDispatcher</a></li>
+<li><code>$permissionHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/security/PermissionHelper.html" rel="nofollow">com.atlassian.confluence.security.PermissionHelper</a></li>
+<li><code>$renderBean</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/QuickPageRenderBean.html" rel="nofollow">com.atlassian.confluence.util.QuickPageRenderBean</a></li>
+<li><code>$req</code> – com.atlassian.confluence.web.filter.DebugFilter$DebugHttpServletRequestWrapper</li>
+<li><code>$res</code> – com.atlassian.confluence.web.filter.DebugFilter$LoggingResponseWrapper</li>
+<li><code>$seraph</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/util/SeraphUtils.html" rel="nofollow">com.atlassian.confluence.util.SeraphUtils</a></li>
+<li><code>$settingsManager</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/settings/DefaultSettingsManager.html" rel="nofollow">com.atlassian.confluence.setup.settings.DefaultSettingsManager</a></li>
+<li><code>$setup</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/DefaultBootstrapManager.html" rel="nofollow">com.atlassian.confluence.setup.DefaultBootstrapManager</a></li>
+<li><code>$setupPersister</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/DefaultSetupPersister.html" rel="nofollow">com.atlassian.confluence.setup.DefaultSetupPersister</a></li>
+<li><code>$soyTemplateRendererHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/plugins/soy/VelocityFriendlySoyTemplateRenderer.html" rel="nofollow">com.atlassian.confluence.plugins.soy.VelocityFriendlySoyTemplateRenderer</a></li>
+<li><code>$spaceManager</code> – com.sun.proxy.$Proxy62</li>
+<li><code>$spaceToolsTabsHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/spaces/actions/SpaceToolsTabsHelper.html" rel="nofollow">com.atlassian.confluence.spaces.actions.SpaceToolsTabsHelper</a></li>
+<li><code>$spaceUtils</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/spaces/SpaceUtils.html" rel="nofollow">com.atlassian.confluence.spaces.SpaceUtils</a></li>
+<li><code>$staticResourceUrlPrefix</code> – java.lang.String</li>
+<li><code>$stringUtils</code> – org.apache.commons.lang.StringUtils</li>
+<li><code>$systemProperties</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/core/ConfluenceSystemProperties.html" rel="nofollow">com.atlassian.confluence.core.ConfluenceSystemProperties</a></li>
+<li><code>$textUtil</code> – com.opensymphony.util.TextUtils</li>
+<li><code>$userAccessor</code> – com.sun.proxy.$Proxy53</li>
+<li><code>$userHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/user/UserHelper.html" rel="nofollow">com.atlassian.confluence.user.UserHelper</a></li>
+<li><code>$utilTimerStack</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/util/profiling/UtilTimerStack.html" rel="nofollow">com.atlassian.util.profiling.UtilTimerStack</a></li>
+<li><code>$webInterfaceManager</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/plugin/descriptor/web/ConfluenceWebInterfaceManager.html" rel="nofollow">com.atlassian.confluence.plugin.descriptor.web.ConfluenceWebInterfaceManager</a></li>
+<li><code>$webMenuManager</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/web/LegacyConfluenceWebMenuManager.html" rel="nofollow">com.atlassian.confluence.web.LegacyConfluenceWebMenuManager</a></li>
+<li><code>$webResourceHelper</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/setup/velocity/VelocityFriendlyPageBuilderService.html" rel="nofollow">com.atlassian.confluence.setup.velocity.VelocityFriendlyPageBuilderService</a></li>
+<li><code>$webResourceManager</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/confluence/plugin/webresource/DefaultConfluenceWebResourceManager.html" rel="nofollow">com.atlassian.confluence.plugin.webresource.DefaultConfluenceWebResourceManager</a></li>
+<li><code>$webwork</code> – com.opensymphony.webwork.util.VelocityWebWorkUtil</li>
+<li><code>$xsrfTokenGenerator</code> – <a class="external-link" href="https://docs.atlassian.com/com/atlassian/confluence/atlassian-confluence/latest/com/atlassian/xwork/SimpleXsrfTokenGenerator.html" rel="nofollow">com.atlassian.xwork.SimpleXsrfTokenGenerator</a></li>
+</ul>

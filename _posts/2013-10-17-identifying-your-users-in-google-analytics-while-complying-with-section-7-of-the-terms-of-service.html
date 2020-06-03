@@ -1,0 +1,84 @@
+---
+layout: post
+title: Identifying your users in Google Analytics while complying with section 7 of
+  the terms of service
+date: 2013-10-17 22:29:25.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- Featured
+- web
+tags:
+- google analytics
+- personally identifiable information
+meta:
+  _yoast_wpseo_title: Identifying your users in Google Analytics while complying with
+    section 7 of the terms of service
+  tmac_last_id: '618797335204630529'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '2119'
+  _encloseme: '1'
+  _pingme: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>In Google Analytics we're not allowed to track personally identifiable information (PII) such as usernames that would be identifiable by a 3rd party such as Google. This is because of section 7 of the <a href="http://www.google.co.uk/analytics/terms/us.html">terms of service</a>:</p>
+<blockquote><p>You will not (and will not allow any third party to) use the Service to track, collect or upload any data that personally identifies an individual (such as a name, email address or billing information), or other data which can be reasonably linked to such information by Google.
+</p></blockquote>
+<p>While sending Google information that is personally identifiable is simply not permitted, you can <em>instead</em> send an identifier which is <b>known only to you</b>.<br />
+<!--more-->
+<p>This is "confirmed" by "<strong>RockinFewl</strong>" in the Google Product Forum:</p>
+<blockquote><p>
+Earlier this year, I had an interesting talk with a Google representative on this very matter. </p>
+<p>He confirmed that you are actually allowed to track individuals, but that you cannot store personally identifiable information on Google's servers or a GA cookie. More specifically: you cannot store names or ip addresses in a custom var, but you can store ids that need your backend to resolve into a person identification.  He said that whatever you're doing in your backend is beyond the responsibility of Google. </p>
+<p> &ndash; <a href="http://productforums.google.com/forum/m/#!topic/analytics/tTaqssN7sY8">Google Analytics Forum | Best way to track individual users</a>
+</p></blockquote>
+<p>It is further confirmed by <a href="https://twitter.com/justincutroni">Justin Cutroni</a>, Analytics Evangelist at Google:</p>
+<blockquote><p>
+To add Google Analytics data to a data warehouse you need to add some type of primary key to Google Analytics. In most of the work that I’ve done this key is a visitor ID. This anonymous identifier usually comes from some other system like a CRM.  [...]  I know what you’re thinking, “You can’t store personally identifiable information in Google Analytics!” But this isn’t personally identifiable information.</p>
+<p> &ndash; <a href="http://cutroni.com/blog/2011/05/05/merging-google-analytics-with-your-data-warehouse/">Merging Google Analytics with your Data Warehouse</a>
+</p></blockquote>
+<p>This also means that if you're trying to identify users within the Google Analytics UI, you'll have to do a search in a separate system to lookup who the user is. This is probably not very usable in reality, but if you use the Google Analytics API to create an integration with your backend system, you would be able to perform the lookup and display the correct user details in your reports. </p>
+<p><b>Update:</b> The <a href="/pii-viewer-for-google-analytics/">PII Viewer for Google Analytics Chrome extension</a> helps display PII within the Google Analytics UI without breaking the terms of service.</p>
+<h2>Real world examples</h2>
+<p>So what's allowed and what isn't allowed?</p>
+<p>In my day job, I'm normally using systems such as Atlassian Confluence or IBM Connections to create new product features or new product integrations. How can we track users and uniquely identify them in these systems?</p>
+<p>The simplest way to track a user is to add a custom variable that records say the username, email address or another identifier.</p>
+<h3>Example: Atlassian Confluence</h3>
+<p>In Atlassian Confluence, you could easily use the following:<br />
+<pre><code> _gaq.push(['_setCustomVar', 2, 'username', AJS.params.remoteUser, 1 ]); // ***** DO NOT USE THIS *****</code></pre>
+<p>This would be <b>a violation of section 7</b> of the terms of service because it sends personally identifiable information to Google. OK, a username <em>may not</em> be easily linked to a user's actual identity, but it's likely that it would be.</p>
+<h3>Example: IBM Connections</h3>
+<p>So, we know that usernames and email addresses are not allowed, but what else can we use? </p>
+<p>In IBM Connections, each user is internally identifiable by a universal user identity (UUID). If this is not externally available, this would be perfect to send to Google as the identifier.</p>
+<p>We could then use:</p>
+<pre><code>_gaq.push(['_setCustomVar', 2, 'uuid', uuid, 1 ]);</code></pre>
+<p>However, most IBM Connections systems have the ability to query a user based on this UUID using the Profiles REST API e.g.</p>
+<pre><code>https://connections.example.ibm.com/profiles/atom/profile.do?userid={GUID}</code></pre>
+<p>If this REST API <em>is</em> protected by authentication, then we are good. It would <b>comply with section 7</b> of the terms of service.</p>
+<p>If this REST API <em>is not</em> protected by authentication, then this would be <b>a violation section 7</b> of the terms of service because it sends information to Google...</p>
+<blockquote><p>which can be reasonably linked to such information by Google</p></blockquote>
+<h2>Workaround</h2>
+<p>To get around this problem, you should create what I'm going to term a "Google Analytics identifier" (GAID) which is mapped to the username or UUID and is only used to send tracking data to Google Analytics. You'll likely need to store this against the user object/user table in your backend system.</p>
+<p>That way, you can use this:</p>
+<pre><code> _gaq.push(['_setCustomVar', 2, 'gaid', gaid, 1 ]);</code></pre>
+<p>Provided this GAID is not publicly accessible, we are good. It would comply with section 7 of the terms of service. </p>
+<p>You will be able to happily track users, but now just need to generate some reports in your backend system that decodes these GAIDs into useful data.  Hold tight, that's another story.</p>
+<p><b>Update (April 2014):</b> </p>
+<ul>
+<li>You can now use the <a href="/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a> to decode these GAIDs into useful data.</li>
+<li>Google released Universal Analytics out of beta this month. Here's a tutorial on <a href="/2014/04/20/tutorial-send-user-ids-google-analytics/">How to send user IDs to Google Analytics</a> for Universal Analytics with updated code examples.</li>
+</ul>
+<h2>Further reading</h2>
+<ul>
+<li><a href="http://www.clickinsight.ca/about/blog/usernames-privately-identifiable-information">Are 'usernames' Privately-Identifiable Information (PII)?</a></li>
+<li><a href="http://stackoverflow.com/questions/325443/generate-uuid-in-java">Generate UUID in Java</a></li>
+<li><a href="http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript">How to create a GUID / UUID in Javascript?</a></li>
+<li><a href="http://cutroni.com/blog/2011/05/05/merging-google-analytics-with-your-data-warehouse/">Merging Google Analytics with your Data Warehouse</a></li>
+<li><a href="http://www.clickinsight.ca/about/blog/infringing-google-analytics-pii-terms-service-find-out">Why You Could Lose ALL Your Google Analytics Data</a></li>
+<li><a href="http://www.clickinsight.ca/about/blog/usernames-privately-identifiable-information">Are ‘usernames’ Privately-Identifiable Information (PII)?</a></li>
+<li><a href="https://cutroni.com/blog/2014/04/10/understanding-cross-device-measurement-and-the-user-id/">Understanding Cross Device Measurement and the User-ID</a></li>
+</ul>

@@ -1,0 +1,27 @@
+---
+layout: post
+title: How can I set environment variables for GUI apps in OS X Mavericks?
+date: 2014-08-08 14:51:24.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  tmac_last_id: '618797297200029696'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Adapted from a <a href="http://superuser.com/questions/682260/how-can-i-set-environment-variables-for-gui-apps-in-os-x-mavericks/682308#682308">SuperUser answer</a>:</p>
+<blockquote><p>
+<code>/etc/launchd.conf</code> does not exist by default, but it does still work in 10.9.</p>
+<ol>
+<li>Run for example <code>sudo nano /etc/launchd.conf</code>.</li>
+<li>Add a line like <pre><code>setenv M2_HOME /opt/boxen/homebrew/Cellar/atlassian-plugin-sdk/5.0.0/libexec/apache-maven-3.2.1/</code></pre></li>
+<li>Run <pre><code>launchctl &lt; /etc/launchd.conf<br />
+sudo launchctl &lt; /etc/launchd.conf</code></pre> and relaunch processes.</li>
+</ol>
+</blockquote>

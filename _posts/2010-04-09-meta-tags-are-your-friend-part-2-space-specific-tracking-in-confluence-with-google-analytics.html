@@ -1,0 +1,188 @@
+---
+layout: post
+title: 'Meta tags are your friend part 2: Space specific tracking in Confluence with
+  Google Analytics'
+date: 2010-04-09 02:14:54.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- atlassian
+- confluence
+- Google
+- google analytics
+- web analytics
+- wiki
+meta:
+  _topsy_long_url: /2010/04/09/meta-tags-are-your-friend-part-2-space-specific-tracking-in-confluence-with-google-analytics/
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299674967'
+  topsy_short_url: http://bit.ly/bg13EL
+  tmac_last_id: '618797398098194432'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>I've previously written a number of posts about Confluence and Google Analytics (GA), including <a href="/2009/03/18/tracking-atlassian-confluence-usage-with-google-analytics/">how to set up GA on Confluence</a> and pointers for <a href="/2009/04/16/4-useful-tips-on-google-analytics-reporting-for-confluence/">GA reports you should consider</a>.  Lastly, I wrote the <a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/">Confluence Google Analytics Plugin</a> (CGAP) which provides space specific GA reports from within Confluence.</p>
+<p>However, I've not been entirely happy because there wasn't a method to allow complete tracking of all space specific Confluence pages using CGAP or the reports that I've previously described.</p>
+<p>This has been <a href="http://forums.atlassian.com/thread.jspa?messageID=257303418">documented</a> <a href="http://blogs.atlassian.com/confluence/2009/12/report-confluence-activity-using-google-analytics-in-the-wiki.html#comment-210247">elsewhere</a>, but briefly, the problem is with...</p>
+<ul>
+<li>pages with punctuation in the title e.g. <a href="http://workspace.nottingham.ac.uk/pages/viewpage.action?pageId=45947608" title="http://workspace.nottingham.ac.uk/pages/viewpage.action?pageId=45947608">This page is bad for Analytics, isn't it?</a> (hover on the link to see the URI)</li>
+<li>short URLs e.g. /x/2Bq9Ag</li>
+<li>space administration e.g. /spaces/spaceadmin.action?key=spaceKey</li>
+<li>page edits e.g./pages/editpage.action?pageId=XXXX</li>
+<li>page creation e.g. /pages/createpage.action?spaceKey=spaceKey&fromPageId=XXXX</li>
+<li>add/view attachments e.g. /pages/viewpageattachments.action?pageId=XXXX</li>
+<li>page history e.g. /pages/viewpreviousversions.action?pageId=XXXX</li>
+<li>view wiki markup e.g. /pages/viewpagesrc.action?pageId=XXXX</li>
+</ul>
+<p>...and so on.  I think you get the picture.</p>
+<p>For any page where there is a real interaction with the wiki &mdash; such as page creation or page edits, attachment viewing or uploading &mdash; it is very difficult associate that interaction to the space where the interaction took place.  Damn.  That's the main point really. Wikis are for collaboration &mdash; editing and creating content &mdash; not just passively reading.  </p>
+<p>It really bugs me that the URIs in Confluence aren't built up so that they always provide a context of where you are.  But what can we do?</p>
+<p>This post suggests 2 possible solutions to this problem:  </p>
+<ol>
+<li>A Javascript only method</li>
+<li>A Javascript and velocity templating method</li>
+</ol>
+<p>Both have their drawbacks, but they do let you get a little closer to understanding what your users are doing within your Confluence spaces. Try them out and please report back on your preference or your own alternative solution.</p>
+<!--more-->
+<h2>The Javascript only method</h2>
+<p>In this method, we track a custom variable in GA where possible, so that we can attach a page view to the corresponding Confluence space.</p>
+<p>Atlassian handily provide the following (example) meta tag on every page that has an associated space:</p>
+<pre><code>&lt;meta id=&quot;confluence-space-key&quot; name=&quot;confluence-space-key&quot; content=&quot;~cczdas&quot;&gt;</code></pre>
+<p>We can check for that meta tag and pass it into a custom variable in Google Analytics.</p>
+<p>In Confluence, go to <b>Dashboard | Administration | Look and Feel | Custom HTML</b></p>
+<p>Click on the “Edit” button and add this javascript snippet (with your tracker code) to the “At end of the BODY” section:</p>
+<pre><code>
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
+document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
+&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;</p>
+<p>	window.onload = function(){<br />
+		try<br />
+		{<br />
+			var pageTracker = _gat._getTracker(&quot;UA-XXXXX-XX&quot;);</p>
+<p>			// Add a page-level custom variable to record the space-key<br />
+			if (typeof jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;) == 'string')<br />
+			{<br />
+				pageTracker._setCustomVar(<br />
+				     1,                         // This custom var is set to slot #1 of 5<br />
+				     'confluence-space-key',    // The name acts as a kind of category for the user activity<br />
+				     jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;), // This value of the custom variable<br />
+				     3                          // Sets the scope to page-level<br />
+				);<br />
+			}<br />
+		}<br />
+		catch (err) {}<br />
+	}</p>
+<p>&lt;/script&gt;<br />
+</code></pre>
+<p>This means for each page, we've added a custom variable which can later be check against.  We can now therefore easily check which page belongs to which space.</p>
+<p>In Google Analytics, the custom variables report looks like this:</p>
+<p><a href="http://localhost/davidsimpson.me/wp-content/uploads/2010/04/confluence-ga-custom-variable-report.png"><img src="{{ site.baseurl }}/assets/confluence-ga-custom-variable-report-440x316.png" alt="confluence-ga-custom-variable-report" title="confluence-ga-custom-variable-report" width="440" height="316" class="size-medium wp-image-725" /></a></p>
+<p>This doesn't really tell us much, other than the number of page views for a space and a little more.  To get at the real power of custom variables, we need to create a custom segment for each space.  This will allow us to see all the interactions for the space.</p>
+<p>Here's a short video guide to creating custom segments for Confluence spaces:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/gOBoqG7LNLc&hl=en_US&fs=1&" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/gOBoqG7LNLc&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<h3>Pros</h3>
+<ul>
+<li>It's really simple. Anyone with Confluence administration rights can cut and paste this code.</li>
+<li>It's pure. This should not be affected by upgrades to the platform.</li>
+<li>It's easily to support. Lots of people know Javascript.</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+<li>You're moving into slightly advanced Google Analytics territory here.</li>
+<li>You'll need to set up a separate custom advanced segment for each space.  This may be somewhat dull.</li>
+</ul>
+<p>I really like this approach, but haven't managed to successfully add it into CGAP yet <a href="http://www.google.com/support/forum/p/Google+Analytics/thread?tid=23eb6e88efbd4ac3&hl=en">whilst maintaining access to historical data</a>.</p>
+<h2>Javascript and velocity templating method</h2>
+<p>In this method, we trick Google Analytics into reporting the URL in a the format that works with content drill-down e.g.</p>
+<ul>
+<li>/pages/viewpage.action?pageId=XXXX becomes /display/spaceKey/Page+Title</li>
+<li>/x/2Bq9Ag (short URL) becomes /display/spaceKey/Page+Title</li>
+<li>/pages/editpage.action?pageId=XXX becomes /display/spaceKey/Page+Title/edit</li>
+<li>/pages/viewpageattachments.action?pageId=XXX becomes /display/spaceKey/Page+Title/view-attachments</li>
+</ul>
+<p>We do this by adding a custom meta tag named "analytics.url.fix" from which we read the "fixed" URL using a little Javascript.	</p>
+<h3>Edits</h3>
+<p><b>page.vmd</b> in your theme:<br />
+<pre><code>
+## Add Google Analytics support for page edits, attachment views etc.<br />
+## Called by $!sitemeshPage.getProperty(&quot;page.googleAnalyticsUrlFix&quot;) in main.vmd<br />
+&lt;content tag=&quot;googleAnalyticsUrlFix&quot;&gt;<br />
+	#if ($mode == &quot;view&quot;)<br />
+		&lt;meta name=&quot;analytics.url.fix&quot; desc=&quot;$req.contextPath/display/$page.spaceKey/$page.title&quot; /&gt;<br />
+	#else<br />
+		&lt;meta name=&quot;analytics.url.fix&quot; desc=&quot;$req.contextPath/display/$page.spaceKey/$page.title/$mode&quot; /&gt;<br />
+	#end<br />
+&lt;/content&gt;<br />
+</code></pre>
+<p><b>main.vmd</b> in your theme:<br />
+Add after the title node in /html/head/title</p>
+<pre><code>
+## Call the googleAnalyticsUrlFix content tag in page.vmd, fail silently:<br />
+$!sitemeshPage.getProperty(&quot;page.googleAnalyticsUrlFix&quot;)<br />
+</code></pre>
+<p>In Confluence, go to <b>Dashboard | Administration | Look and Feel | Custom HTML</b></p>
+<p>Click on the “Edit” button and add this javascript snippet (with your tracker code) to the “At end of the BODY” section:</p>
+<pre><code>
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+var gaJsHost = ((&quot;https:&quot; == document.location.protocol) ? &quot;https://ssl.&quot; : &quot;http://www.&quot;);<br />
+document.write(unescape(&quot;%3Cscript src='&quot; + gaJsHost + &quot;google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E&quot;));<br />
+&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+	window.onload = function(){<br />
+		try<br />
+		{<br />
+			var pageTracker = _gat._getTracker(&quot;UA-XXXXXX-X&quot;); </p>
+<p>			// Test for the meta[name=analytics.url.fix] tag &amp; fix the url<br />
+			if (typeof jQuery('meta[name=analytics.url.fix]').attr(&quot;content&quot;) == 'string')<br />
+			{<br />
+	 			// console.debug('corrected pageview');<br />
+	   			var pageUri = jQuery('meta[name=analytics.url.fix]').attr(&quot;content&quot;).replace(/s+/gi, '+');<br />
+				pageTracker._trackPageview(pageUri);<br />
+			}<br />
+			else<br />
+			{<br />
+				// console.debug('default pageview');<br />
+				pageTracker._trackPageview();<br />
+			}<br />
+		}<br />
+		catch (err) {}<br />
+	}<br />
+&lt;/script&gt;<br />
+</code></pre>
+<h3>Pros</h3>
+<ul>
+<li>You don't have to do anything on the Google Analytics side at all</li>
+<li>
+		This is just great for the content drilldown screen in Google Analytics.</p>
+<ul>
+<li>It means that pages with punctuation in the title can now be seen within their correct space.</li>
+<li>The space owners can now be sure of the stats for viewing and editing pages within their space.</li>
+</ul>
+</li>
+<li>
+		This is great for the Google Analytics plugin for Confluence (CGAP)</p>
+<ul>
+<li>All the page edits should be shown in the analytics report</li>
+<li>It's easily supportable. Lots of people know Javascript</li>
+</ul>
+</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+<li>It's a bit messy.</li>
+<li>You'll have to apply this to every theme you support.</li>
+<li>Editing velocity templates isn't everyone's cup of tea.</li>
+<li>I've no idea what will happen when you upgrade Confluence.</li>
+<li>It niggles me that we're sending incorrect (though easily readable) pageview data to Google Analytics.</li>
+<li>It still doesn't tie everything to the space, just the page interactions</li>
+</ul>
+<p>To my mind, this is less elegant, but provides pretty much instant results.</p>
+<h2>Which one to choose?</h2>
+<p>I really like the simplicity of the first solution. Just a little bit of Javascript to read a meta tag that's already there.  It's likely to easily survive an upgrade. But I'm  disappointed that as yet, I can't get it to work nicely with CGAP.</p>
+<p>For ongoing support reasons, I'd always say <b>don't mess with the platform</b>. Don't do anything which makes it more difficult to upgrade to the latest and greatest version. If you agree, then steer well clear of the latter option.  If however, you absolutely have to start complete space specific tracking right now, no matter what, then the latter is then choice for you.</p>

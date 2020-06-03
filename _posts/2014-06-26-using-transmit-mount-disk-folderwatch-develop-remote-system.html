@@ -1,0 +1,49 @@
+---
+layout: post
+title: Using Transmit "mount as disk" and FolderWatch to develop on a remote system
+date: 2014-06-26 20:58:32.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- Programming
+- Projects
+- web
+tags:
+- FolderWatch
+- transmit
+meta:
+  _edit_last: '1'
+  tmac_last_id: '618797298752049152'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Working as an external consultant means that you adapt to certain constraints. Sometimes this means you have absolutely no access to the systems you’re developing for and thus you’re reliant entirely on a your ability to bond and form a good relationship with a local admin (maybe from a different culture and continent). Other times, there is some limited access.</p>
+<p>This time, I had some access. Just not much.</p>
+<h2>The constraints</h2>
+<p>A project I’ve recently been working on had SFTP access to the web server where the files reside, but nothing more.<br />
+<!--more-->
+<ul>
+<li>No external access to LDAPs</li>
+<li>No external access to databases</li>
+<li>No ssh access</li>
+</ul>
+<p>With this access (or lack thereof) I needed to update the authentication and authorisation code along with some other software enhancements.</p>
+<h2>The workaround</h2>
+<ul>
+<li><a href="http://panic.com/transmit/">Transmit</a> — use the “mount as disk” feature</li>
+<li><a href="https://itunes.apple.com/us/app/folderwatch/id408224368?mt=12">FolderWatch</a></li>
+</ul>
+<p>I'd never needed to use Transmit's "mount as disk" feature before, but it is very handy. As you'd expect, it allows you to mount a remote SFTP filesystem as a  disk on your local machine.</p>
+<p>FolderWatch is a cheap, friendly and easy to use way to watch file changes and mirror updates to another folder.</p>
+<p>With this configuration on my development machine, a change in by development directory is automatically mirrored in the locally mounted disk from the remote SFTP server. Local development is instantly mirrored on the remote server. Yay!</p>
+<h2>A warning</h2>
+<p>OK, so it's not all roses. Sometimes, Transmit disconnects without warning. Then you need to tidy things up again…</p>
+<ul>
+<li>Shutdown FolderWatch</li>
+<li>Shutdown transmit</li>
+<li><code>umount /Volumes/transmit-bookmark-name</code></li>
+<li>Restart transmit &amp; mount</li>
+<li>Start FolderWatch</li>
+</ul>

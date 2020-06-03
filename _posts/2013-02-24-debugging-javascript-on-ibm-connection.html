@@ -1,0 +1,23 @@
+---
+layout: post
+title: Debugging JavaScript on IBM Connections
+date: 2013-02-24 10:00:58.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- web
+tags:
+- ibmconnections
+meta:
+  tmac_last_id: '618797352267157504'
+  _edit_last: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Recently I've been writing some OpenSocial gadgets for IBM Connections.  </p>
+<p>IBM Connections helpfully bundles and minifies all the JavaScript resources into a single line in a single file for a smaller file size and fewer HTTP requests.  This is great for production, but somewhat limiting when you're trying to debug JavaScript.</p>
+<p>If you append <strong>?debug=true</strong> to a URL, all the JavaScript files are fetched separately and unminified.</p>
+<p>Use <strong>?debug=dojo</strong> to have all files concatenated, but unminified.</p>
+<p><a href="http://stackoverflow.com/questions/14835069/whats-the-best-way-to-debug-javascript-on-ibm-connections">Source</a></p>

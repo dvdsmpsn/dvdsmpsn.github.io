@@ -1,0 +1,59 @@
+---
+layout: post
+title: Markdown for Confluence
+date: 2013-10-20 20:32:06.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- add-on
+- atlassian
+- confluence
+- plugin
+meta:
+  tmac_last_id: '618797333766123520'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><a href="https://bitbucket.org/dvdsmpsn/markdown-for-confluence/downloads"><img src="{{ site.baseurl }}/assets/208x128-solid.png" alt="" title="208x128-solid" width="208" style="margin:0 1.5em 0.5em 0 !important; float: left; max-width:35% !important;" /></a><strong>I had a great idea for a Confluence add-on, but timing really is everything...</strong></p>
+<p>Like many others I've been using GitHub, Bitbucket and Stash for some time now and enjoyed the simple Markdown syntax for creating README.md files. It takes a little getting used to when exposure to Confluence's old wiki markup means that you are conditioned to write the wrong thing, but overall I like it.</p>
+<p>So one day in June when I'd just pasted some text from a Stash README directly into Confluence it stuck me that Confluence should have a markdown macro. Having had this thought, it seemed obvious that some one else must have thought the same and acted upon it already. A quick Google search proved me wrong. </p>
+<p><strong>There was no Markdown macro for Confluence.</strong></p>
+<p>Surely not? Such a macro would perhaps appease the wiki markup faithful to some extent.</p>
+<p>It was a Friday night and I was at home with my kids asleep upstairs. As this was <em>clearly such an excellent idea</em>, I set about righting this wrong immediately. So Markdown for Confluence was written. Amazingly, the macro was up and running within half an hour as the excellent <a href="https://github.com/sirthias/pegdown">pegdown library</a> meant that I had to write almost no code whatsoever. I probably spent more time adding a logo and the macro placeholder image.</p>
+<p>The crux of the add-on was just this method:</p>
+<pre><code>
+@Override<br />
+public String execute(Map&lt;String, String&gt; parameters,<br />
+                      String body,<br />
+                      ConversionContext conversionContext)<br />
+        throws MacroExecutionException<br />
+{<br />
+    PegDownProcessor processor = new PegDownProcessor();<br />
+    return &quot;&lt;div class=&quot;markdown-macro&quot;&gt;&quot; + processor.markdownToHtml(markdown) + &quot;&lt;/div&gt;&quot;;<br />
+}<br />
+</code></pre>
+<p>MVP completed, I moved on to those new-fangled Blueprints I'd heard so much about. Yay, the add-on now had the Blueprint feature, which is kinda neat. All pages created with the markdown Blueprint were labeled as such and conveniently listed in the left hand menu of every space.</p>
+<h2>Timing</h2>
+<p>So the code was pushed to Bitbucket and built ready for release. But wait, Atlassian released <a href="https://marketplace.atlassian.com/plugins/com.atlassian.plugins.confluence.markdown.confluence-markdown-macro">their own</a> markdown macro the very day I wrote mine. Timing eh? </p>
+<blockquote class="twitter-tweet"><p>I wrote a Markdown add-on for Confluence at the weekend. Looks like <a href="https://twitter.com/atlassian">@atlassian</a> had the same idea: <a href="https://t.co/6oqNXarYPI">https://t.co/6oqNXarYPI</a> cc: <a href="https://twitter.com/chadothompson">@chadothompson</a></p>
+<p>&mdash; David Simpson (@dvdsmpsn) <a href="https://twitter.com/dvdsmpsn/statuses/349098834590314496">June 24, 2013</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>Further, Bob Swift released <a href="https://marketplace.atlassian.com/plugins/org.swift.confluence.markdown">yet another</a> Markdown add-on within about a week or so. </p>
+<p>Just like mine, both of the other add-ons used the pegdown library and also version of Dustin Curtis's <a href="http://dcurt.is/the-markdown-mark">Markdown Mark</a>.</p>
+<h2>Release?</h2>
+<p>I didn't release the add-on to Atlassian Marketplace. Arguably 2 plugins that seemingly do the same thing is plenty to choose from. Instead I've made the <a href="https://bitbucket.org/dvdsmpsn/markdown-for-confluence/">source</a> and the installable jar files available on my <a href="https://bitbucket.org/dvdsmpsn/">Bitbucket page</a> - you can get it from there gratis and use it however you like.</p>
+<h2>A playground</h2>
+<p>So why did I continue to work on this add-on? Well the short answer is that this add-on is a small playground for me to try stuff.  It enables me to try out new features somewhere that's safe and importantly, produce some simple code examples.</p>
+<p>After the initial release I remembered that Markdown allows you to pass unsanitised HTML directly onto a page. Sounds like a little bit of a security flaw if you ask me, so I added a configuration screen. The add-on escapes the HTML by default but you can change this if you really feel that XSS isn't something that will ever happen to you.</p>
+<h3>Code Examples</h3>
+<p>As I've previously noted, this add-on features one of the simplest code examples for writing a macro that I've seen. That's handy.</p>
+<p>Blueprints are newish. This add-on has them. </p>
+<p>I was also interested in server side rendering of soy. So, the configuration screen is a servlet that renders using soy templates instead of the normal Confluence practice of using actions and velocity. Having written this in soy, it's now a reasonable code sample that I can go back to when I need to do something similar. In fact, the more soy that I write, the more I'm enjoying it. Writing in the same templating language for both server and client side code is quite appealing. </p>
+<h2>Try out Markdown for Confluence</h2>
+<p>If you're interested in using the add-on...</p>
+<p><a href="https://bitbucket.org/dvdsmpsn/markdown-for-confluence/downloads">Download it now!</a></p>
+<p>The source code is available <a href="https://bitbucket.org/dvdsmpsn/markdown-for-confluence/"><i class="fa fa-code-fork"></i> here</a> under Apache 2.0 license. Fork it, play with it. Send me your improvements. If it was useful, let me know.</p>

@@ -1,0 +1,46 @@
+---
+layout: post
+title: How to format a disk to FAT32 on a Mac / OS X
+date: 2015-09-01 08:08:47.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- note to self
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>From <a href="http://superuser.com/users/184265/alex-plumb">Alex Plumb</a> on <a href="http://superuser.com/a/527685/274815">superuser</a>:</p>
+<blockquote><p>
+If you're comfortable with using the Terminal, try this:</p>
+<p>First, look at the partition table by running this command:</p>
+<pre><code>
+diskutil list<br />
+</code></pre>
+<p>You should see something like this:</p>
+<pre><code>
+/dev/disk1<br />
+#:                       TYPE NAME                    SIZE       IDENTIFIER<br />
+0:      GUID_partition_scheme                        *16.0 GB    disk1<br />
+1:                        EFI                         209.7 MB   disk1s1<br />
+2:                  Apple_HFS Example                 15.7 GB    disk1s2<br />
+</code></pre>
+<p>The partition we want to change is <code>/dev/disk1</code>.</p>
+<p>We want to change the device to an MBR-formatted FAT32 partition.<br />
+To do that, run this command:</p>
+<pre><code>
+sudo diskutil eraseDisk FAT32 NAME&lt; MBRFormat /dev/disk1<br />
+</code></pre>
+<p>where <code>NAME</code> is the name you want to give to the disk.</p>
+<p>As mentioned in the comments, you cannot put square brackets into the volume's name lest things mess up. To avoid having everything fail, simply ensure that there are no square brackets in the FAT32 volume's new name.
+</p></blockquote>

@@ -1,0 +1,45 @@
+---
+layout: post
+title: Deleting remote git tags
+date: 2016-09-12 21:10:05.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- git
+- note to self
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _wpas_done_all: '1'
+  _pingme: '1'
+  _encloseme: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpas_skip_11278197: '1'
+author: David Simpson
+
+---
+<p>A reminder for when you really want to destroy a whole bunch of stuff...</p>
+<p>Find out what tags you have locally:
+  
+{% highlight bash %}
+david$ git tag
+v1.0.0
+v1.0.1
+v1.1.0
+{% endhighlight %}
+  
+<p>Delete them all:
+  
+{% highlight bash %}
+david$ git tag -d v1.0.0 v1.0.1 v1.1.0
+{% endhighlight %}
+  
+<p>Push all those deletes to the remote system:
+{% highlight bash %}
+david$ git push origin :refs/tags/v1.0.0 :refs/tags/v1.0.1 :refs/tags/v1.1.0
+{% endhighlight %}
+  
+<p>That's it. Destruction complete.</p>

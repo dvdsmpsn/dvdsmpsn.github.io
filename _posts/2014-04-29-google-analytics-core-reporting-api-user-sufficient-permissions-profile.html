@@ -1,0 +1,39 @@
+---
+layout: post
+title: Google Analytics Core Reporting API - User does not have sufficient permissions
+  for this profile
+date: 2014-04-29 08:49:04.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- core reporting api
+- google analytics
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797310600818688'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>I've recently been accessing the Google Analytics Core Reporting API using the client login (username & password) method rather than OAuth2.</p>
+<p>All was working find with my integration and then out of the blue I started receiving this error message (formatted for easy reading):</p>
+<pre><code>
+[INFO] [talledLocalContainer] com.google.gdata.util.ServiceForbiddenException: Forbidden<br />
+[INFO] [talledLocalContainer]<br />
+  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />
+  &lt;errors xmlns=&quot;http://schemas.google.com/g/2005&quot;&gt;<br />
+    &lt;error&gt;<br />
+      &lt;domain&gt;GData&lt;/domain&gt;<br />
+      &lt;code&gt;insufficientPermissions&lt;/code&gt;<br />
+      &lt;internalReason&gt;User does not have sufficient permissions for this profile.&lt;/internalReason&gt;<br />
+    &lt;/error&gt;<br />
+  &lt;/errors&gt;<br />
+</code></pre>
+<p>Of course this looked like nonsense. My account is just fine, right?</p>
+<p>Wrong. Turns out that I've been using a VPN to appear to be located in the USA. Google assumes that I should be authenticating from the UK and flags this up as suspicious activity on my account, which in turn breaks the integration.</p>
+<p>The fix is to browse here: https://accounts.google.com/b/0/DisplayUnlockCaptcha or go and check for any suspicious activity on your account.</p>
+<p>Alternatively, simply implement OAuth2 for the integration instead and presumably this won't happen again.</p>

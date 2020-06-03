@@ -1,0 +1,61 @@
+---
+layout: post
+title: Quick start WordPress plugin development with VagrantPress
+date: 2013-10-15 22:28:42.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- note to self
+- wordpress
+meta:
+  tmac_last_id: '618797337134108672'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>We're using <a href="http://vagrantpress.org/">VagrantPress</a> to get a quickly WordPress instance up and running.</p>
+<h2>Procedure</h2>
+<h3>Download and start VagrantPress</h3>
+<pre><code>
+wget -O vagrantpress-master.zip https://github.com/chad-thompson/vagrantpress/archive/master.zip<br />
+unzip vagrantpress-master.zip<br />
+cd vagrantpress-master<br />
+vagrant up<br />
+</code></pre>
+<p>This will likely take up to 10 minutes on the 1st go, but will be much faster subsequently.</p>
+<p>On completion:</p>
+<ul>
+<li>WordPress will now be available at http://localhost:8080/</li>
+<li>The WordPress installation is available at <strong>vagrantpress-master/wordpress</strong></li>
+<li>Login to the admin site at http://localhost:8080/wp-admin with credentials <strong>admin</strong> &amp; <strong>vagrant</strong></li>
+</ul>
+<h3>Update /etc/hosts on the guest machine</h3>
+<p>If you have a hard coded IP address for an external dev system that you'll be connecting to, now is a good time to add it in.</p>
+<p>Edit the hosts file on your guest machine:</p>
+<pre><code>
+vagrant ssh<br />
+vi /etc/hosts<br />
+</code></pre>
+<p>Add a line pointing to the correct IP address:</p>
+<pre><code>
+192.168.0.103 external-dependency.dev external-dependency<br />
+</code></pre>
+<h3>Clone the repo for your plugin</h3>
+<p>WordPress plugins are installed at <strong>/wp-content/plugins</strong> below the root WordPress site. Clone the repo in the <strong>plugins</strong> directory:</p>
+<pre><code>
+cd wordpress/wp-content/plugins<br />
+git clone ssh://git@stash.davidsimpson.me:7999/wp001/wordpress-example-plugin.git<br />
+</code></pre>
+<p>Now you can start working on that plugin ;)</p>
+<p>I've found VagrantPress to be a very useful and extremely simple way of quickly building a standardised local WordpPress development environment.</p>
+<h2>Further reading</h2>
+<p>Some WordPress plugin development best practice guides:</p>
+<ul>
+<li><a href="http://wp.tutsplus.com/tutorials/7-simple-rules-wordpress-plugin-development-best-practices/">WP Tuts+ - 7 Simple Rules: WordPress Plugin Development Best Practices</a></li>
+<li><a href="http://radiiproduction.com/index.php/a-best-practice-guide-to-wordpress-plugin-development/">Radii - A Best Practice Guide to WordPress Plugin Development</a></li>
+<li><a href="http://wordpress.stackexchange.com/questions/715/objective-best-practices-for-plugin-development">WordPress Answers - Objective Best Practices for Plugin Development?</a></li>
+<li><a href="http://wp.smashingmagazine.com/2011/03/08/ten-things-every-wordpress-plugin-developer-should-know/">Smashing Magazine - Ten Things Every WordPress Plugin Developer Should Know</a></li>
+</ul>

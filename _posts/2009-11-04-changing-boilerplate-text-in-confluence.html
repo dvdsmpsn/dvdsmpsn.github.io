@@ -1,0 +1,103 @@
+---
+layout: post
+title: Changing boilerplate text in Confluence
+date: 2009-11-04 21:18:47.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- confluence
+- plugin
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299667287'
+  _edit_last: '1'
+  tmac_last_id: '618797404075245568'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>We run Confluence with the (default) en_GB locale and language.   For our purposes, some of the <a href="http://en.wikipedia.org/wiki/Boilerplate_(text)">boilerplate text </a>needs changing. This post describes how to solve this problem with a partial British English language pack that overrides only part of the Confluence interface text.<br />
+<!--more-->
+The Atlassian website has a page on how to <a href="http://confluence.atlassian.com/display/DOC/Modify+Confluence+Interface+Text">Modify Confluence Interface Text</a></p>
+<p><strong>The suggested steps are:</strong></p>
+<ul>
+<li>Get a file from the confluence-3.x.jar file</li>
+<li>Place it here: <code>/confluence/WEB-INF/classes/com/atlassian/confluence/core/</code></li>
+<li>Edit the text you wish to change</li>
+<li>Restart Confluence</li>
+</ul>
+<p><strong>Some reasons I don't think this method should not be used</strong></p>
+<ul>
+<li>I tried this, but couldn't get it to work.  <em>OK, not really a proper reason.</em></li>
+<li>This file will probably get wiped on upgrade. <em>I'm guessing.</em></li>
+<li>You need to duplicate the whole file (7000+ lines), not just the changes.  <em>Not pretty.</em></li>
+</ul>
+<p>So what next?</p>
+<h3>Create a partial language pack plugin</h3>
+<p>Confluence uses en_GB by default. I want to use British English, but only have the overrides in my language pack.  I don't want to do anything destructive to my Confluence installation.</p>
+<p>It's possible to create a (partial) language pack plugin for Confluence that only overrides part of the existing en_GB language.  My partial language pack will use the default terms from the confluence-3.x.jar file unless they are overridden.  My new language will be "Nottingham English" with a *two letter, uppercase* locale code "GB".</p>
+<h4>Steps</h4>
+<p>Creating a <a href="http://confluence.atlassian.com/display/DOC/Language+Pack+Plugins">language pack</a> is really easy as there are only 3 files required.</p>
+<p>Create the following directory structure:<br />
+<img src="{{ site.baseurl }}/assets/lang-pack-structure.png" alt="Language Pack Directory Structure" title="Language Pack Directory Structure" />	</p>
+<h5>File descriptions</h5>
+<p><code>atlassian-plugin.xml</code><br />
+describes the language pack:</p>
+<p>[sourcexml"]&lt;atlassian-plugin name='Nottingham English language pack' key='confluence.languages.en_GB'&gt;<br />
+	&lt;plugin-info&gt;<br />
+		&lt;description&gt;&lt;![CDATA[For changes to boilerplate text that should persist after a Confluence upgrade.]]&gt;&lt;/description&gt;<br />
+        &lt;version&gt;1.0&lt;/version&gt;<br />
+        &lt;vendor name=&quot;David Simpson&quot; url=&quot;/&quot;/&gt;<br />
+	&lt;/plugin-info&gt;</p>
+<p>	&lt;language name=&quot;Nottingham English&quot; key=&quot;en_GB&quot; language=&quot;en&quot; country=&quot;GB&quot;&gt;<br />
+		&lt;!-- Define a flag that will be shown for this language --&gt;<br />
+		&lt;resource name=&quot;en_GB.png&quot; type=&quot;download&quot; location=&quot;templates/languages/en_GB/en_GB.png&quot;&gt;<br />
+			&lt;property key=&quot;content-type&quot; value=&quot;image/png&quot;/&gt;<br />
+		&lt;/resource&gt;<br />
+	&lt;/language&gt;<br />
+&lt;/atlassian-plugin&gt;<br />
+[/source]</p>
+<p><code>ConfluenceActionSupport_en_GB.properties</code><br />
+ is the override text for the language</p>
+<p>[source]## Replace the Dashboard name/title<br />
+dashboard.name = Workspace Home<br />
+title.dashboard = Workspace Home</p>
+<p>## Replace login instructions<br />
+login.instructions = Put yorn login details inta this eer form. </p>
+<p>## Add some Nottingham dialect (meaning hello)<br />
+default.welcome.message = Ayup Mi Duck</p>
+<p># Fix any accidental misinformation where Atlassian have changed features<br />
+no.favourite.pages=There are currently no pages on your favourites list.&lt;br/&gt;&lt;br/&gt;<br />
+        To add pages to this list<br />
+		&lt;ul&gt;<br />
+			&lt;li&gt;Click on &lt;b&gt;Tools&lt;/b&gt; (on the top right of the page you''re viewing)&lt;/li&gt;<br />
+			&lt;li&gt;Select &lt;b&gt;&lt;img src=&quot;{0}&quot;&gt; Watch&lt;/b&gt; from the menu&lt;/li&gt;<br />
+		&lt;/ul&gt;<br />
+[/source]</p>
+<p><code>en_GB.png</code><br />
+ is the thumbnail.  Change this from the Union Jack flag so it can be distinguished from the flag for the default British English en_GB</p>
+<h5>Build the plugin and install</h5>
+<p>I'm developing this in <code>~/projects/confluence/language-en_GB_partial/</code> on my Mac, so to build the plugin:</p>
+<pre>cd ~/projects/confluence/language-en_GB_partial/
+jar cvf ../language-en_GB_partial.jar *</pre>
+<p>Install the plugin in the usual way in Confluence at<br />
+<strong>Confluence Admin | Plugins</strong></p>
+<p>Select the new language from <strong>Confluence Admin | Language</strong></p>
+<h3>Results</h3>
+<p>Overall, I think it works well.  This is a pretty easy way to bundle up changes to the default Confluence text.</p>
+<p><img src="{{ site.baseurl }}/assets/lang-pack-login.png" alt="Confluence Login Page" title="Confluence Login Page" /></p>
+<p><img src="{{ site.baseurl }}/assets/lang-pack-dashboard.png" alt="Confluence Dashboard" title="Confluence Dashboard" /></p>
+<p>The Site Welcome Message can also easily be changed elsewhere too.<br />
+Matt Hodges talks about this in his post "<a href="http://blogs.atlassian.com/confluence/2009/10/hidden-feature-bring-must-read-content-to-the-dashboard.html">Hidden Feature: Bring 'Must Read' Content to the Dashboard</a>".</p>
+<h3>Upgrade path</h3>
+<p>Atlassian will likely change the boilerplate text as new versions of the product are released, so it's good to review your changes on upgrade.  </p>
+<p>Steps:</p>
+<ul>
+<li>Revert language to British English </li>
+<li>Check each item you've changed</li>
+<li>Make any appropriate edits (if required)</li>
+<li>Upload your new version of the language pack (if required)</li>
+<li>Change language back to your own e.g. "Nottingham English"</li>
+</ul>

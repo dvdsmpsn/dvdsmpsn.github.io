@@ -1,0 +1,105 @@
+---
+layout: post
+title: Adding Font Awesome to an Atlassian Confluence add-on
+date: 
+type: post
+published: false
+status: draft
+categories: []
+tags: []
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _publicize_twitter_user: "@dvdsmpsn"
+  _wpcom_is_markdown: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>My font awesome resources are stored as so:</p>
+<pre><code>
+/resources/my-theme/assets/font-awesome/css/font-awesome.css<br />
+/resources/my-theme/assets/font-awesome/fonts/fontawesome*<br />
+</code></pre>
+<p>In atlassian-plugin.xml  they are in a single web resources</p>
+<pre><code>
+&lt;web-resource key=&quot;font-awesome-resource&quot; name=&quot;Font Awesome Resources&quot;&gt;<br />
+    &lt;!-- All `name` attributes in the &quot;root&quot; directory - see directory rewrite bug: https://ecosystem.atlassian.net/browse/PLUG-854 --&gt;<br />
+    &lt;resource name=&quot;font-awesome.css&quot;     type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/css/font-awesome.css&quot; /&gt;<br />
+    &lt;!-- All font files with separate open/close tags - this *may* help with unusual mime-types --&gt;<br />
+    &lt;resource name=&quot;FontAwesome.otf&quot;      type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/fonts/FontAwesome.otf&quot;&gt;&lt;/resource&gt;<br />
+    &lt;resource name=&quot;fontawesome-webfont.eot&quot;  type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/fonts/fontawesome-webfont.eot&quot;&gt;&lt;/resource&gt;<br />
+    &lt;resource name=&quot;fontawesome-webfont.svg&quot;  type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/fonts/fontawesome-webfont.svg&quot;&gt;&lt;/resource&gt;<br />
+    &lt;resource name=&quot;fontawesome-webfont.ttf&quot;  type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/fonts/fontawesome-webfont.ttf&quot;&gt;&lt;/resource&gt;<br />
+    &lt;resource name=&quot;fontawesome-webfont.woff&quot; type=&quot;download&quot; location=&quot;my-theme/assets/font-awesome/fonts/fontawesome-webfont.woff&quot;&gt;&lt;/resource&gt;<br />
+&lt;/web-resource&gt;<br />
+</code></pre>
+<p>In the font-awesome.css, fonts are references as though they are in the same directory as the CSS eg.</p>
+<pre><code>
+@font-face {<br />
+  font-family: 'FontAwesome';<br />
+  src: url('fontawesome-webfont.eot?v=4.0.3');<br />
+  ...<br />
+}<br />
+</code></pre>
+<p>Build the plugin and compare the src &amp; target fonts:</p>
+<pre><code>
+dvdsmpsn:my-theme davidsimpson$ ls -la src/main/resources/my-theme/assets/font-awesome/fonts/<br />
+total 888<br />
+drwxr-xr-x@ 8 davidsimpson  staff     272 12 Dec 13:53 .<br />
+drwxr-xr-x  6 davidsimpson  staff     204 26 Nov 00:13 ..<br />
+-rwxr-xr-x@ 1 davidsimpson  staff   62856  5 Nov 04:35 FontAwesome.otf<br />
+-rwxr-xr-x@ 1 davidsimpson  staff   38205  5 Nov 04:35 fontawesome-webfont.eot<br />
+-rwxr-xr-x@ 1 davidsimpson  staff  202148  5 Nov 04:35 fontawesome-webfont.svg<br />
+-rwxr-xr-x@ 1 davidsimpson  staff   80652  5 Nov 04:35 fontawesome-webfont.ttf<br />
+-rwxr-xr-x@ 1 davidsimpson  staff   44432  5 Nov 04:35 fontawesome-webfont.woff</p>
+<p>dvdsmpsn:my-theme davidsimpson$ ls -la target/classes/my-theme/assets/font-awesome/fonts/<br />
+total 1128<br />
+drwxr-xr-x  7 davidsimpson  staff     238 12 Dec 14:11 .<br />
+drwxr-xr-x  6 davidsimpson  staff     204 12 Dec 14:11 ..<br />
+-rw-r--r--  1 davidsimpson  staff  114827 12 Dec 14:11 FontAwesome.otf<br />
+-rw-r--r--  1 davidsimpson  staff   67119 12 Dec 14:11 fontawesome-webfont.eot<br />
+-rw-r--r--  1 davidsimpson  staff  202148 12 Dec 14:11 fontawesome-webfont.svg<br />
+-rw-r--r--  1 davidsimpson  staff  101003 12 Dec 14:11 fontawesome-webfont.ttf<br />
+-rw-r--r--  1 davidsimpson  staff   79559 12 Dec 14:11 fontawesome-webfont.woff<br />
+</code></pre>
+<p>If the sizes are different, the fonts may not display correctly, especially in Firefox. Firebug will display no errors.</p>
+<p>Try Firefox inbuilt debugger instead (CTRL+SHIFT+K)<br />
+You'll get something like this...</p>
+<pre><code>
+[13:30:29.827] downloadable font: incorrect file size in WOFF header (font-family: &quot;FontAwesome&quot; style:normal weight:normal stretch:normal src index:1)source: http://wiki.example.com/s/en_GB-1988229788/4527/660525579de30883af214a8e1a751cb99357bcff.89/1.0.14/_/download/resources/com.example.confluence.plugins.theme.my-theme:font-awesome-resource/fontawesome-webfont.woff?v=4.0.3 @ http://wiki.example.com/s/d41d8cd98f00b204e9800998ecf8427e/en_GB-1988229788/4527/660525579de30883af214a8e1a751cb99357bcff.89/1.0.14/_/download/batch/com.example.confluence.plugins.theme.my-theme:font-awesome-resource/com.example.confluence.plugins.theme.my-theme:font-awesome-resource.css</p>
+<p>[13:30:29.827] downloadable font: rejected by sanitizer (font-family: &quot;FontAwesome&quot; style:normal weight:normal stretch:normal src index:1)source: http://wiki.example.com/s/en_GB-1988229788/4527/660525579de30883af214a8e1a751cb99357bcff.89/1.0.14/_/download/resources/com.example.confluence.plugins.theme.my-theme:font-awesome-resource/fontawesome-webfont.woff?v=4.0.3 @ http://wiki.example.com/s/d41d8cd98f00b204e9800998ecf8427e/en_GB-1988229788/4527/660525579de30883af214a8e1a751cb99357bcff.89/1.0.14/_/download/batch/com.example.confluence.plugins.theme.my-theme:font-awesome-resource/com.example.confluence.plugins.theme.my-theme:font-awesome-resource.css<br />
+</code></pre>
+<p>Which means you need to do some resource filtering on your maven build.</p>
+<p>Aside: In Google Chrome, the font will likely be displayed correctly, but has the perceived side effect of increasing the page render time. I imagine that this is because Chrome is trying to understanding the encoding and then display the correct font.</p>
+<pre><code>
+&lt;build&gt;<br />
+    &lt;sourceDirectory&gt;src/main/java&lt;/sourceDirectory&gt;<br />
+    &lt;resources&gt;<br />
+        &lt;resource&gt;<br />
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;<br />
+            &lt;filtering&gt;true&lt;/filtering&gt;<br />
+            &lt;includes&gt;<br />
+                &lt;include&gt;atlassian-plugin.xml&lt;/include&gt;<br />
+            &lt;/includes&gt;<br />
+        &lt;/resource&gt;<br />
+        &lt;resource&gt;<br />
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;<br />
+            &lt;filtering&gt;true&lt;/filtering&gt;<br />
+            &lt;!-- Prevent font files from being included &amp; filtered --&gt;<br />
+            &lt;excludes&gt;<br />
+                &lt;exclude&gt;my-theme/assets/font-awesome/fonts/*&lt;/exclude&gt;<br />
+            &lt;/excludes&gt;<br />
+        &lt;/resource&gt;<br />
+        &lt;resource&gt;<br />
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;<br />
+            &lt;filtering&gt;false&lt;/filtering&gt;<br />
+            &lt;!-- No filtering, but only include font files --&gt;<br />
+            &lt;includes&gt;<br />
+                &lt;include&gt;my-theme/assets/font-awesome/fonts/*&lt;/include&gt;<br />
+            &lt;/includes&gt;<br />
+        &lt;/resource&gt;<br />
+    &lt;/resources&gt;<br />
+	...<br />
+&lt;/build&gt;<br />
+</code></pre>
+<p>Note that resource filtering does not work in subdirectories — you have to be specific to the directory containing the fonts.</p>

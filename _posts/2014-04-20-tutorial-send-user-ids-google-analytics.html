@@ -1,0 +1,118 @@
+---
+layout: post
+title: 'Tutorial: How to send user IDs to Google Analytics'
+date: 2014-04-20 19:24:54.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- google analytics
+- personally identifiable information
+- universal analytics
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797314375729152'
+  _pingme: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _wpcom_is_markdown: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><iframe width="100%" style="height:400px" src="//www.youtube.com/embed/tjY_ZmSRW4o" frameborder="0" allowfullscreen></iframe></p>
+<p><b>Sending personally identifiable information (PII) to Google Analytics is strictly prohibited, but sending a unique user ID <em>is</em> permitted.</b> This is a tutorial to aide users of the <a href="/pii-viewer-for-google-analytics/"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a>. The extension allows you to map the user ID stored in Google Analytics to locally-stored <abbr title="Personally Identifiable Information">PII</abbr> such as name and email address. </p>
+<p>The test scenario we're using gives a pseudo-randomly generated User ID to each web page visitor. The "User ID" feature in Google Analytics (Universal Analytics) is currently (April 2014) being rolled out, so in the meantime, we're using a Custom Dimension to store our own "Custom User ID".</p>
+<p>This configuration is for testing purposes only and has no real value as meaningful data unless you replace the pseudo-randomly generated User ID with a real user ID from your custom database or CRM.</p>
+<p>There are 2 parts to this tutorial:</p>
+<ol>
+<li>Create a custom dimension for the "Custom User ID"</li>
+<li>Add tracking code to populate the custom dimension</li>
+</ol>
+<h3>Create a custom dimension for the "Custom User ID"</h3>
+<p>In Google Analytics, browse to <a href="https://www.google.com/analytics/web/?hl=en#management">Google Analytics Administration</a>.</p>
+<ul>
+<li>Select an <strong>Account</strong> and then a <strong>Property</strong> within that account</li>
+<li>Expand <strong>Custom Definitions</strong> below a selected <strong>Property</strong></li>
+<li>Select <strong>Custom Dimensions</strong></li>
+<li>Click on the <strong>Custom Dimension Name</strong> button</li>
+<li>In the <strong>Add Custom Dimension</strong> screen
+<ul>
+<li>Type <strong>Custom User ID</strong> in the <strong>Name</strong> field</li>
+<li>Select <strong>Visit</strong> from the <strong>Scope</strong> dropdown menu</li>
+<li>Check the <strong>Active</strong> checkbox</li>
+<li>Click the <strong>Create</strong> button</li>
+</ul>
+</li>
+</ul>
+<p>Congratulations, you now have a <strong>Custom Dimension</strong> named <strong>Custom User ID</strong> which is available for use within the Google Analytics interface. Next, you'll need to populate this custom dimension with some data.</p>
+<h3>Add tracking code to populate the custom dimension</h3>
+<p>On your test website, add the following Universal Analytics tracking code:</p>
+<pre><code>&lt;script&gt;
+
+  // IMPORTANT: This is just example data for demonstration purposes to send *something* to GA. Populate your `customUserId` some other way. DO NOT COPY THIS.
+  var prefix = ['abc', 'def', 'ghi'],
+      middle = ['123', '456', '789'],
+      suffix = ['rst', 'uvw', 'xyz'],
+      random = function() {
+          return Math.floor(Math.random() * 3);
+      };
+      
+  // IMPORTANT: POPULATE YOUR OWN `customUserId` HERE...
+  // Simple pseudo-random user id - 27 possible values
+  // This is *just* some "random" text that we're using as userIds. DO NOT COPY THIS.
+  // You'll need to implement something here linked to your customer database, CRM system, mailing list or whatever you're using
+  var customUserId = prefix[random()] + '-' + middle[random()] + '-' + suffix[random()]; // e.g. abc-123-rst
+  
+  // Standard Google Universal Analytics code
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ 
+  ga('create', 'UA-XXXXXX-Y', {'userId': customUserId});   // If "User ID" feature is available
+  ga('require', 'displayfeatures');
+  ga('set', 'dimension1', customUserId);                   // Set a `customUserId` dimension at page level
+  ga('send', 'pageview');
+  
+&lt;/script&gt;
+</code></pre>
+<p>Note that we're storing our <b>customUserId</b> in the custom dimension <b>dimension1</b>. This is assigned back to the <b>Custom User ID</b> configured in Google Analytics. For test purposes, and to ensure that <b>dimension1</b> is always assigned, we're setting its value on every page view.</p>
+<p>As we've specified a <strong>Visitor</strong> scope for this custom dimension, all visits from a single user will take the last recorded value set as the value for the "Custom User ID" dimension.</p>
+<p>If all goes well, you should now see the Custom User ID as a dimension in Google Analytics:</p>
+<p><a href="/wp-content/uploads/2014/04/custom_user_id.png"><img src="{{ site.baseurl }}/assets/custom_user_id.png" alt="custom_user_id" class="alignnone size-full wp-image-2601" /></a></p>
+<h3>Next Steps</h3>
+<p>Having created this tracking code, we have also created a set of sample personas in <b>sample.csv</b> which contains the 27 possible "User ID" values along with some personal information. As I'm sharing this publicly, I'd like to reiterate that these are just made up personas. They are not real people.</p>
+<p><b>sample.csv</b>:</p>
+<pre><code>user_id,display_name,email,company,country
+abc-123-rst,Albert Cox,acox@realcube.info,Real Cube,Colombia
+abc-123-uvw,Justine Bishop,jbishop@youspan.name,You Span,Panama
+abc-123-xyz,Paula Smith,psmith@skinte.name,Skinte,Romania
+abc-456-rst,Louise Mcdonald,lmcdonald@meezzy.com,Meezzy,Turkey
+abc-456-uvw,Christopher Burns,cburns@midel.biz,Midel,Algeria
+abc-456-xyz,Laura Ruiz,lruiz@zooveo.biz,Zoo Veo,Austria
+abc-789-rst,Julie Ramirez,jramirez@meetz.org,Meetz,Ukraine
+abc-789-uvw,Jimmy Elliott,jelliott@twitterlist.biz,TwitterList,China
+abc-789-xyz,Amanda Owens,aowens@avamba.edu,Avamba,Indonesia
+def-123-rst,Denise Stephens,dstephens@tagtune.mil,TagTune,India
+def-123-uvw,Betty Watkins,bwatkins@photobug.name,PhotoBug,&quot;Congo, Republic of&quot;
+def-123-xyz,Daniel Rose,drose@skipstorm.biz,SkipStorm,Djibouti
+def-456-rst,Paula Baker,pbaker@bluezoom.net,Blue Zoom,Luxembourg
+def-456-uvw,Kevin Arnold,karnold@dynabox.net,DynaBox,New Zealand
+def-456-xyz,Gerald Black,gblack@skybar.org,Sky Bar,Ukraine
+def-789-rst,Donald Dixon,ddixon@trilia.gov,Trilia,Turkey
+def-789-uvw,Julia Tucker,jtucker@centizu.name,Centizu,Ascension Island
+def-789-xyz,Elizabeth Gilbert,egilbert@kanoodle.mil,Kanoodle,Bulgaria
+ghi-123-rst,Barbara Ross,bross@digitube.edu,DigiTube,Gambia
+ghi-123-uvw,Rose Oliver,roliver@vitz.org,Vitz,Morocco
+ghi-123-xyz,Louis Mills,lmills@skyble.org,Skyble,Bosnia and Herzegovina
+ghi-456-rst,Angela Dunn,adunn@wikibox.gov,WikiBox,Saint Barthelemy
+ghi-456-uvw,Anna Ward,award@dabjam.net,DAB Jam,United States
+ghi-456-xyz,Evelyn Simpson,esimpson@rhyzio.edu,Rhyzio,Canada
+ghi-789-rst,Joe Green,jgreen@jaloo.gov,JA Loo,Kiribati
+ghi-789-uvw,Patricia Hayes,phayes@lazzy.gov,Lazzy,Chad
+ghi-789-xyz,Bruce Chavez,bchavez@eire.org,EireOrg,United Kingdom
+</code></pre>
+<p>The tracking code and the related persona data allows us to demonstrate how <a rel="nofollow" href="https://chrome.google.com/webstore/detail/pii-viewer-for-google-ana/kocaompbindpaanpabjeeechkofidmbh"><abbr title="Personally Identifiable Information">PII</abbr> for Google Analytics Chrome extension</a> would work in a real world scenario. <a href="/2014/04/22/tutorial-using-pii-viewer-google-analytics-chrome-extension/">More on that in a future post.</a></p>
+<p><strong>Aside:</strong> Users of Google Tag Manager can push data to custom dimensions by following this guide: <a href="https://support.google.com/analytics/answer/6164990?hl=en">Custom dimensions with Google Tag Manager</a></p>

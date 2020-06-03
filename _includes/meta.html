@@ -16,3 +16,25 @@
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="twitter:title" content="{{ page.title }}" />
     {% endif %}
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dvdsmpsn">
+    <meta name="twitter:creator" content="@dvdsmpsn">
+
+    {% if page.excerpt %}
+      <meta name="twitter:description"
+        content="{{ page.excerpt| strip_html }}">
+    {% else %}
+      <meta name="twitter:description"
+        content="{{ page.content | strip_html | xml_escape
+          | truncate: 200 }}">
+    {% endif %}
+
+    {% if page.image %}
+    <meta name="twitter:card"  content="summary_large_image">
+    <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
+    {% else %}
+    <meta name="twitter:card"  content="summary">
+    <meta name="twitter:image" content="{{ site.title_image }}">
+    {% endif %}

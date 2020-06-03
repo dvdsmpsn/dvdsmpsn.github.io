@@ -1,0 +1,61 @@
+---
+layout: post
+title: List Users - An Atlassian Confluence User Macro
+date: 2014-04-24 18:12:33.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+- web
+tags:
+- atlassian
+- confluence
+- personally identifiable information
+- user macro
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797310806376449'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>I recently had the need to <em>quickly</em> create a CSV list of all the users in an Atlassian Confluence instance. </p>
+<p>I quickly wrote a user macro to achieve this, and now I'm sharing it here:</p>
+<pre><code>
+## List Users - Confluence User Macro<br />
+##<br />
+##   Produces a CSV of all members of the `confluence-users` group in Confluence<br />
+##   Columns: user_key,username,display_name,email<br />
+##<br />
+## WARNING:<br />
+##<br />
+##   Use very sparingly as this *will* slow down large Confluence instances.<br />
+##   Yes, it will try to print out 100,000 users if you have that many in the system<br />
+##<br />
+##   I generally remove this user macro after using once and add only when needed.<br />
+##<br />
+## @noparams</p>
+<p>#set($containerManagerClass = $action.class.forName('com.atlassian.spring.container.ContainerManager'))<br />
+#set($getInstanceMethod = $containerManagerClass.getDeclaredMethod('getInstance',null))<br />
+#set($containerManager = $getInstanceMethod.invoke(null,null))<br />
+#set($containerContext = $containerManager.containerContext)</p>
+<p>#set($userAccessor = $containerManager.containerContext.getComponent('userAccessor'))<br />
+#set($users = $userAccessor.getUsersWithConfluenceAccessAsList() ) ## This method is slow and deprecated<br />
+## @see: https://docs.atlassian.com/confluence/latest/com/atlassian/confluence/user/UserAccessor.html#getUsersWithConfluenceAccessAsList()</p>
+<p>&lt;h2&gt;Users&lt;/h2&gt;</p>
+<p>## Drop it in code macro styling<br />
+&lt;div class=&quot;code panel pdl&quot; style=&quot;border-width: 1px;&quot;&gt;&lt;div class=&quot;codeContent panelContent pdl&quot;&gt;<br />
+	&lt;div&gt;<br />
+		&lt;pre&gt;<br />
+			&lt;code&gt;user_key,username,display_name,email<br />
+#foreach( $user in $users )<br />
+${user.key},${user.name},${user.fullName},${user.email}<br />
+#end<br />
+			&lt;/code&gt;<br />
+		&lt;/pre&gt;<br />
+	&lt;/div&gt;<br />
+&lt;/div&gt;<br />
+</code></pre>
+<p>Read the warning in the user macro. It will display all the users. If you have 10 or 100 users, then it will be quick enough, so that's OK. If you have 110,000 users and use this, you're an idiot and your admin permissions should be removed. </p>
+<p>Also, this is personally identifiable information, so look after it. Be cautious folks.</p>

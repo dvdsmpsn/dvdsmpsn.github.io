@@ -1,0 +1,46 @@
+---
+layout: post
+title: A legacy Atlassian Plugin SDK for Homebrew
+date: 2014-06-12 19:40:28.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- Programming
+tags:
+- atlassian
+- atlassian plugin sdk
+- confluence
+- homebrew
+- maven
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797302715543553'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Atlassian released version 5.0.0 of their plugin SDK earlier this month and like a fanboy I upgraded immediately. It updates Maven from 2.1.0 to 3.2.1, so that's a big change in itself. </p>
+<p>Today, I started work on updating an add-on for Confluence 4.3.x (yes, really). Guess what? My development environment is now completely incompatible with the target Confluence version. What to do?</p>
+<p>Being a Homebrew fan, I'd like to use that to reinstall the old version. You can do this with old versions of some software such as Maven e.g.</p>
+<pre><code>
+brew tap homebrew/versions<br />
+brew install maven2<br />
+</code></pre>
+<p>I'd like to do the same with the Atlassian Plugin SDK. Could I? Nope.</p>
+<p>So I rolled my own. It was very easy. </p>
+<p>You can use it too. Here's how:</p>
+<pre><code>
+brew tap dvdsmpsn/tap<br />
+brew install dvdsmpsn/tap/atlassian-plugin-sdk-42<br />
+</code></pre>
+<p>This currently installs version 4.2.19 of the SDK. </p>
+<p><a href="https://github.com/dvdsmpsn/homebrew-tap">The code is available on GitHub.</a> I'm sure there are better ways of doing this, but it fills a gap and that's enough for me.</p>
+<p><strong>Update 2014-06-18:</strong><br />
+Atlassian have added <a href="https://github.com/atlassian/homebrew-tap/blob/master/atlassian-plugin-sdk4.rb">their own legacy version</a> just like mine. You can try it out:</p>
+<pre><code>
+brew tap atlassian/tap<br />
+brew install atlassian/tap/atlassian-plugin-sdk-4<br />
+</code></pre>
+<p>Thanks to <a href="#comment-143277">Marcos Scriven</a> for providing the update and letting me know.</p>

@@ -1,0 +1,153 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: white;
+  color: #666;
+}
+
+#console {
+  min-height: 12vh;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  font-size: 4vh;
+}
+
+#console-text-desc {
+  /* font-size: 4vh; */
+  font-size: 22px;
+}
+#console span {
+  color: rgba(128, 128, 128, 0.5);
+}
+.cleff {
+  position: absolute;
+  left: -50px;
+  top: 55%;
+
+  transform: translate(0, -50%);
+  font-size: 65vh;
+  opacity: 0.6;
+}
+
+#staff {
+  margin: 10px 0 30px;
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+#staff button {
+  width: 100%;
+  flex: 1;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  text-align: center;
+  border: 0;
+  background: transparent;
+
+  position: relative;
+  color: #888;
+}
+
+#staff .line {
+  z-index: -2; /* so that the button click handler works */
+}
+
+#staff .ledger .line,
+#staff .full .line {
+  background: #ccc;
+
+  --first-color: rgba(128, 128, 128, 0.4);
+  --second-color: transparent;
+  background: linear-gradient(
+    transparent 0%,
+    transparent 30%,
+    var(--first-color) 30%,
+    var(--first-color) 70%,
+    transparent 70%
+  );
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+#staff .ledger .line {
+  width: 30%;
+}
+
+button:focus {
+  outline: none;
+}
+
+button[data-focused="true"]:after {
+  width: var(--note-width);
+  height: var(--note-height);
+
+  content: " ";
+  display: block;
+
+  position: absolute;
+  border-radius: 50%;
+  background: #666;
+
+  top: 0;
+  left: 50%;
+
+  transform: translate(-50%, 0) rotate(-20deg);
+}
+
+:root {
+  --note-width: 50px;
+  --note-height: 130%;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+  }
+  #console {
+    background: #111;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+  button[data-focused="true"]:after {
+    background: #ccc;
+  }
+}
+
+button#webshare {
+  background-color: #3740ff;
+  position: absolute;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+}
+button#webshare svg {
+  width: 40px;
+  height: 40px;
+  max-width: 80%;
+  max-height: 80%;
+}

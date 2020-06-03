@@ -1,0 +1,97 @@
+---
+layout: post
+title: Sibling Tabs User Macro for Atlassian Confluence
+date: 2013-10-07 16:07:19.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- confluence
+- user macro
+meta:
+  tmac_last_id: '618797339776544768'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _encloseme: '1'
+  _wpas_skip_11278197: '1'
+  _pingme: '1'
+  _wpcom_is_markdown: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>The sibling tabs user macro for Confluence gives a simple way to create a horizontal tabbed navigation system between sibling pages in a Confluence space.</p>
+<p>Here’s a video demo:</p>
+
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style>
+<div class='embed-container'><iframe src='https://www.youtube.com/embed/a2BKd53aH58' frameborder='0' allowfullscreen></iframe></div>
+
+
+<p>Here’s the code and how to apply it to your Confluence system:</p>
+<p>In <strong>Confluence Admin | User Macros</strong>, create a new user macro and paste in:</p>
+<pre><code>
+## Macro title: Sibling Tabs
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: David Simpson &lt;david@appfusions.com&gt;
+## Date created: 2013-10-01
+## Installed by: My Name
+##
+## Use this on each sibling page to add tabbed navigation between sibling pages
+## DO use this when there are 2-6 sibling pages with short page title
+##
+## DO NOT use this when there are more than 6 sibling pages or when the page titles are long</p>
+## @noparams
+
+#set ($parent = $content.getParent())
+&lt;div class=&quot;aui-tabs horizontal-tabs&quot; data-aui-tab-events-bound=&quot;true&quot; data-aui-responsive=&quot;&quot; role=&quot;application&quot;&gt;
+  &lt;ul class=&quot;tabs-menu&quot;&gt;
+    #foreach ($child in $parent.getChildren())
+      &lt;li class=&quot;menu-item#if ($content.id == $child.id) active-tab#end&quot;&gt;
+        &lt;a href=&quot;$req.contextPath$child.urlPath&quot;&gt;&lt;strong&gt;$webwork.htmlEncode($child.displayTitle)&lt;/strong&gt;&lt;/a&gt;
+      &lt;/li&gt;
+    #end
+  &lt;/ul&gt;
+  &lt;div class=&quot;tabs-pane active-pane&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Simply add the Sibling Tabs user macro whenever you want horizontal tabs — don’t forget to add the macro to each of the pages ;)</p>
+<p><b>Update 2013-10-22:</b></p>
+<p>Olha Vdovych asked me via email how to limit the number of tabs and how to get the order of the tabs to be consistant with the natural ordering within Confluence.</p>
+<p>I've updated the user macro below for both requests:</p>
+<pre><code>
+## Macro title: Sibling Tabs
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: David Simpson &lt;david@appfusions.com&gt;
+## Date created: 2013-10-01
+## Installed by: My Name
+##
+## Use this on each sibling page to add tabbed navigation between sibling pages
+## DO use this when there are 2-6 sibling pages with short page title
+##
+## DO NOT use this when there are more than 6 sibling pages or when the page titles are long
+## @noparams
+
+#set($count = 0)
+#set ($parent = $content.getParent())
+
+&lt;div class="aui-tabs horizontal-tabs" data-aui-tab-events-bound="true" data-aui-responsive="" role="application"&gt;
+  &lt;ul class="tabs-menu"&gt;
+    #foreach ($child in $parent.getSortedChildren())
+      #if ($count &lt; 6) ## just display the 1st 6 siblings
+        &lt;li class="menu-item#if ($content.id == $child.id) active-tab#end"&gt;
+          &lt;a href="$req.contextPath$child.urlPath"&gt;&lt;strong&gt;$webwork.htmlEncode($child.displayTitle)&lt;/strong&gt;&lt;/a&gt;
+        &lt;/li&gt;
+        #set($count = $count + 1)
+      #end
+    #end
+  &lt;/ul&gt;
+  &lt;div class="tabs-pane active-pane"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>

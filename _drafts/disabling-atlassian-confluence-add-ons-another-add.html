@@ -1,0 +1,40 @@
+---
+layout: post
+title: Disabling Atlassian Confluence add-ons from another add-on
+date: 
+type: post
+published: false
+status: private
+categories:
+- Programming
+tags:
+- atlassian
+- atlassian plugin sdk
+- confluence
+- note to self
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '500008557371490304'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>A simple code snippet for when you need to disable a pile of Confluence add-ons from within your own custom plugin.</p>
+<pre><code>
+String[] ADDONS_TO_DISABLE = {<br />
+	&quot;com.atlassian.confluence.plugins.confluence-mentions-plugin&quot;<br />
+	// Add more plugins keys here as required<br />
+};</p>
+<p>for (String pluginKey : ADDONS_TO_DISABLE)<br />
+{<br />
+    if (pluginAccessor.isPluginEnabled(pluginKey))<br />
+    {<br />
+        pluginController.disablePlugin(pluginKey);<br />
+        log.info(&quot; ++ Disabling plugin: &quot; + pluginKey);<br />
+    }<br />
+    else<br />
+    {<br />
+        log.info(&quot; ++ Plugin already disabled: &quot; + pluginKey);<br />
+    }<br />
+}<br />
+</code></pre>

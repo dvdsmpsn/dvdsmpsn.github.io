@@ -1,0 +1,35 @@
+body.dvdsmpsn-gister-macro {
+	background: #fff;
+}
+.aui-header .width {
+	width: 800px;
+	margin: auto;
+}
+.aui-header .aui-header-logo img {
+	max-height: 24px;
+	padding: 7px 0;
+}
+.aui-header {
+	background: #000;
+}
+
+code {
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	background: #f0f0f0;
+	padding: 2px 4px;
+}
+
+body.dvdsmpsn-gister-macro .footer {
+	color: #aaa;
+	font-size: 80%;
+	margin: -1em 0 1em 0;
+}
+
+#footer .footer-body, #footer-logo a {
+	background: transparent;
+}
+
+#markdown-source {
+	display: none;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      Images sourced from https://www.itsnottingham.info/
+      Page reloads every 60 seconds
+    -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="60">
+    <title>👋 Hello Nottingham</title>
+    <style>
+      body {
+        background: #000;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      img {
+        width: 280px;
+      }
+      @media (max-width: 600px) {
+        img {
+          width: 160px;
+        }
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      var baseUrl =
+        "https://www.itsnottingham.info/handler/proxy.ashx?http://data.nottinghamtravelwise.org.uk/images"; //  + '220.jpg'
+
+      $(function() {
+        var $body = $("body");
+        for (var i = 1; i < 230; i++) {
+          var src = [baseUrl, i, ".jpg?_=", new Date()].join("");
+          $body.append(
+            [
+              '<a target="_blank" href="',
+              src,
+              '"><img src="',
+              src,
+              '" /></a>'
+            ].join("")
+          );
+        }
+      });
+    </script>
+  </head>
+  <body></body>
+</html>

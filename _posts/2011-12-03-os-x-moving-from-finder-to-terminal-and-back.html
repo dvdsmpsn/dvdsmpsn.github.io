@@ -1,0 +1,51 @@
+---
+layout: post
+title: 'OS X: Moving from Finder to Terminal and back'
+date: 2011-12-03 20:17:01.000000000 +00:00
+type: post
+published: true
+status: publish
+categories:
+- Productivity
+- Programming
+tags:
+- Finder
+- OS X
+- productivity
+- Terminal
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+
+<p>Here's a quick and simple timesaver...</p>
+<h2>1. Open the current Finder folder in Terminal</h2>
+<h3>Setup</h3>
+<p>Download  "<a href="http://code.google.com/p/cdto/wiki/InstallAndUsage"> &gt; cd to ... </a>", copy it to your Applications folder, and then from the applications folder drag it into the Finder toolbar.</p>
+<h3>Usage</h3>
+<p>To use, just click the <code>&gt; ...</code> button on the toolbar</p>
+<!--more-->
+<h2>2. Open the current Terminal directory in a new Terminal tab</h2>
+<h3>Setup</h3>
+<p>First, we'll need to add some AppleScript to <b>~/.profile</b><br />
+
+{% highlight bash %}
+# Open a new tab on Terminal with the current  directory
+# See: http://elsethenif.wordpress.com/2009/06/11/open-a-new-tab-on-terminal-with-the-same-path-on-mac-os-x/
+function nt {
+        osascript -e &quot;
+                tell application &quot;System Events&quot; to tell process &quot;Terminal&quot; to keystroke &quot;t&quot; using command down
+                tell application &quot;Terminal&quot; to do script &quot;cd \&quot;$(PWD)\&quot;&quot; in selected tab of the front window
+        &quot; &gt; /dev/null 2&gt;&amp;1
+}
+{% endhighlight %}
+  
+<h3>Usage</h3>
+<p>In terminal, now type: </p>
+<pre>nt</pre>
+<h2>3. Open the current Terminal directory in Finder</h2>
+<p>To get back to the Finder window, type...</p>
+<pre>open .</pre>
+<h2>And finally...</h2>
+<p>To wrap it up, a demo video:</p>
+
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/undefined' frameborder='0' allowfullscreen></iframe></div>

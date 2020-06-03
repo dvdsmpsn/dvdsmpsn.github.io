@@ -1,0 +1,62 @@
+---
+layout: post
+title: Analytics Plugin for Confluence 1.2 released
+date: 2010-06-24 12:39:35.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- analytics
+- web
+tags:
+- analytics
+- atlassian
+- confluence
+- google analytics
+- plugin
+- web analytics
+- wiki
+meta:
+  _topsy_cache_timestamp: '1299668638'
+  _syntaxhighlighter_encoded: '1'
+  _topsy_long_url: /2010/06/24/analytics-plugin-for-confluence-12-released/
+  topsy_short_url: http://bit.ly/aXQ8Di
+  _edit_last: '1'
+  tmac_last_id: '618797392674959361'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><img src="{{ site.baseurl }}/assets/analytics-plugin-icon-60pc.png" alt="analytics-plugin-icon-60pc" title="analytics-plugin-icon-60pc" width="153" height="124" class="alignleft size-full wp-image-875" /> Last week I released <a href="https://plugins.atlassian.com/plugin/details/16722">Analytics Plugin for Confluence 1.2</a> on the Atlassian Plugin Exchange.  </p>
+<p>It's been  6 months since the initial release which was only tested on Confluence 3.0.  This time I've added a new dashboard section, full support for Confluence 3.1 & 3.2 and a pile of macro parameters <a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/comment-page-1/#comment-487">as requested</a> by Guy Fraser.     The <a href="https://studio.plugins.atlassian.com/wiki/display/CGAP/Analytics+Plugin+1.2+-+Release+Notes">release notes are here</a>.   Confluence 3.3  is just around the corner, so I'll add an update for that when it comes out.</p>
+<h3>Thank you</h3>
+<p>The Confluence community has shown a great deal of support and encouragement since the plugin was originally released.   For example, <a href="http://blogs.atlassian.com/confluence/2009/12/report-confluence-activity-using-google-analytics-in-the-wiki.html">Atlassian blogged about it</a> before I got a chance to.  So thanks to all for your support.  </p>
+<p>The plugin was name checked by Sherif Mansour - Atlassian's  Product Manager for Confluence in the <a href="http://www.atlassian.com/summit/2010/presentations/collaboration-and-projects/confluence-state-of-union.jsp">Confluence State of the Union</a> presentation at <a href="http://www.atlassian.com/summit/2010/">Atlassian Summit 2010</a> at the start of the month.  Watch it all, but concentrate especially around 5:10!</p>
+<p>This week Google approved the plugin for their <a href="http://www.google.com/analytics/apps/">Google Analytics Application Gallery</a> &mdash;  <a href="http://www.google.com/analytics/apps/about?app_id=229002">take a look here</a>.  The Apps Gallery has only been going for about a month so I'm really excited about being a part of it.  The slight name change and new logo were done to fit in with the Application Gallery Policy.<br />
+<!--more-->
+<h3>In the future</h3>
+<p>The next release should support Confluence 3.3  and also complete tracking of all pages in a space  &mdash; not just those with a URL starting /display/spaceKey/  &mdash; based on <a href="/2010/04/09/meta-tags-are-your-friend-part-2-space-specific-tracking-in-confluence-with-google-analytics/">this hack</a> :</p>
+<pre><code>
+// Add a page-level custom variable to record the space-key<br />
+if (typeof jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;) == 'string')<br />
+{<br />
+  pageTracker._setCustomVar(<br />
+    1, // This custom var is set to slot #1 of 5</p>
+<p>    // The name acts as a kind of category for the user activity<br />
+    'confluence-space-key',    </p>
+<p>    // This value of the custom variable<br />
+    jQuery('meta[name=confluence-space-key]').attr(&quot;content&quot;), </p>
+<p>    3 // Sets the scope to page-level<br />
+  );<br />
+}<br />
+</code></pre>
+<p>&mdash; If you want to use this hack now, try out <a href="http://www.google.com/analytics/reporting/edit_custom_report?share=gKOvaSkBAAA.5cmZVfTgv7FSDQaf3SApcJ_A8fPPw5P0SVumf1XIBw6dZ9IfubVqvpdV97TN5wj9PYWeLHgMbDxm22PtwyLU0Q.tBCFvr4UE3alVuAccnjeMA">this custom Google Analytics report</a> which will allow you to take advantage of it now.</p>
+<p>I'd also like to add full space specific tracking for attachments too.</p>
+<h3>A quick demo</h3>
+<p>And finally, this is what the new version looks like:</p>
+<p><object height="350" width="425" class="alignleft"><param value="http://www.youtube.com/v/0JgoBwlQT_4&amp;hl=en_US&amp;fs=1&amp;" name="movie" /><param value="true" name="allowFullScreen" /><param value="always" name="allowscriptaccess" /><embed height="350" width="425" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash" src="http://www.youtube.com/v/0JgoBwlQT_4&amp;hl=en_US&amp;fs=1&amp;" /></object> &nbsp;</p>
+<h3>Related Posts</h3>
+<ul>
+<li><a href="/2009/03/18/tracking-atlassian-confluence-usage-with-google-analytics/">Tracking Atlassian Confluence usage with Google Analytics</a></li>
+<li><a href="/2009/04/16/4-useful-tips-on-google-analytics-reporting-for-confluence/">4 Useful Tips on Google Analytics Reporting for Confluence</a></li>
+<li><a href="/2010/01/02/announcing-google-analytics-plugin-for-confluence/">Announcing: Google Analytics plugin for Confluence</a> - original release</li>
+</ul>

@@ -1,0 +1,94 @@
+---
+layout: post
+title: Sorting JSON arrays
+date: 2014-05-22 09:27:29.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- Programming
+tags:
+- javascript
+- note to self
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  _wp_old_slug: sorting-json-arrays
+  tmac_last_id: '618797308180717569'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Here's a simple unsorted array of JSON objects:</p>
+<pre><code>
+var someArray = [
+  {
+    "id": 2,
+    "name": "gamma"
+  },
+  {
+    "id": 3,
+    "name": "alpha"
+  },
+  {
+    "id": 1,
+    "name": "beta"
+  }
+];
+</code></pre>
+<p>And a generic sorting function:</p>
+<pre><code>
+/**
+ * Generic array sorting
+ *
+ * @param property
+ * @returns {Function}
+ */
+var sortByProperty = function (property) {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] &gt; y[property]) ? 1 : -1));
+    };
+};
+</code></pre>
+<p>Calling this...
+<pre><code>
+someArray.sort(sortByProperty('id'));
+</code></pre>
+<p>...produces an array sorted by the <b>id</b> property:</p>
+<pre><code>
+[
+  {
+    "id": 1,
+    "name": "beta"
+  },
+  {
+    "id": 2,
+    "name": "gamma"
+  },
+  {
+    "id": 3,
+    "name": "alpha"
+  }
+]
+</code></pre>
+<p>Calling this...
+<pre><code>
+someArray.sort(sortByProperty('name'));
+</code></pre>
+<p>...produces an array sorted by the <b>name</b> property:
+<pre><code>
+[
+  {
+    "id": 3,
+    "name": "alpha"
+  },
+  {
+    "id": 1,
+    "name": "beta"
+  },
+  {
+    "id": 2,
+    "name": "gamma"
+  }
+]
+</code></pre>
+<p>Simple.</p>

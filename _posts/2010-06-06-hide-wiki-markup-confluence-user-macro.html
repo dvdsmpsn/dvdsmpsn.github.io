@@ -1,0 +1,48 @@
+---
+layout: post
+title: Hide wiki markup - Confluence user macro
+date: 2010-06-06 22:30:31.000000000 +01:00
+type: post
+published: true
+status: publish
+categories:
+- web
+tags:
+- atlassian
+- confluence
+meta:
+  _syntaxhighlighter_encoded: '1'
+  _topsy_cache_timestamp: '1299686329'
+  _topsy_long_url: /2010/06/06/hide-wiki-markup-confluence-user-macro/
+  topsy_short_url: http://bit.ly/d4ry07
+  _edit_last: '1'
+  tmac_last_id: '618797394105204737'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><em><strong>Update:</strong> 2011-09-20 With the release of Confluence 4.0, this post obsolete.</em></p>
+<p>A simple Confluence user macro to hide access to the <b>View Wiki Markup</b> menu link...</p>
+<p style="font-size:250%; font-family:monaco,courier,fixed-width;">{hide-wiki-markup}</p>
+<p><img align="right" src="{{ site.baseurl }}/assets/tools-menu1.png" alt="tools-menu" title="tools-menu" width="164" height="464" class="alignleft size-full wp-image-801" /></p>
+<p>One thing I love about Confluence is the way that you can browse other people's pages and steal their superior layout ideas for your own wiki pages.  </p>
+<p>It's dead easy to do.  Go to the <b>Tools</b> drop down menu and click on the <b>View Wiki Markup</b> link.  A new window will open containing the wiki markup for the page.  You can now copy the bits you like and discard the rest.  Your friends and colleagues will be impressed by your wiki skills and you can continue on your path to <a href="http://confluence.atlassian.com/display/CONFDEVAL/Become+a+Wiki+Ninja+with+Confluence">becoming a wiki ninja</a>.</p>
+<p><b>But what if you don't want to share those wiki markup skills?</b><br />
+That's not very collaborative, I know. But there are entirely valid reasons that you'd wish to disable this feature.<br />
+<!--more-->
+An example of this is use of the <code>{sql}</code> plugin.  This is a really powerful plugin that allows you to query databases and tabulate the results in Confluence. Wrap this in a <code>{chart}</code> macro and you have an instant graph. Nice work!  There's a <a href="http://blogs.atlassian.com/confluence/2009/08/confluence-business-intelligence-part1.html">great blog post at Atlassian</a> that use this to great effect.</p>
+<h2>Security</h2>
+<p>However, using this kind of markup on a public website is a bad idea.  Exposing the structure of your databases to people you don't know and can't trust is somewhat short sighted.  On a company intranet, the risk is still there, but hopefully it is not so dangerous.  Even so, it's really best not to show this information in the first place.</p>
+<h2>What can we do about it?</h2>
+<p>The best solution would be additional security in the product that allows editors to prevent others from viewing wiki markup.  It would probably go in the <b>Restrictions</b> screen.  This does seem somewhat like a paranoid feature request, but call me paranoid.</p>
+<p>Another way is to use Javascript to remove the link from the DOM.  This is not a replacement for good security, but will stop the casual user from accessing the wiki markup.</p>
+<p><b>It is easily done in a user macro:</b></p>
+<p>As a Confluence administrator, go to <b>Confluence Admin | User Macros</b> and click on <b>Create a User Macro</b>.</p>
+<p>Fill out the form...<br />
+<b>Macro name:</b> hide-wiki-markup<br />
+<b>Output:</b> Macro generates HTML markup<br />
+<b>Template:</b><br />
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;<br />
+jQuery('#action-view-source-link').parent().hide(); /*Updated from .remove(); Aug 2010*/<br />
+&lt;/script&gt;<br />
+</code></pre>
+<p><img src="{{ site.baseurl }}/assets/hide-wiki-markup-config.png" alt="hide-wiki-markup-config" title="hide-wiki-markup-config" /></p>

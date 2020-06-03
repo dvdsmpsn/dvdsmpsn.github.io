@@ -1,0 +1,45 @@
+---
+layout: post
+title: Giving a user admin permissions in IBM Connections
+date: 2013-07-29 21:27:47.000000000 +01:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- admin
+- configuration
+- ibm connections
+meta:
+  tmac_last_id: '618797345782800385'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>When setting up a new IBM Connections system, I always forget how to add admin permissions to a user for the various applications that make up IBM Connections. It's not the sort of command that you remember mainly because there are more fun things to think about.</p>
+<p>Anyway, this is it, in all its glory:</p>
+<pre><code>
+cd /opt/IBM/WebSphere/AppServerDemo/profiles/Dmgr01/bin<br />
+./wsadmin.sh -lang jython -user wasadmin -password passw0rd<br />
+AdminApp.edit('Activities',            '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Blogs',                 '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Communities',           '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Files',                 '[ -MapRolesToUsers [[ org-admin           AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Forums',                '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Forums',                '[ -MapRolesToUsers [[ search-public-admin AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Homepage',              '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Mobile Administration', '[ -MapRolesToUsers [[ administrator       AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('News',                  '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('News',                  '[ -MapRolesToUsers [[ widget-admin        AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Search',                '[ -MapRolesToUsers [[ search-admin        AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('WidgetContainer',       '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminApp.edit('Wikis',                 '[ -MapRolesToUsers [[ admin               AppDeploymentOption.No AppDeploymentOption.No david &quot;&quot; &quot;AppDeploymentOption.No user:jnRealm/CN=David Simpson,O=AppFusions&quot; &quot;&quot; ]]]' )<br />
+AdminConfig.save()<br />
+</code></pre>
+<p>In this case, you'll notice that the username is <b>david</b> and he is listed in the Domino LDAP as <b>CN=David Simpson,O=AppFusions</b>.  You'll need to change this appropriately.</p>
+<p>Adapted from: <a href="http://www.justnudge.com/2012/09/adding-admin-roles-to-ibm-connections-4/">Adding users to admin roles in IBM Connections 4</a> by Michael Ransley, Just Nudge.</p>
+<p><!--</p>
+<p><b>Update:</b><br />
+If you don't know the listing in LDAP, you can also update these in WebSphere Integrated Solutions Console. It's a lot more long winded as you'll have a lot of clicks to achieve the same as just one of the single commands above. More details <a href="http://www-10.lotus.com/ldd/appdevwiki.nsf/dx/How_to_update_the_quickstart_to_support_Widgets">here</a>.</p>
+<p>--></p>

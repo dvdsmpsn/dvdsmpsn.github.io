@@ -1,0 +1,73 @@
+---
+layout: post
+title: Really? Bamboo needs permission to check out code?
+date: 2014-01-07 11:38:22.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags:
+- bamboo
+- public shaming
+- stash
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  tmac_last_id: '618797329773129729'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p>Yet again I'm trying to work out why my new build plan on Bamboo isn't working. All the configuration details are good, but Bamboo can't access the repo. Apparently it doesn't exist. What?</p>
+<p>Here's part of the stack trace displayed in Bamboo:</p>
+<pre><code>
+Caused by: com.atlassian.bamboo.repository.RepositoryException: Runtime exception.<br />
+	at com.atlassian.bamboo.plugins.git.GitRepository.collectChangesSinceLastBuild(GitRepository.java:285)<br />
+	at com.atlassian.bamboo.plugins.git.GitRepository.collectChangesSinceLastBuild(GitRepository.java:186)<br />
+	at com.atlassian.bamboo.v2.trigger.DefaultChangeDetectionManager$1.call(DefaultChangeDetectionManager.java:475)<br />
+	at com.atlassian.bamboo.v2.trigger.DefaultChangeDetectionManager$1.call(DefaultChangeDetectionManager.java:471)<br />
+	at com.atlassian.bamboo.executor.RetryingTaskExecutor.rerun(RetryingTaskExecutor.java:108)<br />
+	... 32 more<br />
+Caused by: com.google.common.util.concurrent.UncheckedExecutionException: com.atlassian.bamboo.plugins.git.GitCommandException: command /opt/git/current/bin/git ls-remote ssh://f1ca42c1-202b-4319-b86f-ce49828e3bc7@127.0.0.1:66102/splendid/spliffing-product.git failed with code 128. Working directory was [.]., stderr:<br />
+[Warning: Permanently added '[127.0.0.1]:66102' (RSA) to the list of known hosts., fatal: remote error: Repository does not exist, The requested repository does not exist, or you do not have permission to, access it., fatal: Could not read from remote repository., , Please make sure you have the correct access rights, and the repository exists.]<br />
+	at com.google.common.cache.AbstractCache.getUnchecked(AbstractCache.java:51)<br />
+	at com.atlassian.bamboo.plugins.git.CallableResultCache.call(CallableResultCache.java:82)<br />
+	at com.atlassian.bamboo.plugins.git.NativeGitOperationHelper.getRemoteRefs(NativeGitOperationHelper.java:464)<br />
+	at com.atlassian.bamboo.plugins.git.NativeGitOperationHelper.resolveBranch(NativeGitOperationHelper.java:399)<br />
+	at com.atlassian.bamboo.plugins.git.NativeGitOperationHelper.obtainLatestRevision(NativeGitOperationHelper.java:497)<br />
+	at com.atlassian.bamboo.plugins.git.GitRepository.collectChangesSinceLastBuild(GitRepository.java:198)<br />
+	... 36 more<br />
+Caused by: com.atlassian.bamboo.plugins.git.GitCommandException: command /opt/git/current/bin/git ls-remote ssh://f1ca42c1-202b-4319-b86f-ce49828e3bc7@127.0.0.1:66102/splendid/spliffing-product.git failed with code 128. Working directory was [.]., stderr:<br />
+[Warning: Permanently added '[127.0.0.1]:66102' (RSA) to the list of known hosts., fatal: remote error: Repository does not exist, The requested repository does not exist, or you do not have permission to, access it., fatal: Could not read from remote repository., , Please make sure you have the correct access rights, and the repository exists.]<br />
+	at com.atlassian.bamboo.plugins.git.GitCommandProcessor.runCommand(GitCommandProcessor.java:496)<br />
+	at com.atlassian.bamboo.plugins.git.GitCommandProcessor.getRemoteRefs(GitCommandProcessor.java:416)<br />
+</code></pre>
+<p>Oh, wait a minute, "you do not have permission to, access it", crap. It's that again.</p>
+<p>OK, that's easy to fix. We're using a dedicated Bamboo user to access the repo. I bet I haven't added permissions for that user in my Stash project.</p>
+<p><a href="/wp-content/uploads/2014/01/stash-bamboo-annotated.png"><img src="{{ site.baseurl }}/assets/stash-bamboo-annotated.png" alt="stash-bamboo-annotated" width="1325" height="650" class="alignnone size-full wp-image-2265" /></a></p>
+<p>There we go. Added. Guess what, my build works just dandy now. </p>
+<p>Idiot. Maybe a <del datetime="2014-01-07T11:25:45+00:00">public shaming</del> blog post will remind me for next time.</p>
+<h2>Update</h2>
+<p>So, on to release plans... Having got the CI build working nicely, I need to also remember little aspects of releasing.</p>
+<p>Remember to update the Maven environment variables with some git details, otherwise you get my next mystery error:</p>
+<pre><code>
+[INFO] ------------------------------------------------------------------------<br />
+[ERROR] BUILD FAILURE<br />
+[INFO] ------------------------------------------------------------------------<br />
+[INFO] Unable to commit files<br />
+Provider message:<br />
+The git-commit command failed.<br />
+Command output:</p>
+<p>*** Please tell me who you are.</p>
+<p>Run</p>
+<p>  git config --global user.email &quot;you@example.com&quot;<br />
+  git config --global user.name &quot;Your Name&quot;</p>
+<p>to set your account's default identity.<br />
+Omit --global to set the identity only in this repository.</p>
+<p>fatal: empty ident name (for &lt;atlassian@example.com&gt;) not allowed</p>
+<p>[INFO] ------------------------------------------------------------------------<br />
+[INFO] For more information, run Maven with the -e switch<br />
+</code></pre>
+<p>Browse to your release job, Maven task...</p>
+<p><a href="/wp-content/uploads/2014/01/env-variables.png"><img src="{{ site.baseurl }}/assets/env-variables.png" alt="env-variables" width="1580" height="1311" class="alignnone size-full wp-image-2274" /></a></p>
+<p>Add something similar to this in <b>Environment variables</b>:</p>
+<p><code>GIT_AUTHOR_NAME=Bamboo GIT_AUTHOR_EMAIL=bamboo@example.com GIT_COMMITTER_NAME=Bamboo GIT_COMMITTER_EMAIL=bamboo@example.com</code></p>

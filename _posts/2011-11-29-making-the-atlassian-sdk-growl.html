@@ -1,0 +1,75 @@
+---
+layout: post
+title: Making the Atlassian SDK growl
+date: 2011-11-29 22:15:10.000000000 +00:00
+type: post
+published: true
+status: publish
+categories: []
+tags: []
+meta:
+  tmac_last_id: '618797371233857536'
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+  _thumbnail_id: '1276'
+author: David Simpson
+excerpt_separator: <!--more-->
+---
+<p><img src="{{ site.baseurl }}/assets/polar-bear-growl.jpg" alt="" title="Growling Polar Bear" width="100%" class="alignnone size-full wp-image-1276" /></p>
+<p>When writing plugins using the Atlassian SDK, <em>sometimes</em> the builds take a little while and you go off doing other things. <em>Maybe</em> you'll get diverted and lose a few minutes.  </p>
+<p>It would be nice to have some kind of feedback/notification to let you know when the build is a success, fails or just when Tomcat is finally up and running. <!--more-->
+<p>On OS X, Growl is my first choice for notifications, so this post shows you how to hook together the Atlassian SDK (well, maven really) with Growl</p>
+<p>You will need:</p>
+<ul>
+<li><a href="https://developer.atlassian.com/display/DOCS/Atlassian+Plugin+SDK+Documentation">Atlassian SDK</a> of course</li>
+<li><a href="http://growl.info/">Growl</a> -- a notification system</li>
+<li><a href="http://growl.info/extras.php">growlnotify</a> -- a command-line tool to post Growl notifications</li>
+<li><a href="#icons">Some pretty icon images</a></li>
+</ul>
+<p>Install all of the above.</p>
+<p>The Atlassian SDK acts as a wrapper for maven functionality. It uses a copy of maven 2.1.0 located at:<br />
+<pre><code>/path/to/atlassian-plugin-sdk-3.x/apache-maven/bin/mvn</code></pre>
+<p>This path appears to be hard coded into a lot of the <b>atlas-</b> prefixed commands, so we have to get a bit hacky and move the original mvn file elsewhere and swap in a new <b>mvn</b> wrapper command.</p>
+<pre><code>
+cd /path/to/atlassian-plugin-sdk-3.x/apache-maven/bin/<br />
+mv mvn mvn.DIST<br />
+</code></pre>
+<p>The new <b>mvn</b> file should look something like this:<br />
+<pre><code>
+#!/bin/bash</p>
+<p># See: http://blank.jasonwhaley.com/2009/02/growl-maven-integration.html</p>
+<p>mvn.DIST $* | awk '<br />
+{<br />
+print;<br />
+if($0 ~ &quot;.*BUILD ERROR.*&quot;)       system( &quot;echo &quot;Build failed : (&quot; | growlnotify &quot;Maven&quot; --name maven --image /Users/david/Pictures/mvn-growl/fail.png &gt; /dev/null 2&gt;&amp;1&quot;  )<br />
+if($0 ~ &quot;.*BUILD SUCCESSFUL.*&quot;)  system( &quot;echo &quot;Build completed successfully : D&quot; | growlnotify &quot;Maven&quot; --name maven --image /Users/david/Pictures/mvn-growl/success.png &gt; /dev/null 2&gt;&amp;1&quot; )<br />
+if($0 ~ &quot;.*CTRL-C.*&quot;)            system( &quot;echo &quot;localhost is now available : D&quot; | growlnotify &quot;Maven&quot; --name maven --image /Users/david/Pictures/mvn-growl/atlassian-charlie.png &gt; /dev/null 2&gt;&amp;1&quot; )<br />
+}<br />
+END {<br />
+}'<br />
+</code></pre>
+<p>Note that we've got some hard coded image paths here.  Store them wherever suits best and update the mvn script.</p>
+<p>Add execute permissions<br />
+<pre><code>
+chmod +x mvn<br />
+</code></pre>
+<p>That's about it really.</p>
+<p>Next time you successfully build from maven, you should get this:</p>
+<p><img src="{{ site.baseurl }}/assets/build-success.png" alt="" title="build-success" width="341" class="alignnone size-full wp-image-1263" /></p>
+<p>A build failure should give this:</p>
+<p><img src="{{ site.baseurl }}/assets/build-failed.png" alt="" title="build-failed" width="361" class="alignnone size-full wp-image-1264" /></p>
+<p>When you type <b>atlas-run</b> and Tomcat is ready, you should get this:</p>
+<p><img src="{{ site.baseurl }}/assets/localhost-is-now-available.png" alt="" title="localhost-is-now-available" width="500" class="alignnone size-full wp-image-1265" /></p>
+<p>I know, this is not exactly a life changer, but it is a really handy way to get some feedback on build progress -- particularly for when localhost is ready.  </p>
+<p>If you have a more elegant solution, let me know.</p>
+<p>---</p>
+<p><b id="icons">Note:</b></p>
+<p>Here are the icons used:</p>
+<p><img style="display:inline;" src="{{ site.baseurl }}/assets/success.png" alt="" title="success" width="32" height="32" /><br />
+<img style="display:inline;" src="/wp-content/uploads/2011/11/fail.png" alt="" title="fail" width="32" height="32" " /><br />
+<img style="display:inline;" src="{{ site.baseurl }}/assets/atlassian-charlie.png" alt="" title="atlassian-charlie" width="36" height="34" /> </p>
+<ul>
+<li><a href="http://memoryboy.deviantart.com/gallery/?q=icons#/d17k26g">RubiksIcons</a> by  <a href="http://memoryboy.deviantart.com/">memoryboy</a> (I just converted them to PNG)</li>
+<li>The Charlie figure was mangled from the <a href="http://www.atlassian.com/company/press">Atlassian website</a></li>
+<li><a href="http://www.flickr.com/photos/lincolnblues/1250752805/in/photostream/">Growling polar bear</a> (while featured on the <a href="/">home page</a>) by <a href="http://www.flickr.com/photos/lincolnblues/">lincolnblues</a></li>
+</ul>
