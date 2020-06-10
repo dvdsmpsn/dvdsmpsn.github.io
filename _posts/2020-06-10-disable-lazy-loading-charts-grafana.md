@@ -31,7 +31,7 @@ After that, it is a simple matter of screwing with the sourcecode.
 
 ## Source code changings
 
-In `/public/app/features/dashboard/dashgrid/DashboardGrid.tsx` you'll see tyhe following lines:
+In `/public/app/features/dashboard/dashgrid/DashboardGrid.tsx` you'll see the following lines:
 
 ```
 isInView = (panel: PanelModel): boolean => {
