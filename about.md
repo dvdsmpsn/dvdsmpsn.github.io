@@ -19,3 +19,5 @@ permalink: /about/
 ## Contact me
 
 [david@davidsimpson.me](mailto:david@davidsimpson.me)
+
+
