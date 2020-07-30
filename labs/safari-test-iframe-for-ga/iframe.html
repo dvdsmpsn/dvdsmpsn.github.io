@@ -15,10 +15,14 @@
   <body>
     <h1>Safari test iframe for GA</h1>
 
-    <div>
+    <p>
+      <strong>Origin:</strong>
+      <span id="origin"></span>
+    </p>
+    <p>
       <strong>Location:</strong>
       <span id="loc"></span>
-    </div>
+    </p>
 
     <hr />
     <small
@@ -60,6 +64,7 @@
         });
       }
 
+      document.getElementById("origin").innerHTML = location.origin;
       document.getElementById("loc").innerHTML = location.href;
     </script>
   </body>
