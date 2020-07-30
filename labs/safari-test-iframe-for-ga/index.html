@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Safari test iframe for GA</title>
+    <script></script>
+    <style>
+      html {
+        width: 80%;
+        margin: 20px auto;
+        font-family: sans-serif;
+      }
+
+      iframe {
+        width: 100%;
+        height: 300px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Safari test iframe for GA</h1>
+
+    <div>
+      <strong>Location:</strong>
+      <span id="loc"></span>
+    </div>
+
+    <h2>iframe</h2>
+    <iframe
+      noreferrer
+      no-opener
+      src="https://dvdsmpsn-atlassian-cloud-add-ons.s3.amazonaws.com/scratch/safari-test-iframe-for-ga/iframe.html"
+    ></iframe>
+
+    <script>
+      document.getElementById("loc").innerHTML = location.href;
+    </script>
+  </body>
+</html>
