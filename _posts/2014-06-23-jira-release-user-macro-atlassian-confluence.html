@@ -32,25 +32,25 @@ excerpt_separator: <!--more-->
 <p><a href="/wp-content/uploads/2014/06/jira-release-user-macro.png"><img src="{{ site.baseurl }}/assets/jira-release-user-macro.png" alt="jira-release-user-macro" class="alignnone size-full wp-image-2831" style="border: 1px solid #eee;" /></a></p>
 <p>In old style wiki markup, my user macro would look like this:</p>
 
-<pre><code>
-{release:ProjectKey=AF032|Version=3.0.0}<br />
-</code></pre><br />
+<pre><code>{release:ProjectKey=AF032|Version=3.0.0}</code></pre><br />
 <!--more-->
 Though JIRA macros have improved notably, I still find myself coming back to this macro again and again. The main reason being &ndash; it's stupidly easy to remember how to use it. Don't make me think. Just let me do.</p>
 <p>The code below is just a wrapper with a little JQL, but works a treat.</p>
-<pre><code>
-## Macro title: Release
+<pre><code>## Macro title: Release
 ## Macro has a body: N
 ##
 ## Developed by: David Simpson / david @ davidsimpson . me
 ## Date created: 2013-02-02
 ## Installed by: You (hopefully)
 ## Show the issues for a release
+##
 ## @param ProjectKey:title=Project Key|type=string|required=true|desc=e.g. AF010
 ## @param Version:title=Version|type=string|required=true|desc=e.g. 1.1.1
+
 #set($projectKey = $paramProjectKey)
 #set($version = $paramVersion)
 #set($jiraBaseUrl = &quot;https://jira.yourcompany.com&quot;) ##### UPDATE THIS #####
+
 &lt;ac:macro ac:name=&quot;jiraissues&quot;&gt;
 	&lt;ac:parameter ac:name=&quot;title&quot;&gt;$!{projectKey}: Release $!{version}&lt;/ac:parameter&gt;
 	&lt;ac:parameter ac:name=&quot;url&quot;&gt;$!{jiraBaseUrl}/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+%3D+$!{projectKey}+AND+fixVersion+%3D+%22$!{version}%22&amp;amp;tempMax=1000&lt;/ac:parameter&gt;
