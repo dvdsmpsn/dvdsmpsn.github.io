@@ -357,29 +357,34 @@ div.highlight {
   padding: 0;
 }
 
+
+.posts > .post {
+  border-top: 1px solid rgba(128,128,128, 0.5);	
+}
+
 @media screen and (prefers-color-scheme: dark) {
   body {
-    background-color: black;
+    background-color: #333;
     color: white;
   }
   .masthead,
   .masthead a,
   .site-description {
-    color: black;
+    color: #333;
   }
 
 
   .wrapper-footer {
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
-    background-color: #333;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    background-color: #444;
   }
 
   .highlight {
-    background-color: #333;
-    border: 1px solid #333;
+    background-color: #444;
+    border: 1px solid #444;
   }
   .intro-header {
-      border-top: 5px solid black;
+      border-top: 5px solid #333;
   }
 }
