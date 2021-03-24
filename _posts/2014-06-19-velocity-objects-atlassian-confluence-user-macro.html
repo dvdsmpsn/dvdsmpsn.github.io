@@ -28,25 +28,24 @@ excerpt_separator: <!--more-->
 <!--more-->
 <p><!--Gist here: https://gist.github.com/dvdsmpsn/6de6de59b8ba5bc94dc8--></p>
 <pre><code>
-## Based on Scott Dudley's answer here:<br />
-## http://stackoverflow.com/a/23819584/1958200<br />
-##<br />
-## @noparams</p>
-<p>#set($cashMoney = &quot;$&quot;) ## just for display</p>
-<p>#set($macroUtilClass=$action.class.forName('com.atlassian.confluence.renderer.radeox.macros.MacroUtils'))<br />
-#set($getContextMethod=$macroUtilClass.getDeclaredMethod('defaultVelocityContext',null))<br />
-#set($ctx=$getContextMethod.invoke(null))<br />
-#set($objects = $ctx.keySet().toArray())&lt;/pre&gt;<br />
-&lt;ul&gt;<br />
-&lt;ul&gt;#foreach($p in $objects)&lt;/ul&gt;<br />
-&lt;/ul&gt;<br />
-&amp;nbsp;<br />
-&lt;ul&gt;<br />
-&lt;ul&gt;#set($className = $ctx.get($p).getClass().getName().toString())&lt;/ul&gt;<br />
-&lt;/ul&gt;<br />
-&amp;nbsp;<br />
-&lt;ul&gt;<br />
-&lt;ul&gt;<br />
+## Based on Scott Dudley's answer here:
+## http://stackoverflow.com/a/23819584/1958200
+##
+## @noparams
+#set($cashMoney = &quot;$&quot;) ## just for display
+#set($macroUtilClass=$action.class.forName('com.atlassian.confluence.renderer.radeox.macros.MacroUtils'))
+#set($getContextMethod=$macroUtilClass.getDeclaredMethod('defaultVelocityContext',null))
+#set($ctx=$getContextMethod.invoke(null))
+#set($objects = $ctx.keySet().toArray())&lt;/pre&gt;
+&lt;ul&gt;
+&lt;ul&gt;#foreach($p in $objects)&lt;/ul&gt;
+&lt;/ul&gt;
+&amp;nbsp;
+&lt;ul&gt;
+&lt;ul&gt;#set($className = $ctx.get($p).getClass().getName().toString())&lt;/ul&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;ul&gt;
 	&lt;li&gt;&lt;code&gt;$cashMoney$p.toString()&lt;/code&gt; –<br />
  #if ($className.contains(&quot;$&quot;) == true || $className.startsWith(&quot;com.atlassian&quot;) == false)<br />
  $className<br />
@@ -87,7 +86,7 @@ excerpt_separator: <!--more-->
 &lt;pre&gt;<br />
 </code></pre>
 <p>And the resulting HTML displayed:</p>
-<p><a href="/wp-content/uploads/2014/06/velocity-objects-in-confluence.png"><img class="alignnone size-full wp-image-2819" alt="velocity-objects-in-confluence" src="{{ site.baseurl }}/assets/velocity-objects-in-confluence.png" width="992" height="1346" /></a></p>
+<p><a href="/wp-content/uploads/2014/06/velocity-objects-in-confluence.png"><img class="alignnone size-full wp-image-2819" alt="velocity-objects-in-confluence" src="{{ site.baseurl }}/assets/velocity-objects-in-confluence.png" /></a></p>
 <h2>Complete list of Confluence object available to Velocity</h2>
 <p>For completeness, I've copied over from a Confluence 5.5.x instance with links to the latest JavaDocs below. I won't be updating the list as you can use the user macro instead.</p>
 <ul id="velocityObjects">
