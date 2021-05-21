@@ -235,7 +235,16 @@ const shareHandler = (e) => {
 };
 
 window.onload = () => {
-  const noSleep = new NoSleep(); // keep the device awake
+  // keep the device awake
+  const noSleep = new NoSleep();
+  document.addEventListener(
+    "click",
+    function enableNoSleep() {
+      document.removeEventListener("click", enableNoSleep, false);
+      noSleep.enable();
+    },
+    false
+  );
 
   const staff = document.getElementById("staff");
   let buttonHeight = 0;
