@@ -21,14 +21,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 
   font-size: 4vh;
 }
 
 #console-text-desc {
   /* font-size: 4vh; */
-  font-size: 22px;
+  font-size: 18px;
+  margin-left: 30px;
 }
 #console span {
   color: rgba(128, 128, 128, 0.5);
@@ -66,6 +67,8 @@ body {
 
   position: relative;
   color: #888;
+
+  padding-top: 1.15vh; /* nasty hack to correct the text v alignment */
 }
 
 #staff .line {

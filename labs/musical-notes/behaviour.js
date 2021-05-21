@@ -196,19 +196,22 @@ const clickHandler = (e) => {
 
   consoleNode.innerHTML = `${note.name} &nbsp; ${note.positions.natural}`;
 
-  desc = "";
+  // desc = "";
 
-  if (note.positions.sharp !== "" && note.positions.sharp !== "-") {
-    desc += ` &#9839; ${note.positions.sharp} &nbsp; `;
-  }
-  if (desc != "" && note.positions.flat != "" && note.positions.flat != "-") {
-    desc += "<span>•</span>";
-  }
-  if (note.positions.flat != "" && note.positions.flat != "-") {
-    desc += ` &nbsp; &#9837; ${note.positions.flat}  `;
-  }
+  // if (note.positions.sharp !== "" && note.positions.sharp !== "-") {
+  //   desc += `<div id="sharp">&#9839; ${note.positions.sharp}</div>`;
+  // }
+  // if (desc != "" && note.positions.flat != "" && note.positions.flat != "-") {
+  //   desc += "<span>•</span>";
+  // }
+  // if (note.positions.flat != "" && note.positions.flat != "-") {
+  //   desc += ` &nbsp; &#9837; ${note.positions.flat}  `;
+  // }
 
-  consoleNodeDesc.innerHTML = desc;
+  consoleNodeDesc.innerHTML = `
+    <div id="sharp">&#9839; ${note.positions.sharp || ""}</div>
+    <div id="flat">&#9837; ${note.positions.flat || ""}</div>
+  `;
 
   Array.from(buttons).map((item) => {
     item.setAttribute("data-focused", false);
