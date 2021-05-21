@@ -1,0 +1,5 @@
+**/*.min.js
+*.min.js
+**/*.min.css
+*.min.css
+**/SequenceLogo.js
