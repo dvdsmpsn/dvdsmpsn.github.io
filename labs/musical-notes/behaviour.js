@@ -235,6 +235,8 @@ const shareHandler = (e) => {
 };
 
 window.onload = () => {
+  const noSleep = new NoSleep(); // keep the device awake
+
   const staff = document.getElementById("staff");
   let buttonHeight = 0;
   notes.map((item) => {
