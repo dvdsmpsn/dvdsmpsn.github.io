@@ -8,12 +8,11 @@ permalink: /about/
 
 ## My Background
 
-- I grew up on a [farm](http://catlane.co.uk)
+- I grew up on a [farm](https://catlane.co.uk)
 - I'm keen on higher education — I've got a couple of degrees
 - You should trust me — [I'm a doctor](http://eprints.nottingham.ac.uk/10028/)
 - I'm a husband and father
-- I'm a fan of monochrome grid layouts — if you hadn't guessed
-- I'm a **Senior Developer and Solutions Architect** at [AppFusions](http://www.appfusions.com) — a global social business and integrations company
+- I'm a Founder at [David Simpson Apps](https://dsapps.dev) an [Atlassian Marketplace](https://marketplace.atlassian.com/vendors/15071/david-simpson-apps) Partner
 
 
 ## Contact me
