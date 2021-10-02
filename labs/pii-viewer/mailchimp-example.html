@@ -6,17 +6,29 @@
       const getParameter = (key, fallback = null) =>
            new URLSearchParams(location.search).get(key) || fallback;
 	 
-	 
       const mcid = getParameter('mcid');
 	 
       if (mcid) {
-        alert(`Mailchimp ID: ${mcid}`);
+        // alert(`Mailchimp ID: ${mcid}`);
+				const uidNode = document.querySelector('#uid');
+				uidNode.innerHTML = mcid;
       }  
     </script>
-    
+    <style>
+			body {
+				font-family: sans-serif;
+				font-size: 16px;
+				text-align: center;
+			}
+			#mc {
+				margin: 30px; 
+				font-size: 200%;
+			}
+		</style>
   </head>
   <body>
-    <p>Hello world. Is this from Mailchimp? </p>
+    <p>Hello world. Is this from Mailchimp?</p>
+    <p id="mc">Your Mailchimp Email UID is <span id="uid">not set</span></p>
     <p><a href="https://github.com/dvdsmpsn/dvdsmpsn.github.io/edit/master/labs/pii-viewer/mailchimp-example.html">Edit this file</a></p>	
   </body>
 </html>
