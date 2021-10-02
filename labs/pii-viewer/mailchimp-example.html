@@ -1,19 +1,7 @@
 <html>
   <head>
     <!-- https://davidsimpson.me/labs/pii-viewer/mailchimp-example.html -->
-    <script>
-      
-      const getParameter = (key, fallback = null) =>
-           new URLSearchParams(location.search).get(key) || fallback;
-	 
-      const mcid = getParameter('mcid');
-	 
-      if (mcid) {
-        // alert(`Mailchimp ID: ${mcid}`);
-				const uidNode = document.querySelector('#uid');
-				uidNode.innerHTML = mcid;
-      }  
-    </script>
+
     <style>
 			body {
 				font-family: sans-serif;
@@ -30,5 +18,18 @@
     <p>Hello world. Is this from Mailchimp?</p>
     <p id="mc">Your Mailchimp Email UID is <span id="uid">not set</span></p>
     <p><a href="https://github.com/dvdsmpsn/dvdsmpsn.github.io/edit/master/labs/pii-viewer/mailchimp-example.html">Edit this file</a></p>	
+    
+    <script>  
+      const getParameter = (key, fallback = null) =>
+           new URLSearchParams(location.search).get(key) || fallback;
+	 
+      const mcid = getParameter('mcid');
+	 
+      if (mcid) {
+        // alert(`Mailchimp ID: ${mcid}`);
+				const uidNode = document.querySelector('#uid');
+				uidNode.innerHTML = mcid;
+      }  
+    </script>
   </body>
 </html>
