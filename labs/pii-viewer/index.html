@@ -1,0 +1,21 @@
+<html>
+  <head>
+    
+    <script>
+      
+      const getParameter = (key, fallback = null) =>
+           new URLSearchParams(location.search).get(key) || fallback;
+	 
+	 
+      const mcid = getParameter('mcid');
+	 
+      if (mcid) {
+        alert(`Mailchimp ID: ${mcid}`);
+      }  
+    </script>
+    
+  </head>
+  <body>
+    Hello world. Is this from Mailchimp? 
+  </body>
+</html>
