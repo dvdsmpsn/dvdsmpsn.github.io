@@ -18,6 +18,20 @@
     <p>Hello world. Is this from Mailchimp?</p>
     <p id="mc">Your Mailchimp Email UID is <strong id="uid">not set</strong></p>
     <p>
+      You can send Mailchimp Email UIDs in email shots by using the <code>*|EMAIL_UID|*</code> <a href="https://mailchimp.com/help/all-the-merge-tags-cheat-sheet/#API">merge tag</a> in a link URL. 
+    </p>
+    <p>
+      If your Mailchimp EMail UID is set, then it will be sent over to Google Analytics (GA4) by this page using the following code:
+    </p>
+    <pre>
+      const mcid = new URLSearchParams(location.search).get('mcid');
+      if (mcid) {
+        gtag("event", "mailchimp_mailshot", {
+          mcid: mcid,
+        });
+      }    
+    </pre>
+    <p>
       <a
         href="https://github.com/dvdsmpsn/dvdsmpsn.github.io/edit/master/labs/pii-viewer/mailchimp-example.html"
         >Edit this file</a
@@ -38,11 +52,7 @@
       gtag("js", new Date());
       gtag("config", "G-2FH8CFVGBT"); // ********** My tag - use your own here
 
-      // Get a request parameter
-      const getParameter = (key, fallback = null) =>
-        new URLSearchParams(location.search).get(key) || fallback;
-
-      const mcid = getParameter("mcid");
+      const mcid = new URLSearchParams(location.search).get('mcid');
 
       if (mcid) {
         // it's from a mailchimp email campaign
