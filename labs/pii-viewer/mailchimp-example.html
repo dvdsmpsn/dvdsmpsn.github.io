@@ -52,6 +52,7 @@
         uidNode.innerHTML = mcid;
 
         // send it to Google Analytics
+        // @see: https://support.google.com/analytics/answer/10075209
         gtag("event", "mailchimp_mailshot", {
           mcid: mcid,
         });
