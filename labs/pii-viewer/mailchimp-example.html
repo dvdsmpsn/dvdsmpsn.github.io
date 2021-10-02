@@ -31,12 +31,12 @@
       If your Mailchimp Email UID is set, then it will be sent over to Google Analytics (GA4) by this page using the following code:
     </p>
     <pre>
-      const mcid = new URLSearchParams(location.search).get('mcid');
-      if (mcid) {
-        gtag("event", "mailchimp_mailshot", {
-          mcid: mcid,
-        });
-      }    
+const mcid = new URLSearchParams(location.search).get('mcid');
+if (mcid) {
+  gtag("event", "mailchimp_mailshot", {
+    mcid: mcid,
+  });
+}    
     </pre>
     <p style="margin-top:100px;">
       <a
