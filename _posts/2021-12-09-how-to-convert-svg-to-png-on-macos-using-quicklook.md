@@ -70,4 +70,4 @@ qlmanage   \
 
 This will produce an 8000 pixel wide `logo.svg.png`.
 
-This massive image can now be used in my movie withou any scaling issues.
+This massive image can now be used in my movie without any scaling issues.
