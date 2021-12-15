@@ -47,7 +47,7 @@ I'm aiming for an 8000px square image, so change `width="192px" height="192px"` 
 </svg>
 ```
 
-Note: When **scaling down**, you can skip this as QuickLook will scale down correctly. Skipping this while **scaling up** produces your image at it's original size in the top left hand corner of the resultant PNG.
+Note: When **scaling down**, you can skip this as QuickLook will scale down correctly. 
 
 ### In terminal
 
