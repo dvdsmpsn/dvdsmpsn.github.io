@@ -33,6 +33,6 @@ I saw this in a Slack channel, so wanted to preserve it before it vanishes forev
 
 ---
 
-Remember, if you're using a free plan for Slack, your knowledge is never safe. It's like Snapchat for business.
+Remember, if you're using a free plan for Slack, your knowledge is never safe unless you save it elsewhere. It's like Snapchat for business.
 
-!/wp-content/uploads/2023/where-knowledge-goes-to-die.png!
+<img src="/wp-content/uploads/2023/where-knowledge-goes-to-die.png" alt="Slack where information goes to die">
