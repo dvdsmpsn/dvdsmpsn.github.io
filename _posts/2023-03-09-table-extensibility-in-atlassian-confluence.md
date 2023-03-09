@@ -30,7 +30,7 @@ Soon available for:
 
 ## How to emit data from your macro
 
-Update your macro definition in atlassian-connect.json with refDataSchema like so:
+Update your macro definition in `atlassian-connect.json` with `refDataSchema` like so:
 
 ```
 "refDataSchema": {
@@ -56,25 +56,25 @@ Where `tableAdf` is a table in ADF (JSON) format.
 
 ## 🤷 Gotchas
 
-- Use table-adf rather than table-json 
+- Use `table-adf` rather than `table-json` 
   - [Developer Preview of Referentiality within Confluence Released!](https://community.developer.atlassian.com/t/developer-preview-of-referentiality-within-confluence-released/54329) suggests you can use either
 - Sometimes, but rarely (e.g. after a hard reload) `AP.dataProvider` doesn’t get loaded before your Connect macro, so test it’s there before emitting the event data.
   ```
   AP.dataProvider && AP.dataProvider.emitToDataProvider(...);
   ```
 - The data provider was not accepted. My macro was not emitting any data: 
-  <img src="/wp-content/uploads/2023/table-extensibility.png" />
+  <img src="/wp-content/uploads/2023/table-extensibility.png" width="300" />
 
   Fix:
   
-  - Update the the refDataSchema in the macro descriptor to:
+  - Update the the `refDataSchema` in the macro descriptor to:
     ```
     "refDataSchema": {
       "inputType": "table-adf",
       "outputType": "table-adf"
     }, 
    ```
-   
+
    I really don’t get why this may be required, likely a bug – it also adds clutter to the macro menus 😞
 - Ensure that any empty table cells have something like a `&nbsp;` in them, otherwise `AP.dataProvider.emitToDataProvider` will silently crap out.
 
