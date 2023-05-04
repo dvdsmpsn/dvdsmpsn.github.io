@@ -24,7 +24,7 @@ My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https:/
 
 An Atlassian Cloud app for tracking user interactions within Atlassian Confluence.
 
-- [Google Analytics in Confluence - product website]([https://www.dsapps.dev/](https://dsapps.dev/products/google-analytics-in-confluence/))
+- [Google Analytics in Confluence - product website](https://www.dsapps.dev/](https://dsapps.dev/products/google-analytics-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
 - [Documentation](https://dsapps.atlassian.net/wiki/display/analytics/Documentation)
 
@@ -32,7 +32,7 @@ An Atlassian Cloud app for tracking user interactions within Atlassian Confluenc
 
 Effortlessly embed GitHub Gists into Atlassian Confluence
 
-- [GitHub Gists in Confluence - product website]([https://dsapps.dev](https://dsapps.dev/products/github-gists-in-confluence/)
+- [GitHub Gists in Confluence - product website](https://dsapps.dev/products/github-gists-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.gister/cloud/overview)
 - [Documentation](https://dsapps.atlassian.net/wiki/spaces/gister)
 
