@@ -12,7 +12,7 @@ permalink: /about/
 - I'm keen on higher education — I've got a couple of degrees
 - You should trust me — [I'm a doctor](http://eprints.nottingham.ac.uk/10028/)
 - I'm a husband and father
-- I'm a Founder at [David Simpson Apps](https://dsapps.dev) an [Atlassian Marketplace](https://marketplace.atlassian.com/vendors/15071/david-simpson-apps) Partner
+- I'm a Founder at [David Simpson Apps](https://www.dsapps.dev) an [Atlassian Marketplace](https://marketplace.atlassian.com/vendors/15071/david-simpson-apps) Partner
 
 
 ## Contact me
