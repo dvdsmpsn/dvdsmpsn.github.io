@@ -24,7 +24,7 @@ My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https:/
 
 An Atlassian Cloud app for tracking user interactions within Atlassian Confluence.
 
-- [Google Analytics in Confluence - product website](https://dsapps.dev/products/google-analytics-in-confluence/)
+- [Google Analytics in Confluence - product website](https://www.dsapps.dev/products/google-analytics-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
 - [Documentation](https://dsapps.atlassian.net/wiki/display/analytics/Documentation)
 
@@ -32,7 +32,7 @@ An Atlassian Cloud app for tracking user interactions within Atlassian Confluenc
 
 Effortlessly embed GitHub Gists into Atlassian Confluence
 
-- [GitHub Gists in Confluence - product website](https://dsapps.dev/products/github-gists-in-confluence/)
+- [GitHub Gists in Confluence - product website](https://www.dsapps.dev/products/github-gists-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.gister/cloud/overview)
 - [Documentation](https://dsapps.atlassian.net/wiki/spaces/gister)
 
@@ -42,17 +42,10 @@ Macros for Bitbucket in Confluence is the missing solution for users of both Bit
 
 ![Macros for Bitbucket in Confluence](https://dsapps.atlassian.net/wiki/download/attachments/11567116/4-macros.png?version=1&modificationDate=1445942143501&cacheVersion=1&api=v2&effects=border-simple,blur-border)
 
-- [Macros for Bitbucket in Confluence - product website](https://dsapps.dev/products/macros-for-bitbucket-in-confluence/)
+- [Macros for Bitbucket in Confluence - product website](https://www.dsapps.dev/products/macros-for-bitbucket-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.bitbucket-issues/cloud/overview)
 - [Documentation](https://dsapps.atlassian.net/wiki/spaces/bitbucket)
 
-### A JSFiddle Macro for Confluence Cloud
-
-For adding JSFiddles to your Confluence pages
-
-- [JSFiddle Macro for Confluence Cloud - product website](https://dsapps.dev/)
-- [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.jsfiddle/server/overview)
-- [Documentation](#TODO)
 
 ## Donate
 
