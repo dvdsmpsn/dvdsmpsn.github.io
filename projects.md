@@ -18,7 +18,7 @@ PII Viewer for Google Analytics is a Google Chrome extension which allows you to
 
 ## Atlassian Apps
 
-My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https://dsapps.dev/" target="_blank">David Simpson Apps</a>
+My Atlassian Apps are now detailed on a separate domain &ndash; <a href="https://www.dsapps.dev/" target="_blank">David Simpson Apps</a>
 
 ### Google Analytics in Confluence
 
@@ -26,7 +26,7 @@ An Atlassian Cloud app for tracking user interactions within Atlassian Confluenc
 
 - [Google Analytics in Confluence - product website](https://www.dsapps.dev/products/google-analytics-in-confluence/)
 - [Atlassian Marketplace Listing](https://marketplace.atlassian.com/plugins/me.davidsimpson.confluence.addon.google-analytics-for-confluence/cloud/overview)
-- [Documentation](https://dsapps.atlassian.net/wiki/display/analytics/Documentation)
+- [Documentation]([https://dsapps.atlassian.net/wiki/display/analytics/Documentation](https://help.dsapps.dev/google-analytics-in-confluence/getting-started)
 
 ### GitHub Gists in Confluence
 
