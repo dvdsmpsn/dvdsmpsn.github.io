@@ -162,4 +162,4 @@ This may just be what you get from a developer license/private listing – need 
 
 That's it. Let me know if there's any other ways :slight_smile: 
 
-In my [next post](https://community.developer.atlassian.com/t/what-is-the-atlassian-connect-licensing-lifecycle/57067), I'm asking what do `lic=active` & `lic=none` actually mean?
+In my [next post](/2023/09/27/what-is-the-atlassian-connect-licensing-lifecycle/), I'm asking what do `lic=active` & `lic=none` actually mean?
