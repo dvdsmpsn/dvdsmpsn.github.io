@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to get the license status of an Atlassian Connect app 
-date: 2023-03-09 10:10:00.000000000 +00:00
+date: 2023-09-27 10:10:00.000000000 +00:00
 type: post
 published: true
 status: publish
