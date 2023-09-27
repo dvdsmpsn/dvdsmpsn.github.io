@@ -38,7 +38,7 @@ In Atlassian Marketplace reports you can see various license statuses:
   * Can only find cancelled **commercial** licenses for this month, suggesting that the status changes to **expired** after a month
   * Cancelled **evaluation** licenses linger in this state
 
-In a previous post I described [how to get the license status of an Atlassian Connect app](https://community.developer.atlassian.com/t/how-to-get-the-license-status-of-an-atlassian-connect-app/57066). 
+In a previous post I described [how to get the license status of an Atlassian Connect app](/2023/09/27/get-license-status-of-atlassian-connect-app/). 
 
 None of these methods given in that post truly map to the available license statuses as shown in Atlassian Marketplace, so there is confusion as to what **active**, **expired** and **cancelled** means when applied to the logic within an app.
 
