@@ -17,7 +17,7 @@ author: David Simpson
 
 *I'm writing this down here as I often question my knowledge of what is correct and I'd like to find this information in a single article. 
 If you wish to comment to correct this, please do so and I'll update the post with the corrected information. 
-This article was previously also posted [here](https://community.developer.atlassian.com/t/how-to-get-the-license-status-of-an-atlassian-connect-app/57066)*
+This article was previously also posted [here](https://community.developer.atlassian.com/t/how-to-get-the-license-status-of-an-atlassian-connect-app/57066).*
 
 For Atlassian Connect apps, there are 2 license states that can be found from within the app:
 
