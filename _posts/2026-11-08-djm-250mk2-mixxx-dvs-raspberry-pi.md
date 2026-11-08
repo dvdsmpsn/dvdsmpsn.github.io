@@ -784,7 +784,7 @@ systemctl --user enable --now osk-autohide.service
 
 ### Make Mixxx bigger for touch
 
-At 1920×1200 on a 14″ screen, Mixxx's buttons are small for fingers. Rather than scaling the whole desktop, I set Mixxx's own **Preferences → Interface → Scale factor** to **150%** (`ScaleFactor 1.5` in `mixxx.cfg`). The display stays at 100%, so the rest of the desktop is unchanged.
+At 1920×1200 on a 14″ screen, Mixxx's buttons are too small for fat fingers. Rather than scaling the whole desktop, I set Mixxx's own **Preferences → Interface → Scale factor** to **150%** (`ScaleFactor 1.5` in `mixxx.cfg`). The display stays at 100%, so the rest of the desktop is unchanged.
 
 ### Open Mixxx maximised, not full screen
 
