@@ -16,7 +16,9 @@ author: David Simpson
 
 
 
-I've run a Pioneer DJ DJM-250MK2 mixer with Rekordbox control vinyl for several years, but the idea of running this with a full blown laptop and Rekordbox software that only work either when it's attached to the mixer, or with a subscription is a real PITA. But if I could replace the laptop with a touchscreen display, that would feel freeer than having the shackles of a computer.
+I've run a Pioneer DJ DJM-250MK2 mixer with Rekordbox control vinyl for several years, but the idea of running this with a full blown laptop and Rekordbox software that only work either when it's attached to the mixer, or with a subscription is a real PITA. 
+
+But if I could replace the laptop with a touchscreen display, and use [Mixxx](https://mixxx.org/) rather than Rekordbox, that would feel freer than having the shackles of a computer, keyboard, mouse and subscription based software.
 
 Using my Pioneer DJ DJM-250MK2 with timecode vinyl and Mixxx on a Raspberry Pi 5 with a touchscreen could be the answer, however things were not entirely straightforward. Linux recognised the mixer and played audio through it straight away. But Mixxx never saw any timecode signal from the turntables.
 
@@ -26,7 +28,7 @@ This post covers everything needed to get it working, the one non-obvious fix, a
 
 **Status:** Working with both decks under vinyl control in Mixxx, as of 2 November 2026. *Updated 7 November 2026:* a touchscreen version of the Deere skin (Step 15), backing up Mixxx's settings (Step 16), and two-finger scrolling on the touchscreen (Step 17).
 
-There was liberal use of Claude AI for debugging all the peculiarities and Mixxx skin design.
+Note: There was liberal use of Claude AI throughout for debugging all the peculiarities of the hardware, software and Mixxx skin design.
 
 ---
 
