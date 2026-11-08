@@ -392,3 +392,22 @@ div.highlight {
   }
 }
 
+
+th, td {
+	text-align: left,
+	padding: 0.
+}
+
+
+th, td {
+    padding: 0.4em 0.6em;
+    border-bottom: 1px solid #ccc;
+}
+th {
+    font-weight: 600;
+    border-bottom: 2px solid #ccc;
+}
+
+#the-setup + table td:first-child {
+    white-space: nowrap;
+}

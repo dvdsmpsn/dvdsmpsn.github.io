@@ -15,7 +15,6 @@ author: David Simpson
 ---
 
 
-*November 2026*
 
 I've run a Pioneer DJ DJM-250MK2 mixer with Rekordbox control vinyl for several years, but the idea of running this with a full blown laptop and Rekordbox software that only work either when it's attached to the mixer, or with a subscription is a real PITA. But if I could replace the laptop with a touchscreen display, that would feel freeer than having the shackles of a computer.
 
@@ -27,11 +26,13 @@ This post covers everything needed to get it working, the one non-obvious fix, a
 
 **Status:** Working with both decks under vinyl control in Mixxx, as of 2 November 2026. *Updated 7 November 2026:* a touchscreen version of the Deere skin (Step 15), backing up Mixxx's settings (Step 16), and two-finger scrolling on the touchscreen (Step 17).
 
+There was liberal use of Claude AI for debugging all the peculiarities and Mixxx skin design.
+
 ---
 
 ## The setup
 
-| | |
+| What? | Details |
 |---|---|
 | Mixer | Pioneer DJ DJM-250MK2 (USB ID `2b73:0017`, firmware/bcdDevice 1.06) |
 | Computer | Raspberry Pi 5 |
@@ -39,7 +40,7 @@ This post covers everything needed to get it working, the one non-obvious fix, a
 | Audio stack | PipeWire 1.4.2, WirePlumber 0.5.8, alsa-utils 1.2.14 |
 | DJ software | Mixxx 2.5.6 (Flatpak from Flathub), using its JACK API through PipeWire |
 | Timecode | Pioneer Rekordbox DVS Control Vinyl |
-| Screen | HD-140 14″ portable touchscreen (HDMI + USB touch), squeekboard on-screen keyboard |
+| Screen | [Showscren HD-140](https://www.amazon.co.uk/dp/B0H3ZBZW62) 14″ portable touchscreen (HDMI + USB touch), squeekboard on-screen keyboard |
 
 ## The symptom
 
@@ -1154,7 +1155,7 @@ With fingers instead of a mouse, two things in Deere were awkward: loading a tra
 
 Tap a track, then tap a LOAD button. It's two taps instead of one, but both targets are large.
 
-The skin is a copy of Deere called **Deere Touch**. Download: **[DeereTouch-mixxx-skin.zip](DeereTouch-mixxx-skin.zip)** (next to this post; includes a README). Changes from Deere:
+The skin is a copy of Deere called **Deere Touch**. Download: **[DeereTouch-mixxx-skin.zip](/assets/DeereTouch-mixxx-skin.zip)** (includes a README). Changes from Deere:
 
 - **Load bar** above the track list. The LOAD buttons use `[Channel1],LoadSelectedTrack` / `[Channel2],LoadSelectedTrack` (the same controls as the Shift+Left/Right keyboard shortcuts). LIBRARY, with a maximise/minimise icon next to it, toggles the big (maximised) library via `[Skin],show_maximized_library`. Both halves turn green while it's on, and the icon switches from "maximise" to "minimise".
 - **Search box and sidebar only in the big library.** In the normal view the track list uses the full width under the decks. To search, open the big library with LIBRARY.
