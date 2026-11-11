@@ -7,7 +7,9 @@
     -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta http-equiv="refresh" content="60">
+    
     <title>👋 Hello Nottingham</title>
     <style>
       body {
@@ -17,7 +19,7 @@
         text-align: center;
       }
       img {
-        width: 320px;
+        width: 360px;
       }
       @media (max-width: 600px) {
         img {
@@ -26,25 +28,26 @@
       }
     </style>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
-      var baseUrl =
-        "https://data.nottinghamtravelwise.org.uk/images"; //  + '220.jpg'
-
-      $(function() {
-        var $body = $("body");
-        for (var i = 1; i < 340; i++) {
-          var src = [baseUrl, i, ".jpg?_=", Date.now()].join("");
-          $body.append(
-            [
-              '<a target="_blank" href="',
-              src,
-              '"><img src="',
-              src,
-              '" /></a>'
-            ].join("")
-          );
+    
+      document.addEventListener("DOMContentLoaded", () => {
+        const fragment = document.createDocumentFragment();
+    
+        for (let i = 1; i < 396; i++) {
+          const src = `https://data.nottinghamtravelwise.org.uk/images${i}.jpg?_=${Date.now()}`;
+    
+          const a = document.createElement("a");
+          a.target = "_blank";
+          a.href = src;
+    
+          const img = document.createElement("img");
+          img.src = src;
+    
+          a.appendChild(img);
+          fragment.appendChild(a);
         }
+    
+        document.body.appendChild(fragment);
       });
     </script>
   </head>
