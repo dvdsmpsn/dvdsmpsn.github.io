@@ -11,6 +11,7 @@
     <meta http-equiv="refresh" content="60">
     
     <title>👋 Hello Nottingham</title>
+
     <style>
       body {
         background: #000;
@@ -19,11 +20,22 @@
         text-align: center;
       }
       img {
-        width: 360px;
+        width: 198px;
       }
-      @media (max-width: 600px) {
+    
+      @media (min-width: 601px) {
+        /* 4 image width grid */
+        body {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+        }
+        a {
+          display: block;
+        }
         img {
-          width: 198px;
+          display: block;
+          width: 100%;
+          height: auto;
         }
       }
     </style>
