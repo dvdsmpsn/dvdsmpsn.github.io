@@ -9,7 +9,6 @@
 @import "variables";
 @import "fork";
 
-
 /**************/
 /* BASE RULES */
 /**************/
@@ -31,7 +30,12 @@ body {
   width: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $helveticaNeue;
   color: $darkerGray;
   font-weight: bold;
@@ -75,13 +79,15 @@ p {
 a {
   color: $link-color;
   text-decoration: none;
-	cursor: pointer;
-  &:hover, &:active {
-    color: darken($link-color,20);
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: darken($link-color, 20);
   }
 }
 
-ul, ol {
+ul,
+ol {
   margin: 15px 0;
   padding-left: 30px;
 }
@@ -94,19 +100,25 @@ ol {
   list-style-type: decimal;
 }
 
-ol ul, ul ol, ul ul, ol ol {
+ol ul,
+ul ol,
+ul ul,
+ol ol {
   margin: 0;
 }
 
-ul ul, ol ul {
+ul ul,
+ol ul {
   list-style-type: circle;
 }
 
-em, i {
+em,
+i {
   font-style: italic;
 }
 
-strong, b {
+strong,
+b {
   font-weight: bold;
 }
 
@@ -136,12 +148,12 @@ img {
 
 .clearfix:before,
 .clearfix:after {
-    content: " ";
-    display: table;
+  content: " ";
+  display: table;
 }
 
 .clearfix:after {
-    clear: both;
+  clear: both;
 }
 
 /*********************/
@@ -214,7 +226,7 @@ img {
 
 nav {
   float: right;
-  margin-top: 23px; 
+  margin-top: 23px;
   font-family: $helveticaNeue;
   font-size: 18px;
 
@@ -231,9 +243,10 @@ nav {
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
-    
-    &:hover, &:active {
-      color: darken($navbar-hover-color,20);
+
+    &:hover,
+    &:active {
+      color: darken($navbar-hover-color, 20);
     }
 
     @include mobile {
@@ -263,7 +276,7 @@ nav {
     color: $gray;
   }
   blockquote {
-    margin: 1.8em .8em;
+    margin: 1.8em 0.8em;
     border-left: 2px solid $gray;
     padding: 0.1em 1em;
     color: $gray;
@@ -294,58 +307,42 @@ footer {
 }
 
 .entry > pre {
-	border: 1px solid #ccc;
-	padding:10px;
-	background: #fafafa;
-	overflow: auto;
-	font-size: 15px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #fafafa;
+  overflow: auto;
+  font-size: 15px;
 }
 
 .entry > pre > code,
-.entry > pre 
-{
-	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+.entry > pre {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 pre {
-	font-size: 15px;
+  font-size: 15px;
 }
 
 a.tag {
-    display: inline-block;
-    background: $darkGray;
-    color: $white!important;
-    padding: 2px 8px;
-    margin-right: 2px;
-    border-radius: 4px;
-    font-size: 80%;
+  display: inline-block;
+  background: $darkGray;
+  color: $white !important;
+  padding: 2px 8px;
+  margin-right: 2px;
+  border-radius: 4px;
+  font-size: 80%;
 }
 a.tag:hover {
-    background: $black;
+  background: $black;
 }
 
 @import "highlights";
 @import "jekyll-mono";
 
 .highlight pre.highlight {
-    border: 0;
-    box-shadow: none;
+  border: 0;
+  box-shadow: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .highlight {
   overflow: auto;
@@ -357,9 +354,8 @@ div.highlight {
   padding: 0;
 }
 
-
 .posts > .post {
-  border-top: 1px solid rgba(128,128,128, 0.5);	
+  border-top: 1px solid rgba(128, 128, 128, 0.5);
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -373,7 +369,6 @@ div.highlight {
     color: #333;
   }
 
-
   .wrapper-footer {
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
@@ -385,29 +380,51 @@ div.highlight {
     border: 1px solid #444;
   }
   .intro-header {
-      border-top: 5px solid #333;
+    border-top: 5px solid #333;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: white;
   }
 }
 
-
-th, td {
-	text-align: left;
-	padding: 0;
+th,
+td {
+  text-align: left;
+  padding: 0;
 }
 
-
-th, td {
-    padding: 0.4em 0.6em;
-    border-bottom: 1px solid #ccc;
+th,
+td {
+  padding: 0.4em 0.6em;
+  border-bottom: 1px solid #ccc;
 }
 th {
-    font-weight: 600;
-    border-bottom: 2px solid #ccc;
+  font-weight: 600;
+  border-bottom: 2px solid #ccc;
 }
 
 #the-setup + table td:first-child {
-    white-space: nowrap;
+  white-space: nowrap;
+}
+
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
