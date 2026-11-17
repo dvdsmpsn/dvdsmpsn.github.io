@@ -7,16 +7,15 @@ published: true
 status: publish
 categories: []
 tags:
-- pioneer dj
-- mixxx
-- raspberry pi
+  - pioneer dj
+  - mixxx
+  - raspberry pi
 author: David Simpson
-
 ---
 
+<div class="embed-container"><iframe src="//www.youtube.com/embed/P7dlQZf5gNs" style="border: 0" frameborder="0" allowfullscreen></iframe></div>
 
-
-I've run a Pioneer DJ DJM-250MK2 mixer with Rekordbox control vinyl for several years, but the idea of running this with a full blown laptop and Rekordbox software that only work either when it's attached to the mixer, or with a subscription is a real PITA. 
+I've run a Pioneer DJ DJM-250MK2 mixer with Rekordbox control vinyl for several years, but the idea of running this with a full blown laptop and Rekordbox software that only work either when it's attached to the mixer, or with a subscription is a real PITA.
 
 But if I could replace the laptop with a touchscreen display, and use [Mixxx](https://mixxx.org/) rather than Rekordbox, that would feel freer than having the shackles of a computer, keyboard, mouse and subscription based software.
 
@@ -26,7 +25,7 @@ This post covers everything needed to get it working, the one non-obvious fix, a
 
 **Short version:** The mixer sends only digital silence on its USB inputs until the computer does a proprietary handshake over MIDI and keeps sending a keep-alive message. Pioneer's driver on macOS and Windows does this in the background. On Linux you need a small tool called **[djm-fix](https://hg.frantovo.cz/midi/djm-fix/)**. You also need the mixer on PipeWire's **Pro Audio** profile, not the default surround profile, or Mixxx only reads timecode from deck 1.
 
-**Status:** Working with both decks under vinyl control in Mixxx, as of 2 November 2026. *Updated 7 November 2026:* a touchscreen version of the Deere skin (Step 15), backing up Mixxx's settings (Step 16), and two-finger scrolling on the touchscreen (Step 17).
+**Status:** Working with both decks under vinyl control in Mixxx, as of 2 November 2026. _Updated 7 November 2026:_ a touchscreen version of the Deere skin (Step 15), backing up Mixxx's settings (Step 16), and two-finger scrolling on the touchscreen (Step 17).
 
 Note: There was liberal use of Claude AI throughout for debugging all the peculiarities of the hardware, software and Mixxx skin design.
 
@@ -34,15 +33,15 @@ Note: There was liberal use of Claude AI throughout for debugging all the peculi
 
 ## The setup
 
-| What? | Details |
-|---|---|
-| Mixer | Pioneer DJ DJM-250MK2 (USB ID `2b73:0017`, firmware/bcdDevice 1.06) |
-| Computer | Raspberry Pi 5 |
-| OS | Raspberry Pi OS (Debian 13 "trixie"), kernel `6.18.50+rpt-rpi-2712` |
-| Audio stack | PipeWire 1.4.2, WirePlumber 0.5.8, alsa-utils 1.2.14 |
-| DJ software | Mixxx 2.5.6 (Flatpak from Flathub), using its JACK API through PipeWire |
-| Timecode | Pioneer Rekordbox DVS Control Vinyl |
-| Screen | [Showscren HD-140](https://www.amazon.co.uk/dp/B0H3ZBZW62) 14″ portable touchscreen (HDMI + USB touch), squeekboard on-screen keyboard |
+| What?       | Details                                                                                                                                |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Mixer       | Pioneer DJ DJM-250MK2 (USB ID `2b73:0017`, firmware/bcdDevice 1.06)                                                                    |
+| Computer    | Raspberry Pi 5                                                                                                                         |
+| OS          | Raspberry Pi OS (Debian 13 "trixie"), kernel `6.18.50+rpt-rpi-2712`                                                                    |
+| Audio stack | PipeWire 1.4.2, WirePlumber 0.5.8, alsa-utils 1.2.14                                                                                   |
+| DJ software | Mixxx 2.5.6 (Flatpak from Flathub), using its JACK API through PipeWire                                                                |
+| Timecode    | Pioneer Rekordbox DVS Control Vinyl                                                                                                    |
+| Screen      | [Showscren HD-140](https://www.amazon.co.uk/dp/B0H3ZBZW62) 14″ portable touchscreen (HDMI + USB touch), squeekboard on-screen keyboard |
 
 ## The symptom
 
@@ -85,12 +84,12 @@ amidi -l                   # IO  hw:2,0,0  DJM-250MK2 MIDI 1   <- djm-fix talks 
 
 The capture stream has **8 channels at 48 kHz only** (`S24_3LE`):
 
-| USB capture channels | Default source |
-|---|---|
-| 1–2 | Input 1 → deck 1 |
-| 3–4 | Input 2 → deck 2 |
-| 5–6 | Input 3 → Rec Out |
-| 7–8 | unused |
+| USB capture channels | Default source    |
+| -------------------- | ----------------- |
+| 1–2                  | Input 1 → deck 1  |
+| 3–4                  | Input 2 → deck 2  |
+| 5–6                  | Input 3 → Rec Out |
+| 7–8                  | unused            |
 
 ## Step 2: Build djm-fix
 
@@ -128,7 +127,7 @@ Leave it running for as long as you want DVS. Ctrl+C stops it, and the inputs go
 
 **Caveat:** djm-fix opens the mixer's MIDI port exclusively. While it runs, nothing else (including Mixxx) can use the DJM as a MIDI controller.
 
-## Step 4: Set the capture routing, *after* the handshake
+## Step 4: Set the capture routing, _after_ the handshake
 
 The kernel exposes the mixer's USB-send routing as ALSA controls. For DVS, inputs 1 and 2 must be set to **Control Tone PHONO** (or **Control Tone LINE** if your turntables go into line inputs):
 
@@ -141,7 +140,7 @@ The available values are 0 Control Tone PHONO, 1 Control Tone LINE, 2 Post Fader
 
 **Gotcha:** set these **while djm-fix is running**, after the acknowledgment. In my case deck 2 worked as soon as djm-fix connected, but deck 1 stayed at exact zeros. Its routing had been set before any handshake had ever happened. Switching Input 1 to a few other sources and back to Control Tone PHONO while djm-fix was running unlocked it, and it then stayed working across djm-fix restarts.
 
-The autostart script below re-sends the current routing after every handshake. If a deck is still silent, re-sending the *same* value may not be enough, because the driver might skip a write that changes nothing (I haven't confirmed this). Switch to a different source and back instead:
+The autostart script below re-sends the current routing after every handshake. If a deck is still silent, re-sending the _same_ value may not be enough, because the driver might skip a write that changes nothing (I haven't confirmed this). Switch to a different source and back instead:
 
 ```bash
 amixer -c DJM250MK2 cset name='Input 1 Capture Switch' 1   # Control Tone LINE
@@ -174,12 +173,12 @@ for ch in range(ch_n):
 
 What I measured:
 
-| | ch1–2 (deck 1) | ch3–4 (deck 2) |
-|---|---|---|
-| Without djm-fix | ZERO | ZERO |
-| djm-fix, records stopped | ZERO (routing not re-sent yet) | about −83 dBFS of noise (input is alive) |
-| djm-fix, records playing | ZERO (routing not re-sent yet) | **−20 dBFS, ~1000 Hz** |
-| djm-fix plus routing re-sent | **−19 dBFS, ~1000 Hz** | **−20 dBFS, ~1000 Hz** |
+|                              | ch1–2 (deck 1)                 | ch3–4 (deck 2)                           |
+| ---------------------------- | ------------------------------ | ---------------------------------------- |
+| Without djm-fix              | ZERO                           | ZERO                                     |
+| djm-fix, records stopped     | ZERO (routing not re-sent yet) | about −83 dBFS of noise (input is alive) |
+| djm-fix, records playing     | ZERO (routing not re-sent yet) | **−20 dBFS, ~1000 Hz**                   |
+| djm-fix plus routing re-sent | **−19 dBFS, ~1000 Hz**         | **−20 dBFS, ~1000 Hz**                   |
 
 The Rekordbox control vinyl carrier is 1 kHz at 33⅓ RPM, so ~1000 Hz at around −20 dBFS on both pairs means it's working.
 
@@ -404,11 +403,11 @@ sudo usermod -aG pipewire $USER
 
 Afterwards, `ulimit -r` should print `95`, and PipeWire's `data-loop` threads should show `FF` (real-time) instead of `TS`. To check for dropouts, watch the ERR column in `pw-top` while playing: it should stay flat. If it still climbs, go back to 512 samples.
 
-*Status: the group change hadn't been tested yet when I wrote this.*
+_Status: the group change hadn't been tested yet when I wrote this._
 
 ## Step 10: Turn on vinyl control automatically when Mixxx starts
 
-Mixxx deliberately starts with vinyl control **off** on every deck. The deck code forces the VINYL button off at startup, and shutdown saves "off" to `mixxx.cfg`, so there's no setting for this. Mode (ABS/REL) and cueing *are* remembered.
+Mixxx deliberately starts with vinyl control **off** on every deck. The deck code forces the VINYL button off at startup, and shutdown saves "off" to `mixxx.cfg`, so there's no setting for this. Mode (ABS/REL) and cueing _are_ remembered.
 
 The workaround is a small controller mapping whose startup script switches VINYL on. A mapping needs a MIDI device to attach to. The mixer's own MIDI port is held by djm-fix, and Mixxx hides the built-in "MIDI Through" port. So I made a tiny virtual MIDI port.
 
@@ -497,61 +496,81 @@ VinylControlAutostart.tries = 0;
 VinylControlAutostart.timer = 0;
 VinylControlAutostart.t0 = Date.now();
 
-VinylControlAutostart.log = function(msg) {
-    print("Vinyl control autostart (+" + (Date.now() - VinylControlAutostart.t0) + " ms): " + msg);
+VinylControlAutostart.log = function (msg) {
+  print(
+    "Vinyl control autostart (+" +
+      (Date.now() - VinylControlAutostart.t0) +
+      " ms): " +
+      msg,
+  );
 };
 
-VinylControlAutostart.attempt = function() {
-    var self = VinylControlAutostart;
-    self.tries++;
-    var pending = self.decks.filter(function(group) {
-        return engine.getValue(group, "vinylcontrol_enabled") !== 1;
-    });
-    if (pending.length === 0) {
-        self.log("VINYL is on for " + self.decks.join(", ") + " after " + self.tries + " tries");
-        self.stop();
-        return;
-    }
-    if (self.tries > self.MAX_TRIES) {
-        self.log("giving up; still off: " + pending.join(", "));
-        self.stop();
-        return;
-    }
-    pending.forEach(function(group) {
-        engine.setValue(group, "vinylcontrol_enabled", 1);
-    });
+VinylControlAutostart.attempt = function () {
+  var self = VinylControlAutostart;
+  self.tries++;
+  var pending = self.decks.filter(function (group) {
+    return engine.getValue(group, "vinylcontrol_enabled") !== 1;
+  });
+  if (pending.length === 0) {
+    self.log(
+      "VINYL is on for " +
+        self.decks.join(", ") +
+        " after " +
+        self.tries +
+        " tries",
+    );
+    self.stop();
+    return;
+  }
+  if (self.tries > self.MAX_TRIES) {
+    self.log("giving up; still off: " + pending.join(", "));
+    self.stop();
+    return;
+  }
+  pending.forEach(function (group) {
+    engine.setValue(group, "vinylcontrol_enabled", 1);
+  });
 };
 
-VinylControlAutostart.stop = function() {
-    if (VinylControlAutostart.timer) {
-        engine.stopTimer(VinylControlAutostart.timer);
-        VinylControlAutostart.timer = 0;
-    }
+VinylControlAutostart.stop = function () {
+  if (VinylControlAutostart.timer) {
+    engine.stopTimer(VinylControlAutostart.timer);
+    VinylControlAutostart.timer = 0;
+  }
 };
 
 // Deere Touch: after LOAD DECK 1/2 (or Shift+Left/Right) loads the selected
 // track, switch the big library off so the decks come back. Short delay so
 // the layout doesn't change while a finger is still on the button.
-VinylControlAutostart.closeBigLibraryOnLoad = function(value) {
-    if (value !== 1) {
-        return;
-    }
-    engine.beginTimer(150, function() {
-        engine.setValue("[Skin]", "show_maximized_library", 0);
-    }, true);
+VinylControlAutostart.closeBigLibraryOnLoad = function (value) {
+  if (value !== 1) {
+    return;
+  }
+  engine.beginTimer(
+    150,
+    function () {
+      engine.setValue("[Skin]", "show_maximized_library", 0);
+    },
+    true,
+  );
 };
 
-VinylControlAutostart.init = function(id, debugging) {
-    VinylControlAutostart.timer = engine.beginTimer(
-        VinylControlAutostart.INTERVAL_MS, VinylControlAutostart.attempt);
-    VinylControlAutostart.decks.forEach(function(group) {
-        engine.makeConnection(group, "LoadSelectedTrack",
-            VinylControlAutostart.closeBigLibraryOnLoad);
-    });
+VinylControlAutostart.init = function (id, debugging) {
+  VinylControlAutostart.timer = engine.beginTimer(
+    VinylControlAutostart.INTERVAL_MS,
+    VinylControlAutostart.attempt,
+  );
+  VinylControlAutostart.decks.forEach(function (group) {
+    engine.makeConnection(
+      group,
+      "LoadSelectedTrack",
+      VinylControlAutostart.closeBigLibraryOnLoad,
+    );
+  });
 };
 
-VinylControlAutostart.shutdown = function() {
-    VinylControlAutostart.stop();
+VinylControlAutostart.shutdown = function () {
+  VinylControlAutostart.stop();
 };
 ```
 
@@ -559,7 +578,7 @@ The `closeBigLibraryOnLoad` part is an extra for the touchscreen skin in Step 15
 
 **3. Enable it once:** restart Mixxx, then in **Preferences → Controllers**, select **"Mixxx Startup"**. Choose the mapping **"Vinyl control autostart"** first: **Enabled** stays greyed out until a mapping is loaded. Then tick **Enabled**, click **Apply** and **OK**, and reopen Preferences to check it's still ticked. Mixxx remembers this, so from then on VINYL comes on for decks 1 and 2 a few seconds after every start.
 
-**Why the script retries instead of waiting a fixed time.** My first version waited 2 seconds and then switched VINYL on once. That worked when Mixxx reloaded the script while running, but not on a real start: Mixxx runs controller scripts *before* the skin has loaded and vinyl control is ready, and until then it quietly ignores the request. VINYL stays at 0 and doesn't even register a change. On a fresh start the script now needs about 4 tries (about 4 seconds) before Mixxx accepts it:
+**Why the script retries instead of waiting a fixed time.** My first version waited 2 seconds and then switched VINYL on once. That worked when Mixxx reloaded the script while running, but not on a real start: Mixxx runs controller scripts _before_ the skin has loaded and vinyl control is ready, and until then it quietly ignores the request. VINYL stays at 0 and doesn't even register a change. On a fresh start the script now needs about 4 tries (about 4 seconds) before Mixxx accepts it:
 
 ```
 Loaded skin "Deere"
@@ -576,7 +595,7 @@ flatpak run org.mixxx.Mixxx --controller-debug --log-level debug --log-flush-lev
 
 With `--controller-debug`, Mixxx also reloads the mapping as soon as you save the `.js` file, which makes testing quick. Remember that this is the reload case, not a fresh start.
 
-*Status: tested from a fresh start on 2 November 2026. VINYL comes on for both decks and stays on when tracks are loaded.*
+_Status: tested from a fresh start on 2 November 2026. VINYL comes on for both decks and stays on when tracks are loaded._
 
 ### Reset the tempo when loading a track
 
@@ -590,7 +609,7 @@ I use a 14″ portable touchscreen with the Pi so I can drive Mixxx without a mo
 
 The screen has two USB-C sockets: one for power only, and one "full-function" socket that carries picture, touch and power over a single USB-C cable (that's how it works with a Mac). On the Pi, the picture comes over HDMI and touch over a USB-A to USB-C data cable into the full-function socket.
 
-At first nothing appeared: no touch device, and not even a failed connection attempt in the kernel log. I ruled out the cable (a UGREEN data cable that worked on a Mac) and the Pi's ports (swapping them around), and the Pi's 5 A supply was fine. The cause was power. I'd been powering the screen from one of the Pi's USB-A ports, and that isn't enough for the panel *and* its touch controller. **With the screen on its own power supply** (its adapter or a phone charger in the power socket), touch appeared straight away:
+At first nothing appeared: no touch device, and not even a failed connection attempt in the kernel log. I ruled out the cable (a UGREEN data cable that worked on a Mac) and the Pi's ports (swapping them around), and the Pi's 5 A supply was fine. The cause was power. I'd been powering the screen from one of the Pi's USB-A ports, and that isn't enough for the panel _and_ its touch controller. **With the screen on its own power supply** (its adapter or a phone charger in the power socket), touch appeared straight away:
 
 ```
 $ lsusb
@@ -604,7 +623,7 @@ If touch disappears, check `lsusb` for the TouchScreen line, and check the scree
 
 ### On-screen keyboard: squeekboard
 
-Raspberry Pi OS ships **squeekboard**. In `raspi-config` (Display Options → On-screen Keyboard) it's set to *Autodetect* by default, but that only looks for a touchscreen **once, at login**. If the screen gets power after the Pi has booted, squeekboard never starts. Set it to always run instead. It still only appears when you're typing:
+Raspberry Pi OS ships **squeekboard**. In `raspi-config` (Display Options → On-screen Keyboard) it's set to _Autodetect_ by default, but that only looks for a touchscreen **once, at login**. If the screen gets power after the Pi has booted, squeekboard never starts. Set it to always run instead. It still only appears when you're typing:
 
 ```
 sudo raspi-config nonint do_squeekboard S1    # S1 = always on
@@ -620,7 +639,7 @@ In most apps squeekboard pops up when you tap a text box and hides when you leav
 2. **It appears when it shouldn't**, for example when you tap a deck's track title or artwork.
 3. **Once it's been hidden by a script, Mixxx can't bring it back reliably.** Squeekboard ignores Mixxx's next request.
 
-I tried hiding the keyboard based on *where* you touch the screen, but Mixxx's search box moves when the keyboard shrinks the window, and when you change view, so that didn't hold up.
+I tried hiding the keyboard based on _where_ you touch the screen, but Mixxx's search box moves when the keyboard shrinks the window, and when you change view, so that didn't hold up.
 
 The approach that works is to ask Mixxx **which widget has focus**, through the accessibility interface (AT-SPI), and decide from that. A small helper shows the keyboard when a text box (the search box, or a metadata editor) gets focus, and hides it when focus moves to anything else. It only acts on Mixxx and leaves other apps alone.
 
@@ -755,7 +774,7 @@ GLib.MainLoop().run()
 
 Two details in it come from testing:
 
-- **Mixxx asks for the keyboard slightly *before* it reports the new focus.** If the helper acted instantly, it would hide the keyboard you'd just asked for. So it only hides once the keyboard has been up, and focus has been off a text box, for 0.3 s. That's why it takes a moment to go away after you tap a track.
+- **Mixxx asks for the keyboard slightly _before_ it reports the new focus.** If the helper acted instantly, it would hide the keyboard you'd just asked for. So it only hides once the keyboard has been up, and focus has been off a text box, for 0.3 s. That's why it takes a moment to go away after you tap a track.
 - **The helper opens the keyboard itself** when a text box gets focus, instead of relying on Mixxx's request (problem 3 above).
 
 To watch what it decides, run it in a terminal with `OSK_AUTOHIDE_DEBUG=1 ~/.local/bin/osk-autohide`. The Mixxx search box shows up as an editable `'combo box'`.
@@ -820,10 +839,10 @@ OpenGL driver version string "4.6 (Compatibility Profile) Mesa 26.2.4", vendor "
 
 It wasn't missing drivers or permissions. The Flatpak runtime's Mesa includes the Pi 5 GPU driver (`v3d_dri.so`), and the sandbox can open `/dev/dri/renderD128`. I wrote a small EGL probe in Python with `ctypes`, run with the Flatpak runtime's Python, and asked Mesa which renderer it picks:
 
-| Where | Wayland | X11 (XWayland) | Surfaceless |
-|---|---|---|---|
-| Host (Raspberry Pi's Mesa 26.2.2) | V3D 7.1 | V3D 7.1 | n/a |
-| Flatpak (Flathub Mesa 26.2.4) | **llvmpipe** | **V3D 7.1** | V3D 7.1 |
+| Where                             | Wayland      | X11 (XWayland) | Surfaceless |
+| --------------------------------- | ------------ | -------------- | ----------- |
+| Host (Raspberry Pi's Mesa 26.2.2) | V3D 7.1      | V3D 7.1        | n/a         |
+| Flatpak (Flathub Mesa 26.2.4)     | **llvmpipe** | **V3D 7.1**    | V3D 7.1     |
 
 On a Pi 5, the display controller (`vc4`, `/dev/dri/card1`) and the GPU (`v3d`, `card0`/`renderD128`) are separate devices. labwc tells Wayland clients to use `card1`, which is display-only and has no render node. Raspberry Pi's patched Mesa on the host knows to switch to V3D. The stock Flathub Mesa doesn't, so Mesa ends up with no device and falls back to software:
 
@@ -860,9 +879,9 @@ With VINYL on and both records playing at 33⅓ with the pitch sliders at 0, bot
 Measuring the timecode carrier once a second (zero crossings per second on USB channels 1 and 3) showed **1000 Hz ±1 on both decks**, which is exactly 33⅓ RPM. At the same moment, a diagnostic line in the vinyl startup mapping (`print(engine.getValue("[Channel1]", "bpm"))` and `file_bpm`) showed what Mixxx was reading:
 
 | Deck | Mixxx BPM | Track BPM | Ratio |
-|---|---|---|---|
-| 1 | 114.8 | 125 | 0.918 |
-| 2 | 111.1 | 121 | 0.918 |
+| ---- | --------- | --------- | ----- |
+| 1    | 114.8     | 125       | 0.918 |
+| 2    | 111.1     | 121       | 0.918 |
 
 0.918 is 44100 ÷ 48000. Mixxx's timecode decoder assumed **44.1 kHz** audio while the DJM-250MK2 only does **48 kHz** (`Rates: 48000` in `/proc/asound/DJM250MK2/stream0`).
 
@@ -1218,16 +1237,21 @@ The left column (search, sidebar, cover art) gets a `<Connection>` to `[Skin],sh
 
 **Bigger deck buttons.** Deere sizes most buttons through shared variables in `skin.xml` (`SquareButtonMinimumSize` 22,22 and so on) that the toolbar, effects and samplers use too. To enlarge only the decks, `skin.xml` gets scaled copies (`DeckSquareButtonMinimumSize` 33,33, `DeckSmallSquareButton…`, `DeckHorizontalStretchButton…`, `DeckFXAssignmentButton…`), the deck files (`deck*.xml`, `hotcue*.xml`, `special_cue*.xml`, `vinylcontrol.xml`) refer to those instead, and their own fixed `<Size>`/`<MinimumSize>`/`<MaximumSize>` values are multiplied by 1.5. The deck FX1/FX2 buttons use a copy of `fx_unit_group_assignment_button.xml` (`…_deck.xml`), because the original is shared with the mic and aux sections. The button row next to the overview waveform was limited to 46 px high, which had to grow to 69 to fit two rows of bigger buttons.
 
-**Text and icon on one button.** A Mixxx skin `PushButton` can show text *or* images, not both, and its `<Pressed>`/`<Unpressed>` images are drawn from the top-left corner at their own size, not centred. So LIBRARY is two buttons on the same control, styled as one split button, and the icon comes from the stylesheet, where Qt centres it:
+**Text and icon on one button.** A Mixxx skin `PushButton` can show text _or_ images, not both, and its `<Pressed>`/`<Unpressed>` images are drawn from the top-left corner at their own size, not centred. So LIBRARY is two buttons on the same control, styled as one split button, and the icon comes from the stylesheet, where Qt centres it:
 
 ```css
-#TouchBigLibIcon { image: url(skin:/icon/touch_maximize.svg) no-repeat center center; padding: 6px; }
-#TouchBigLibIcon[value="1"] { image: url(skin:/icon/touch_minimize.svg) no-repeat center center; }
+#TouchBigLibIcon {
+  image: url(skin:/icon/touch_maximize.svg) no-repeat center center;
+  padding: 6px;
+}
+#TouchBigLibIcon[value="1"] {
+  image: url(skin:/icon/touch_minimize.svg) no-repeat center center;
+}
 ```
 
 Qt scales a stylesheet `image` to fill the button, so the SVG's own size makes no difference; the `padding` is what sets the icon size. The two icons are Material Design's "fullscreen" and "fullscreen exit" shapes (Apache 2.0).
 
-**Pitfall when copying a built-in skin.** Deere refers to its own files as `skins:Deere/library.xml`, and its stylesheet uses `skin:/../Deere/icon/...`. `skins:` only searches Mixxx's built-in skins folder, so in a copy under `~/.mixxx/skins/` this silently loads the *original* Deere files (my changes didn't show up), and after renaming the paths to `skins:DeereTouch/` the window was completely blank, with "Could not open template file" in `mixxx.log`. Use paths relative to the skin itself instead:
+**Pitfall when copying a built-in skin.** Deere refers to its own files as `skins:Deere/library.xml`, and its stylesheet uses `skin:/../Deere/icon/...`. `skins:` only searches Mixxx's built-in skins folder, so in a copy under `~/.mixxx/skins/` this silently loads the _original_ Deere files (my changes didn't show up), and after renaming the paths to `skins:DeereTouch/` the window was completely blank, with "Could not open template file" in `mixxx.log`. Use paths relative to the skin itself instead:
 
 ```
 cd ~/.var/app/org.mixxx.Mixxx/.mixxx/skins/DeereTouch
@@ -1237,7 +1261,7 @@ sed -i 's#skin:/\.\./Deere/#skin:/#g; s#skin:\.\./Deere/#skin:#g' style.qss skin
 
 Mixxx only reads the skin when it starts or when you change skins, so restart Mixxx after editing it.
 
-*Status: tested on 7 November 2026 with the Mixxx 2.5.6 Flatpak at 150% scale: the load buttons load the selected track, loading closes the big library, and VINYL still comes on at startup.*
+_Status: tested on 7 November 2026 with the Mixxx 2.5.6 Flatpak at 150% scale: the load buttons load the selected track, loading closes the big library, and VINYL still comes on at startup._
 
 ## Step 16: Back up Mixxx's settings
 
@@ -1252,13 +1276,13 @@ cp mixxx.cfg mixxx.cfg.good
 
 To restore: close Mixxx, `cp mixxx.cfg.good mixxx.cfg`, start Mixxx. If you don't have a copy, these are the settings from this post to redo:
 
-| Where | Setting | `mixxx.cfg` |
-|---|---|---|
-| Interface | Skin Deere Touch (Step 15), scale factor 150% | `[Config]` `ResizableSkin DeereTouch`, `ScaleFactor 1.5` |
-| Vinyl Control | Pioneer RekordBox DVS Control Vinyl, Side A; 33⅓; lead-in 10 s; Alpha-Beta filter (fast) | `[Channel1]`/`[Channel2]` `vinylcontrol_*` |
-| Vinyl Control | Signal quality display on | `[VinylControl]` `show_signal_quality 1` |
-| Decks | Reset key and tempo on track load | `[Controls]` `SpeedAutoReset 2` |
-| Controllers | "Mixxx Startup" enabled with "Vinyl control autostart" (Step 10) | `[Controller]` `Mixxx_Startup 1`, `[ControllerPreset]` |
+| Where         | Setting                                                                                  | `mixxx.cfg`                                              |
+| ------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Interface     | Skin Deere Touch (Step 15), scale factor 150%                                            | `[Config]` `ResizableSkin DeereTouch`, `ScaleFactor 1.5` |
+| Vinyl Control | Pioneer RekordBox DVS Control Vinyl, Side A; 33⅓; lead-in 10 s; Alpha-Beta filter (fast) | `[Channel1]`/`[Channel2]` `vinylcontrol_*`               |
+| Vinyl Control | Signal quality display on                                                                | `[VinylControl]` `show_signal_quality 1`                 |
+| Decks         | Reset key and tempo on track load                                                        | `[Controls]` `SpeedAutoReset 2`                          |
+| Controllers   | "Mixxx Startup" enabled with "Vinyl control autostart" (Step 10)                         | `[Controller]` `Mixxx_Startup 1`, `[ControllerPreset]`   |
 
 A shutdown from the desktop menu closes Mixxx properly. Pulling the power doesn't.
 
@@ -1580,21 +1604,21 @@ journalctl --user-unit touch-scroll.service -b    # should show "grabbed /dev/in
 
 To turn it off: `systemctl --user disable --now touch-scroll.service`. labwc's mouse emulation takes over again straight away.
 
-*Status: tested on 7 November 2026 with the Mixxx 2.5.6 Flatpak (running under XWayland, Step 12) on labwc 0.20.2: two-finger drags scroll the library in both directions, and one-finger use is unchanged.*
+_Status: tested on 7 November 2026 with the Mixxx 2.5.6 Flatpak (running under XWayland, Step 12) on labwc 0.20.2: two-finger drags scroll the library in both directions, and one-finger use is unchanged._
 
 ## After a reboot: what starts by itself, and what to do if it doesn't
 
 Once Steps 6, 7, 10, 11, 13, 14 and 17 are done, nothing needs to be run by hand after a reboot. Seven things start on their own when you log in:
 
-| What | How it starts | What it does |
-|---|---|---|
-| `djm-fix.service` | systemd user service (Step 6) | Handshake and keep-alive, so the mixer sends timecode at all |
-| Pro Audio rule | WirePlumber config file (Step 7), read whenever WirePlumber starts or the mixer is plugged in | Puts the mixer on Pro Audio so Mixxx sees "DJM-250MK2 Pro" and deck 2 works |
-| `mixxx-startup-port.service` | systemd user service (Step 10) | MIDI port that turns VINYL on when Mixxx starts |
-| `osk-autohide.service` | systemd user service (Step 11) | Shows and hides the on-screen keyboard as Mixxx text boxes get and lose focus |
-| `mixxx-vinyl-samplerate-fix.service` | systemd user service (Step 13) | Presses Preferences → OK after Mixxx starts, so vinyl control runs at 48 kHz instead of reading -8% |
-| `touch-scroll.service` | systemd user service (Step 17) | Turns two-finger drags on the touchscreen into scrolling |
-| Mixxx | `~/.config/autostart/mixxx-autostart.desktop` (Step 14) | Waits for the mixer, then starts Mixxx |
+| What                                 | How it starts                                                                                 | What it does                                                                                        |
+| ------------------------------------ | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `djm-fix.service`                    | systemd user service (Step 6)                                                                 | Handshake and keep-alive, so the mixer sends timecode at all                                        |
+| Pro Audio rule                       | WirePlumber config file (Step 7), read whenever WirePlumber starts or the mixer is plugged in | Puts the mixer on Pro Audio so Mixxx sees "DJM-250MK2 Pro" and deck 2 works                         |
+| `mixxx-startup-port.service`         | systemd user service (Step 10)                                                                | MIDI port that turns VINYL on when Mixxx starts                                                     |
+| `osk-autohide.service`               | systemd user service (Step 11)                                                                | Shows and hides the on-screen keyboard as Mixxx text boxes get and lose focus                       |
+| `mixxx-vinyl-samplerate-fix.service` | systemd user service (Step 13)                                                                | Presses Preferences → OK after Mixxx starts, so vinyl control runs at 48 kHz instead of reading -8% |
+| `touch-scroll.service`               | systemd user service (Step 17)                                                                | Turns two-finger drags on the touchscreen into scrolling                                            |
+| Mixxx                                | `~/.config/autostart/mixxx-autostart.desktop` (Step 14)                                       | Waits for the mixer, then starts Mixxx                                                              |
 
 The Pro Audio rule is a config file, not a systemd service, and it doesn't need one. WirePlumber is already started by systemd at login, and it applies the rule itself. Before I added the rule, a reboot put the mixer back on "Analog Surround 7.1". Deck 1 still worked, but deck 2's circle disappeared, and it looked like the original bug had come back.
 
@@ -1630,34 +1654,34 @@ python3 djm-levels.py out.wav           # channels 1-2 = deck 1, 3-4 = deck 2
 
 ## Troubleshooting checklist
 
-| Symptom | Likely cause and fix |
-|---|---|
-| All capture channels are exact zeros | djm-fix isn't running, or the handshake didn't complete. Check with `journalctl --user-unit djm-fix.service`. |
-| One deck is zeros, the other works | While djm-fix is running, switch that deck's routing to another source and back (Step 4). |
-| Deck 2 lost its circle after a reboot | WirePlumber put the mixer back on "Analog Surround 7.1". Add the Pro Audio rule (Step 7), or force the profile now and restart Mixxx (see "After a reboot"). |
-| Circles are back but there's no sound from the mixer | Usually on the mixer side (input selector, faders, nothing playing). Check Mixxx's output with `pw-record` (see "After a reboot"). |
-| Timecode is fine in a recording, but one Mixxx deck shows no circle | The mixer is on "Analog Surround 7.1". Switch to Pro Audio and select "DJM-250MK2 Pro" in Mixxx (Steps 7–8). |
-| `pw-record` shows channels 3–4 as zeros on Pro Audio | Missing `--channel-map AUX0,...,AUX7` (Step 5). Check with raw `arecord` before assuming the mixer is at fault. |
-| Low noise but no 1 kHz tone | Records aren't playing, or the wrong input (PHONO vs LINE) or the wrong channel selector is in use on the mixer |
-| djm-fix says "No card with matching name found" | Mixer not plugged in or powered on, or the name pattern doesn't match (`cat /proc/asound/cards`) |
-| djm-fix sends a greeting but gets no reply | Restart it. This happened to me once: the retry 15 seconds later worked. The autostart script retries automatically. |
-| Signal is fine in `arecord` but Mixxx shows nothing | No Vinyl Control inputs assigned in Sound Hardware, the wrong PipeWire profile, or the VINYL button is off on the deck. In Mixxx, compare the signal boxes in Preferences → Vinyl Control. |
-| A deck's BPM jumps up (e.g. 124 → 160) when the record plays | The turntable is on 45 RPM: Mixxx shows the track BPM times the speed it reads from the timecode. Press 33. To check the real speed, the carrier should be ~1000 Hz at 33⅓ RPM (the level script in Step 5 shows it). |
-| Scratching feels laggy | PipeWire's default 1024-sample buffer. Set `PIPEWIRE_QUANTUM` for the Mixxx Flatpak and use the Alpha-Beta pitch estimator (Step 9). |
-| Crackles, or the ERR count in `pw-top` keeps climbing | PipeWire lacks real-time priority. Add yourself to the `pipewire` group, or use a bigger buffer (Step 9). |
-| VINYL is off every time Mixxx starts | That's by design in Mixxx. Use the startup mapping (Step 10). |
-| Touchscreen doesn't work, nothing in `lsusb` | The screen isn't getting enough power for its touch controller. Power it from its own supply, not a Pi USB port, and use a data cable in the full-function USB-C socket (Step 11). |
-| No on-screen keyboard at all | squeekboard's Autodetect only checks for a touchscreen at login. Set it to always on (Step 11). |
-| Keyboard stays up in Mixxx, or pops up when you tap a deck | `osk-autohide` isn't running, or Mixxx was started without `QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1` (Step 11). |
-| A two-finger drag doesn't scroll, it just drags or selects | `touch-scroll` isn't running. Check `journalctl --user-unit touch-scroll.service` for "grabbed" (Step 17). |
-| Mixxx uses lots of CPU; `top -H` shows `llvmpipe` threads | Mixxx is drawing in software. Run the Flatpak through XWayland (Step 12). |
-| VINYL doesn't come on at startup even though the mapping is enabled | An old fixed-delay script fires before Mixxx is ready. Use the retrying script (Step 10). Debug with `--controller-debug`. |
-| Both decks read about -8% with the records at 33⅓ | Mixxx 2.5.6 started its timecode decoders at 44.1 kHz. Press OK in Preferences after starting, or use the helper (Step 13). |
-| New tracks keep the previous deck's tempo | The tempo isn't reset when a track loads. Set it to reset key and tempo (Step 10). |
-| All of Mixxx's preferences are back to defaults | `mixxx.cfg` was reset, probably after Mixxx was killed instead of closed. Restore your backup with Mixxx closed (Step 16). |
-| Mixxx window is blank after installing a copied skin, or the copy looks unchanged | The copy still uses `skins:Deere/...` paths. Change them to `skin:` (Step 15). |
-| The VINYL buttons aren't on screen | Deere hides the vinyl section; turn it on in the View menu, or use Deere Touch, which always shows it (Steps 8 and 15). |
-| Mixxx can't use the DJM's MIDI | djm-fix holds the MIDI port exclusively. This is a known limitation. |
+| Symptom                                                                           | Likely cause and fix                                                                                                                                                                                                  |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All capture channels are exact zeros                                              | djm-fix isn't running, or the handshake didn't complete. Check with `journalctl --user-unit djm-fix.service`.                                                                                                         |
+| One deck is zeros, the other works                                                | While djm-fix is running, switch that deck's routing to another source and back (Step 4).                                                                                                                             |
+| Deck 2 lost its circle after a reboot                                             | WirePlumber put the mixer back on "Analog Surround 7.1". Add the Pro Audio rule (Step 7), or force the profile now and restart Mixxx (see "After a reboot").                                                          |
+| Circles are back but there's no sound from the mixer                              | Usually on the mixer side (input selector, faders, nothing playing). Check Mixxx's output with `pw-record` (see "After a reboot").                                                                                    |
+| Timecode is fine in a recording, but one Mixxx deck shows no circle               | The mixer is on "Analog Surround 7.1". Switch to Pro Audio and select "DJM-250MK2 Pro" in Mixxx (Steps 7–8).                                                                                                          |
+| `pw-record` shows channels 3–4 as zeros on Pro Audio                              | Missing `--channel-map AUX0,...,AUX7` (Step 5). Check with raw `arecord` before assuming the mixer is at fault.                                                                                                       |
+| Low noise but no 1 kHz tone                                                       | Records aren't playing, or the wrong input (PHONO vs LINE) or the wrong channel selector is in use on the mixer                                                                                                       |
+| djm-fix says "No card with matching name found"                                   | Mixer not plugged in or powered on, or the name pattern doesn't match (`cat /proc/asound/cards`)                                                                                                                      |
+| djm-fix sends a greeting but gets no reply                                        | Restart it. This happened to me once: the retry 15 seconds later worked. The autostart script retries automatically.                                                                                                  |
+| Signal is fine in `arecord` but Mixxx shows nothing                               | No Vinyl Control inputs assigned in Sound Hardware, the wrong PipeWire profile, or the VINYL button is off on the deck. In Mixxx, compare the signal boxes in Preferences → Vinyl Control.                            |
+| A deck's BPM jumps up (e.g. 124 → 160) when the record plays                      | The turntable is on 45 RPM: Mixxx shows the track BPM times the speed it reads from the timecode. Press 33. To check the real speed, the carrier should be ~1000 Hz at 33⅓ RPM (the level script in Step 5 shows it). |
+| Scratching feels laggy                                                            | PipeWire's default 1024-sample buffer. Set `PIPEWIRE_QUANTUM` for the Mixxx Flatpak and use the Alpha-Beta pitch estimator (Step 9).                                                                                  |
+| Crackles, or the ERR count in `pw-top` keeps climbing                             | PipeWire lacks real-time priority. Add yourself to the `pipewire` group, or use a bigger buffer (Step 9).                                                                                                             |
+| VINYL is off every time Mixxx starts                                              | That's by design in Mixxx. Use the startup mapping (Step 10).                                                                                                                                                         |
+| Touchscreen doesn't work, nothing in `lsusb`                                      | The screen isn't getting enough power for its touch controller. Power it from its own supply, not a Pi USB port, and use a data cable in the full-function USB-C socket (Step 11).                                    |
+| No on-screen keyboard at all                                                      | squeekboard's Autodetect only checks for a touchscreen at login. Set it to always on (Step 11).                                                                                                                       |
+| Keyboard stays up in Mixxx, or pops up when you tap a deck                        | `osk-autohide` isn't running, or Mixxx was started without `QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1` (Step 11).                                                                                                            |
+| A two-finger drag doesn't scroll, it just drags or selects                        | `touch-scroll` isn't running. Check `journalctl --user-unit touch-scroll.service` for "grabbed" (Step 17).                                                                                                            |
+| Mixxx uses lots of CPU; `top -H` shows `llvmpipe` threads                         | Mixxx is drawing in software. Run the Flatpak through XWayland (Step 12).                                                                                                                                             |
+| VINYL doesn't come on at startup even though the mapping is enabled               | An old fixed-delay script fires before Mixxx is ready. Use the retrying script (Step 10). Debug with `--controller-debug`.                                                                                            |
+| Both decks read about -8% with the records at 33⅓                                 | Mixxx 2.5.6 started its timecode decoders at 44.1 kHz. Press OK in Preferences after starting, or use the helper (Step 13).                                                                                           |
+| New tracks keep the previous deck's tempo                                         | The tempo isn't reset when a track loads. Set it to reset key and tempo (Step 10).                                                                                                                                    |
+| All of Mixxx's preferences are back to defaults                                   | `mixxx.cfg` was reset, probably after Mixxx was killed instead of closed. Restore your backup with Mixxx closed (Step 16).                                                                                            |
+| Mixxx window is blank after installing a copied skin, or the copy looks unchanged | The copy still uses `skins:Deere/...` paths. Change them to `skin:` (Step 15).                                                                                                                                        |
+| The VINYL buttons aren't on screen                                                | Deere hides the vinyl section; turn it on in the View menu, or use Deere Touch, which always shows it (Steps 8 and 15).                                                                                               |
+| Mixxx can't use the DJM's MIDI                                                    | djm-fix holds the MIDI port exclusively. This is a known limitation.                                                                                                                                                  |
 
 ## Credits
 
